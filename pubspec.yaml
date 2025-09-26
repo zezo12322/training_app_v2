@@ -1,0 +1,51 @@
+name: training_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.1.0
+  firebase_auth: ^6.0.2
+  cloud_firestore: ^6.0.1
+  firebase_storage: ^13.0.2
+  image_picker: ^1.2.0
+  file_picker: ^10.3.3
+  url_launcher: ^6.3.2
+  record: ^6.1.1
+  audioplayers: ^6.5.1
+  firebase_messaging: ^16.0.2
+  onesignal_flutter: ^5.3.4
+  intl: ^0.20.2
+  flutter_launcher_icons: ^0.14.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/icon.png
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+
+# <<< --- تم نقل هذا القسم إلى هنا ---
+# تأكد من أنه يبدأ من أول السطر
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
