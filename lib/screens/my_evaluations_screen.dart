@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart'; // <<< استيراد حزمة تشغيل الصوت
+import '../widgets/common/async_data_builder.dart';
 
 class MyEvaluationsScreen extends StatefulWidget { // <<< تحويلها إلى StatefulWidget
   final String courseId;
@@ -70,25 +71,17 @@ class _MyEvaluationsScreenState extends State<MyEvaluationsScreen> {
       appBar: AppBar(
         title: const Text('التقييمات الخاصة بي'),
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: AsyncDataBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('evaluations')
             .where('courseId', isEqualTo: widget.courseId)
             .where('traineeId', isEqualTo: currentUser.uid)
             .orderBy('createdAt', descending: true)
             .snapshots(),
+        emptyMessage: 'لم يتم إضافة أي تقييمات لك بعد.',
+        emptyIcon: Icons.assessment,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('حدث خطأ: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('لم يتم إضافة أي تقييمات لك بعد.'));
-          }
-
-          final evaluations = snapshot.data!.docs;
+          final evaluations = snapshot.docs;
 
           return ListView.builder(
             itemCount: evaluations.length,

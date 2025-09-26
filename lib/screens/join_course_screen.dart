@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
+import '../utils/form_validators.dart';
 
 class JoinCourseScreen extends StatefulWidget {
   const JoinCourseScreen({super.key});
@@ -13,20 +16,10 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
   final _codeController = TextEditingController();
   bool _isLoading = false;
 
-  void _showSnackBar(String message, {bool isError = true}) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.redAccent : Colors.green,
-      ),
-    );
-  }
-
   Future<void> _joinCourse() async {
     final courseCode = _codeController.text.trim().toUpperCase();
     if (courseCode.isEmpty) {
-      _showSnackBar('يرجى إدخال كود الكورس');
+      UIHelpers.showErrorSnackBar(context, 'يرجى إدخال كود الكورس');
       return;
     }
     setState(() { _isLoading = true; });
@@ -44,7 +37,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
 
       if (querySnapshot.docs.isEmpty) {
         // إذا لم يتم العثور على أي كورس بهذا الكود
-        _showSnackBar('الكود الذي أدخلته غير صحيح، يرجى التأكد منه.');
+        UIHelpers.showErrorSnackBar(context, 'الكود الذي أدخلته غير صحيح، يرجى التأكد منه.');
       } else {
         // إذا تم العثور على الكورس
         final courseDoc = querySnapshot.docs.first;
@@ -55,11 +48,11 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
           'trainees': FieldValue.arrayUnion([user.uid])
         });
 
-        _showSnackBar('تم الانضمام إلى الكورس بنجاح!', isError: false);
+        UIHelpers.showSuccessSnackBar(context, 'تم الانضمام إلى الكورس بنجاح!');
         if (mounted) Navigator.of(context).pop(); // الرجوع للشاشة الرئيسية
       }
     } catch (e) {
-      _showSnackBar('حدث خطأ ما: $e');
+      UIHelpers.showErrorSnackBar(context, 'حدث خطأ ما: $e');
     } finally {
       if (mounted) setState(() { _isLoading = false; });
     }
@@ -77,29 +70,24 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
       appBar: AppBar(title: const Text('الانضمام إلى كورس')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(UIHelpers.largePadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
+              CustomTextField(
                 controller: _codeController,
-                // لجعل الحروف كبيرة تلقائياً
+                labelText: 'أدخل كود الكورس',
                 textCapitalization: TextCapitalization.characters,
-                decoration: const InputDecoration(
-                  labelText: 'أدخل كود الكورس',
-                  border: OutlineInputBorder(),
-                ),
+                validator: FormValidators.required,
               ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton.icon(
-                icon: const Icon(Icons.login),
-                label: const Text('انضمام'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
+              const SizedBox(height: UIHelpers.largePadding),
+              CustomButton(
+                onPressed: _joinCourse,
+                text: 'انضمام',
+                icon: Icons.login,
+                isLoading: _isLoading,
+              ),
                 onPressed: _joinCourse,
               ),
             ],

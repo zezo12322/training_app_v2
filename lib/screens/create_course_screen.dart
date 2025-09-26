@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
+import '../utils/form_validators.dart';
 
 class CreateCourseScreen extends StatefulWidget {
   const CreateCourseScreen({super.key});
@@ -15,16 +18,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   bool _isLoading = false;
   String? _generatedCode;
 
-  void _showSnackBar(String message, {bool isError = true}) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.redAccent : Colors.green,
-      ),
-    );
-  }
-
   String _generateUniqueCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final rand = Random();
@@ -33,7 +26,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
   Future<void> _createCourse() async {
     if (_courseNameController.text.trim().isEmpty) {
-      _showSnackBar('يرجى إدخال اسم للكورس');
+      UIHelpers.showErrorSnackBar(context, 'يرجى إدخال اسم للكورس');
       return;
     }
     setState(() { _isLoading = true; });
@@ -58,10 +51,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       setState(() {
         _generatedCode = courseCode;
       });
-      _showSnackBar('تم إنشاء الكورس بنجاح!', isError: false);
+      UIHelpers.showSuccessSnackBar(context, 'تم إنشاء الكورس بنجاح!');
 
     } catch (e) {
-      _showSnackBar('حدث خطأ أثناء إنشاء الكورس: $e');
+      UIHelpers.showErrorSnackBar(context, 'حدث خطأ أثناء إنشاء الكورس: $e');
     } finally {
       setState(() { _isLoading = false; });
     }
@@ -79,29 +72,23 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       appBar: AppBar(title: const Text('إنشاء كورس جديد')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(UIHelpers.largePadding),
           child: _generatedCode == null
               ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
+              CustomTextField(
                 controller: _courseNameController,
-                decoration: const InputDecoration(
-                  labelText: 'اسم الكورس',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'اسم الكورس',
+                validator: FormValidators.required,
               ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton.icon(
-                icon: const Icon(Icons.add),
-                label: const Text('إنشاء الكورس'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
+              const SizedBox(height: UIHelpers.largePadding),
+              CustomButton(
                 onPressed: _createCourse,
+                text: 'إنشاء الكورس',
+                icon: Icons.add,
+                isLoading: _isLoading,
               ),
             ],
           )

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/custom_button.dart';
+import '../utils/ui_helpers.dart';
 
 class QuizResultsScreen extends StatelessWidget {
   final int score;
@@ -23,7 +25,7 @@ class QuizResultsScreen extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(UIHelpers.largePadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,12 +59,12 @@ class QuizResultsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 48),
-              ElevatedButton(
-                child: const Text('العودة إلى قائمة الاختبارات'),
+              CustomButton(
                 onPressed: () {
                   // إغلاق شاشة النتائج وشاشة أداء الاختبار للعودة إلى القائمة
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
+                text: 'العودة إلى قائمة الاختبارات',
               ),
             ],
           ),
