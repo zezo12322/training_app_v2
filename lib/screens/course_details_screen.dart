@@ -2,11 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/comment_section_widget.dart';
+import '../widgets/common/loading_widget.dart';
+import '../widgets/common/error_widget.dart';
+import '../widgets/common/empty_state_widget.dart';
+import '../constants/app_constants.dart';
+import '../utils/error_handler.dart';
+import '../utils/validators.dart';
+import '../services/notification_service.dart';
 import 'trainee_list_screen.dart';
 import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
 import 'quiz_list_screen.dart';
-import '../services/notification_service.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   final String courseId;
@@ -25,65 +31,119 @@ class CourseDetailsScreen extends StatefulWidget {
 }
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _postController = TextEditingController();
   final _currentUser = FirebaseAuth.instance.currentUser;
   final _notificationService = OneSignalNotificationService();
+  bool _isLoading = false;
 
   Future<void> _sendNotificationsToTrainees(String authorEmail, String courseName) async {
     try {
-      final courseDoc = await FirebaseFirestore.instance.collection('courses').doc(widget.courseId).get();
+      final courseDoc = await FirebaseFirestore.instance
+          .collection(AppConstants.coursesCollection)
+          .doc(widget.courseId)
+          .get();
+      
       if (!courseDoc.exists) return;
-      final trainees = List<String>.from(courseDoc.data()?['trainees'] ?? []);
+      
+      final courseData = courseDoc.data() as Map<String, dynamic>?;
+      final trainees = List<String>.from(courseData?[AppConstants.traineesField] ?? []);
       if (trainees.isEmpty) return;
 
-      final tokensSnapshot = await FirebaseFirestore.instance.collection('users').where(FieldPath.documentId, whereIn: trainees).get();
+      final tokensSnapshot = await FirebaseFirestore.instance
+          .collection(AppConstants.usersCollection)
+          .where(FieldPath.documentId, whereIn: trainees)
+          .get();
+      
       final List<String> playerIds = tokensSnapshot.docs
-          .map((doc) => doc.data()['oneSignalPlayerId'] as String?)
-          .where((id) => id != null).toList().cast<String>();
+          .map((doc) => doc.data()[AppConstants.oneSignalPlayerIdField] as String?)
+          .where((id) => id != null)
+          .toList()
+          .cast<String>();
 
       if (playerIds.isEmpty) return;
 
-      // Use the notification service instead of direct HTTP calls
       await _notificationService.sendNotification(
         playerIds: playerIds,
         title: "منشور جديد في: $courseName",
         content: "قام $authorEmail بإضافة منشور جديد.",
       );
     } catch (e) {
-      print('Error sending OneSignal notifications: $e');
+      ErrorHandler.logError('CourseDetailsScreen._sendNotificationsToTrainees', e);
     }
   }
 
   Future<void> _addPost() async {
-    final content = _postController.text.trim();
-    if (content.isEmpty || _currentUser == null) return;
+    if (!_formKey.currentState!.validate() || _currentUser == null) return;
+
+    setState(() { _isLoading = true; });
+
     try {
-      await FirebaseFirestore.instance.collection('course_wall').add({
-        'courseId': widget.courseId,
-        'content': content,
-        'authorId': _currentUser.uid,
-        'authorEmail': _currentUser.email,
-        'createdAt': FieldValue.serverTimestamp(),
+      await FirebaseFirestore.instance
+          .collection(AppConstants.courseWallCollection)
+          .add({
+        AppConstants.courseIdField: widget.courseId,
+        AppConstants.contentField: _postController.text.trim(),
+        AppConstants.authorIdField: _currentUser!.uid,
+        AppConstants.authorEmailField: _currentUser!.email,
+        AppConstants.createdAtField: FieldValue.serverTimestamp(),
       });
+
       _postController.clear();
       FocusScope.of(context).unfocus();
-      await _sendNotificationsToTrainees(_currentUser.email ?? 'المدرب', widget.courseName);
+      
+      await _sendNotificationsToTrainees(
+        _currentUser!.email ?? 'المدرب',
+        widget.courseName,
+      );
+
+      if (mounted) {
+        context.showSuccessSnackBar(AppConstants.postAddedMessage);
+      }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+      ErrorHandler.logError('CourseDetailsScreen._addPost', e);
+      if (mounted) {
+        context.showErrorSnackBar(ErrorHandler.getGenericErrorMessage(e));
+      }
+    } finally {
+      if (mounted) {
+        setState(() { _isLoading = false; });
+      }
     }
   }
 
   Future<void> _navigateToTraineeList() async {
     try {
-      final courseDoc = await FirebaseFirestore.instance.collection('courses').doc(widget.courseId).get();
-      if (!courseDoc.exists) throw Exception("لم يتم العثور على الكورس");
-      final traineesData = courseDoc.data()?['trainees'];
-      final List<String> traineeIds = traineesData is List ? List<String>.from(traineesData) : [];
+      final courseDoc = await FirebaseFirestore.instance
+          .collection(AppConstants.coursesCollection)
+          .doc(widget.courseId)
+          .get();
+      
+      if (!courseDoc.exists) {
+        throw Exception("لم يتم العثور على الكورس");
+      }
+      
+      final courseData = courseDoc.data() as Map<String, dynamic>?;
+      final traineesData = courseData?[AppConstants.traineesField];
+      final List<String> traineeIds = traineesData is List 
+          ? List<String>.from(traineesData) 
+          : [];
+      
       if (!mounted) return;
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TraineeListScreen(courseId: widget.courseId, traineeIds: traineeIds)));
+      
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => TraineeListScreen(
+            courseId: widget.courseId,
+            traineeIds: traineeIds,
+          ),
+        ),
+      );
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+      ErrorHandler.logError('CourseDetailsScreen._navigateToTraineeList', e);
+      if (mounted) {
+        context.showErrorSnackBar(ErrorHandler.getGenericErrorMessage(e));
+      }
     }
   }
 
@@ -147,46 +207,61 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
   Widget _buildPostsList() {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('course_wall')
-          .where('courseId', isEqualTo: widget.courseId).orderBy('createdAt', descending: true).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection(AppConstants.courseWallCollection)
+          .where(AppConstants.courseIdField, isEqualTo: widget.courseId)
+          .orderBy(AppConstants.createdAtField, descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) return Center(child: Text('حدث خطأ: ${snapshot.error}'));
-        if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
+        if (snapshot.hasError) {
+          return CustomErrorWidget(
+            message: ErrorHandler.getGenericErrorMessage(snapshot.error),
+            onRetry: () => setState(() {}),
+          );
+        }
+        
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingWidget(message: 'جاري تحميل المنشورات...');
+        }
+        
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.message_outlined, size: 80, color: Colors.grey),
-                SizedBox(height: 16),
-                Text('لا توجد منشورات حتى الآن', style: TextStyle(fontSize: 18)),
-              ],
-            ),
+          final isTrainer = _currentUser?.uid == widget.trainerId;
+          return NoPostsWidget(
+            canAddPost: isTrainer,
+            onAddPost: isTrainer ? () {
+              // Focus on the text field at the bottom
+              FocusScope.of(context).requestFocus();
+            } : null,
           );
         }
 
         final posts = snapshot.data!.docs;
         return ListView.builder(
           reverse: true,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(AppConstants.defaultMargin),
           itemCount: posts.length,
           itemBuilder: (context, index) {
             final post = posts[index];
             final postData = post.data() as Map<String, dynamic>;
-            final content = postData['content'] as String;
-            final author = postData['authorEmail'] as String? ?? 'غير معروف';
+            final content = postData[AppConstants.contentField] as String? ?? '';
+            final author = postData[AppConstants.authorEmailField] as String? ?? 'غير معروف';
 
             return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.symmetric(vertical: AppConstants.defaultMargin),
               elevation: 1,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius + 4),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(
+                      AppConstants.defaultPadding,
+                      AppConstants.defaultPadding,
+                      AppConstants.defaultPadding,
+                      AppConstants.defaultMargin,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -210,35 +285,56 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   Widget _buildPostComposer() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _postController,
-              decoration: InputDecoration(
-                hintText: 'اكتب منشورًا جديدًا...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide.none,
+    return Container(
+      padding: const EdgeInsets.all(AppConstants.defaultMargin),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+      ),
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _postController,
+                validator: Validators.validatePostContent,
+                maxLines: null,
+                decoration: InputDecoration(
+                  hintText: 'اكتب منشورًا جديدًا...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.withOpacity(0.1),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.defaultPadding,
+                    vertical: 12,
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.grey.withOpacity(0.1),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(Icons.send),
-            onPressed: _addPost,
-            style: IconButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.white,
+            const SizedBox(width: AppConstants.defaultMargin),
+            LoadingOverlay(
+              isLoading: _isLoading,
+              child: IconButton(
+                icon: const Icon(Icons.send),
+                onPressed: _isLoading ? null : _addPost,
+                style: IconButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.all(12),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
