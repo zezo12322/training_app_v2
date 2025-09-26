@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:record/record.dart';
 import 'package:training_app/services/notification_service.dart';
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
+import '../utils/form_validators.dart';
 
 class AddEvaluationScreen extends StatefulWidget {
   final String courseId;
@@ -88,7 +91,7 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      _showSnackBar('تم إرسال التقييم بنجاح!', isError: false);
+      UIHelpers.showSuccessSnackBar(context, 'تم إرسال التقييم بنجاح!');
 
       // --- إرسال الإشعار للمتدرب المعني ---
       await _sendNewEvaluationNotification();
@@ -96,7 +99,7 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
       if (mounted) Navigator.of(context).pop();
 
     } catch (e) {
-      _showSnackBar('حدث خطأ: $e');
+      UIHelpers.showErrorSnackBar(context, 'حدث خطأ: $e');
     } finally {
       if (mounted) setState(() { _isLoading = false; });
     }
@@ -122,12 +125,7 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
     }
   }
 
-  void _showSnackBar(String message, {bool isError = true}) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: isError ? Colors.redAccent : Colors.green),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -139,42 +137,21 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
+              CustomTextField(
                 controller: _scoreController,
-                decoration: const InputDecoration(
-                  labelText: 'الدرجة (من 100)',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'الدرجة (من 100)',
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'يرجى إدخال الدرجة';
-                  }
-                  final score = int.tryParse(value);
-                  if (score == null || score < 0 || score > 100) {
-                    return 'الرجاء إدخال درجة بين 0 و 100';
-                  }
-                  return null;
-                },
+                validator: (value) => FormValidators.range(value, 0, 100),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
+              const SizedBox(height: UIHelpers.defaultPadding),
+              CustomTextField(
                 controller: _feedbackController,
-                decoration: const InputDecoration(
-                  labelText: 'الملاحظات والتقييم',
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
-                ),
+                labelText: 'الملاحظات والتقييم',
                 maxLines: 5,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'يرجى كتابة الملاحظات';
-                  }
-                  return null;
-                },
+                validator: FormValidators.required,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: UIHelpers.largeSpacing),
               const Text('إضافة تقييم صوتي (اختياري):', style: TextStyle(fontSize: 16)),
               const SizedBox(height: 10),
               Row(
@@ -190,14 +167,12 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
                     const Icon(Icons.check_circle, color: Colors.green, size: 30),
                 ],
               ),
-              const SizedBox(height: 24),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton.icon(
-                icon: const Icon(Icons.send),
-                label: const Text('إرسال التقييم'),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+              const SizedBox(height: UIHelpers.largeSpacing),
+              CustomButton(
                 onPressed: _submitEvaluation,
+                text: 'إرسال التقييم',
+                icon: Icons.send,
+                isLoading: _isLoading,
               ),
             ],
           ),

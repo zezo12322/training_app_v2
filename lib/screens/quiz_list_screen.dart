@@ -4,6 +4,7 @@ import 'add_question_screen.dart';
 import 'create_quiz_screen.dart';
 import 'take_quiz_screen.dart'; // <<< تأكد من وجود هذا الاستيراد
 import 'quiz_submissions_screen.dart';
+import '../widgets/common/index.dart';
 
 class QuizListScreen extends StatelessWidget {
   final String courseId;
@@ -21,24 +22,16 @@ class QuizListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('الاختبارات'),
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: AsyncDataBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('quizzes')
             .where('courseId', isEqualTo: courseId)
             .orderBy('createdAt', descending: true)
             .snapshots(),
+        emptyMessage: 'لم يتم إنشاء أي اختبارات بعد.',
+        emptyIcon: Icons.quiz_outlined,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\n\n${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('لم يتم إنشاء أي اختبارات بعد.'));
-          }
-
-          final quizzes = snapshot.data!.docs;
+          final quizzes = snapshot.docs;
 
           return ListView.builder(
             padding: const EdgeInsets.all(8.0),
