@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants/app_constants.dart';
 import '../utils/error_handler.dart';
 import '../utils/validators.dart';
+import '../widgets/common/loading_widget.dart';
 
 enum UserRole { trainer, trainee }
 
@@ -133,32 +134,35 @@ class _SignupScreenState extends State<SignupScreen> {
                     prefixIcon: Icon(Icons.lock),
                   ),
                 ),
-              const SizedBox(height: 20),
-              const Text('اختر دورك:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<UserRole>(
-                      title: const Text('مدرب'), value: UserRole.trainer, groupValue: _selectedRole,
-                      onChanged: (value) => setState(() => _selectedRole = value),
+                const SizedBox(height: 20),
+                const Text('اختر دورك:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<UserRole>(
+                        title: const Text('مدرب'), 
+                        value: UserRole.trainer, 
+                        groupValue: _selectedRole,
+                        onChanged: (value) => setState(() => _selectedRole = value),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<UserRole>(
-                      title: const Text('متدرب'), value: UserRole.trainee, groupValue: _selectedRole,
-                      onChanged: (value) => setState(() => _selectedRole = value),
+                    Expanded(
+                      child: RadioListTile<UserRole>(
+                        title: const Text('متدرب'), 
+                        value: UserRole.trainee, 
+                        groupValue: _selectedRole,
+                        onChanged: (value) => setState(() => _selectedRole = value),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
-                onPressed: _createAccount,
-                child: const Text('إنشاء الحساب'),
-              ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                LoadingButton(
+                  isLoading: _isLoading,
+                  onPressed: _createAccount,
+                  text: 'إنشاء الحساب',
+                  loadingText: 'جاري إنشاء الحساب...',
+                ),
               const SizedBox(height: 12),
               TextButton(
                 onPressed: () {

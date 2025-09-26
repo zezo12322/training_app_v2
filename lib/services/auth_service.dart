@@ -1,49 +1,94 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../repositories/interfaces/auth_repository_interface.dart';
+import '../repositories/implementations/auth_repository.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final AuthRepositoryInterface _authRepository;
+
+  AuthService({AuthRepositoryInterface? authRepository})
+      : _authRepository = authRepository ?? AuthRepository();
 
   // Stream to listen for auth changes
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  Stream<User?> get authStateChanges => _authRepository.authStateChanges;
+
+  // Get current user
+  User? get currentUser => _authRepository.currentUser;
 
   // Sign In with Email and Password
-  Future<UserCredential?> signInWithEmail(String email, String password) async {
-    try {
-      return await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      // We will handle errors in the UI layer, so just rethrow for now
-      rethrow;
-    }
+  Future<UserCredential> signInWithEmail(String email, String password) async {
+    return await _authRepository.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   // Sign Up with Email and Password
-  Future<UserCredential?> signUpWithEmail(String email, String password, String name, String userType) async {
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'name': name,
-        'email': email,
-        'userType': userType, // 'trainer' or 'trainee'
-      });
-      return userCredential;
-    } catch (e) {
-      rethrow;
+  Future<UserCredential> signUpWithEmail({
+    required String email,
+    required String password,
+    required String name,
+    required String userType,
+  }) async {
+    final userCredential = await _authRepository.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    // Save user details to Firestore
+    if (userCredential.user != null) {
+      await _authRepository.saveUserDetails(
+        uid: userCredential.user!.uid,
+        name: name,
+        email: email,
+        role: userType,
+      );
     }
+
+    return userCredential;
   }
 
   // Sign Out
   Future<void> signOut() async {
-    await _auth.signOut();
+    await _authRepository.signOut();
   }
 
   // Get current user's data
-  Future<DocumentSnapshot> getUserDetails() async {
-    User? user = _auth.currentUser;
+  Future<DocumentSnapshot?> getUserDetails() async {
+    final user = currentUser;
     if (user != null) {
-      return await _firestore.collection('users').doc(user.uid).get();
+      return await _authRepository.getUserDetails(user.uid);
     }
     throw Exception("User not logged in");
+  }
+
+  // Update user profile
+  Future<void> updateUserProfile(Map<String, dynamic> data) async {
+    final user = currentUser;
+    if (user != null) {
+      await _authRepository.updateUserProfile(uid: user.uid, data: data);
+    } else {
+      throw Exception("User not logged in");
+    }
+  }
+
+  // Send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _authRepository.sendPasswordResetEmail(email);
+  }
+
+  // Update password
+  Future<void> updatePassword(String newPassword) async {
+    await _authRepository.updatePassword(newPassword);
+  }
+
+  // Update email
+  Future<void> updateEmail(String newEmail) async {
+    await _authRepository.updateEmail(newEmail);
+  }
+
+  // Delete user account
+  Future<void> deleteUserAccount() async {
+    await _authRepository.deleteUserAccount();
   }
 }
