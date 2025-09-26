@@ -5,9 +5,8 @@ import '../widgets/comment_section_widget.dart';
 import 'trainee_list_screen.dart';
 import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
-import 'quiz_list_screen.dart'; // استيراد شاشة قائمة الاختبارات
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'quiz_list_screen.dart';
+import '../services/notification_service.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   final String courseId;
@@ -28,8 +27,7 @@ class CourseDetailsScreen extends StatefulWidget {
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   final _postController = TextEditingController();
   final _currentUser = FirebaseAuth.instance.currentUser;
-  final String _oneSignalAppId = 'YOUR_ONESIGNAL_APP_ID'; // 🚨 استبدل هذا
-  final String _oneSignalRestApiKey = 'YOUR_ONESIGNAL_REST_API_KEY'; // 🚨 استبدل هذا
+  final _notificationService = OneSignalNotificationService();
 
   Future<void> _sendNotificationsToTrainees(String authorEmail, String courseName) async {
     try {
@@ -45,18 +43,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
       if (playerIds.isEmpty) return;
 
-      await http.post(
-        Uri.parse('https://onesignal.com/api/v1/notifications'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Basic $_oneSignalRestApiKey',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "app_id": _oneSignalAppId,
-          "include_player_ids": playerIds,
-          "headings": {"en": "منشور جديد في: $courseName"},
-          "contents": {"en": "قام $authorEmail بإضافة منشور جديد."},
-        }),
+      // Use the notification service instead of direct HTTP calls
+      await _notificationService.sendNotification(
+        playerIds: playerIds,
+        title: "منشور جديد في: $courseName",
+        content: "قام $authorEmail بإضافة منشور جديد.",
       );
     } catch (e) {
       print('Error sending OneSignal notifications: $e');

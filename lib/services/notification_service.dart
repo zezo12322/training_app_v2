@@ -3,13 +3,20 @@ import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../config/app_config.dart';
 
 class OneSignalNotificationService {
-  // --- ضع مفاتيح OneSignal هنا ---
-  final String _appId = 'c89cafa8-1e04-4b6a-bcf8-43ccae9c37cd'; // 🚨 استبدل هذا
-  final String _restApiKey = 'os_v2_app_zcok7ka6arfwvphyipgk5hbxzxky5pdoeonunzfxwia2ankigt6jqlhohcrme4hvpk7xdqe5tzhzg5buv7cems6imzspzamtbwxkyai'; // 🚨 استبدل هذا
+  // Use configuration service instead of hardcoded values
+  String get _appId => AppConfig.instance.oneSignalAppId;
+  String get _restApiKey => AppConfig.instance.oneSignalRestApiKey;
 
   Future<void> initOneSignal() async {
+    // Validate configuration before initializing
+    if (_appId.isEmpty) {
+      print('OneSignal: App ID not configured. Please set ONESIGNAL_APP_ID in .env file');
+      return;
+    }
+
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
     OneSignal.initialize(_appId);
     OneSignal.Notifications.requestPermission(true);
@@ -30,16 +37,24 @@ class OneSignalNotificationService {
     }
   }
 
-  // --- دالة جديدة لإرسال الإشعارات ---
+  // Send notification with proper error handling and validation
   Future<void> sendNotification({
     required List<String> playerIds,
     required String title,
     required String content,
   }) async {
-    if (playerIds.isEmpty) return;
+    if (playerIds.isEmpty) {
+      print('OneSignal: No player IDs provided for notification');
+      return;
+    }
+
+    if (_restApiKey.isEmpty) {
+      print('OneSignal: REST API Key not configured. Please set ONESIGNAL_REST_API_KEY in .env file');
+      return;
+    }
 
     try {
-      await http.post(
+      final response = await http.post(
         Uri.parse('https://onesignal.com/api/v1/notifications'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -52,7 +67,12 @@ class OneSignalNotificationService {
           "contents": {"en": content},
         }),
       );
-      print('OneSignal: Notification sent successfully to ${playerIds.length} users.');
+
+      if (response.statusCode == 200) {
+        print('OneSignal: Notification sent successfully to ${playerIds.length} users.');
+      } else {
+        print('OneSignal: Failed to send notification. Status: ${response.statusCode}, Body: ${response.body}');
+      }
     } catch (e) {
       print('OneSignal: Error sending notification: $e');
     }
