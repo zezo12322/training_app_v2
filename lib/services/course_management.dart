@@ -1,52 +1,115 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../repositories/interfaces/course_repository_interface.dart';
+import '../repositories/implementations/course_repository.dart';
 
 class CourseManagement {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CourseRepositoryInterface _courseRepository;
 
-  // دالة لإنشاء كورس جديد مع كود فريد
-  Future<void> createCourse(String courseName, String trainerId) async {
-    try {
-      final courseCode = _generateUniqueCode();
-      await _firestore.collection('courses').add({
-        'name': courseName,
-        'trainerId': trainerId,
-        'courseCode': courseCode,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-    } catch (e) {
-      // يفضل استخدام print(e) أو logging أثناء التطوير
-      throw Exception('Failed to create course: $e');
-    }
+  CourseManagement({CourseRepositoryInterface? courseRepository})
+      : _courseRepository = courseRepository ?? CourseRepository();
+
+  // Create a new course with unique code
+  Future<String> createCourse({
+    required String courseName,
+    required String trainerId,
+    String? description,
+  }) async {
+    return await _courseRepository.createCourse(
+      courseName: courseName,
+      trainerId: trainerId,
+      description: description,
+    );
   }
 
-  // دالة للانضمام إلى كورس باستخدام الكود
-  Future<DocumentSnapshot?> joinCourse(String courseCode, String traineeId) async {
-    try {
-      final querySnapshot = await _firestore
-          .collection('courses')
-          .where('courseCode', isEqualTo: courseCode)
-          .limit(1) // يكفي العثور على مستند واحد
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        final course = querySnapshot.docs.first;
-        await _firestore.collection('courses').doc(course.id).update({
-          'trainees': FieldValue.arrayUnion([traineeId]),
-        });
-        return course;
-      } else {
-        return null; // لم يتم العثور على الكورس
-      }
-    } catch (e) {
-      throw Exception('Failed to join course: $e');
-    }
+  // Join a course using course code
+  Future<DocumentSnapshot?> joinCourse({
+    required String courseCode,
+    required String traineeId,
+  }) async {
+    return await _courseRepository.joinCourse(
+      courseCode: courseCode,
+      traineeId: traineeId,
+    );
   }
 
-  // دالة خاصة لتوليد كود عشوائي
-  String _generateUniqueCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final rand = Random();
-    return List.generate(6, (index) => chars[rand.nextInt(chars.length)]).join();
+  // Get course details
+  Future<DocumentSnapshot?> getCourse(String courseId) async {
+    return await _courseRepository.getCourse(courseId);
+  }
+
+  // Get courses for trainer
+  Future<List<DocumentSnapshot>> getTrainerCourses(String trainerId) async {
+    return await _courseRepository.getTrainerCourses(trainerId);
+  }
+
+  // Get courses for trainee
+  Future<List<DocumentSnapshot>> getTraineeCourses(String traineeId) async {
+    return await _courseRepository.getTraineeCourses(traineeId);
+  }
+
+  // Update course
+  Future<void> updateCourse({
+    required String courseId,
+    required Map<String, dynamic> data,
+  }) async {
+    await _courseRepository.updateCourse(courseId: courseId, data: data);
+  }
+
+  // Delete course
+  Future<void> deleteCourse(String courseId) async {
+    await _courseRepository.deleteCourse(courseId);
+  }
+
+  // Leave course (for trainee)
+  Future<void> leaveCourse({
+    required String courseId,
+    required String traineeId,
+  }) async {
+    await _courseRepository.leaveCourse(
+      courseId: courseId,
+      traineeId: traineeId,
+    );
+  }
+
+  // Remove trainee from course (for trainer)
+  Future<void> removeTraineeFromCourse({
+    required String courseId,
+    required String traineeId,
+  }) async {
+    await _courseRepository.removeTraineeFromCourse(
+      courseId: courseId,
+      traineeId: traineeId,
+    );
+  }
+
+  // Get course trainees
+  Future<List<DocumentSnapshot>> getCourseTrainees(String courseId) async {
+    return await _courseRepository.getCourseTrainees(courseId);
+  }
+
+  // Search courses
+  Future<List<DocumentSnapshot>> searchCourses({
+    required String query,
+    String? trainerId,
+  }) async {
+    return await _courseRepository.searchCourses(
+      query: query,
+      trainerId: trainerId,
+    );
+  }
+
+  // Get course statistics
+  Future<Map<String, dynamic>> getCourseStatistics(String courseId) async {
+    return await _courseRepository.getCourseStatistics(courseId);
+  }
+
+  // Generate unique course code
+  String generateCourseCode() {
+    return _courseRepository.generateCourseCode();
+  }
+
+  // Check if course code exists
+  Future<bool> doesCourseCodeExist(String courseCode) async {
+    return await _courseRepository.doesCourseCodeExist(courseCode);
   }
 }
