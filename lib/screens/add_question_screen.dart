@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
+import '../utils/form_validators.dart';
 
 class AddQuestionScreen extends StatefulWidget {
   final String quizId;
@@ -36,9 +39,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       return;
     }
     if (_correctAnswerIndex == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('الرجاء تحديد الإجابة الصحيحة')),
-      );
+      UIHelpers.showErrorSnackBar(context, 'الرجاء تحديد الإجابة الصحيحة');
       return;
     }
 
@@ -70,7 +71,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       });
 
     } catch (e) {
-      if(mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+      if(mounted) UIHelpers.showErrorSnackBar(context, 'حدث خطأ: $e');
     } finally {
       if(mounted) setState(() { _isLoading = false; });
     }
@@ -83,19 +84,18 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         title: const Text('إضافة أسئلة للاختبار'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(UIHelpers.defaultPadding),
         child: Column(
           children: [
             // قسم عرض الأسئلة المضافة بالفعل
-            StreamBuilder<QuerySnapshot>(
+            AsyncDataBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('quiz_questions')
                   .where('quizId', isEqualTo: widget.quizId)
                   .orderBy('createdAt').snapshots(),
+              emptyMessage: 'لم يتم إضافة أي أسئلة بعد.',
+              emptyIcon: Icons.quiz_outlined,
               builder: (context, snapshot) {
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Text('لم يتم إضافة أي أسئلة بعد.');
-                }
-                final questions = snapshot.data!.docs;
+                final questions = snapshot.docs;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,30 +126,48 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text('إضافة سؤال جديد:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 16),
-                  TextFormField(controller: _questionController, decoration: const InputDecoration(labelText: 'نص السؤال', border: OutlineInputBorder()), validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null),
-                  const SizedBox(height: 12),
-                  TextFormField(controller: _option1Controller, decoration: const InputDecoration(labelText: 'الخيار 1', border: OutlineInputBorder()), validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null),
-                  const SizedBox(height: 12),
-                  TextFormField(controller: _option2Controller, decoration: const InputDecoration(labelText: 'الخيار 2', border: OutlineInputBorder()), validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null),
-                  const SizedBox(height: 12),
-                  TextFormField(controller: _option3Controller, decoration: const InputDecoration(labelText: 'الخيار 3', border: OutlineInputBorder()), validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null),
-                  const SizedBox(height: 12),
-                  TextFormField(controller: _option4Controller, decoration: const InputDecoration(labelText: 'الخيار 4', border: OutlineInputBorder()), validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: UIHelpers.defaultPadding),
+                  CustomTextField(
+                    controller: _questionController, 
+                    labelText: 'نص السؤال', 
+                    validator: FormValidators.required,
+                  ),
+                  const SizedBox(height: UIHelpers.defaultSpacing),
+                  CustomTextField(
+                    controller: _option1Controller, 
+                    labelText: 'الخيار 1', 
+                    validator: FormValidators.required,
+                  ),
+                  const SizedBox(height: UIHelpers.defaultSpacing),
+                  CustomTextField(
+                    controller: _option2Controller, 
+                    labelText: 'الخيار 2', 
+                    validator: FormValidators.required,
+                  ),
+                  const SizedBox(height: UIHelpers.defaultSpacing),
+                  CustomTextField(
+                    controller: _option3Controller, 
+                    labelText: 'الخيار 3', 
+                    validator: FormValidators.required,
+                  ),
+                  const SizedBox(height: UIHelpers.defaultSpacing),
+                  CustomTextField(
+                    controller: _option4Controller, 
+                    labelText: 'الخيار 4', 
+                    validator: FormValidators.required,
+                  ),
+                  const SizedBox(height: UIHelpers.defaultPadding),
                   const Text('حدد الإجابة الصحيحة:', style: TextStyle(fontSize: 16)),
                   RadioListTile<int>(title: const Text('الخيار 1'), value: 0, groupValue: _correctAnswerIndex, onChanged: (v) => setState(() => _correctAnswerIndex = v)),
                   RadioListTile<int>(title: const Text('الخيار 2'), value: 1, groupValue: _correctAnswerIndex, onChanged: (v) => setState(() => _correctAnswerIndex = v)),
                   RadioListTile<int>(title: const Text('الخيار 3'), value: 2, groupValue: _correctAnswerIndex, onChanged: (v) => setState(() => _correctAnswerIndex = v)),
                   RadioListTile<int>(title: const Text('الخيار 4'), value: 3, groupValue: _correctAnswerIndex, onChanged: (v) => setState(() => _correctAnswerIndex = v)),
-                  const SizedBox(height: 24),
-                  _isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : ElevatedButton.icon(
-                    icon: const Icon(Icons.add),
-                    label: const Text('إضافة السؤال'),
+                  const SizedBox(height: UIHelpers.largeSpacing),
+                  CustomButton(
                     onPressed: _addQuestion,
-                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+                    text: 'إضافة السؤال',
+                    icon: Icons.add,
+                    isLoading: _isLoading,
                   ),
                 ],
               ),

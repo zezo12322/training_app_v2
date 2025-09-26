@@ -5,6 +5,7 @@ import 'package:training_app/screens/login_screen.dart';
 import 'package:training_app/screens/trainee_home_screen.dart';
 import 'package:training_app/screens/trainer_home_screen.dart';
 import 'package:training_app/services/notification_service.dart'; // <--- استيراد خدمة الإشعارات
+import '../widgets/common/loading_widget.dart';
 
 class AuthWrapper extends ConsumerWidget {
   const AuthWrapper({super.key});
@@ -41,12 +42,12 @@ class AuthWrapper extends ConsumerWidget {
               // إذا لم يتم العثور على بيانات المستخدم، يتم إرجاعه لشاشة تسجيل الدخول
               return const LoginScreen();
             },
-            loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+            loading: () => const Scaffold(body: LoadingWidget(message: 'جاري تحميل بيانات المستخدم...')),
             error: (err, stack) => Scaffold(body: Center(child: Text('Error loading user data: $err'))),
           );
         }
       },
-      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      loading: () => const Scaffold(body: LoadingWidget(message: 'جاري تسجيل الدخول...')),
       error: (err, stack) => Scaffold(body: Center(child: Text('Auth error: $err'))),
     );
   }

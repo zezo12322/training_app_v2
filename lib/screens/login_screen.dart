@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'signup_screen.dart'; // لاستيراد شاشة إنشاء الحساب
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
+import '../utils/form_validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,16 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  void _showSnackBar(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.redAccent),
-    );
-  }
-
   Future<void> _signIn() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showSnackBar('يرجى ملء جميع الحقول');
+      UIHelpers.showErrorSnackBar(context, 'يرجى ملء جميع الحقول');
       return;
     }
     setState(() {
@@ -36,9 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       // StreamBuilder في main.dart سيتولى الباقي
     } on FirebaseAuthException {
-      _showSnackBar('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+      UIHelpers.showErrorSnackBar(context, 'البريد الإلكتروني أو كلمة المرور غير صحيحة.');
     } catch (e) {
-      _showSnackBar('حدث خطأ غير متوقع: $e');
+      UIHelpers.showErrorSnackBar(context, 'حدث خطأ غير متوقع: $e');
     } finally {
       if (mounted) {
         setState(() {
@@ -61,33 +57,33 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(title: const Text('تسجيل الدخول')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(UIHelpers.largePadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const Text('مرحباً بعودتك!', textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 24),
-              TextField(
+              const SizedBox(height: UIHelpers.largeSpacing),
+              CustomTextField(
                 controller: _emailController,
+                labelText: 'البريد الإلكتروني',
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'البريد الإلكتروني', border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
+                prefixIcon: Icons.email,
               ),
-              const SizedBox(height: 12),
-              TextField(
+              const SizedBox(height: UIHelpers.defaultSpacing),
+              CustomTextField(
                 controller: _passwordController,
+                labelText: 'كلمة المرور',
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'كلمة المرور', border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock)),
+                prefixIcon: Icons.lock,
               ),
-              const SizedBox(height: 24),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+              const SizedBox(height: UIHelpers.largeSpacing),
+              CustomButton(
                 onPressed: _signIn,
-                child: const Text('تسجيل الدخول'),
+                text: 'تسجيل الدخول',
+                isLoading: _isLoading,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: UIHelpers.defaultSpacing),
               TextButton(
                 onPressed: () {
                   // الانتقال إلى شاشة إنشاء حساب

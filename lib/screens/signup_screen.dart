@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/common/index.dart';
+import '../utils/ui_helpers.dart';
 
 enum UserRole { trainer, trainee }
 
@@ -19,23 +21,16 @@ class _SignupScreenState extends State<SignupScreen> {
   UserRole? _selectedRole;
   bool _isLoading = false;
 
-  void _showSnackBar(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.redAccent),
-    );
-  }
-
   Future<void> _createAccount() async {
     // التحقق من أن جميع الحقول ممتلئة
     if (_nameController.text.trim().isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
-      _showSnackBar('يرجى ملء جميع الحقول');
+      UIHelpers.showErrorSnackBar(context, 'يرجى ملء جميع الحقول');
       return;
     }
     if (_selectedRole == null) {
-      _showSnackBar('يرجى تحديد دورك (مدرب أو متدرب)');
+      UIHelpers.showErrorSnackBar(context, 'يرجى تحديد دورك (مدرب أو متدرب)');
       return;
     }
 
@@ -57,11 +52,15 @@ class _SignupScreenState extends State<SignupScreen> {
         });
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') { _showSnackBar('كلمة المرور ضعيفة جدًا.'); }
-      else if (e.code == 'email-already-in-use') { _showSnackBar('هذا البريد الإلكتروني مستخدم بالفعل.'); }
-      else { _showSnackBar('حدث خطأ: ${e.message}'); }
+      if (e.code == 'weak-password') { 
+        UIHelpers.showErrorSnackBar(context, 'كلمة المرور ضعيفة جدًا.'); 
+      } else if (e.code == 'email-already-in-use') { 
+        UIHelpers.showErrorSnackBar(context, 'هذا البريد الإلكتروني مستخدم بالفعل.'); 
+      } else { 
+        UIHelpers.showErrorSnackBar(context, 'حدث خطأ: ${e.message}'); 
+      }
     } catch (e) {
-      _showSnackBar('حدث خطأ غير متوقع: $e');
+      UIHelpers.showErrorSnackBar(context, 'حدث خطأ غير متوقع: $e');
     } finally {
       if (mounted) { setState(() { _isLoading = false; }); }
     }
@@ -81,35 +80,34 @@ class _SignupScreenState extends State<SignupScreen> {
       appBar: AppBar(title: const Text('إنشاء حساب جديد')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(UIHelpers.largePadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // --- 3. إضافة حقل إدخال الاسم في الواجهة ---
-              TextField(
+              CustomTextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'الاسم الكامل',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                ),
+                labelText: 'الاسم الكامل',
+                prefixIcon: Icons.person,
                 textCapitalization: TextCapitalization.words,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: UIHelpers.defaultSpacing),
 
-              TextField(
+              CustomTextField(
                 controller: _emailController,
+                labelText: 'البريد الإلكتروني',
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'البريد الإلكتروني', border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
+                prefixIcon: Icons.email,
               ),
-              const SizedBox(height: 12),
-              TextField(
+              const SizedBox(height: UIHelpers.defaultSpacing),
+              CustomTextField(
                 controller: _passwordController,
+                labelText: 'كلمة المرور',
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'كلمة المرور', border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock)),
+                prefixIcon: Icons.lock,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: UIHelpers.largePadding),
               const Text('اختر دورك:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Row(
                 children: [
@@ -127,15 +125,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+              const SizedBox(height: UIHelpers.largePadding),
+              CustomButton(
                 onPressed: _createAccount,
-                child: const Text('إنشاء الحساب'),
+                text: 'إنشاء الحساب',
+                isLoading: _isLoading,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: UIHelpers.defaultSpacing),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
