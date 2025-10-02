@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
+import '../providers/evaluation_providers.dart';
+import '../providers/auth_provider.dart';
+import '../core/logging.dart';
 import 'package:training_app/services/notification_service.dart';
 
-class AddEvaluationScreen extends StatefulWidget {
+class AddEvaluationScreen extends ConsumerStatefulWidget {
   final String courseId;
   final String traineeId;
   final String traineeEmail;
@@ -19,10 +22,10 @@ class AddEvaluationScreen extends StatefulWidget {
   });
 
   @override
-  State<AddEvaluationScreen> createState() => _AddEvaluationScreenState();
+  ConsumerState<AddEvaluationScreen> createState() => _AddEvaluationScreenState();
 }
 
-class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
+class _AddEvaluationScreenState extends ConsumerState<AddEvaluationScreen> {
   final _scoreController = TextEditingController();
   final _feedbackController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -59,44 +62,35 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
   }
 
   Future<void> _submitEvaluation() async {
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) return;
+    final trainerId = ref.read(authStateProvider).value?.uid;
+    if (trainerId == null) {
+      _showSnackBar('تعذر تحديد حساب المدرب. أعد تسجيل الدخول.');
       return;
     }
     setState(() { _isLoading = true; });
-
     try {
-      String? audioUrl;
-      if (_audioPath != null) {
-        final file = File(_audioPath!);
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('evaluation_audio')
-            .child(widget.courseId)
-            .child('${DateTime.now().millisecondsSinceEpoch}.m4a');
-
-        await storageRef.putFile(file);
-        audioUrl = await storageRef.getDownloadURL();
-      }
-
-      await FirebaseFirestore.instance.collection('evaluations').add({
-        'courseId': widget.courseId,
-        'traineeId': widget.traineeId,
-        'traineeEmail': widget.traineeEmail,
-        'score': int.tryParse(_scoreController.text.trim()) ?? 0,
-        'feedback': _feedbackController.text.trim(),
-        'audioUrl': audioUrl,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      _showSnackBar('تم إرسال التقييم بنجاح!', isError: false);
-
-      // --- إرسال الإشعار للمتدرب المعني ---
-      await _sendNewEvaluationNotification();
-
-      if (mounted) Navigator.of(context).pop();
-
-    } catch (e) {
-      _showSnackBar('حدث خطأ: $e');
+      final repo = ref.read(evaluationRepositoryProvider);
+      final result = await repo.addEvaluation(
+        courseId: widget.courseId,
+        traineeId: widget.traineeId,
+        traineeEmail: widget.traineeEmail,
+        score: int.tryParse(_scoreController.text.trim()) ?? 0,
+        feedback: _feedbackController.text.trim(),
+        trainerId: trainerId,
+        audioFile: _audioPath != null ? File(_audioPath!) : null,
+      );
+      result.when(
+        success: (_) async {
+          _showSnackBar('تم إرسال التقييم بنجاح!', isError: false);
+          await _sendNewEvaluationNotification();
+          if (mounted) Navigator.of(context).pop();
+        },
+        failure: (f) => _showSnackBar('فشل: ${f.message}'),
+      );
+    } catch (e, st) {
+      logger.e('Unexpected error submitting evaluation', error: e, stackTrace: st);
+      _showSnackBar('خطأ غير متوقع: $e');
     } finally {
       if (mounted) setState(() { _isLoading = false; });
     }
@@ -112,13 +106,13 @@ class _AddEvaluationScreenState extends State<AddEvaluationScreen> {
       final courseDoc = await FirebaseFirestore.instance.collection('courses').doc(widget.courseId).get();
       final courseName = courseDoc.data()?['name'] ?? 'أحد كورساتك';
 
-      await OneSignalNotificationService().sendNotification(
+      await OneSignalNotificationService().sendNotificationViaBackend(
         playerIds: [playerId], // نرسل للمتدرب المحدد فقط
         title: 'لديك تقييم جديد!',
         content: 'قام مدربك بإضافة تقييم جديد لك في كورس: $courseName',
       );
-    } catch(e) {
-      print("Could not send evaluation notification: $e");
+    } catch(e, st) {
+      logger.w('Could not send evaluation notification: $e', error: e, stackTrace: st);
     }
   }
 

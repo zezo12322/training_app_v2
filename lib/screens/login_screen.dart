@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
 import 'signup_screen.dart'; // لاستيراد شاشة إنشاء الحساب
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -30,13 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      // StreamBuilder في main.dart سيتولى الباقي
-    } on FirebaseAuthException {
-      _showSnackBar('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+      await ref.read(authRepositoryProvider).signIn(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
+    } on Exception catch (e) {
+      // يمكن لاحقاً تمييز الأنواع
+      _showSnackBar('فشل تسجيل الدخول: ${e.toString()}');
     } catch (e) {
       _showSnackBar('حدث خطأ غير متوقع: $e');
     } finally {

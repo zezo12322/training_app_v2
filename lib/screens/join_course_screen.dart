@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
+import 'package:training_app/providers/course_providers.dart';
+import 'package:training_app/core/logging.dart';
 
-class JoinCourseScreen extends StatefulWidget {
+class JoinCourseScreen extends ConsumerStatefulWidget {
   const JoinCourseScreen({super.key});
 
   @override
-  State<JoinCourseScreen> createState() => _JoinCourseScreenState();
+  @override
+  ConsumerState<JoinCourseScreen> createState() => _JoinCourseScreenState();
 }
 
-class _JoinCourseScreenState extends State<JoinCourseScreen> {
+class _JoinCourseScreenState extends ConsumerState<JoinCourseScreen> {
   final _codeController = TextEditingController();
   bool _isLoading = false;
 
@@ -32,32 +35,20 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
     setState(() { _isLoading = true; });
 
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) throw Exception('المستخدم غير مسجل دخوله');
+      final authUser = ref.read(authStateProvider).value;
+      if (authUser == null) throw Exception('المستخدم غير مسجل دخوله');
 
-      // 1. البحث عن الكورس باستخدام الكود المدخل
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('courses')
-          .where('courseCode', isEqualTo: courseCode)
-          .limit(1)
-          .get();
-
-      if (querySnapshot.docs.isEmpty) {
-        // إذا لم يتم العثور على أي كورس بهذا الكود
-        _showSnackBar('الكود الذي أدخلته غير صحيح، يرجى التأكد منه.');
-      } else {
-        // إذا تم العثور على الكورس
-        final courseDoc = querySnapshot.docs.first;
-
-        // 2. تحديث مستند الكورس لإضافة المتدرب الحالي إلى قائمة المتدربين
-        await FirebaseFirestore.instance.collection('courses').doc(courseDoc.id).update({
-          // arrayUnion تتأكد من إضافة المستخدم مرة واحدة فقط
-          'trainees': FieldValue.arrayUnion([user.uid])
-        });
-
-        _showSnackBar('تم الانضمام إلى الكورس بنجاح!', isError: false);
-        if (mounted) Navigator.of(context).pop(); // الرجوع للشاشة الرئيسية
-      }
+      final result = await ref.read(joinCourseProvider(courseCode).future);
+      result.when(
+        success: (_) {
+          _showSnackBar('تم الانضمام إلى الكورس بنجاح!', isError: false);
+          if (mounted) Navigator.of(context).pop();
+        },
+        failure: (f) {
+          logger.w('Join course failed: ${f.message}');
+          _showSnackBar(f.message);
+        },
+      );
     } catch (e) {
       _showSnackBar('حدث خطأ ما: $e');
     } finally {

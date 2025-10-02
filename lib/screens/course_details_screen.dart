@@ -1,15 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
+import 'package:training_app/providers/wall_post_providers.dart';
+import 'package:training_app/models/wall_post.dart';
+import 'package:training_app/core/logging.dart';
+import 'package:training_app/services/notification_service.dart';
 import '../widgets/comment_section_widget.dart';
 import 'trainee_list_screen.dart';
 import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
 import 'quiz_list_screen.dart'; // استيراد شاشة قائمة الاختبارات
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+// Removed direct HTTP OneSignal calls; handled via backend service.
 
-class CourseDetailsScreen extends StatefulWidget {
+class CourseDetailsScreen extends ConsumerStatefulWidget {
   final String courseId;
   final String courseName;
   final String trainerId;
@@ -22,14 +26,11 @@ class CourseDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
+  ConsumerState<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
 }
 
-class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
+class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
   final _postController = TextEditingController();
-  final _currentUser = FirebaseAuth.instance.currentUser;
-  final String _oneSignalAppId = 'YOUR_ONESIGNAL_APP_ID'; // 🚨 استبدل هذا
-  final String _oneSignalRestApiKey = 'YOUR_ONESIGNAL_REST_API_KEY'; // 🚨 استبدل هذا
 
   Future<void> _sendNotificationsToTrainees(String authorEmail, String courseName) async {
     try {
@@ -37,49 +38,45 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
       if (!courseDoc.exists) return;
       final trainees = List<String>.from(courseDoc.data()?['trainees'] ?? []);
       if (trainees.isEmpty) return;
-
       final tokensSnapshot = await FirebaseFirestore.instance.collection('users').where(FieldPath.documentId, whereIn: trainees).get();
       final List<String> playerIds = tokensSnapshot.docs
           .map((doc) => doc.data()['oneSignalPlayerId'] as String?)
           .where((id) => id != null).toList().cast<String>();
-
       if (playerIds.isEmpty) return;
-
-      await http.post(
-        Uri.parse('https://onesignal.com/api/v1/notifications'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Basic $_oneSignalRestApiKey',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "app_id": _oneSignalAppId,
-          "include_player_ids": playerIds,
-          "headings": {"en": "منشور جديد في: $courseName"},
-          "contents": {"en": "قام $authorEmail بإضافة منشور جديد."},
-        }),
+      await OneSignalNotificationService().sendNotificationViaBackend(
+        playerIds: playerIds,
+        title: 'منشور جديد في: $courseName',
+        content: 'قام $authorEmail بإضافة منشور جديد.'
       );
-    } catch (e) {
-      print('Error sending OneSignal notifications: $e');
+    } catch (e, st) {
+      logger.w('Failed sending wall post notifications: $e', error: e, stackTrace: st);
     }
   }
 
   Future<void> _addPost() async {
     final content = _postController.text.trim();
-    if (content.isEmpty || _currentUser == null) return;
-    try {
-      await FirebaseFirestore.instance.collection('course_wall').add({
-        'courseId': widget.courseId,
-        'content': content,
-        'authorId': _currentUser.uid,
-        'authorEmail': _currentUser.email,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-      _postController.clear();
-      FocusScope.of(context).unfocus();
-      await _sendNotificationsToTrainees(_currentUser.email ?? 'المدرب', widget.courseName);
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
-    }
+    if (content.isEmpty) return;
+    final authUser = ref.read(authStateProvider).value;
+    if (authUser == null) return;
+    final repo = ref.read(wallPostRepositoryProvider);
+    final result = await repo.addPost(
+      courseId: widget.courseId,
+      content: content,
+      authorId: authUser.uid,
+      authorEmail: authUser.email ?? 'مدرب',
+    );
+    result.when(
+      success: (_) async {
+        _postController.clear();
+        FocusScope.of(context).unfocus();
+        await _sendNotificationsToTrainees(authUser.email ?? 'المدرب', widget.courseName);
+      },
+      failure: (f) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: ${f.message}')));
+        }
+      },
+    );
   }
 
   Future<void> _navigateToTraineeList() async {
@@ -104,7 +101,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isTrainer = _currentUser?.uid == widget.trainerId;
+  final authUser = ref.watch(authStateProvider).value;
+  final isTrainer = authUser?.uid == widget.trainerId;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.courseName),
@@ -155,13 +153,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   }
 
   Widget _buildPostsList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('course_wall')
-          .where('courseId', isEqualTo: widget.courseId).orderBy('createdAt', descending: true).snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) return Center(child: Text('حدث خطأ: ${snapshot.error}'));
-        if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+    final postsAsync = ref.watch(wallPostsStreamProvider(widget.courseId));
+    return postsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text('حدث خطأ: $e')),
+      data: (posts) {
+        if (posts.isEmpty) {
           return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -173,18 +170,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
             ),
           );
         }
-
-        final posts = snapshot.data!.docs;
         return ListView.builder(
           reverse: true,
           padding: const EdgeInsets.all(8.0),
           itemCount: posts.length,
           itemBuilder: (context, index) {
-            final post = posts[index];
-            final postData = post.data() as Map<String, dynamic>;
-            final content = postData['content'] as String;
-            final author = postData['authorEmail'] as String? ?? 'غير معروف';
-
+            final WallPost post = posts[index];
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8),
               elevation: 1,
@@ -200,11 +191,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'نشر بواسطة: $author',
+                          'نشر بواسطة: ${post.authorId}',
                           style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                         ),
                         const SizedBox(height: 8),
-                        Text(content, style: const TextStyle(fontSize: 16, height: 1.5)),
+                        Text(post.content, style: const TextStyle(fontSize: 16, height: 1.5)),
                       ],
                     ),
                   ),

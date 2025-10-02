@@ -19,13 +19,16 @@ class AuthService {
   }
 
   // Sign Up with Email and Password
-  Future<UserCredential?> signUpWithEmail(String email, String password, String name, String userType) async {
+  /// Unified: parameter [role] replaces previous (userType) to avoid schema divergence.
+  Future<UserCredential?> signUpWithEmail(String email, String password, String name, String role) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'name': name,
         'email': email,
-        'userType': userType, // 'trainer' or 'trainee'
+        // Unified field name: always use 'role' ('trainer' | 'trainee').
+        'role': role,
+        'createdAt': FieldValue.serverTimestamp(),
       });
       return userCredential;
     } catch (e) {

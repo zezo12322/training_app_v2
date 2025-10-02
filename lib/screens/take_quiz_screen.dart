@@ -1,9 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
+import 'package:training_app/core/logging.dart';
+import 'package:training_app/models/quiz_question.dart';
+import 'package:training_app/providers/quiz_providers.dart';
 import 'quiz_results_screen.dart'; // استيراد شاشة النتائج
 
-class TakeQuizScreen extends StatefulWidget {
+class TakeQuizScreen extends ConsumerStatefulWidget {
   final String quizId;
   final String quizTitle;
 
@@ -14,16 +18,17 @@ class TakeQuizScreen extends StatefulWidget {
   });
 
   @override
-  State<TakeQuizScreen> createState() => _TakeQuizScreenState();
+  @override
+  ConsumerState<TakeQuizScreen> createState() => _TakeQuizScreenState();
 }
 
-class _TakeQuizScreenState extends State<TakeQuizScreen> {
-  List<QueryDocumentSnapshot> _questions = [];
+class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
+  List<QuizQuestion> _questions = [];
   bool _isLoading = true;
   int _currentQuestionIndex = 0;
 
-  // Map لتخزين إجابات المستخدم (Key: questionId, Value: selectedOptionIndex)
-  final Map<String, int> _userAnswers = {};
+  // إجابات: للاختيار من متعدد نخزن index، وللنصي نخزن النص.
+  final Map<String, dynamic> _userAnswers = {};
 
   @override
   void initState() {
@@ -33,67 +38,57 @@ class _TakeQuizScreenState extends State<TakeQuizScreen> {
 
   Future<void> _fetchQuestions() async {
     try {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('quiz_questions')
-          .where('quizId', isEqualTo: widget.quizId)
-          .orderBy('createdAt')
-          .get();
-      setState(() {
-        _questions = snapshot.docs;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() { _isLoading = false; });
-      print(e);
-    }
+      final repo = ref.read(quizRepositoryProvider);
+      final qs = await repo.fetchQuestionsOnce(widget.quizId);
+      setState(() { _questions = qs; _isLoading = false; });
+    } catch (e, st) { setState(() { _isLoading = false; }); logger.e('Failed loading quiz questions', error: e, stackTrace: st); }
   }
 
   void _submitQuiz() async {
     setState(() { _isLoading = true; });
 
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) return;
-
-    // 1. حساب النتيجة
-    int score = 0;
-    for (var question in _questions) {
-      final correctAnswerIndex = question['correctAnswerIndex'] as int;
-      final userAnswerIndex = _userAnswers[question.id];
-      if (userAnswerIndex != null && userAnswerIndex == correctAnswerIndex) {
-        score++;
-      }
-    }
-
+  final currentUser = ref.read(authStateProvider).value;
+  if (currentUser == null) return;
     try {
-      // 2. حفظ نتيجة التسليم في قاعدة البيانات
-      await FirebaseFirestore.instance.collection('quiz_submissions').add({
-        'quizId': widget.quizId,
-        'quizTitle': widget.quizTitle,
-        'traineeId': currentUser.uid,
-        'traineeEmail': currentUser.email,
-        'score': score,
-        'totalQuestions': _questions.length,
-        'submittedAt': FieldValue.serverTimestamp(),
-        'answers': _userAnswers,
-      });
-
-      // 3. الانتقال إلى شاشة عرض النتيجة
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => QuizResultsScreen(
-              score: score,
-              totalQuestions: _questions.length,
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ أثناء تسليم الإجابات: $e')));
-      }
+      final repo = ref.read(quizRepositoryProvider);
+      final res = await repo.submitQuiz(
+        quizId: widget.quizId,
+        quizTitle: widget.quizTitle,
+        traineeId: currentUser.uid,
+        traineeEmail: currentUser.email ?? '',
+        questions: _questions,
+        userAnswers: _userAnswers,
+      );
+      res.when(
+        success: (_) {
+          int autoScore = 0;
+          for (final q in _questions) {
+            if (q.type == QuizQuestionType.multipleChoice) {
+              final user = _userAnswers[q.id] as int?;
+              if (user != null && user == q.correctAnswerIndex) autoScore++;
+            } else if (q.type == QuizQuestionType.matching) {
+              final ans = _userAnswers[q.id];
+              if (ans is Map) {
+                bool allCorrect = true;
+                q.correctPairs?.forEach((k, v) { if (ans[k] != v) allCorrect = false; });
+                if (allCorrect) autoScore++;
+              }
+            }
+          }
+          if (mounted) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => QuizResultsScreen(score: autoScore, totalQuestions: _questions.length),
+            ));
+          }
+        },
+        failure: (f) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('فشل التسليم: ${f.message}')));
+          }
+        },
+      );
     } finally {
-      if(mounted) setState(() { _isLoading = false; });
+      if (mounted) setState(() { _isLoading = false; });
     }
   }
 
@@ -133,26 +128,78 @@ class _TakeQuizScreenState extends State<TakeQuizScreen> {
               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 8),
-            Text(
-              _questions[_currentQuestionIndex]['questionText'],
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text(_questions[_currentQuestionIndex].questionText, style: Theme.of(context).textTheme.headlineSmall),
             const Divider(height: 32),
-
-            ...(_questions[_currentQuestionIndex]['options'] as List<dynamic>).asMap().entries.map((entry) {
-              int optionIndex = entry.key;
-              String optionText = entry.value;
-              return RadioListTile<int>(
-                title: Text(optionText),
-                value: optionIndex,
-                groupValue: _userAnswers[_questions[_currentQuestionIndex].id],
-                onChanged: (value) {
-                  setState(() {
-                    _userAnswers[_questions[_currentQuestionIndex].id] = value!;
-                  });
-                },
-              );
-            }).toList(),
+            Builder(
+              builder: (_) {
+                final q = _questions[_currentQuestionIndex];
+                final type = q.type;
+                if (type == QuizQuestionType.multipleChoice) {
+                  final opts = q.options ?? [];
+                  return Column(
+                    children: opts.asMap().entries.map((entry) {
+                      final optionIndex = entry.key;
+                      final optionText = entry.value;
+                      return RadioListTile<int>(
+                        title: Text(optionText),
+                        value: optionIndex,
+                        groupValue: _userAnswers[q.id] as int?,
+                        onChanged: (value) {
+                          setState(() {
+                            _userAnswers[q.id] = value!;
+                          });
+                        },
+                      );
+                    }).toList(),
+                  );
+                } else if (type == QuizQuestionType.shortText) {
+                  return TextFormField(
+                    initialValue: _userAnswers[q.id] as String?,
+                    decoration: const InputDecoration(labelText: 'إجابتك القصيرة', border: OutlineInputBorder()),
+                    onChanged: (val) => _userAnswers[q.id] = val,
+                  );
+                } else if (type == QuizQuestionType.longText) {
+                  return TextFormField(
+                    initialValue: _userAnswers[q.id] as String?,
+                    maxLines: 6,
+                    decoration: const InputDecoration(labelText: 'إجابتك المقالية', border: OutlineInputBorder()),
+                    onChanged: (val) => _userAnswers[q.id] = val,
+                  );
+                } else if (type == QuizQuestionType.matching) {
+                  // Display each left item with dropdown of right items
+                  final left = q.leftItems ?? [];
+                  final right = q.rightItems ?? [];
+                  _userAnswers[q.id] ??= <String, int>{};
+                  return Column(
+                    children: left.asMap().entries.map((entry) {
+                      final leftIndex = entry.key;
+                      final leftText = entry.value;
+                      final currentMap = _userAnswers[q.id] as Map<String, int>;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: Row(
+                          children: [
+                            Expanded(child: Text(leftText)),
+                            const SizedBox(width: 12),
+                            DropdownButton<int>(
+                              value: currentMap[leftIndex.toString()],
+                              hint: const Text('اختر'),
+                              items: right.asMap().entries.map((e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
+                              onChanged: (val) {
+                                setState(() {
+                                  currentMap[leftIndex.toString()] = val ?? 0;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }
+                return const Text('نوع سؤال غير مدعوم بعد');
+              },
+            ),
 
             const Spacer(),
 

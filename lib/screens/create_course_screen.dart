@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/course_providers.dart';
+import 'package:training_app/providers/auth_provider.dart';
 
-class CreateCourseScreen extends StatefulWidget {
+class CreateCourseScreen extends ConsumerStatefulWidget {
   const CreateCourseScreen({super.key});
 
   @override
-  State<CreateCourseScreen> createState() => _CreateCourseScreenState();
+  ConsumerState<CreateCourseScreen> createState() => _CreateCourseScreenState();
 }
 
-class _CreateCourseScreenState extends State<CreateCourseScreen> {
+class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
   final _courseNameController = TextEditingController();
   bool _isLoading = false;
   String? _generatedCode;
@@ -25,12 +25,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     );
   }
 
-  String _generateUniqueCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final rand = Random();
-    return List.generate(6, (index) => chars[rand.nextInt(chars.length)]).join();
-  }
-
   Future<void> _createCourse() async {
     if (_courseNameController.text.trim().isEmpty) {
       _showSnackBar('يرجى إدخال اسم للكورس');
@@ -39,26 +33,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     setState(() { _isLoading = true; });
 
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        throw Exception('المستخدم غير مسجل دخوله');
-      }
-
-      final courseCode = _generateUniqueCode();
-
-      await FirebaseFirestore.instance.collection('courses').add({
-        'name': _courseNameController.text.trim(),
-        'trainerId': user.uid,
-        'trainerEmail': user.email,
-        'courseCode': courseCode,
-        'createdAt': FieldValue.serverTimestamp(), // <<<--- تم تصحيح الخطأ هنا
-        'trainees': [],
-      });
-
-      setState(() {
-        _generatedCode = courseCode;
-      });
-      _showSnackBar('تم إنشاء الكورس بنجاح!', isError: false);
+      final result = await ref.read(courseRepositoryProvider).createCourse(
+            name: _courseNameController.text.trim(),
+            trainerId: ref.read(authStateProvider).value?.uid ?? '',
+          );
+      result.when(
+        success: (course) {
+          setState(() { _generatedCode = course.courseCode; });
+          _showSnackBar('تم إنشاء الكورس بنجاح!', isError: false);
+        },
+        failure: (f) => _showSnackBar('فشل إنشاء الكورس: ${f.message}'),
+      );
 
     } catch (e) {
       _showSnackBar('حدث خطأ أثناء إنشاء الكورس: $e');

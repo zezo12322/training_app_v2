@@ -1,22 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart'; // <<< استيراد حزمة تشغيل الصوت
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:audioplayers/audioplayers.dart';
+import '../providers/auth_provider.dart';
+import '../providers/evaluation_providers.dart';
+import '../models/evaluation.dart';
 
-class MyEvaluationsScreen extends StatefulWidget { // <<< تحويلها إلى StatefulWidget
+class MyEvaluationsScreen extends ConsumerStatefulWidget {
   final String courseId;
-
-  const MyEvaluationsScreen({
-    super.key,
-    required this.courseId,
-  });
+  const MyEvaluationsScreen({super.key, required this.courseId});
 
   @override
-  State<MyEvaluationsScreen> createState() => _MyEvaluationsScreenState();
+  ConsumerState<MyEvaluationsScreen> createState() => _MyEvaluationsScreenState();
 }
 
-class _MyEvaluationsScreenState extends State<MyEvaluationsScreen> {
-  // --- متغيرات جديدة لإدارة حالة الصوت ---
+class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
   String? _currentlyPlayingUrl;
@@ -24,33 +21,30 @@ class _MyEvaluationsScreenState extends State<MyEvaluationsScreen> {
   @override
   void initState() {
     super.initState();
-    // الاستماع لانتهاء تشغيل الملف الصوتي لإعادة الأيقونة لوضعها الطبيعي
     _audioPlayer.onPlayerComplete.listen((event) {
-      setState(() {
-        _isPlaying = false;
-        _currentlyPlayingUrl = null;
-      });
+      if (mounted) {
+        setState(() {
+          _isPlaying = false;
+          _currentlyPlayingUrl = null;
+        });
+      }
     });
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose(); // --- إيقاف المشغل عند الخروج من الشاشة
+    _audioPlayer.dispose();
     super.dispose();
   }
 
-  // --- دالة جديدة لتشغيل وإيقاف الصوت ---
   Future<void> _toggleAudio(String url) async {
-    // إذا كان الملف الحالي هو الذي يعمل، قم بإيقافه
     if (_isPlaying && _currentlyPlayingUrl == url) {
       await _audioPlayer.pause();
       setState(() {
         _isPlaying = false;
       });
     } else {
-      // إيقاف أي ملف صوتي آخر قد يكون يعمل
       await _audioPlayer.stop();
-      // تشغيل الملف الصوتي الجديد من الرابط
       await _audioPlayer.play(UrlSource(url));
       setState(() {
         _isPlaying = true;
@@ -61,96 +55,80 @@ class _MyEvaluationsScreenState extends State<MyEvaluationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
-      return const Scaffold(body: Center(child: Text('يجب تسجيل الدخول أولاً')));
-    }
-
+    final authAsync = ref.watch(authStateProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('التقييمات الخاصة بي'),
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('evaluations')
-            .where('courseId', isEqualTo: widget.courseId)
-            .where('traineeId', isEqualTo: currentUser.uid)
-            .orderBy('createdAt', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+      appBar: AppBar(title: const Text('التقييمات الخاصة بي')),
+      body: authAsync.when(
+        data: (user) {
+          if (user == null) {
+            return const Center(child: Text('يجب تسجيل الدخول أولاً'));
           }
-          if (snapshot.hasError) {
-            return Center(child: Text('حدث خطأ: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('لم يتم إضافة أي تقييمات لك بعد.'));
-          }
-
-          final evaluations = snapshot.data!.docs;
-
-          return ListView.builder(
-            itemCount: evaluations.length,
-            itemBuilder: (context, index) {
-              final eval = evaluations[index].data() as Map<String, dynamic>;
-              final score = eval['score'] as int;
-              final feedback = eval['feedback'] as String;
-              final audioUrl = eval['audioUrl'] as String?; // <-- جلب رابط الصوت
-              final timestamp = eval['createdAt'] as Timestamp?;
-
-              final date = timestamp?.toDate();
-              final formattedDate = date != null ? '${date.year}/${date.month}/${date.day}' : 'بدون تاريخ';
-
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          final evalsStream = ref.watch(
+            userEvaluationsProvider((courseId: widget.courseId, traineeId: user.uid)),
+          );
+          return evalsStream.when(
+            data: (list) {
+              if (list.isEmpty) {
+                return const Center(child: Text('لم يتم إضافة أي تقييمات لك بعد.'));
+              }
+              return ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  final EvaluationModel eval = list[index];
+                  final date = eval.createdAt;
+                  final formattedDate = date != null ? '${date.year}/${date.month}/${date.day}' : 'بدون تاريخ';
+                  return Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    elevation: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('الدرجة: $score/100', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
-                          Text(formattedDate, style: const TextStyle(color: Colors.grey)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('الدرجة: ${eval.score}/100', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
+                              Text(formattedDate, style: const TextStyle(color: Colors.grey)),
+                            ],
+                          ),
+                          const Divider(height: 20),
+                          if (eval.feedback.isNotEmpty) ...[
+                            const Text('الملاحظات:', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 5),
+                            Text(eval.feedback, style: const TextStyle(fontSize: 16, height: 1.5)),
+                          ],
+                          if (eval.audioUrl != null) ...[
+                            const Divider(height: 20),
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    (_isPlaying && _currentlyPlayingUrl == eval.audioUrl)
+                                        ? Icons.pause_circle_filled
+                                        : Icons.play_circle_filled,
+                                  ),
+                                  iconSize: 40,
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () => _toggleAudio(eval.audioUrl!),
+                                ),
+                                const Text('استمع للتقييم الصوتي'),
+                              ],
+                            ),
+                          ],
                         ],
                       ),
-                      const Divider(height: 20),
-                      if (feedback.isNotEmpty) ...[
-                        const Text('الملاحظات:', style: TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 5),
-                        Text(feedback, style: const TextStyle(fontSize: 16, height: 1.5)),
-                      ],
-
-                      // --- الواجهة الجديدة لتشغيل الصوت ---
-                      // تظهر فقط إذا كان هناك رابط صوتي
-                      if (audioUrl != null) ...[
-                        const Divider(height: 20),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                  (_isPlaying && _currentlyPlayingUrl == audioUrl)
-                                      ? Icons.pause_circle_filled
-                                      : Icons.play_circle_filled
-                              ),
-                              iconSize: 40,
-                              color: Theme.of(context).primaryColor,
-                              onPressed: () => _toggleAudio(audioUrl),
-                            ),
-                            const Text('استمع للتقييم الصوتي'),
-                          ],
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, st) => Center(child: Text('خطأ: $e')),
           );
         },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('خطأ بالمصادقة: $e')),
       ),
     );
   }

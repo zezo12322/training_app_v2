@@ -1,17 +1,18 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
 
 enum UserRole { trainer, trainee }
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  ConsumerState<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends ConsumerState<SignupScreen> {
   // --- 1. إضافة Controller جديد للاسم ---
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -42,24 +43,14 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() { _isLoading = true; });
 
     try {
-      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      if (userCredential.user != null) {
-        // --- 2. إضافة حقل الاسم عند حفظ البيانات في Firestore ---
-        await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-          'uid': userCredential.user!.uid,
-          'name': _nameController.text.trim(), // <-- السطر الجديد هنا
-          'email': _emailController.text.trim(),
-          'role': _selectedRole == UserRole.trainer ? 'trainer' : 'trainee',
-          'createdAt': Timestamp.now(),
-        });
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') { _showSnackBar('كلمة المرور ضعيفة جدًا.'); }
-      else if (e.code == 'email-already-in-use') { _showSnackBar('هذا البريد الإلكتروني مستخدم بالفعل.'); }
-      else { _showSnackBar('حدث خطأ: ${e.message}'); }
+      await ref.read(authRepositoryProvider).signUp(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+            name: _nameController.text.trim(),
+            role: _selectedRole == UserRole.trainer ? 'trainer' : 'trainee',
+          );
+    } on Exception catch (e) {
+      _showSnackBar('فشل إنشاء الحساب: ${e.toString()}');
     } catch (e) {
       _showSnackBar('حدث خطأ غير متوقع: $e');
     } finally {

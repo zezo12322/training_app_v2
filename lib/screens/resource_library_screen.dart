@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:training_app/services/notification_service.dart'; // <<< استيراد
+import 'package:training_app/services/notification_service.dart'; // notification service
 import 'package:url_launcher/url_launcher.dart';
 
 class ResourceLibraryScreen extends StatefulWidget {
@@ -60,7 +60,7 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
         .map((doc) => doc.data()['oneSignalPlayerId'] as String?)
         .where((id) => id != null).toList().cast<String>();
 
-    await OneSignalNotificationService().sendNotification(
+    await OneSignalNotificationService().sendNotificationViaBackend(
       playerIds: playerIds,
       title: 'ملف جديد في: $courseName',
       content: 'تمت إضافة ملف جديد بعنوان: $fileName',

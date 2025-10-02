@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/auth_provider.dart';
+import 'package:training_app/providers/course_providers.dart';
 import 'join_course_screen.dart';
 import 'course_details_screen.dart';
 import 'profile_screen.dart';
 
-class TraineeHomeScreen extends StatelessWidget {
+class TraineeHomeScreen extends ConsumerWidget {
   const TraineeHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authUser = ref.watch(authStateProvider).value;
+    final userModel = ref.watch(currentUserModelProvider).value;
+    final coursesAsync = ref.watch(traineeCoursesProvider);
 
-    if (user == null) {
+    if (authUser == null) {
       return const Scaffold(body: Center(child: Text('المستخدم غير موجود')));
     }
 
@@ -31,32 +34,19 @@ class TraineeHomeScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => FirebaseAuth.instance.signOut(),
+            onPressed: () => ref.read(authRepositoryProvider).signOut(),
           ),
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FutureBuilder<DocumentSnapshot>(
-            future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                final userData = snapshot.data!.data() as Map<String, dynamic>;
-                final userName = userData['name'] ?? 'أيها المتدرب';
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Text(
-                    'أهلاً بك، $userName!',
-                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                );
-              }
-              return const Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Text('أهلاً بك!', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Text(
+              'أهلاً بك، ${userModel?.name ?? 'أيها المتدرب'}!',
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            ),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -64,67 +54,46 @@ class TraineeHomeScreen extends StatelessWidget {
           ),
           const Divider(indent: 16, endIndent: 16, height: 16),
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('courses')
-                  .where('trainees', arrayContains: user.uid)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Center(child: Text('حدث خطأ: ${snapshot.error}'));
-                }
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  // --- تحسين شاشة "لا يوجد بيانات" ---
+            child: coursesAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, _) => Center(child: Text('خطأ في التحميل: $err')),
+              data: (courses) {
+                if (courses.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.class_outlined, size: 80, color: Colors.grey[400]),
                         const SizedBox(height: 16),
-                        const Text(
-                          'لم تنضم إلى أي كورسات بعد',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                        const Text('لم تنضم إلى أي كورسات بعد', style: TextStyle(fontSize: 18)),
                         const SizedBox(height: 8),
-                        const Text(
-                          'اضغط على زر + للانضمام إلى كورس جديد',
-                          style: TextStyle(color: Colors.grey),
-                        ),
+                        const Text('اضغط على زر + للانضمام إلى كورس جديد', style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                   );
                 }
-
-                final courses = snapshot.data!.docs;
                 return ListView.builder(
-                  padding: const EdgeInsets.all(8.0), // مسافة حول القائمة كلها
+                  padding: const EdgeInsets.all(8.0),
                   itemCount: courses.length,
                   itemBuilder: (context, index) {
                     final course = courses[index];
-                    final courseName = course['name'] as String;
-                    final trainerEmail = course['trainerEmail'] as String?;
-
                     return Card(
-                      // --- تم تطبيق التحسينات هنا ---
                       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       elevation: 3,
-                      shadowColor: Colors.black.withOpacity(0.1),
+                      shadowColor: const Color(0x1A000000),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         leading: const Icon(Icons.class_, size: 30),
-                        title: Text(courseName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        subtitle: Text('المدرب: ${trainerEmail ?? 'غير معروف'}'),
+                        title: Text(course.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        subtitle: Text('المدرب: ${course.trainerId}'),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => CourseDetailsScreen(
                                 courseId: course.id,
-                                courseName: course['name'] as String,
-                                trainerId: course['trainerId'] as String,
+                                courseName: course.name,
+                                trainerId: course.trainerId,
                               ),
                             ),
                           );

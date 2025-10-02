@@ -46,18 +46,19 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // 2. بعد الإنشاء بنجاح، انتقل إلى شاشة إضافة الأسئلة
+      // 2. الانتقال إلى شاشة إضافة الأسئلة (عدم الإغلاق فوراً)
       if (mounted) {
-         Navigator.of(context).pushReplacement(
-           MaterialPageRoute(
-             builder: (context) => AddQuestionScreen(quizId: quizDocRef.id),
-           ),
-         );
-        // سنقوم بتفعيل هذا الكود بعد إنشاء الشاشة التالية
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('تم إنشاء الاختبار بنجاح! الخطوة التالية هي إضافة الأسئلة.'), backgroundColor: Colors.green)
+          const SnackBar(
+            content: Text('تم إنشاء الاختبار - أضف الأسئلة الآن'),
+            backgroundColor: Colors.green,
+          ),
         );
-        Navigator.of(context).pop();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AddQuestionScreen(quizId: quizDocRef.id),
+          ),
+        );
       }
 
     } catch (e) {

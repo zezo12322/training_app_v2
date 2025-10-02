@@ -1,13 +1,24 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:training_app/core/logging.dart';
 
 class OneSignalNotificationService {
-  // --- ضع مفاتيح OneSignal هنا ---
-  final String _appId = 'c89cafa8-1e04-4b6a-bcf8-43ccae9c37cd'; // 🚨 استبدل هذا
-  final String _restApiKey = 'os_v2_app_zcok7ka6arfwvphyipgk5hbxzxky5pdoeonunzfxwia2ankigt6jqlhohcrme4hvpk7xdqe5tzhzg5buv7cems6imzspzamtbwxkyai'; // 🚨 استبدل هذا
+  // SECURITY NOTE:
+  // The previous version hard‑coded OneSignal APP ID & REST API KEY here.
+  // Storing secrets in client code is insecure (can be extracted from the APK/IPA).
+  // Action taken: remove secrets & replace with indirection.
+  // Next steps:
+  //   1. Store APP ID only (public) via --dart-define or remote config if needed.
+  //   2. Move REST API key usage to a backend (e.g. Firebase Cloud Function callable) that
+  //      performs the HTTPS request to OneSignal.
+  //   3. This service will only register the device & call backend for sending notifications.
+
+  // Placeholder (non-sensitive). Provide via --dart-define=ONE_SIGNAL_APP_ID=XXXX
+  final String _appId = const String.fromEnvironment('ONE_SIGNAL_APP_ID', defaultValue: 'REPLACE_ME');
+
+  // Deprecated: DO NOT PLACE REST API KEY HERE.
+  // final String _restApiKey = 'REMOVED';
 
   Future<void> initOneSignal() async {
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
@@ -31,30 +42,33 @@ class OneSignalNotificationService {
   }
 
   // --- دالة جديدة لإرسال الإشعارات ---
-  Future<void> sendNotification({
+  /// Instead of calling OneSignal REST API directly (which needs a secret),
+  /// call a secure backend endpoint / cloud function that performs the send.
+  /// Example expected callable function name: sendOneSignalNotification
+  /// (Implementation not included here to avoid mixing backend code.)
+  Future<void> sendNotificationViaBackend({
     required List<String> playerIds,
     required String title,
     required String content,
   }) async {
     if (playerIds.isEmpty) return;
-
-    try {
-      await http.post(
-        Uri.parse('https://onesignal.com/api/v1/notifications'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Basic $_restApiKey',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "app_id": _appId,
-          "include_player_ids": playerIds,
-          "headings": {"en": title},
-          "contents": {"en": content},
-        }),
-      );
-      print('OneSignal: Notification sent successfully to ${playerIds.length} users.');
-    } catch (e) {
-      print('OneSignal: Error sending notification: $e');
-    }
+    // Placeholder: Replace with Firebase Functions HTTPS callable.
+    // Example:
+    // final callable = FirebaseFunctions.instance.httpsCallable('sendOneSignalNotification');
+    // await callable.call({
+    //   'playerIds': playerIds,
+    //   'title': title,
+    //   'content': content,
+    // });
+    // For now just log intent:
+  logger.d('[DEBUG] Would send notification to ${playerIds.length} players (delegated to backend).');
   }
+
+  // Backward compatibility for existing code still calling sendNotification.
+  @Deprecated('Use sendNotificationViaBackend which routes through secure backend.')
+  Future<void> sendNotification({
+    required List<String> playerIds,
+    required String title,
+    required String content,
+  }) => sendNotificationViaBackend(playerIds: playerIds, title: title, content: content);
 }

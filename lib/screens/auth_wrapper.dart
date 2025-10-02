@@ -23,26 +23,20 @@ class AuthWrapper extends ConsumerWidget {
           // بمجرد التأكد من وجود مستخدم، نقوم بتهيئة OneSignal
           OneSignalNotificationService().initOneSignal();
 
-          // الآن نستمع للـ Provider الذي يجلب بيانات المستخدم
-          final userDetailsProvider = ref.watch(currentUserProvider);
-
-          return userDetailsProvider.when(
-            data: (userDoc) {
-              if (userDoc != null && userDoc.exists) {
-                // انتبه: تم التعديل من 'userType' إلى 'role' لمطابقة الكود القديم
-                final userRole = userDoc['role'] ?? 'trainee';
-
-                if (userRole == 'trainer') {
-                  return const TrainerHomeScreen();
-                } else {
-                  return const TraineeHomeScreen();
-                }
-              }
-              // إذا لم يتم العثور على بيانات المستخدم، يتم إرجاعه لشاشة تسجيل الدخول
-              return const LoginScreen();
+          final userModelAsync = ref.watch(currentUserModelProvider);
+          return userModelAsync.when(
+            data: (appUser) {
+              if (appUser == null) return const LoginScreen();
+              final role = appUser.role;
+              if (role == 'trainer') return const TrainerHomeScreen();
+              return const TraineeHomeScreen();
             },
-            loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
-            error: (err, stack) => Scaffold(body: Center(child: Text('Error loading user data: $err'))),
+            loading: () => const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+            error: (err, stack) => Scaffold(
+              body: Center(child: Text('Error loading user data: $err')),
+            ),
           );
         }
       },
