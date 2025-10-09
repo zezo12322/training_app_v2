@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "564201926492",
+    "project_id": "trainingapp-mvp",
+    "storage_bucket": "trainingapp-mvp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564201926492:android:7d2d209e8661b460175b99",
+        "android_client_info": {
+          "package_name": "com.example.training_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3GAqXRfsz1DCCGzLDpNAV1dxWbJw4YEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564201926492:android:b7f19bd92cd5972c175b99",
+        "android_client_info": {
+          "package_name": "com.example.training_app_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3GAqXRfsz1DCCGzLDpNAV1dxWbJw4YEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564201926492:android:66a0efc7f68a3f65175b99",
+        "android_client_info": {
+          "package_name": "com.tadreeblink.unity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3GAqXRfsz1DCCGzLDpNAV1dxWbJw4YEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -28,23 +28,35 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
       return;
     }
 
-    setState(() { _isLoading = true; });
+    setState(() {
+      _isLoading = true;
+    });
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       // التعامل مع حالة عدم وجود مستخدم
-      setState(() { _isLoading = false; });
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
 
     try {
       // 1. إضافة مستند الاختبار الجديد إلى Firestore
-      final quizDocRef = await FirebaseFirestore.instance.collection('quizzes').add({
-        'title': _titleController.text.trim(),
-        'courseId': widget.courseId,
-        'trainerId': currentUser.uid,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      final quizDocRef = await FirebaseFirestore.instance
+          .collection('quizzes')
+          .add({
+            'title': _titleController.text.trim(),
+            'courseId': widget.courseId,
+            'trainerId': currentUser.uid,
+            'createdAt': FieldValue.serverTimestamp(),
+            // Added default fields so quiz hub shows consistent info immediately
+            'totalQuestions': 0,
+            'passScore': 60,
+            'allowRetake': true,
+            'maxAttempts': 2,
+            'rewardPoints': 15,
+          });
 
       // 2. الانتقال إلى شاشة إضافة الأسئلة (عدم الإغلاق فوراً)
       if (mounted) {
@@ -60,24 +72,28 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
           ),
         );
       }
-
     } catch (e) {
-      if(mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('حدث خطأ: $e'), backgroundColor: Colors.redAccent)
+          SnackBar(
+            content: Text('حدث خطأ: $e'),
+            backgroundColor: Colors.redAccent,
+          ),
         );
       }
     } finally {
-      if(mounted) setState(() { _isLoading = false; });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('إنشاء اختبار جديد'),
-      ),
+      appBar: AppBar(title: const Text('إنشاء اختبار جديد')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -103,13 +119,13 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
               _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton.icon(
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('التالي: إضافة الأسئلة'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                onPressed: _createQuizAndProceed,
-              ),
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text('التالي: إضافة الأسئلة'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      onPressed: _createQuizAndProceed,
+                    ),
             ],
           ),
         ),

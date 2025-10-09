@@ -7,6 +7,7 @@ final wallPostRepositoryProvider = Provider<WallPostRepository>((ref) {
   return WallPostRepository(FirebaseFirestore.instance);
 });
 
-final wallPostsStreamProvider = StreamProvider.autoDispose.family<List<WallPost>, String>((ref, courseId) {
-  return ref.read(wallPostRepositoryProvider).streamPosts(courseId);
-});
+final wallPostsStreamProvider = StreamProvider.autoDispose
+    .family<List<WallPost>, String>((ref, courseId) {
+      return ref.read(wallPostRepositoryProvider).streamPosts(courseId);
+    });

@@ -25,6 +25,7 @@ mixin _$WallPost {
   String get courseId => throw _privateConstructorUsedError;
   String get authorId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  String? get authorEmail => throw _privateConstructorUsedError;
   String? get fileUrl => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $WallPostCopyWith<$Res> {
     String courseId,
     String authorId,
     String content,
+    String? authorEmail,
     String? fileUrl,
     @TimestampConverter() DateTime? createdAt,
   });
@@ -73,6 +75,7 @@ class _$WallPostCopyWithImpl<$Res, $Val extends WallPost>
     Object? courseId = null,
     Object? authorId = null,
     Object? content = null,
+    Object? authorEmail = freezed,
     Object? fileUrl = freezed,
     Object? createdAt = freezed,
   }) {
@@ -94,6 +97,10 @@ class _$WallPostCopyWithImpl<$Res, $Val extends WallPost>
                 ? _value.content
                 : content // ignore: cast_nullable_to_non_nullable
                       as String,
+            authorEmail: freezed == authorEmail
+                ? _value.authorEmail
+                : authorEmail // ignore: cast_nullable_to_non_nullable
+                      as String?,
             fileUrl: freezed == fileUrl
                 ? _value.fileUrl
                 : fileUrl // ignore: cast_nullable_to_non_nullable
@@ -122,6 +129,7 @@ abstract class _$$WallPostImplCopyWith<$Res>
     String courseId,
     String authorId,
     String content,
+    String? authorEmail,
     String? fileUrl,
     @TimestampConverter() DateTime? createdAt,
   });
@@ -145,6 +153,7 @@ class __$$WallPostImplCopyWithImpl<$Res>
     Object? courseId = null,
     Object? authorId = null,
     Object? content = null,
+    Object? authorEmail = freezed,
     Object? fileUrl = freezed,
     Object? createdAt = freezed,
   }) {
@@ -166,6 +175,10 @@ class __$$WallPostImplCopyWithImpl<$Res>
             ? _value.content
             : content // ignore: cast_nullable_to_non_nullable
                   as String,
+        authorEmail: freezed == authorEmail
+            ? _value.authorEmail
+            : authorEmail // ignore: cast_nullable_to_non_nullable
+                  as String?,
         fileUrl: freezed == fileUrl
             ? _value.fileUrl
             : fileUrl // ignore: cast_nullable_to_non_nullable
@@ -187,6 +200,7 @@ class _$WallPostImpl extends _WallPost {
     required this.courseId,
     required this.authorId,
     required this.content,
+    this.authorEmail,
     this.fileUrl,
     @TimestampConverter() this.createdAt,
   }) : super._();
@@ -203,6 +217,8 @@ class _$WallPostImpl extends _WallPost {
   @override
   final String content;
   @override
+  final String? authorEmail;
+  @override
   final String? fileUrl;
   @override
   @TimestampConverter()
@@ -210,7 +226,7 @@ class _$WallPostImpl extends _WallPost {
 
   @override
   String toString() {
-    return 'WallPost(id: $id, courseId: $courseId, authorId: $authorId, content: $content, fileUrl: $fileUrl, createdAt: $createdAt)';
+    return 'WallPost(id: $id, courseId: $courseId, authorId: $authorId, content: $content, authorEmail: $authorEmail, fileUrl: $fileUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -224,6 +240,8 @@ class _$WallPostImpl extends _WallPost {
             (identical(other.authorId, authorId) ||
                 other.authorId == authorId) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.authorEmail, authorEmail) ||
+                other.authorEmail == authorEmail) &&
             (identical(other.fileUrl, fileUrl) || other.fileUrl == fileUrl) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
@@ -237,6 +255,7 @@ class _$WallPostImpl extends _WallPost {
     courseId,
     authorId,
     content,
+    authorEmail,
     fileUrl,
     createdAt,
   );
@@ -261,6 +280,7 @@ abstract class _WallPost extends WallPost {
     required final String courseId,
     required final String authorId,
     required final String content,
+    final String? authorEmail,
     final String? fileUrl,
     @TimestampConverter() final DateTime? createdAt,
   }) = _$WallPostImpl;
@@ -277,6 +297,8 @@ abstract class _WallPost extends WallPost {
   String get authorId;
   @override
   String get content;
+  @override
+  String? get authorEmail;
   @override
   String? get fileUrl;
   @override

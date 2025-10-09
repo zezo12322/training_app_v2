@@ -4,7 +4,13 @@ class Evaluation {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // دالة لإضافة تقييم جديد
-  Future<void> addEvaluation(String courseId, String traineeId, int score, String feedback, {required String trainerId}) async {
+  Future<void> addEvaluation(
+    String courseId,
+    String traineeId,
+    int score,
+    String feedback, {
+    required String trainerId,
+  }) async {
     try {
       await _firestore.collection('evaluations').add({
         'courseId': courseId,

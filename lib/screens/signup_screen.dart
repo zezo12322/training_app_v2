@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/providers/auth_provider.dart';
+import 'package:training_app/core/l10n_ext.dart';
+import 'package:training_app/core/ui/snackbar_helper.dart';
 
 enum UserRole { trainer, trainee }
 
@@ -19,42 +21,47 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _passwordController = TextEditingController();
   UserRole? _selectedRole;
   bool _isLoading = false;
+  bool _obscure = true;
+  final _formKey = GlobalKey<FormState>();
 
-  void _showSnackBar(String message) {
+  void _showSnackBar(String message, {bool isError = true}) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.redAccent),
-    );
+    AppSnackBar.show(context, message, isError: isError);
   }
 
   Future<void> _createAccount() async {
-    // التحقق من أن جميع الحقول ممتلئة
-    if (_nameController.text.trim().isEmpty ||
-        _emailController.text.isEmpty ||
-        _passwordController.text.isEmpty) {
-      _showSnackBar('يرجى ملء جميع الحقول');
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
+    final l = context.l; // cache localization early
     if (_selectedRole == null) {
-      _showSnackBar('يرجى تحديد دورك (مدرب أو متدرب)');
+      _showSnackBar(l.selectRoleError);
       return;
     }
 
-    setState(() { _isLoading = true; });
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
 
     try {
-      await ref.read(authRepositoryProvider).signUp(
+      await ref
+          .read(authRepositoryProvider)
+          .signUp(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
             name: _nameController.text.trim(),
             role: _selectedRole == UserRole.trainer ? 'trainer' : 'trainee',
           );
+      if (!mounted) return; // user may have left screen
+      Navigator.of(context).pop();
     } on Exception catch (e) {
-      _showSnackBar('فشل إنشاء الحساب: ${e.toString()}');
+      _showSnackBar(l.signupFailed(e.toString()));
     } catch (e) {
-      _showSnackBar('حدث خطأ غير متوقع: $e');
+      _showSnackBar(l.unexpectedError(e.toString()));
     } finally {
-      if (mounted) { setState(() { _isLoading = false; }); }
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -68,72 +75,131 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('إنشاء حساب جديد')),
+      appBar: AppBar(title: Text(l.signupTitle)),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              // --- 3. إضافة حقل إدخال الاسم في الواجهة ---
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'الاسم الكامل',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                // --- 3. إضافة حقل إدخال الاسم في الواجهة ---
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: l.fullNameLabel,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.person),
+                  ),
+                  textCapitalization: TextCapitalization.words,
+                  validator: (v) =>
+                      (v == null || v.trim().isEmpty) ? l.fieldRequired : null,
                 ),
-                textCapitalization: TextCapitalization.words,
-              ),
-              const SizedBox(height: 12),
-
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'البريد الإلكتروني', border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'كلمة المرور', border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock)),
-              ),
-              const SizedBox(height: 20),
-              const Text('اختر دورك:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<UserRole>(
-                      title: const Text('مدرب'), value: UserRole.trainer, groupValue: _selectedRole,
-                      onChanged: (value) => setState(() => _selectedRole = value),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: l.emailLabel,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.email),
+                  ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) return l.fieldRequired;
+                    if (!v.contains('@')) return l.invalidEmail;
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: _obscure,
+                  decoration: InputDecoration(
+                    labelText: l.passwordLabel,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      onPressed: () => setState(() => _obscure = !_obscure),
+                      icon: Icon(
+                        _obscure ? Icons.visibility : Icons.visibility_off,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: RadioListTile<UserRole>(
-                      title: const Text('متدرب'), value: UserRole.trainee, groupValue: _selectedRole,
-                      onChanged: (value) => setState(() => _selectedRole = value),
-                    ),
+                  validator: (v) =>
+                      (v == null || v.length < 6) ? l.passwordTooShort : null,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  l.chooseRole,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
-                onPressed: _createAccount,
-                child: const Text('إنشاء الحساب'),
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('لديك حساب بالفعل؟ تسجيل الدخول'),
-              ),
-            ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<UserRole>(
+                        title: Text(l.roleTrainer),
+                        value: UserRole.trainer,
+                        groupValue: _selectedRole,
+                        onChanged: (value) =>
+                            setState(() => _selectedRole = value),
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile<UserRole>(
+                        title: Text(l.roleTrainee),
+                        value: UserRole.trainee,
+                        groupValue: _selectedRole,
+                        onChanged: (value) =>
+                            setState(() => _selectedRole = value),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: _isLoading ? null : _createAccount,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    child: _isLoading
+                        ? const SizedBox(
+                            key: ValueKey('prog'),
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(key: const ValueKey('text'), l.signupAction),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.login, size: 18),
+                      const SizedBox(width: 6),
+                      Text(l.haveAccountLogin),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

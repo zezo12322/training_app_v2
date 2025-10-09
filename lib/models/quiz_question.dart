@@ -25,11 +25,14 @@ class QuizQuestion with _$QuizQuestion {
     // Matching specific
     List<String>? leftItems,
     List<String>? rightItems,
-    Map<String, int>? correctPairs, // key: left index (string), value: right index
+    Map<String, int>?
+    correctPairs, // key: left index (string), value: right index
     DateTime? createdAt,
   }) = _QuizQuestion;
 
-  factory QuizQuestion.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory QuizQuestion.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     final data = doc.data()!;
     return QuizQuestion(
       id: doc.id,
@@ -37,11 +40,24 @@ class QuizQuestion with _$QuizQuestion {
       questionText: data['questionText'] as String,
       type: data['type'] as String? ?? QuizQuestionType.multipleChoice,
       options: (data['options'] as List?)?.map((e) => e.toString()).toList(),
-      correctAnswerIndex: data['correctAnswerIndex'] is int ? data['correctAnswerIndex'] as int : null,
-      leftItems: (data['leftItems'] as List?)?.map((e) => e.toString()).toList(),
-      rightItems: (data['rightItems'] as List?)?.map((e) => e.toString()).toList(),
-      correctPairs: (data['correctPairs'] as Map?)?.map((k, v) => MapEntry(k.toString(), v is int ? v : int.tryParse(v.toString()) ?? -1)),
-      createdAt: (data['createdAt'] is Timestamp) ? (data['createdAt'] as Timestamp).toDate() : null,
+      correctAnswerIndex: data['correctAnswerIndex'] is int
+          ? data['correctAnswerIndex'] as int
+          : null,
+      leftItems: (data['leftItems'] as List?)
+          ?.map((e) => e.toString())
+          .toList(),
+      rightItems: (data['rightItems'] as List?)
+          ?.map((e) => e.toString())
+          .toList(),
+      correctPairs: (data['correctPairs'] as Map?)?.map(
+        (k, v) => MapEntry(
+          k.toString(),
+          v is int ? v : int.tryParse(v.toString()) ?? -1,
+        ),
+      ),
+      createdAt: (data['createdAt'] is Timestamp)
+          ? (data['createdAt'] as Timestamp).toDate()
+          : null,
     );
   }
 
@@ -59,5 +75,6 @@ class QuizQuestion with _$QuizQuestion {
     };
   }
 
-  factory QuizQuestion.fromJson(Map<String, dynamic> json) => _$QuizQuestionFromJson(json);
+  factory QuizQuestion.fromJson(Map<String, dynamic> json) =>
+      _$QuizQuestionFromJson(json);
 }

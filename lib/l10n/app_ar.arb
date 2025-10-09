@@ -1,0 +1,385 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تطبيق التدريب",
+  "navDashboardTrainer": "لوحة",
+  "navHomeTrainee": "الرئيسية",
+  "navProfile": "حسابي",
+  "navSettings": "الإعدادات",
+  "actionNewCourse": "كورس جديد",
+  "actionJoin": "انضمام",
+  "greetingTrainer": "مرحباً، {name}!",
+  "@greetingTrainer": {"placeholders": {"name": {}}},
+  "greetingTrainerFallback": "مرحباً أيها المدرب!",
+  "greetingTrainee": "أهلاً بك، {name}!",
+  "@greetingTrainee": {"placeholders": {"name": {}}},
+  "greetingTraineeFallback": "أهلاً أيها المتدرب!",
+  "trainerCoursesSubtitle": "كورساتك الحالية:",
+  "traineeCoursesSubtitle": "كورساتك المسجل بها:",
+  "noTrainerCoursesTitle": "لم تقم بإنشاء أي كورسات بعد",
+  "noTrainerCoursesHint": "اضغط على زر + في الأسفل للبدء",
+  "noTraineeCoursesTitle": "لم تنضم إلى أي كورسات بعد",
+  "noTraineeCoursesHint": "اضغط على زر + للانضمام إلى كورس جديد",
+  "courseCodeLabel": "الكود: {code}",
+  "@courseCodeLabel": {"placeholders": {"code": {}}},
+  "onboardingTitle": "دليل سريع",
+  "onboardingPointDashboardTitle": "الرئيسية / اللوحة",
+  "onboardingPointDashboardBody": "عرض الكورسات وإدارة الأساسيات.",
+  "onboardingPointProfileTitle": "حسابي",
+  "onboardingPointProfileBody": "تحديث الاسم والصورة وبياناتك.",
+  "onboardingPointSettingsTitle": "الإعدادات",
+  "onboardingPointSettingsBody": "تحكم بالمظهر، الحركات، التشغيل.",
+  "onboardingRoleNote": "التبويب الأول يتغير حسب دورك (مدرب/متدرب)",
+  "onboardingStart": "ابدأ",
+  "onboardingLater": "لاحقاً",
+  "onboardingFullTour": "جولة كاملة",
+  "tourNext": "التالي",
+  "tourSkip": "تخطي",
+  "tourDone": "إنهاء",
+  "tourDashboardTitle": "اللوحة",
+  "tourDashboardBody": "نقطة البداية. تعرض ملخصات وإجراءات سريعة.",
+  "tourFabTitleTrainer": "إنشاء كورس",
+  "tourFabBodyTrainer": "من هنا تضيف كورساً جديداً للمتدربين.",
+  "tourFabTitleTrainee": "انضمام لكورس",
+  "tourFabBodyTrainee": "اضغط للانضمام باستخدام كود يرسله المدرب.",
+  "tourProfileTitle": "الملف الشخصي",
+  "tourProfileBody": "حرر اسمك وصورتك وشاهد الإحصائيات والإنجازات.",
+  "tourSettingsTitle": "الإعدادات",
+  "tourSettingsBody": "غيّر المظهر واللغة وتفضيلات الإشعارات.",
+  "loading": "جار التحميل...",
+  "errorGeneric": "خطأ: {error}",
+  "@errorGeneric": {"placeholders": {"error": {}}},
+  "notificationsTitle": "الإشعارات",
+  "notificationsSubtitle": "السماح بتنبيهات الدفع (OneSignal / FCM)",
+  "commentHint": "اكتب تعليقًا...",
+  "errorNetwork": "مشكلة في الشبكة. أعد المحاولة.",
+  "errorAuth": "خطأ مصادقة: {details}",
+  "@errorAuth": {"placeholders": {"details": {}}},
+  "errorNotFound": "العنصر غير موجود",
+  "errorNotFoundResource": "غير موجود: {resource}",
+  "@errorNotFoundResource": {"placeholders": {"resource": {}}},
+  "errorValidation": "بعض الحقول غير صحيحة",
+  "errorPermission": "ليست لديك صلاحية",
+  "errorRateLimited": "طلبات كثيرة جداً. حاول لاحقاً.",
+  "errorRateLimitedRetry": "أعد المحاولة بعد {seconds}ث",
+  "@errorRateLimitedRetry": {"placeholders": {"seconds": {}}},
+  "errorStorage": "حدث خطأ في التخزين",
+  "errorUnknown": "حدث خطأ غير متوقع",
+  "funAnimationsTitle": "الحركات الممتعة",
+  "funAnimationsSubtitle": "تفعيل الحركات اللطيفة عند العرض",
+  "autoplayAudioTitle": "تشغيل الصوت تلقائياً",
+  "autoplayAudioSubtitle": "عند فتح تقييم صوتي جديد",
+  "clearCacheTitle": "تفريغ الذاكرة المؤقتة",
+  "clearCacheSubtitle": "قد يحل بعض مشاكل التزامن",
+  "confirmationTitle": "تأكيد",
+  "clearCacheConfirm": "تنفيذ مسح صوري للذاكرة المؤقتة؟",
+  "cancelAction": "إلغاء",
+  "continueAction": "متابعة",
+  "cacheClearedToast": "تم مسح الكاش (صوريًا)",
+  "aboutTitle": "حول التطبيق",
+  "aboutSubtitle": "إصدار تجريبي للتدريب",
+  "logoutAction": "تسجيل الخروج",
+  "logoutConfirm": "هل أنت متأكد من تسجيل الخروج؟",
+  "logoutFailed": "فشل تسجيل الخروج: {error}","@logoutFailed":{"placeholders":{"error":{}}},
+  "dumpSettingsAction": "طباعة حالة الإعدادات في السجل",
+  "dumpSettingsToast": "تم إرسال الحالة إلى السجل",
+  "languagePickerTitle": "اللغة",
+  "systemLocaleLabel": "النظام",
+  "themeSystem": "النظام",
+  "themeLight": "فاتح",
+  "themeDark": "داكن",
+  "loginTitle": "تسجيل الدخول",
+  "loginWelcomeBack": "مرحباً بعودتك!",
+  "emailLabel": "البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "passwordTooShort": "على الأقل 6 أحرف",
+  "fieldRequired": "مطلوب",
+  "invalidEmail": "بريد غير صالح",
+  "loginAction": "تسجيل الدخول",
+  "signupNavigate": "ليس لديك حساب؟ إنشاء حساب جديد",
+  "signupTitle": "إنشاء حساب جديد",
+  "fullNameLabel": "الاسم الكامل",
+  "chooseRole": "اختر دورك:",
+  "roleTrainer": "مدرب",
+  "roleTrainee": "متدرب",
+  "signupAction": "إنشاء الحساب",
+  "haveAccountLogin": "لديك حساب بالفعل؟ تسجيل الدخول",
+  "selectRoleError": "يرجى تحديد دورك (مدرب أو متدرب)",
+  "createCourseTitle": "إنشاء كورس جديد",
+  "courseNameLabel": "اسم الكورس",
+  "createCourseAction": "إنشاء الكورس",
+  "courseCreatedSuccess": "تم إنشاء الكورس بنجاح!",
+  "shareCodeHint": "شارك هذا الكود مع متدربيك للانضمام:",
+  "backToHome": "العودة إلى الرئيسية",
+  "joinCourseTitle": "الانضمام إلى كورس",
+  "enterCourseCode": "أدخل كود الكورس",
+  "joinCourseAction": "انضمام",
+  "joinCourseSuccess": "تم الانضمام إلى الكورس بنجاح!",
+  "enterCourseCodeError": "يرجى إدخال كود الكورس",
+  "loginFailed": "فشل تسجيل الدخول: {error}",
+  "@loginFailed": {"placeholders": {"error": {}}},
+  "unexpectedError": "حدث خطأ غير متوقع: {error}",
+  "@unexpectedError": {"placeholders": {"error": {}}},
+  "signupFailed": "فشل إنشاء الحساب: {error}",
+  "@signupFailed": {"placeholders": {"error": {}}},
+  "createCourseFailed": "فشل إنشاء الكورس: {error}",
+  "@createCourseFailed": {"placeholders": {"error": {}}},
+  "joinCourseFailed": "فشل الانضمام إلى الكورس: {error}",
+  "@joinCourseFailed": {"placeholders": {"error": {}}},
+  "userNotLoggedIn": "المستخدم غير مسجل دخوله"
+  ,"threadTitle": "المناقشة"
+  ,"refreshTooltip": "تحديث"
+  ,"noRepliesYet": "لا يوجد ردود بعد"
+  ,"newTaskHint": "مهمة جديدة (خطة العمل)"
+  ,"addTaskTooltip": "إضافة مهمة"
+  ,"noTasksYet": "لا مهام بعد"
+  ,"pinAction": "تثبيت"
+  ,"unpinAction": "إلغاء التثبيت"
+  ,"copyTextAction": "نسخ النص"
+  ,"editAction": "تعديل"
+  ,"deleteAction": "حذف"
+  ,"copiedToast": "تم النسخ"
+  ,"writeReplyHint": "اكتب رد..."
+  ,"retryLabel": "إعادة"
+  ,"uploadingAudio": "جاري رفع الصوت..."
+  ,"audioFailed": "فشل"
+  ,"audioLabel": "صوت"
+  ,"editCancel": "إلغاء"
+  ,"editSave": "حفظ"
+  ,"pinnedReplyLabel": "رد مثبت (ID: {id})"
+  ,"@pinnedReplyLabel": {"placeholders": {"id": {}}}
+  ,"dashboardTitleTrainer": "لوحة التحكم"
+  ,"homeTitleTrainee": "الصفحة الرئيسية"
+  ,"userMissing": "المستخدم غير موجود"
+  ,"createCourseFab": "كورس جديد"
+  ,"loadMore": "تحميل المزيد"
+  ,"noTrainerCoursesTitleAlt": "لم تقم بإنشاء أي كورسات بعد"
+  ,"noTrainerCoursesHintAlt": "اضغط على زر + في الأسفل للبدء"
+  ,"noTraineeCoursesTitleAlt": "لم تنضم إلى أي كورسات بعد"
+  ,"noTraineeCoursesHintAlt": "اضغط على زر + للانضمام إلى كورس جديد"
+  ,"courseCodePrefix": "الكود: {code}"
+  ,"@courseCodePrefix": {"placeholders": {"code": {}}}
+  ,"trainerPrefix": "المدرب: {id}"
+  ,"@trainerPrefix": {"placeholders": {"id": {}}}
+  ,"discussionButton": "الحوار التدريبي"
+  ,"scoreLabel": "الدرجة: {score}/100"
+  ,"@scoreLabel": {"placeholders": {"score": {}}}
+  ,"noFeedback": "لا توجد ملاحظات"
+  ,"audioEvaluation": "التقييم الصوتي"
+  ,"audioPlayingNow": "قيد التشغيل الآن"
+  ,"audioTapToPlay": "إضغط للتشغيل"
+  ,"audioPlaySemantic": "تشغيل التقييم الصوتي"
+  ,"audioPauseSemantic": "إيقاف تشغيل التقييم الصوتي"
+  ,"loadCoursesError": "خطأ في تحميل الكورسات: {error}"
+  ,"@loadCoursesError": {"placeholders": {"error": {}}}
+  ,"loadErrorGeneric": "خطأ في التحميل: {error}"
+  ,"@loadErrorGeneric": {"placeholders": {"error": {}}}
+  ,"reportTitle": "تقرير: {email}"
+  ,"@reportTitle": {"placeholders": {"email": {}}}
+  ,"reportGeneralSection": "التقييمات العامة"
+  ,"reportQuizzesSection": "نتائج الاختبارات"
+  ,"reportNoEvaluations": "لا توجد تقييمات عامة لهذا المتدرب بعد."
+  ,"reportNoQuizzes": "لم يقم المتدرب بتسليم أي اختبارات بعد."
+  ,"addEvaluationFab": "إضافة تقييم جديد"
+  ,"scoreFieldLabel": "الدرجة (من 100)"
+  ,"scoreRequired": "يرجى إدخال الدرجة"
+  ,"scoreRangeError": "الرجاء إدخال درجة بين 0 و 100"
+  ,"feedbackFieldLabel": "الملاحظات والتقييم"
+  ,"feedbackRequired": "يرجى كتابة الملاحظات"
+  ,"audioSectionOptional": "إضافة تقييم صوتي (اختياري):"
+  ,"submitEvaluation": "إرسال التقييم"
+  ,"recordingStartLabel": "تسجيل تقييم صوتي"
+  ,"recordingInProgress": "جارٍ التسجيل"
+  ,"recordedLabel": "تم التسجيل"
+  ,"previewAudioLabel": "معاينة التسجيل الصوتي"
+  ,"previewButton": "معاينة"
+  ,"durationLabel": "المدة: {value}"
+  ,"@durationLabel": {"placeholders": {"value": {}}}
+  ,"reRecord": "إعادة التسجيل"
+  ,"autoStopRecording": "تم إيقاف التسجيل تلقائياً (٣ دقائق كحد أقصى)"
+  ,"previewPlayError": "تعذر تشغيل المعاينة: {error}"
+  ,"@previewPlayError": {"placeholders": {"error": {}}}
+  ,"trainerAccountMissing": "تعذر تحديد حساب المدرب. أعد تسجيل الدخول."
+  ,"evaluationSendSuccess": "تم إرسال التقييم بنجاح!"
+  ,"evaluationSendFailure": "فشل: {message}"
+  ,"@evaluationSendFailure": {"placeholders": {"message": {}}}
+  ,"unexpectedErrorMsg": "خطأ غير متوقع: {error}"
+  ,"@unexpectedErrorMsg": {"placeholders": {"error": {}}}
+  ,"courseNameFallback": "أحد كورساتك"
+  ,"notificationNewEvaluationTitle": "لديك تقييم جديد!"
+  ,"notificationNewEvaluationBody": "قام مدربك بإضافة تقييم جديد لك في كورس: {courseName}"
+  ,"@notificationNewEvaluationBody": {"placeholders": {"courseName": {}}}
+  ,"cancelRecordingTitle": "إلغاء التسجيل؟"
+  ,"cancelRecordingBody": "أنت تسجل الآن. هل تريد إنهاء و فقدان التسجيل الحالي؟"
+  ,"dialogNo": "لا"
+  ,"dialogYes": "نعم"
+  ,"commentUnknownUser": "مستخدم غير معروف"
+  ,"commentFallbackName": "مستخدم"
+  ,"leaderboardTitle": "لوحة الصدارة"
+  ,"leaderboardEmpty": "لا توجد بيانات بعد"
+  ,"leaderboardPoints": "{points} نقطة"
+  ,"@leaderboardPoints": {"placeholders": {"points": {}}}
+  ,"searchUsersLabel": "ابحث عن المستخدمين بالاسم أو البريد"
+  ,"noResults": "لا توجد نتائج"
+  ,"assignSelectedAction": "تعيين المحددين"
+  ,"selectAtLeastOneUser": "اختر مستخدمًا واحدًا على الأقل"
+  ,"assignmentCompletedToast": "تم تعيين {count} عضو/أعضاء"
+  ,"@assignmentCompletedToast": {"placeholders": {"count": {}}}
+  ,"removeMemberConfirm": "هل تريد إزالة هذا العضو من القسم؟"
+  ,"memberRemovedToast": "تمت إزالة العضو"
+  ,"departmentCreatedToast": "تم إنشاء القسم: {name}"
+  ,"@departmentCreatedToast": {"placeholders": {"name": {}}}
+  ,"alreadyMemberLabel": "عضو بالفعل في هذا القسم"
+  ,"pointsLabel": "النقاط"
+  ,"dashboardSeeAll": "عرض الكل"
+  ,"timelineFilterAll": "الكل"
+  ,"timelineFilterQuizzes": "الاختبارات"
+  ,"timelineFilterTasks": "المهام"
+  ,"timelineFilterLessons": "الدروس"
+  ,"timelineFilterStreak": "السلسلة"
+  ,"timelineNoMoreEvents": "لا مزيد من الأحداث"
+  ,"nextBadgeShort": "الشارة التالية"
+  ,"badgesLabel": "الشارات"
+  ,"levelLabel": "المستوى {level}"
+  ,"@levelLabel": {"placeholders": {"level": {}}}
+  ,"earnedBadgesSection": "مكتسبة"
+  ,"allBadgesSection": "الكل"
+  ,"noBadgesYet": "لا شارات بعد"
+  ,"reviewsTitle": "التقييمات"
+  ,"addReviewAction": "إضافة تقييم"
+  ,"ratingLabel": "التقييم"
+  ,"reviewSubmitSuccess": "تم إرسال التقييم"
+  ,"reviewSubmitFailure": "فشل إرسال التقييم"
+  ,"averageRatingLabel": "المتوسط: {value}"
+  ,"@averageRatingLabel": {"placeholders": {"value": {}}}
+  ,"streakLabel": "سلسلة الأيام: {days} يوم"
+  ,"@streakLabel": {"placeholders": {"days": {}}}
+  ,"nextBadgeProgress": "الشارة التالية عند {points} نقطة"
+  ,"@nextBadgeProgress": {"placeholders": {"points": {}}}
+  ,"dailyStreakAward": "+{points} سلسلة يومية"
+  ,"@dailyStreakAward": {"placeholders": {"points": {}}}
+  ,"quizPassedAward": "+{points} اجتياز اختبار"
+  ,"@quizPassedAward": {"placeholders": {"points": {}}}
+  ,"lessonCompletedAward": "+{points} إكمال درس"
+  ,"@lessonCompletedAward": {"placeholders": {"points": {}}}
+  ,"badgeEarnedToast": "حصلت على شارة: {name}"
+  ,"@badgeEarnedToast": {"placeholders": {"name": {}}}
+  ,"badgesEarnedBatch": "حصلت على شارة: {first} +{more}"
+  ,"@badgesEarnedBatch": {"placeholders": {"first": {}, "more": {}}}
+  ,"noReviewsYet": "لا توجد تقييمات بعد"
+  ,"submitReview": "إرسال التقييم"
+  ,"reviewCommentHint": "تعليقك"
+  ,"reviewRatingHint": "اضغط على النجوم للتقييم"
+  ,"gamificationSection": "التقدم والإنجازات",
+  "progressTitle": "التقدم",
+  "testsTabLabel": "اختبارات",
+  "tasksTabLabel": "تاسكات",
+  "noQuizzesYet": "لا توجد اختبارات حالياً",
+  "quizLastScore": "آخر نتيجة: {score}%",
+  "@quizLastScore": {"placeholders": {"score": {}}},
+  "quizNotStarted": "لم تبدأ بعد",
+  "quizStartAction": "ابدأ",
+  "quizRetakeAction": "إعادة",
+  "noTasksYetAlt": "لا توجد تاسكات حالياً",
+  "addTaskDialogTitle": "تاسك جديدة",
+  "fieldTitleHint": "العنوان",
+  "fieldDetailsHint": "تفاصيل (اختياري)",
+  "fieldPointsHint": "النقاط",
+  "priorityLabel": "الأولوية",
+  "priorityHigh": "أولوية عالية",
+  "priorityMed": "أولوية متوسطة",
+  "priorityLow": "أولوية منخفضة",
+  "taskStatusNew": "جديد",
+  "taskStatusInProgress": "قيد التنفيذ",
+  "taskStatusDone": "مكتمل",
+  "badgeManageTitle": "إدارة الشارات",
+  "noBadgesDefined": "لا توجد شارات",
+  "newBadgeTitle": "شارة جديدة",
+  "editBadgeTitle": "تعديل الشارة",
+  "deleteBadgeTitle": "حذف الشارة",
+  "deleteConfirmBody": "حذف الشارة: {name}?",
+  "@deleteConfirmBody": {"placeholders": {"name": {}}},
+  "badgeIconUrlLabel": "رابط الأيقونة",
+  "criteriaSectionLabel": "المعايير",
+  "activeLabel": "مفعلة",
+  "autoAwardLabel": "منح تلقائي",
+  "saveActionLabel": "حفظ",
+  "dialogCancel": "إلغاء",
+  "taskStatusSkipped": "متجاوز",
+  "filterAll": "الكل",
+  "selectDueDate": "اختر تاريخ الاستحقاق",
+  "dueDatePickerLabel": "الاستحقاق",
+  "pickAction": "اختيار",
+  "changeAction": "تغيير",
+  "clearAction": "مسح",
+  "duePast": "منتهي",
+  "dueToday": "اليوم",
+  "dueTomorrow": "غداً",
+  "dueInDays": "بعد {days} يوم",
+  "@dueInDays": {"placeholders": {"days": {}}}
+  ,"quizPassedLabel": "ناجح"
+  ,"quizSubmitAction": "إرسال الاختبار"
+  ,"quizPassThreshold": "نجاح >= {score}%"
+  ,"@quizPassThreshold": {"placeholders": {"score": {}}}
+  ,"taskDueFilterOverdue": "متأخرة"
+  ,"taskDueFilterToday": "اليوم"
+  ,"taskDueFilterWeek": "هذا الأسبوع"
+  ,"quizAttemptsUsed": "المحاولات: {used}/{max}"
+  ,"@quizAttemptsUsed": {"placeholders": {"used": {}, "max": {}}}
+  ,"quizAttemptExceeded": "لا مزيد من المحاولات"
+  ,"quizAttemptSingle": "محاولة واحدة"
+  ,"quizAttemptMultiple": "حتى {max} محاولات"
+  ,"@quizAttemptMultiple": {"placeholders": {"max": {}}}
+  ,"quizReviewAction": "مراجعة"
+  ,"quizSettingsTitle": "إعدادات الاختبار"
+  ,"quizPassPercentLabel": "نسبة النجاح %"
+  ,"quizRewardPointsLabel": "نقاط المكافأة"
+  ,"quizMaxAttemptsLabel": "الحد الأقصى للمحاولات"
+  ,"quizUpdateSuccess": "تم التحديث"
+  ,"quizUpdateFailed": "فشل التحديث"
+  ,"postPublishing": "... يتم نشر المنشور"
+  ,"postPublished": "تم نشر المنشور"
+  ,"orgAdminDashboardTitle": "لوحة إدارة المؤسسة"
+  ,"orgAdminDashboardSubtitle": "مقاييس واتجاهات للمؤسسة"
+  ,"companyAdminDashboardTitle": "لوحة إدارة الشركة"
+  ,"companyAdminDashboardSubtitle": "مقاييس واتجاهات لشركتك"
+  ,"departmentsTitle": "الأقسام"
+  ,"departmentsSubtitle": "عرض أقسام شركتك"
+  ,"learningPathsTitle": "مسارات التعلم"
+  ,"learningPathsSubtitle": "عرض مسارات التعلم لشركتك"
+  ,"managerDashboardTitle": "لوحة المدير"
+  ,"managerDashboardSubtitle": "نظرة عامة على الفريق وفجوات المهارات (تجريبي)"
+  ,"bulkImportTitle": "استيراد دفعة (CSV)"
+  ,"bulkImportSubtitle": "استيراد تغييرات مجمعة من ملف CSV"
+  ,"selectDepartmentHint": "اختر قسمًا من قائمة الأقسام لعرض الفريق."
+  ,"labelActiveUsers": "المستخدمون النشطون"
+  ,"labelAvgEventsPerUser7d": "متوسط الأحداث/مستخدم (٧ أيام)"
+  ,"labelAvgMastery": "متوسط الإتقان"
+  ,"labelAvgMasteryDelta14d": "متوسط الإتقان Δ14ي"
+  ,"labelLatestPrefix": "الأحدث"
+  ,"labelLatest7Days": "آخر 7 أيام"
+  ,"labelDate": "التاريخ"
+  ,"labelActiveShort": "نشط"
+  ,"labelAvgEvPerUsrShort": "متوسط/مستخدم"
+  ,"labelAvgMasteryShort": "متوسط إتقان"
+  ,"labelDelta14dShort": "Δ14ي"
+  ,"noDepartments": "لا توجد أقسام"
+  ,"idLabel": "المعرف: {id}"
+  ,"@idLabel": {"placeholders": {"id": {}}}
+  ,"noTeamMembers": "لا يوجد أعضاء فريق في هذا القسم"
+  ,"topSkillGapsTitle": "أكبر فجوات المهارات"
+  ,"noSkillData": "لا توجد بيانات مهارات"
+  ,"activeChip": "مفعل"
+  ,"inactiveChip": "غير مفعل"
+  ,"pathTitle": "المسار: {title}"
+  ,"@pathTitle": {"placeholders": {"title": {}}}
+  ,"noLearningPaths": "لا توجد مسارات تعلم"
+  ,"noSteps": "لا توجد خطوات"
+  ,"bulkImportCsvFormat": "صيغة CSV: collection,docId,field.path,value"
+  ,"bulkImportPickCsv": "اختيار CSV"
+  ,"departmentsAddAction": "إضافة قسم"
+  ,"departmentNameLabel": "اسم القسم"
+  ,"assignUserToDepartmentTitle": "تعيين مستخدم إلى القسم"
+  ,"departmentMembersTitle": "أعضاء القسم"
+  ,"manageMembersAction": "إدارة الأعضاء"
+  ,"assignMemberAction": "تعيين عضو"
+}

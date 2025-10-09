@@ -13,7 +13,9 @@ class QuizResultsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // حساب النسبة المئوية
-    final double percentage = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
+    final double percentage = totalQuestions > 0
+        ? (score / totalQuestions) * 100
+        : 0;
 
     return Scaffold(
       appBar: AppBar(

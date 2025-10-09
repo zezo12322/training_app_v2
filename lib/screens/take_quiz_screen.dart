@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:training_app/core/ui/snackbar_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/logging.dart';
@@ -40,15 +41,25 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
     try {
       final repo = ref.read(quizRepositoryProvider);
       final qs = await repo.fetchQuestionsOnce(widget.quizId);
-      setState(() { _questions = qs; _isLoading = false; });
-    } catch (e, st) { setState(() { _isLoading = false; }); logger.e('Failed loading quiz questions', error: e, stackTrace: st); }
+      setState(() {
+        _questions = qs;
+        _isLoading = false;
+      });
+    } catch (e, st) {
+      setState(() {
+        _isLoading = false;
+      });
+      logger.e('Failed loading quiz questions', error: e, stackTrace: st);
+    }
   }
 
   void _submitQuiz() async {
-    setState(() { _isLoading = true; });
+    setState(() {
+      _isLoading = true;
+    });
 
-  final currentUser = ref.read(authStateProvider).value;
-  if (currentUser == null) return;
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser == null) return;
     try {
       final repo = ref.read(quizRepositoryProvider);
       final res = await repo.submitQuiz(
@@ -70,25 +81,36 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
               final ans = _userAnswers[q.id];
               if (ans is Map) {
                 bool allCorrect = true;
-                q.correctPairs?.forEach((k, v) { if (ans[k] != v) allCorrect = false; });
+                q.correctPairs?.forEach((k, v) {
+                  if (ans[k] != v) allCorrect = false;
+                });
                 if (allCorrect) autoScore++;
               }
             }
           }
           if (mounted) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => QuizResultsScreen(score: autoScore, totalQuestions: _questions.length),
-            ));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => QuizResultsScreen(
+                  score: autoScore,
+                  totalQuestions: _questions.length,
+                ),
+              ),
+            );
           }
         },
         failure: (f) {
           if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('فشل التسليم: ${f.message}')));
+            AppSnackBar.show(context, 'فشل التسليم: ${f.message}');
           }
         },
       );
     } finally {
-      if (mounted) setState(() { _isLoading = false; });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -111,130 +133,154 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.quizTitle),
-      ),
+      appBar: AppBar(title: Text(widget.quizTitle)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _questions.isEmpty
           ? const Center(child: Text('لا توجد أسئلة في هذا الاختبار بعد.'))
           : Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'السؤال ${_currentQuestionIndex + 1} من ${_questions.length}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
-            ),
-            const SizedBox(height: 8),
-            Text(_questions[_currentQuestionIndex].questionText, style: Theme.of(context).textTheme.headlineSmall),
-            const Divider(height: 32),
-            Builder(
-              builder: (_) {
-                final q = _questions[_currentQuestionIndex];
-                final type = q.type;
-                if (type == QuizQuestionType.multipleChoice) {
-                  final opts = q.options ?? [];
-                  return Column(
-                    children: opts.asMap().entries.map((entry) {
-                      final optionIndex = entry.key;
-                      final optionText = entry.value;
-                      return RadioListTile<int>(
-                        title: Text(optionText),
-                        value: optionIndex,
-                        groupValue: _userAnswers[q.id] as int?,
-                        onChanged: (value) {
-                          setState(() {
-                            _userAnswers[q.id] = value!;
-                          });
-                        },
-                      );
-                    }).toList(),
-                  );
-                } else if (type == QuizQuestionType.shortText) {
-                  return TextFormField(
-                    initialValue: _userAnswers[q.id] as String?,
-                    decoration: const InputDecoration(labelText: 'إجابتك القصيرة', border: OutlineInputBorder()),
-                    onChanged: (val) => _userAnswers[q.id] = val,
-                  );
-                } else if (type == QuizQuestionType.longText) {
-                  return TextFormField(
-                    initialValue: _userAnswers[q.id] as String?,
-                    maxLines: 6,
-                    decoration: const InputDecoration(labelText: 'إجابتك المقالية', border: OutlineInputBorder()),
-                    onChanged: (val) => _userAnswers[q.id] = val,
-                  );
-                } else if (type == QuizQuestionType.matching) {
-                  // Display each left item with dropdown of right items
-                  final left = q.leftItems ?? [];
-                  final right = q.rightItems ?? [];
-                  _userAnswers[q.id] ??= <String, int>{};
-                  return Column(
-                    children: left.asMap().entries.map((entry) {
-                      final leftIndex = entry.key;
-                      final leftText = entry.value;
-                      final currentMap = _userAnswers[q.id] as Map<String, int>;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(leftText)),
-                            const SizedBox(width: 12),
-                            DropdownButton<int>(
-                              value: currentMap[leftIndex.toString()],
-                              hint: const Text('اختر'),
-                              items: right.asMap().entries.map((e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
-                              onChanged: (val) {
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'السؤال ${_currentQuestionIndex + 1} من ${_questions.length}',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _questions[_currentQuestionIndex].questionText,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const Divider(height: 32),
+                  Builder(
+                    builder: (_) {
+                      final q = _questions[_currentQuestionIndex];
+                      final type = q.type;
+                      if (type == QuizQuestionType.multipleChoice) {
+                        final opts = q.options ?? [];
+                        return Column(
+                          children: opts.asMap().entries.map((entry) {
+                            final optionIndex = entry.key;
+                            final optionText = entry.value;
+                            return RadioListTile<int>(
+                              title: Text(optionText),
+                              value: optionIndex,
+                              groupValue: _userAnswers[q.id] as int?,
+                              onChanged: (value) {
                                 setState(() {
-                                  currentMap[leftIndex.toString()] = val ?? 0;
+                                  _userAnswers[q.id] = value!;
                                 });
                               },
-                            )
-                          ],
+                            );
+                          }).toList(),
+                        );
+                      } else if (type == QuizQuestionType.shortText) {
+                        return TextFormField(
+                          initialValue: _userAnswers[q.id] as String?,
+                          decoration: const InputDecoration(
+                            labelText: 'إجابتك القصيرة',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (val) => _userAnswers[q.id] = val,
+                        );
+                      } else if (type == QuizQuestionType.longText) {
+                        return TextFormField(
+                          initialValue: _userAnswers[q.id] as String?,
+                          maxLines: 6,
+                          decoration: const InputDecoration(
+                            labelText: 'إجابتك المقالية',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (val) => _userAnswers[q.id] = val,
+                        );
+                      } else if (type == QuizQuestionType.matching) {
+                        // Display each left item with dropdown of right items
+                        final left = q.leftItems ?? [];
+                        final right = q.rightItems ?? [];
+                        _userAnswers[q.id] ??= <String, int>{};
+                        return Column(
+                          children: left.asMap().entries.map((entry) {
+                            final leftIndex = entry.key;
+                            final leftText = entry.value;
+                            final currentMap =
+                                _userAnswers[q.id] as Map<String, int>;
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 6.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text(leftText)),
+                                  const SizedBox(width: 12),
+                                  DropdownButton<int>(
+                                    value: currentMap[leftIndex.toString()],
+                                    hint: const Text('اختر'),
+                                    items: right
+                                        .asMap()
+                                        .entries
+                                        .map(
+                                          (e) => DropdownMenuItem<int>(
+                                            value: e.key,
+                                            child: Text(e.value),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        currentMap[leftIndex.toString()] =
+                                            val ?? 0;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      }
+                      return const Text('نوع سؤال غير مدعوم بعد');
+                    },
+                  ),
+
+                  const Spacer(),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (_currentQuestionIndex > 0)
+                        TextButton.icon(
+                          icon: const Icon(Icons.arrow_back),
+                          label: const Text('السابق'),
+                          onPressed: _previousQuestion,
                         ),
-                      );
-                    }).toList(),
-                  );
-                }
-                return const Text('نوع سؤال غير مدعوم بعد');
-              },
+                      const Spacer(), // Spacer to push next/submit to the right
+                      if (_currentQuestionIndex < _questions.length - 1)
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.arrow_forward),
+                          label: const Text('التالي'),
+                          onPressed: _nextQuestion,
+                        ),
+
+                      if (_currentQuestionIndex == _questions.length - 1)
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.check_circle),
+                          label: const Text('تسليم الإجابات'),
+                          onPressed: _submitQuiz,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.secondary,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-
-            const Spacer(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (_currentQuestionIndex > 0)
-                  TextButton.icon(
-                    icon: const Icon(Icons.arrow_back),
-                    label: const Text('السابق'),
-                    onPressed: _previousQuestion,
-                  ),
-                const Spacer(), // Spacer to push next/submit to the right
-                if (_currentQuestionIndex < _questions.length - 1)
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.arrow_forward),
-                    label: const Text('التالي'),
-                    onPressed: _nextQuestion,
-                  ),
-
-                if (_currentQuestionIndex == _questions.length - 1)
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.check_circle),
-                    label: const Text('تسليم الإجابات'),
-                    onPressed: _submitQuiz,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      foregroundColor: Colors.white,
-                    ),
-                  ),
-              ],
-            )
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../core/timestamp_converter.dart';
 
 part 'course.freezed.dart';
 part 'course.g.dart';
@@ -20,25 +21,8 @@ class Course with _$Course {
 
   factory Course.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
-    return Course.fromJson({
-      'id': doc.id,
-      ...data,
-    });
+    return Course.fromJson({'id': doc.id, ...data});
   }
 }
 
-class TimestampConverter implements JsonConverter<DateTime?, Object?> {
-  const TimestampConverter();
-  @override
-  DateTime? fromJson(Object? json) {
-    if (json == null) return null;
-    if (json is Timestamp) return json.toDate();
-    if (json is DateTime) return json;
-    return null;
-  }
-  @override
-  Object? toJson(DateTime? object) {
-    if (object == null) return null;
-    return Timestamp.fromDate(object);
-  }
-}
+// (TimestampConverter moved to core/timestamp_converter.dart)

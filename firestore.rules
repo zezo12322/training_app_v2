@@ -1,0 +1,549 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    /* ===================== Helpers ===================== */
+    function isSignedIn() { return request.auth != null; }
+
+  /* ===================== Users (with tenant gating) ===================== */
+    match /users/{userId} {
+      allow create: if isSignedIn() && (userId == request.auth.uid || isSuperAdmin());
+      allow get: if isSignedIn() && (
+        isSuperAdmin() ||
+        !tenantReadsEnforced() ||
+        (!isOrgAdmin() && !isCompanyAdmin()) ||
+        (isOrgAdmin() && (
+          (resource.data.institutionId != null && userDoc().data.institutionId == resource.data.institutionId) ||
+          (resource.data.institutionId == null && resource.data.companyId == null)
+        )) ||
+        (isCompanyAdmin() && (
+          (resource.data.companyId != null && userDoc().data.companyId == resource.data.companyId) ||
+          (resource.data.institutionId == null && resource.data.companyId == null)
+        ))
+      );
+      allow list: if isSignedIn() && (
+        (isSuperAdmin() && request.query.limit <= 200) ||
+        (!isSuperAdmin() && request.query.limit <= 30)
+      );
+      allow update: if isSignedIn() && (userId == request.auth.uid || isSuperAdmin());
+      allow delete: if false;
+    }
+
+    // Helper role resolvers + feature flags
+    function userDoc() { return isSignedIn() ? get(/databases/$(database)/documents/users/$(request.auth.uid)) : null; }
+    function isTrainer() { return isSignedIn() && userDoc().data.role == 'trainer'; }
+    function isTrainee() { return isSignedIn() && userDoc().data.role == 'trainee'; }
+    function isSuperAdmin() { return isSignedIn() && userDoc().data.role == 'super_admin'; }
+    function isOrgAdmin() { return isSignedIn() && userDoc().data.role == 'org_admin'; }
+    function isCompanyAdmin() { return isSignedIn() && userDoc().data.role == 'company_admin'; }
+    function _flagsDoc() { return get(/databases/$(database)/documents/system_settings/global); }
+    function tenantReadsEnforced() { return _flagsDoc().data.featureFlags.enforceTenantReads == true; }
+    function tenantWritesEnforced() { return _flagsDoc().data.featureFlags.enforceTenantWrites == true; }
+    // Suspension helpers: treat missing doc/status as active to avoid accidental global lock
+    function institutionActive(instId) {
+      return instId == null || !exists(/databases/$(database)/documents/institutions/$(instId)) ||
+        get(/databases/$(database)/documents/institutions/$(instId)).data.status != 'suspended';
+    }
+    function companyActive(compId) {
+      return compId == null || !exists(/databases/$(database)/documents/companies/$(compId)) ||
+        get(/databases/$(database)/documents/companies/$(compId)).data.status != 'suspended';
+    }
+    // Read gating helper for tenant-scoped docs
+    function canReadTenantDoc(doc) {
+      return isSuperAdmin() ||
+        !tenantReadsEnforced() ||
+        (
+          (doc.data.institutionId != null && userDoc().data.institutionId == doc.data.institutionId) ||
+          (doc.data.companyId != null && userDoc().data.companyId == doc.data.companyId) ||
+          (doc.data.institutionId == null && doc.data.companyId == null)
+        );
+    }
+
+    /* ===================== Courses (tenant-aware writes) ===================== */
+    match /courses/{courseId} {
+      // Enforce tenant-scoped reads when feature flag is on
+      allow get: if isSignedIn() && canReadTenantDoc(resource);
+      allow list: if isSignedIn() && (!tenantReadsEnforced() || isSuperAdmin());
+      function _courseTenantOkCreate() {
+        return !tenantWritesEnforced() || isSuperAdmin() || (
+          (request.resource.data.institutionId != null && institutionActive(request.resource.data.institutionId) && userDoc().data.institutionId == request.resource.data.institutionId) ||
+          (request.resource.data.companyId != null && companyActive(request.resource.data.companyId) && userDoc().data.companyId == request.resource.data.companyId) ||
+          (request.resource.data.institutionId == null && request.resource.data.companyId == null)
+        );
+      }
+      function _courseTenantOkUpdate() {
+        return !tenantWritesEnforced() || isSuperAdmin() || (
+          (resource.data.institutionId != null && institutionActive(resource.data.institutionId) && userDoc().data.institutionId == resource.data.institutionId) ||
+          (resource.data.companyId != null && companyActive(resource.data.companyId) && userDoc().data.companyId == resource.data.companyId) ||
+          (resource.data.institutionId == null && resource.data.companyId == null)
+        );
+      }
+      allow create: if isTrainer() && request.resource.data.trainerId == request.auth.uid && _courseTenantOkCreate();
+      allow update: if isTrainer() && resource.data.trainerId == request.auth.uid && _courseTenantOkUpdate();
+      allow delete: if isTrainer() && resource.data.trainerId == request.auth.uid && _courseTenantOkUpdate();
+    }
+
+    /* ===================== Evaluations ===================== */
+    match /evaluations/{evaluationId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if false; // keep audit
+
+      /* -------- Replies subcollection -------- */
+      match /replies/{replyId} {
+        allow get, list: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update: if isSignedIn();
+        allow delete: if isSignedIn();
+      }
+
+      /* -------- Tasks subcollection -------- */
+      match /tasks/{taskId} {
+        allow get, list: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update: if isSignedIn();
+        allow delete: if false; // keep audit history
+      }
+    }
+
+    /* ===================== evaluation_user_settings ===================== */
+    match /evaluation_user_settings/{docId} {
+      allow create: if isSignedIn();
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if false;
+    }
+
+    /* ===================== Course Wall Posts ===================== */
+    match /course_wall/{postId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    /* ===================== Post Comments ===================== */
+    match /post_comments/{commentId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    /* ===================== Quizzes ===================== */
+    match /quizzes/{quizId} {
+      allow get: if isSignedIn() && canReadTenantDoc(resource);
+      allow list: if isSignedIn() && (!tenantReadsEnforced() || isSuperAdmin());
+      function _quizTenantOkCreate() { return !tenantWritesEnforced() || isSuperAdmin() || (
+        (request.resource.data.institutionId != null && institutionActive(request.resource.data.institutionId) && userDoc().data.institutionId == request.resource.data.institutionId) ||
+        (request.resource.data.companyId != null && companyActive(request.resource.data.companyId) && userDoc().data.companyId == request.resource.data.companyId) ||
+        (request.resource.data.institutionId == null && request.resource.data.companyId == null)
+      ); }
+      function _quizTenantOkUpdate() { return !tenantWritesEnforced() || isSuperAdmin() || (
+        (resource.data.institutionId != null && institutionActive(resource.data.institutionId) && userDoc().data.institutionId == resource.data.institutionId) ||
+        (resource.data.companyId != null && companyActive(resource.data.companyId) && userDoc().data.companyId == resource.data.companyId) ||
+        (resource.data.institutionId == null && resource.data.companyId == null)
+      ); }
+      allow create: if isTrainer() && _quizTenantOkCreate();
+      allow update: if isTrainer() && _quizTenantOkUpdate();
+      allow delete: if isTrainer() && _quizTenantOkUpdate();
+    }
+
+    /* ===================== Tasks (unified) ===================== */
+    match /tasks/{taskId} {
+      allow get: if isSignedIn() && canReadTenantDoc(resource);
+      allow list: if isSignedIn() && (!tenantReadsEnforced() || isSuperAdmin());
+      // Trainers can create course-level tasks. Evaluation tasks may be created by the trainer for now.
+      function _taskTenantOkCreate() {
+        return !tenantWritesEnforced() || isSuperAdmin() || (
+          (request.resource.data.institutionId != null && institutionActive(request.resource.data.institutionId) && userDoc().data.institutionId == request.resource.data.institutionId) ||
+          (request.resource.data.companyId != null && companyActive(request.resource.data.companyId) && userDoc().data.companyId == request.resource.data.companyId) ||
+          (request.resource.data.institutionId == null && request.resource.data.companyId == null)
+        );
+      }
+      function _taskTenantOkUpdate() {
+        return !tenantWritesEnforced() || isSuperAdmin() || (
+          (resource.data.institutionId != null && institutionActive(resource.data.institutionId) && userDoc().data.institutionId == resource.data.institutionId) ||
+          (resource.data.companyId != null && companyActive(resource.data.companyId) && userDoc().data.companyId == resource.data.companyId) ||
+          (resource.data.institutionId == null && resource.data.companyId == null)
+        );
+      }
+      allow create: if isSignedIn() && (
+        (request.resource.data.parentType == 'course' && isTrainer()) ||
+        (request.resource.data.parentType == 'evaluation' && isTrainer())
+      ) && _taskTenantOkCreate();
+      // Immutable pointsOnComplete once set (cannot change value if exists and non-zero)
+      allow update: if isSignedIn() && (
+        !(resource.data.pointsOnComplete is int) ||
+        resource.data.pointsOnComplete == 0 ||
+        request.resource.data.pointsOnComplete == resource.data.pointsOnComplete
+      ) && _taskTenantOkUpdate();
+      allow delete: if false; // keep audit (can implement soft delete)
+    }
+
+    /* ===================== Quiz Questions ===================== */
+    match /quiz_questions/{questionId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    /* ===================== Quiz Submissions ===================== */
+    match /quiz_submissions/{submissionId} {
+      allow get, list: if isSignedIn();
+      allow create: if (isTrainee() && request.resource.data.traineeId == request.auth.uid) || isTrainer();
+      allow update: if isTrainer();
+      allow delete: if false;
+    }
+
+    /* ===================== Course Resources ===================== */
+    match /course_resources/{resourceId} {
+      allow get: if isSignedIn() && canReadTenantDoc(resource);
+      allow list: if isSignedIn() && (!tenantReadsEnforced() || isSuperAdmin());
+      function _resourceTenantOkCreate() { return !tenantWritesEnforced() || isSuperAdmin() || (
+        (request.resource.data.institutionId != null && institutionActive(request.resource.data.institutionId) && userDoc().data.institutionId == request.resource.data.institutionId) ||
+        (request.resource.data.companyId != null && companyActive(request.resource.data.companyId) && userDoc().data.companyId == request.resource.data.companyId) ||
+        (request.resource.data.institutionId == null && request.resource.data.companyId == null)
+      ); }
+      function _resourceTenantOkUpdate() { return !tenantWritesEnforced() || isSuperAdmin() || (
+        (resource.data.institutionId != null && institutionActive(resource.data.institutionId) && userDoc().data.institutionId == resource.data.institutionId) ||
+        (resource.data.companyId != null && companyActive(resource.data.companyId) && userDoc().data.companyId == resource.data.companyId) ||
+        (resource.data.institutionId == null && resource.data.companyId == null)
+      ); }
+      allow create: if isSignedIn() && _resourceTenantOkCreate();
+      allow update: if isSignedIn() && _resourceTenantOkUpdate();
+      allow delete: if isSignedIn() && _resourceTenantOkUpdate();
+    }
+
+    /* ===================== Gamification: User Points ===================== */
+    // Stores per-user accumulated points, streak, badges list
+    match /user_points/{userId} {
+      // A signed-in user can read any user's points (for leaderboards)
+      allow get: if isSignedIn();
+      // Limit list queries (used for leaderboards); enforce a reasonable upper bound
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 50;
+      // Create own document (first time) – userId must match auth uid
+      allow create: if isSignedIn() && userId == request.auth.uid;
+      // Disallow direct client updates now that Cloud Functions own aggregation
+      allow update: if false;
+      allow delete: if false;
+
+      /* -------- Badge awards history subcollection -------- */
+      match /badge_awards/{badgeId} {
+        allow get, list: if isSignedIn() && (userId == request.auth.uid || isTrainer());
+        // Badge awards are now server-driven (evaluation in Cloud Function)
+        allow create: if false;
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+
+    /* ===================== Gamification: Points Events (idempotent awards) ===================== */
+    // Each document represents an immutable award event (quiz pass, task completion, etc.)
+    match /user_points_events/{eventId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isTrainer());
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 100;
+      // Only the owner can create an event for themselves; enforce whitelist + positive points
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && (request.resource.data.type in ['quiz_pass','task_completed','lesson_completed','daily_streak'])
+        && (request.resource.data.points is int)
+        && request.resource.data.points > 0;
+      // Immutable after creation
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /* ===================== Badges Catalog ===================== */
+    match /badges/{badgeId} {
+      allow get, list: if isSignedIn();
+      // Trainers manage dynamic badges; ensure only allowed fields (basic schema hardening)
+      allow create: if isTrainer()
+        && request.resource.data.keys().hasOnly(['name','description','iconUrl','active','autoAward','criteria'])
+        && (request.resource.data.criteria is map || !(request.resource.data.keys().hasAny(['criteria'])));
+      // Updates cannot remove required fields and cannot arbitrarily change criteria shape to non-map
+      allow update: if isTrainer()
+        && request.resource.data.keys().hasOnly(['name','description','iconUrl','active','autoAward','criteria'])
+        && (request.resource.data.criteria is map || !(request.resource.data.keys().hasAny(['criteria'])));
+      allow delete: if isTrainer();
+    }
+
+    /* ===================== User Reviews (for badge evaluation) ===================== */
+    match /user_reviews/{reviewId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.reviewerId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.reviewerId == request.auth.uid;
+      allow delete: if isTrainer() || (isSignedIn() && resource.data.reviewerId == request.auth.uid);
+    }
+
+    /* ===================== Security Events (instrumentation) ===================== */
+    // Append-only client instrumentation of denied operations / suspicious patterns.
+    match /security_events/{eventId} {
+      // Only allow create; restrict payload keys to a safe subset.
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly(['type','vector','docPath','ts','severity','meta'])
+        && (request.resource.data.type is string)
+        && (request.resource.data.vector is string)
+        && (!('severity' in request.resource.data) || (request.resource.data.severity in ['low','med','high']))
+        && request.resource.data.ts == request.time; // enforce server timestamp passed from client as request.time sentinel
+      // Super admin visibility.
+      allow get, list: if isSuperAdmin() && request.query.limit != null && request.query.limit <= 200;
+      allow update, delete: if false;
+    }
+
+    /* ===================== Predictive Risk (server generated) ===================== */
+    match /risk_user_scores/{docId} {
+      // Read only by super admin (future: allow user to read own)
+      allow get, list: if isSuperAdmin();
+      // Server (admin SDK) bypasses rules; block direct client writes
+      allow create, update, delete: if false;
+    }
+    match /predictive_alerts/{alertId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false; // triage actions will be callable CF later
+    }
+
+    /* ===================== Security Rollups & Alerts ===================== */
+    match /security_daily_rollups/{rollupId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false; // server only
+    }
+    match /intrusion_alerts/{alertId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false; // triage via callable CF (future)
+    }
+    match /integrity_flags/{flagId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false;
+    }
+    match /admin_audit_logs/{logId} {
+      allow get, list: if isSuperAdmin() && request.query.limit <= 200;
+      allow create: if false; // only via callable function (server)
+      allow update, delete: if false;
+    }
+
+    /* ===================== Tenant Invites ===================== */
+    // All writes are server-side via callable; client should only read own pending invite by token? For now: disallow client writes & restrict reads to super_admin
+    match /tenant_invites/{token} {
+      allow get: if isSuperAdmin();
+      allow list: if isSuperAdmin() && request.query.limit <= 100;
+      allow create, update, delete: if false;
+    }
+
+    /* ===================== Tenant Metrics Daily (analytical, server generated) ===================== */
+    match /tenant_metrics_daily/{docId} {
+      allow get, list: if isSuperAdmin() || (
+        isOrgAdmin() && resource.data.tenantType == 'institution' && resource.data.tenantId == userDoc().data.institutionId
+      ) || (
+        isCompanyAdmin() && resource.data.tenantType == 'company' && resource.data.tenantId == userDoc().data.companyId
+      );
+      allow create, update, delete: if false; // server-only writes
+    }
+    /* ===================== Points Monthly Aggregates (server) ===================== */
+    match /user_points_monthly/{docId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false;
+    }
+    /* ===================== Skills & Mastery (Phase 2) ===================== */
+    match /skill_attempts/{id} {
+      // For now allow create by signed-in user for themselves; future: validate skillCode exists
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid
+        && (request.resource.data.skillCode is string)
+        && (request.resource.data.success is bool)
+        && request.resource.data.ts == request.time;
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isTrainer());
+      allow list: if isSuperAdmin() && request.query.limit <= 100;
+      allow update, delete: if false; // immutable attempts
+    }
+    match /user_skill_stats/{id} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isTrainer() || isSuperAdmin());
+      allow list: if isSuperAdmin() && request.query.limit <= 200;
+      allow create, update, delete: if false; // server-only via CF recompute
+    }
+    match /skills/{id} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isSuperAdmin(); // restrict creation early stage
+    }
+
+    /* ===================== Weekly Challenges (Phase 2) ===================== */
+    match /weekly_challenges/{id} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isSuperAdmin(); // server / super admin managed only
+    }
+    match /user_challenge_progress/{id} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow list: if isSuperAdmin() && request.query.limit <= 200;
+      // Progress + completion writes are server-only (Cloud Functions)
+      allow create, update, delete: if false;
+    }
+
+    /* ===================== Kudos Events (Phase 2) ===================== */
+    // Server-only writes via callable (giveKudos) to enforce rate limits.
+    match /kudos_events/{id} {
+      allow get: if isSignedIn() && (resource.data.fromUserId == request.auth.uid || resource.data.toUserId == request.auth.uid || isSuperAdmin());
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 50; // lightweight social feed
+      allow create, update, delete: if false; // prevent client-side circumvention of rate limiting
+    }
+
+    /* ===================== Quest Chains (Phase 2) ===================== */
+    // quests & quest_steps managed by super_admin; user_quest_state server-write only
+    match /quests/{id} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isSuperAdmin();
+    }
+    match /quest_steps/{id} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isSuperAdmin();
+    }
+
+    /* ===================== Learning Paths (Phase 4) ===================== */
+    match /learning_paths/{id} {
+      allow get, list: if isSignedIn() && (
+        isSuperAdmin() ||
+        (resource.data.tenantType == 'institution' && isOrgAdmin() && resource.data.tenantId == userDoc().data.institutionId) ||
+        (resource.data.tenantType == 'company' && isCompanyAdmin() && resource.data.tenantId == userDoc().data.companyId)
+      );
+      allow create, update, delete: if false; // writes to be added later via server
+    }
+    match /path_steps/{id} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false; // server-managed in future
+    }
+    match /user_path_progress/{id} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow list: if isSuperAdmin() && request.query.limit <= 200;
+      // Client writes allowed with strict validation to avoid backend requirement
+      allow create: if isSignedIn() && isValidUserPathProgressCreate();
+      allow update: if isSignedIn() && isValidUserPathProgressUpdate();
+      allow delete: if false;
+    }
+    match /user_quest_state/{id} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow list: if isSuperAdmin() && request.query.limit <= 200;
+      allow create, update, delete: if false; // server-only mutation via CF
+    }
+
+    /* ===================== Multi-Tenancy (Phase 1) ===================== */
+    match /institutions/{instId} {
+      allow get: if isSuperAdmin() || (isOrgAdmin() && userDoc().data.institutionId == instId);
+      allow list: if isSuperAdmin(); // no broad listing for org_admin yet
+      // Super admin can manage institutions directly from the app
+      allow create: if isSuperAdmin() && request.resource.data.keys().hasOnly(['name','planTier','active','status','createdAt']);
+      allow update: if isSuperAdmin() && request.resource.data.keys().hasOnly(['name','planTier','active','status','createdAt']);
+      allow delete: if isSuperAdmin();
+    }
+    match /companies/{compId} {
+      allow get: if isSuperAdmin() || (isCompanyAdmin() && userDoc().data.companyId == compId);
+      allow list: if isSuperAdmin();
+      // Super admin can manage companies directly from the app
+      allow create: if isSuperAdmin() && request.resource.data.keys().hasOnly(['name','planTier','active','status','createdAt']);
+      allow update: if isSuperAdmin() && request.resource.data.keys().hasOnly(['name','planTier','active','status','createdAt']);
+      allow delete: if isSuperAdmin();
+    }
+    match /departments/{deptId} {
+      allow get, list: if isSuperAdmin() || (isCompanyAdmin() && sameCompany(resource));
+      // Company admin can manage own company's departments
+      allow create: if isCompanyAdmin()
+        && (request.resource.data.companyId != null)
+        && (request.resource.data.companyId == userDoc().data.companyId)
+        && companyActive(request.resource.data.companyId)
+        && request.resource.data.keys().hasOnly(['companyId','name']);
+      allow update: if isCompanyAdmin()
+        && sameCompany(resource)
+        && companyActive(resource.data.companyId)
+        && request.resource.data.keys().hasOnly(['companyId','name'])
+        && request.resource.data.companyId == resource.data.companyId; // prevent moving department across companies
+      allow delete: if isCompanyAdmin() && sameCompany(resource) && companyActive(resource.data.companyId);
+    }
+    match /user_department_map/{docId} {
+      allow get, list: if isSuperAdmin() || mappingInAdminCompany(resource);
+      // Company admin can manage mappings only within their company
+      allow create: if isCompanyAdmin() && mappingInAdminCompanyCreate()
+        && request.resource.data.keys().hasOnly(['userId','departmentId']);
+      // For simplicity, prefer delete + create over update; still allow update if both sides remain in admin company
+      allow update: if isCompanyAdmin() && mappingInAdminCompany(resource) && mappingInAdminCompanyCreate()
+        && request.resource.data.keys().hasOnly(['userId','departmentId']);
+      allow delete: if isCompanyAdmin() && mappingInAdminCompany(resource);
+    }
+
+    // Tenant scoping helpers (Phase 1 enforcement later)
+    function sameInstitution(doc) {
+      return isSignedIn() &&
+        userDoc() != null &&
+        doc.data.institutionId != null &&
+        userDoc().data.institutionId == doc.data.institutionId;
+    }
+    function sameCompany(doc) {
+      return isSignedIn() &&
+        userDoc() != null &&
+        doc.data.companyId != null &&
+        userDoc().data.companyId == doc.data.companyId;
+    }
+    // Helper to validate a mapping's department belongs to the admin's company
+    function mappingInAdminCompany(doc) {
+      return isCompanyAdmin() && doc.data.departmentId != null &&
+        exists(/databases/$(database)/documents/departments/$(doc.data.departmentId)) &&
+        get(/databases/$(database)/documents/departments/$(doc.data.departmentId)).data.companyId == userDoc().data.companyId;
+    }
+    // Create/update-time check using request.resource (no .data wrapper)
+    function mappingInAdminCompanyCreate() {
+      return isCompanyAdmin() && request.resource.data.departmentId != null &&
+        exists(/databases/$(database)/documents/departments/$(request.resource.data.departmentId)) &&
+        get(/databases/$(database)/documents/departments/$(request.resource.data.departmentId)).data.companyId == userDoc().data.companyId;
+    }
+
+    // === Helpers for user_path_progress writes ===
+    function _lp(pathId) { return get(/databases/$(database)/documents/learning_paths/$(pathId)); }
+    function _tenantMatchForPath(pathId) {
+      return isSuperAdmin() || (
+        exists(/databases/$(database)/documents/learning_paths/$(pathId)) && (
+          (_lp(pathId).data.tenantType == 'institution' && userDoc().data.institutionId == _lp(pathId).data.tenantId) ||
+          (_lp(pathId).data.tenantType == 'company' && userDoc().data.companyId == _lp(pathId).data.tenantId) ||
+          (_lp(pathId).data.tenantType == null && _lp(pathId).data.tenantId == null)
+        )
+      );
+    }
+    function isValidUserPathProgressCreate() {
+      return request.resource.data.keys().hasOnly(['userId','pathId','completedSteps','totalSteps','createdAt','updatedAt']) &&
+        request.resource.data.userId == request.auth.uid &&
+        (request.resource.data.pathId is string) &&
+        (request.resource.data.completedSteps is int) &&
+        (request.resource.data.totalSteps is int) &&
+        request.resource.data.completedSteps >= 0 &&
+        request.resource.data.totalSteps >= 0 &&
+        request.resource.data.completedSteps <= request.resource.data.totalSteps &&
+        _tenantMatchForPath(request.resource.data.pathId) &&
+        (!exists(/databases/$(database)/documents/learning_paths/$(request.resource.data.pathId)) ||
+          !_lp(request.resource.data.pathId).data.keys().hasAny(['stepsCount']) ||
+          request.resource.data.totalSteps <= _lp(request.resource.data.pathId).data.stepsCount);
+    }
+    function isValidUserPathProgressUpdate() {
+      return resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.pathId == resource.data.pathId &&
+        (request.resource.data.completedSteps is int) &&
+        request.resource.data.completedSteps >= 0 &&
+        request.resource.data.completedSteps <= (request.resource.data.totalSteps is int ? request.resource.data.totalSteps : resource.data.totalSteps) &&
+        (request.resource.data.totalSteps == resource.data.totalSteps ||
+          (!_lp(resource.data.pathId).data.keys().hasAny(['stepsCount']) || request.resource.data.totalSteps <= _lp(resource.data.pathId).data.stepsCount)) &&
+        // limit change to at most ±1 to avoid large jumps from client
+        ((request.resource.data.completedSteps == resource.data.completedSteps) ||
+          (request.resource.data.completedSteps == resource.data.completedSteps + 1) ||
+          (request.resource.data.completedSteps == resource.data.completedSteps - 1));
+    }
+
+    /* === Tenant enforcement (gated by system_settings.featureFlags) ===
+       Example (read path) once flags enabled:
+       match /courses/{courseId} {
+         allow get, list: if isSuperAdmin() ||
+           (!get(/databases/$(database)/documents/system_settings/global).data.featureFlags.enforceTenantReads) ||
+           sameInstitution(resource) ||
+           sameCompany(resource);
+         // Write gating (future): require sameInstitution/company when enforceTenantWrites == true
+       }
+    */
+  }
+}

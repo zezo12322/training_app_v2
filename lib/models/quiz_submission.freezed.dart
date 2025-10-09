@@ -26,8 +26,10 @@ mixin _$QuizSubmission {
   String get traineeId => throw _privateConstructorUsedError;
   String get traineeEmail => throw _privateConstructorUsedError;
   int get autoScore => throw _privateConstructorUsedError;
+  double? get autoScoreDecimal => throw _privateConstructorUsedError;
   int get manualScore => throw _privateConstructorUsedError;
   int get finalScore => throw _privateConstructorUsedError;
+  double? get finalScoreDecimal => throw _privateConstructorUsedError;
   int get totalQuestions => throw _privateConstructorUsedError;
   Map<String, dynamic> get answers => throw _privateConstructorUsedError;
   Map<String, int> get manualScores =>
@@ -64,8 +66,10 @@ abstract class $QuizSubmissionCopyWith<$Res> {
     String traineeId,
     String traineeEmail,
     int autoScore,
+    double? autoScoreDecimal,
     int manualScore,
     int finalScore,
+    double? finalScoreDecimal,
     int totalQuestions,
     Map<String, dynamic> answers,
     Map<String, int> manualScores,
@@ -98,8 +102,10 @@ class _$QuizSubmissionCopyWithImpl<$Res, $Val extends QuizSubmission>
     Object? traineeId = null,
     Object? traineeEmail = null,
     Object? autoScore = null,
+    Object? autoScoreDecimal = freezed,
     Object? manualScore = null,
     Object? finalScore = null,
+    Object? finalScoreDecimal = freezed,
     Object? totalQuestions = null,
     Object? answers = null,
     Object? manualScores = null,
@@ -132,6 +138,10 @@ class _$QuizSubmissionCopyWithImpl<$Res, $Val extends QuizSubmission>
                 ? _value.autoScore
                 : autoScore // ignore: cast_nullable_to_non_nullable
                       as int,
+            autoScoreDecimal: freezed == autoScoreDecimal
+                ? _value.autoScoreDecimal
+                : autoScoreDecimal // ignore: cast_nullable_to_non_nullable
+                      as double?,
             manualScore: null == manualScore
                 ? _value.manualScore
                 : manualScore // ignore: cast_nullable_to_non_nullable
@@ -140,6 +150,10 @@ class _$QuizSubmissionCopyWithImpl<$Res, $Val extends QuizSubmission>
                 ? _value.finalScore
                 : finalScore // ignore: cast_nullable_to_non_nullable
                       as int,
+            finalScoreDecimal: freezed == finalScoreDecimal
+                ? _value.finalScoreDecimal
+                : finalScoreDecimal // ignore: cast_nullable_to_non_nullable
+                      as double?,
             totalQuestions: null == totalQuestions
                 ? _value.totalQuestions
                 : totalQuestions // ignore: cast_nullable_to_non_nullable
@@ -197,8 +211,10 @@ abstract class _$$QuizSubmissionImplCopyWith<$Res>
     String traineeId,
     String traineeEmail,
     int autoScore,
+    double? autoScoreDecimal,
     int manualScore,
     int finalScore,
+    double? finalScoreDecimal,
     int totalQuestions,
     Map<String, dynamic> answers,
     Map<String, int> manualScores,
@@ -230,8 +246,10 @@ class __$$QuizSubmissionImplCopyWithImpl<$Res>
     Object? traineeId = null,
     Object? traineeEmail = null,
     Object? autoScore = null,
+    Object? autoScoreDecimal = freezed,
     Object? manualScore = null,
     Object? finalScore = null,
+    Object? finalScoreDecimal = freezed,
     Object? totalQuestions = null,
     Object? answers = null,
     Object? manualScores = null,
@@ -264,6 +282,10 @@ class __$$QuizSubmissionImplCopyWithImpl<$Res>
             ? _value.autoScore
             : autoScore // ignore: cast_nullable_to_non_nullable
                   as int,
+        autoScoreDecimal: freezed == autoScoreDecimal
+            ? _value.autoScoreDecimal
+            : autoScoreDecimal // ignore: cast_nullable_to_non_nullable
+                  as double?,
         manualScore: null == manualScore
             ? _value.manualScore
             : manualScore // ignore: cast_nullable_to_non_nullable
@@ -272,6 +294,10 @@ class __$$QuizSubmissionImplCopyWithImpl<$Res>
             ? _value.finalScore
             : finalScore // ignore: cast_nullable_to_non_nullable
                   as int,
+        finalScoreDecimal: freezed == finalScoreDecimal
+            ? _value.finalScoreDecimal
+            : finalScoreDecimal // ignore: cast_nullable_to_non_nullable
+                  as double?,
         totalQuestions: null == totalQuestions
             ? _value.totalQuestions
             : totalQuestions // ignore: cast_nullable_to_non_nullable
@@ -322,8 +348,10 @@ class _$QuizSubmissionImpl extends _QuizSubmission {
     required this.traineeId,
     required this.traineeEmail,
     required this.autoScore,
+    this.autoScoreDecimal,
     required this.manualScore,
     required this.finalScore,
+    this.finalScoreDecimal,
     required this.totalQuestions,
     required final Map<String, dynamic> answers,
     required final Map<String, int> manualScores,
@@ -353,9 +381,13 @@ class _$QuizSubmissionImpl extends _QuizSubmission {
   @override
   final int autoScore;
   @override
+  final double? autoScoreDecimal;
+  @override
   final int manualScore;
   @override
   final int finalScore;
+  @override
+  final double? finalScoreDecimal;
   @override
   final int totalQuestions;
   final Map<String, dynamic> _answers;
@@ -408,7 +440,7 @@ class _$QuizSubmissionImpl extends _QuizSubmission {
 
   @override
   String toString() {
-    return 'QuizSubmission(id: $id, quizId: $quizId, traineeId: $traineeId, traineeEmail: $traineeEmail, autoScore: $autoScore, manualScore: $manualScore, finalScore: $finalScore, totalQuestions: $totalQuestions, answers: $answers, manualScores: $manualScores, questionTypes: $questionTypes, needsManualReview: $needsManualReview, requiresManualGrading: $requiresManualGrading, submittedAt: $submittedAt, gradedAt: $gradedAt, graderId: $graderId)';
+    return 'QuizSubmission(id: $id, quizId: $quizId, traineeId: $traineeId, traineeEmail: $traineeEmail, autoScore: $autoScore, autoScoreDecimal: $autoScoreDecimal, manualScore: $manualScore, finalScore: $finalScore, finalScoreDecimal: $finalScoreDecimal, totalQuestions: $totalQuestions, answers: $answers, manualScores: $manualScores, questionTypes: $questionTypes, needsManualReview: $needsManualReview, requiresManualGrading: $requiresManualGrading, submittedAt: $submittedAt, gradedAt: $gradedAt, graderId: $graderId)';
   }
 
   @override
@@ -424,10 +456,14 @@ class _$QuizSubmissionImpl extends _QuizSubmission {
                 other.traineeEmail == traineeEmail) &&
             (identical(other.autoScore, autoScore) ||
                 other.autoScore == autoScore) &&
+            (identical(other.autoScoreDecimal, autoScoreDecimal) ||
+                other.autoScoreDecimal == autoScoreDecimal) &&
             (identical(other.manualScore, manualScore) ||
                 other.manualScore == manualScore) &&
             (identical(other.finalScore, finalScore) ||
                 other.finalScore == finalScore) &&
+            (identical(other.finalScoreDecimal, finalScoreDecimal) ||
+                other.finalScoreDecimal == finalScoreDecimal) &&
             (identical(other.totalQuestions, totalQuestions) ||
                 other.totalQuestions == totalQuestions) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
@@ -462,8 +498,10 @@ class _$QuizSubmissionImpl extends _QuizSubmission {
     traineeId,
     traineeEmail,
     autoScore,
+    autoScoreDecimal,
     manualScore,
     finalScore,
+    finalScoreDecimal,
     totalQuestions,
     const DeepCollectionEquality().hash(_answers),
     const DeepCollectionEquality().hash(_manualScores),
@@ -499,8 +537,10 @@ abstract class _QuizSubmission extends QuizSubmission {
     required final String traineeId,
     required final String traineeEmail,
     required final int autoScore,
+    final double? autoScoreDecimal,
     required final int manualScore,
     required final int finalScore,
+    final double? finalScoreDecimal,
     required final int totalQuestions,
     required final Map<String, dynamic> answers,
     required final Map<String, int> manualScores,
@@ -527,9 +567,13 @@ abstract class _QuizSubmission extends QuizSubmission {
   @override
   int get autoScore;
   @override
+  double? get autoScoreDecimal;
+  @override
   int get manualScore;
   @override
   int get finalScore;
+  @override
+  double? get finalScoreDecimal;
   @override
   int get totalQuestions;
   @override

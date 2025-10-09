@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../core/l10n_ext.dart';
+import 'package:training_app/core/ui/snackbar_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/providers/wall_post_providers.dart';
@@ -10,7 +12,8 @@ import '../widgets/comment_section_widget.dart';
 import 'trainee_list_screen.dart';
 import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
-import 'quiz_list_screen.dart'; // استيراد شاشة قائمة الاختبارات
+import 'quiz_hub_screen.dart'; // استبدال شاشة قائمة الاختبارات القديمة بالهاب الجديد
+import 'badges_overview_screen.dart';
 // Removed direct HTTP OneSignal calls; handled via backend service.
 
 class CourseDetailsScreen extends ConsumerStatefulWidget {
@@ -26,30 +29,36 @@ class CourseDetailsScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
+  ConsumerState<CourseDetailsScreen> createState() =>
+      _CourseDetailsScreenState();
 }
 
 class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
   final _postController = TextEditingController();
 
-  Future<void> _sendNotificationsToTrainees(String authorEmail, String courseName) async {
+  Future<void> _sendNotificationsToTrainees(
+    String authorEmail,
+    String courseName,
+  ) async {
     try {
-      final courseDoc = await FirebaseFirestore.instance.collection('courses').doc(widget.courseId).get();
+      final courseDoc = await FirebaseFirestore.instance
+          .collection('courses')
+          .doc(widget.courseId)
+          .get();
       if (!courseDoc.exists) return;
       final trainees = List<String>.from(courseDoc.data()?['trainees'] ?? []);
       if (trainees.isEmpty) return;
-      final tokensSnapshot = await FirebaseFirestore.instance.collection('users').where(FieldPath.documentId, whereIn: trainees).get();
-      final List<String> playerIds = tokensSnapshot.docs
-          .map((doc) => doc.data()['oneSignalPlayerId'] as String?)
-          .where((id) => id != null).toList().cast<String>();
-      if (playerIds.isEmpty) return;
       await OneSignalNotificationService().sendNotificationViaBackend(
-        playerIds: playerIds,
+        userIds: trainees,
         title: 'منشور جديد في: $courseName',
-        content: 'قام $authorEmail بإضافة منشور جديد.'
+        content: 'قام $authorEmail بإضافة منشور جديد.',
       );
     } catch (e, st) {
-      logger.w('Failed sending wall post notifications: $e', error: e, stackTrace: st);
+      logger.w(
+        'Failed sending wall post notifications: $e',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -59,6 +68,15 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
     final authUser = ref.read(authStateProvider).value;
     if (authUser == null) return;
     final repo = ref.read(wallPostRepositoryProvider);
+    // Optimistic insert: create a temp post in a local provider override list (simple approach: show SnackBar only)
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(milliseconds: 1200),
+          content: Text(context.l.postPublishing),
+        ),
+      );
+    }
     final result = await repo.addPost(
       courseId: widget.courseId,
       content: content,
@@ -69,11 +87,20 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       success: (_) async {
         _postController.clear();
         FocusScope.of(context).unfocus();
-        await _sendNotificationsToTrainees(authUser.email ?? 'المدرب', widget.courseName);
+        await _sendNotificationsToTrainees(
+          authUser.email ?? 'المدرب',
+          widget.courseName,
+        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(context.l.postPublished)));
+        }
       },
       failure: (f) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: ${f.message}')));
+          AppSnackBar.show(context, 'حدث خطأ: ${f.message}');
         }
       },
     );
@@ -81,15 +108,27 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
 
   Future<void> _navigateToTraineeList() async {
     try {
-      final courseDoc = await FirebaseFirestore.instance.collection('courses').doc(widget.courseId).get();
+      final courseDoc = await FirebaseFirestore.instance
+          .collection('courses')
+          .doc(widget.courseId)
+          .get();
       if (!courseDoc.exists) throw Exception("لم يتم العثور على الكورس");
       final traineesData = courseDoc.data()?['trainees'];
-      final List<String> traineeIds = traineesData is List ? List<String>.from(traineesData) : [];
+      final List<String> traineeIds = traineesData is List
+          ? List<String>.from(traineesData)
+          : [];
       if (!mounted) return;
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TraineeListScreen(courseId: widget.courseId, traineeIds: traineeIds)));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => TraineeListScreen(
+            courseId: widget.courseId,
+            traineeIds: traineeIds,
+          ),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+      AppSnackBar.show(context, 'حدث خطأ: $e');
     }
   }
 
@@ -101,25 +140,32 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-  final authUser = ref.watch(authStateProvider).value;
-  final isTrainer = authUser?.uid == widget.trainerId;
+    final authUser = ref.watch(authStateProvider).value;
+    final isTrainer = authUser?.uid == widget.trainerId;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.courseName),
         actions: [
           IconButton(
+            icon: const Icon(Icons.emoji_events_outlined),
+            tooltip: 'الشارات',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const BadgesOverviewScreen()),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.quiz_outlined),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => QuizListScreen(
-                    courseId: widget.courseId,
-                    isTrainer: isTrainer,
-                  ),
+                  builder: (context) =>
+                      QuizHubScreen(courseId: widget.courseId),
                 ),
               );
             },
-            tooltip: 'الاختبارات',
+            tooltip: 'الاختبارات (Hub)',
           ),
           IconButton(
             icon: const Icon(Icons.folder_copy_outlined),
@@ -136,11 +182,24 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
             tooltip: 'مكتبة الموارد',
           ),
           if (isTrainer)
-            IconButton(icon: const Icon(Icons.people_alt_outlined), onPressed: _navigateToTraineeList, tooltip: 'عرض المتدربين'),
+            IconButton(
+              icon: const Icon(Icons.people_alt_outlined),
+              onPressed: _navigateToTraineeList,
+              tooltip: 'عرض المتدربين',
+            ),
           if (!isTrainer)
-            IconButton(icon: const Icon(Icons.assignment_turned_in_outlined), onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEvaluationsScreen(courseId: widget.courseId)));
-            }, tooltip: 'عرض تقييماتي'),
+            IconButton(
+              icon: const Icon(Icons.assignment_turned_in_outlined),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        MyEvaluationsScreen(courseId: widget.courseId),
+                  ),
+                );
+              },
+              tooltip: 'عرض تقييماتي',
+            ),
         ],
       ),
       body: Column(
@@ -158,52 +217,72 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('حدث خطأ: $e')),
       data: (posts) {
-        if (posts.isEmpty) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.message_outlined, size: 80, color: Colors.grey),
-                SizedBox(height: 16),
-                Text('لا توجد منشورات حتى الآن', style: TextStyle(fontSize: 18)),
-              ],
-            ),
-          );
-        }
-        return ListView.builder(
-          reverse: true,
-          padding: const EdgeInsets.all(8.0),
-          itemCount: posts.length,
-          itemBuilder: (context, index) {
-            final WallPost post = posts[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'نشر بواسطة: ${post.authorId}',
-                          style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(post.content, style: const TextStyle(fontSize: 16, height: 1.5)),
-                      ],
-                    ),
-                  ),
-                  CommentSectionWidget(postId: post.id),
-                ],
-              ),
-            );
+        return RefreshIndicator(
+          onRefresh: () async {
+            // إبطال الـ provider لإجبار إعادة الاشتراك (Riverpod سينشئ stream جديد)
+            ref.invalidate(wallPostsStreamProvider(widget.courseId));
+            await Future<void>.delayed(const Duration(milliseconds: 200));
           },
+          child: posts.isEmpty
+              ? ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    SizedBox(height: 120),
+                    Icon(Icons.message_outlined, size: 80, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Center(
+                      child: Text(
+                        'لا توجد منشورات حتى الآن',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ],
+                )
+              : ListView.builder(
+                  reverse: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final WallPost post = posts[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'نشر بواسطة: ${post.authorEmail ?? post.authorId}',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  post.content,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CommentSectionWidget(postId: post.id),
+                        ],
+                      ),
+                    );
+                  },
+                ),
         );
       },
     );
@@ -224,7 +303,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Colors.grey.withOpacity(0.1),
+                fillColor: Colors.grey.withValues(alpha: 0.1),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
               ),
             ),

@@ -2,20 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:training_app/core/result.dart';
 import 'package:training_app/models/quiz_question.dart';
 import 'package:training_app/models/quiz_submission.dart';
+import 'package:training_app/services/notification_service.dart';
+import 'package:training_app/core/bootstrap.dart';
 
 class QuizRepository {
   final FirebaseFirestore _db;
-  QuizRepository(this._db);
+  final OneSignalNotificationService?
+  _notificationService; // optional (injected)
+  QuizRepository(this._db, {OneSignalNotificationService? notificationService})
+    : _notificationService = notificationService;
 
-  CollectionReference<Map<String, dynamic>> get _questionsCol => _db.collection('quiz_questions');
-  CollectionReference<Map<String, dynamic>> get _submissionsCol => _db.collection('quiz_submissions');
+  CollectionReference<Map<String, dynamic>> get _questionsCol =>
+      _db.collection('quiz_questions');
+  CollectionReference<Map<String, dynamic>> get _submissionsCol =>
+      _db.collection('quiz_submissions');
 
   Stream<List<QuizQuestion>> watchQuestions(String quizId) {
     return _questionsCol
         .where('quizId', isEqualTo: quizId)
         .orderBy('createdAt')
         .snapshots()
-        .map((snap) => snap.docs.map((d) => QuizQuestion.fromFirestore(d)).toList());
+        .map(
+          (snap) =>
+              snap.docs.map((d) => QuizQuestion.fromFirestore(d)).toList(),
+        );
   }
 
   Future<Result<void>> addMultipleChoice({
@@ -64,7 +74,10 @@ class QuizRepository {
     required List<String> rightItems,
   }) async {
     try {
-      assert(leftItems.length == rightItems.length, 'Left & Right lists must have same length');
+      assert(
+        leftItems.length == rightItems.length,
+        'Left & Right lists must have same length',
+      );
       final correctPairs = <String, int>{};
       for (int i = 0; i < leftItems.length; i++) {
         correctPairs[i.toString()] = i; // identity mapping by default
@@ -85,7 +98,13 @@ class QuizRepository {
   }
 
   Future<List<QuizQuestion>> fetchQuestionsOnce(String quizId) async {
-    final snap = await _questionsCol.where('quizId', isEqualTo: quizId).orderBy('createdAt').get();
+    final snap = await traceAsync(
+      'quiz.fetchQuestionsOnce($quizId)',
+      () => _questionsCol
+          .where('quizId', isEqualTo: quizId)
+          .orderBy('createdAt')
+          .get(),
+    );
     return snap.docs.map((d) => QuizQuestion.fromFirestore(d)).toList();
   }
 
@@ -98,38 +117,51 @@ class QuizRepository {
     required Map<String, dynamic> userAnswers,
   }) async {
     try {
-      int autoScore = 0;
+      int autoScoreInt = 0; // legacy integer count (each question max 1)
+      double autoScoreDecimal = 0; // new partial-aware score
       final questionTypes = <String, String>{};
       final requiresManual = <String>[];
       for (final q in questions) {
         questionTypes[q.id] = q.type;
         if (q.type == QuizQuestionType.multipleChoice) {
           final user = userAnswers[q.id] as int?;
-          if (user != null && user == q.correctAnswerIndex) autoScore++;
+          if (user != null && user == q.correctAnswerIndex) {
+            autoScoreInt++;
+            autoScoreDecimal += 1;
+          }
         } else if (q.type == QuizQuestionType.matching) {
           final ans = userAnswers[q.id];
-            if (ans is Map) {
-              bool allCorrect = true;
-              q.correctPairs?.forEach((k, v) {
-                final userV = ans[k];
-                if (userV != v) allCorrect = false;
-              });
-              if (allCorrect) autoScore++; // full credit only when all pairs correct
+          if (ans is Map &&
+              q.correctPairs != null &&
+              q.correctPairs!.isNotEmpty) {
+            int correct = 0;
+            q.correctPairs!.forEach((k, v) {
+              final userV = ans[k];
+              if (userV == v) correct++;
+            });
+            final total = q.correctPairs!.length;
+            if (correct == total) {
+              autoScoreInt++; // maintain legacy behaviour for int score
             }
+            autoScoreDecimal += correct / total; // partial credit
+          }
         } else {
           requiresManual.add(q.id);
         }
       }
       final needsManualReview = requiresManual.isNotEmpty;
-      final finalScore = autoScore; // manualScore = 0 now
+      final finalScoreInt = autoScoreInt; // manualScore = 0 now
+      final finalScoreDecimal = autoScoreDecimal; // manual part 0 for now
       final ref = await _submissionsCol.add({
         'quizId': quizId,
         'quizTitle': quizTitle,
         'traineeId': traineeId,
         'traineeEmail': traineeEmail,
-        'autoScore': autoScore,
+        'autoScore': autoScoreInt,
+        'autoScoreDecimal': autoScoreDecimal,
         'manualScore': 0,
-        'finalScore': finalScore,
+        'finalScore': finalScoreInt,
+        'finalScoreDecimal': finalScoreDecimal,
         'totalQuestions': questions.length,
         'answers': userAnswers,
         'manualScores': {},
@@ -149,7 +181,10 @@ class QuizRepository {
         .where('quizId', isEqualTo: quizId)
         .where('needsManualReview', isEqualTo: true)
         .snapshots()
-        .map((snap) => snap.docs.map((d) => QuizSubmission.fromFirestore(d)).toList());
+        .map(
+          (snap) =>
+              snap.docs.map((d) => QuizSubmission.fromFirestore(d)).toList(),
+        );
   }
 
   Future<Result<void>> gradeSubmission({
@@ -159,22 +194,49 @@ class QuizRepository {
   }) async {
     try {
       final docRef = _submissionsCol.doc(submissionId);
-      final snap = await docRef.get();
+      final snap = await traceAsync(
+        'quiz.grade.submission.get($submissionId)',
+        () => docRef.get(),
+      );
       if (!snap.exists) {
         return FailureResult(UnknownFailure('Submission not found'));
       }
       final data = snap.data()!;
       final autoScore = data['autoScore'] as int? ?? 0;
+      final autoScoreDecimal = (data['autoScoreDecimal'] is num)
+          ? (data['autoScoreDecimal'] as num).toDouble()
+          : autoScore.toDouble();
       final manualScore = manualScores.values.fold<int>(0, (p, e) => p + e);
       final finalScore = autoScore + manualScore;
+      final finalScoreDecimal =
+          autoScoreDecimal + manualScore; // manual scores currently integer
       await docRef.update({
         'manualScores': manualScores,
         'manualScore': manualScore,
         'finalScore': finalScore,
+        'finalScoreDecimal': finalScoreDecimal,
         'needsManualReview': false,
         'gradedAt': FieldValue.serverTimestamp(),
         'graderId': graderId,
       });
+
+      // Fire-and-forget notification to trainee (if service injected & player id stored)
+      try {
+        if (_notificationService != null) {
+          final traineeId = data['traineeId'] as String?;
+          if (traineeId != null) {
+            // We send directly using external user id (OneSignal.login(uid))
+            await _notificationService.sendNotificationViaBackend(
+              userIds: [traineeId],
+              title: 'تم تصحيح الاختبار',
+              content:
+                  'تم تصحيح محاولتك للاختبار، الدرجة النهائية: $finalScore',
+            );
+          }
+        }
+      } catch (_) {
+        // swallow notification errors to not block grading
+      }
       return const Success(null);
     } catch (e, st) {
       return FailureResult(UnknownFailure(e.toString(), cause: e, stack: st));

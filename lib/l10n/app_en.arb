@@ -1,0 +1,385 @@
+{
+  "@@locale": "en",
+  "appTitle": "Training App",
+  "navDashboardTrainer": "Dashboard",
+  "navHomeTrainee": "Home",
+  "navProfile": "My Account",
+  "navSettings": "Settings",
+  "actionNewCourse": "New Course",
+  "actionJoin": "Join",
+  "greetingTrainer": "Hello, {name}!",
+  "@greetingTrainer": {"placeholders": {"name": {}}},
+  "greetingTrainerFallback": "Hello, Trainer!",
+  "greetingTrainee": "Welcome, {name}!",
+  "@greetingTrainee": {"placeholders": {"name": {}}},
+  "greetingTraineeFallback": "Hello, Trainee!",
+  "trainerCoursesSubtitle": "Your current courses:",
+  "traineeCoursesSubtitle": "Your enrolled courses:",
+  "noTrainerCoursesTitle": "You haven't created any courses yet",
+  "noTrainerCoursesHint": "Press + below to start",
+  "noTraineeCoursesTitle": "You haven't joined any courses yet",
+  "noTraineeCoursesHint": "Press + to join a new course",
+  "courseCodeLabel": "Code: {code}",
+  "@courseCodeLabel": {"placeholders": {"code": {}}},
+  "onboardingTitle": "Quick Guide",
+  "onboardingPointDashboardTitle": "Home / Dashboard",
+  "onboardingPointDashboardBody": "View and manage your courses.",
+  "onboardingPointProfileTitle": "My Account",
+  "onboardingPointProfileBody": "Update your name, photo and info.",
+  "onboardingPointSettingsTitle": "Settings",
+  "onboardingPointSettingsBody": "Control theme, animations and playback.",
+  "onboardingRoleNote": "First tab changes based on your role (trainer/trainee).",
+  "onboardingStart": "Start",
+  "onboardingLater": "Later",
+  "onboardingFullTour": "Full Tour",
+  "tourNext": "Next",
+  "tourSkip": "Skip",
+  "tourDone": "Done",
+  "tourDashboardTitle": "Dashboard",
+  "tourDashboardBody": "Your starting point. Shows summaries and quick actions.",
+  "tourFabTitleTrainer": "Create Course",
+  "tourFabBodyTrainer": "Tap here any time to add a new course for trainees.",
+  "tourFabTitleTrainee": "Join Course",
+  "tourFabBodyTrainee": "Tap to join a course using a code shared by a trainer.",
+  "tourProfileTitle": "Profile",
+  "tourProfileBody": "Edit your name, photo and view stats & achievements.",
+  "tourSettingsTitle": "Settings",
+  "tourSettingsBody": "Change theme, language and notification preferences.",
+  "loading": "Loading...",
+  "errorGeneric": "Error: {error}",
+  "@errorGeneric": {"placeholders": {"error": {}}},
+  "notificationsTitle": "Notifications",
+  "notificationsSubtitle": "Allow push notifications (OneSignal / FCM)",
+  "errorNetwork": "Network issue. Please retry.",
+  "errorAuth": "Authentication error: {details}",
+  "@errorAuth": {"placeholders": {"details": {}}},
+  "errorNotFound": "Resource not found",
+  "errorNotFoundResource": "Not found: {resource}",
+  "@errorNotFoundResource": {"placeholders": {"resource": {}}},
+  "errorValidation": "Some fields are invalid",
+  "errorPermission": "You don't have permission",
+  "errorRateLimited": "Too many requests. Try later.",
+  "errorRateLimitedRetry": "Please retry after {seconds}s",
+  "@errorRateLimitedRetry": {"placeholders": {"seconds": {}}},
+  "errorStorage": "Storage error occurred",
+  "errorUnknown": "An unexpected error occurred",
+  "funAnimationsTitle": "Fun animations",
+  "funAnimationsSubtitle": "Enable subtle entrance animations",
+  "autoplayAudioTitle": "Autoplay audio",
+  "autoplayAudioSubtitle": "When opening a new voice evaluation",
+  "clearCacheTitle": "Clear cache (pseudo)",
+  "clearCacheSubtitle": "May fix some sync issues",
+  "confirmationTitle": "Confirm",
+  "clearCacheConfirm": "Perform a pseudo clear of local cache?",
+  "cancelAction": "Cancel",
+  "continueAction": "Continue",
+  "cacheClearedToast": "Cache cleared (simulated)",
+  "aboutTitle": "About",
+  "aboutSubtitle": "Training beta build",
+  "logoutAction": "Logout",
+  "logoutConfirm": "Are you sure you want to logout?",
+  "logoutFailed": "Logout failed: {error}","@logoutFailed":{"placeholders":{"error":{}}},
+  "dumpSettingsAction": "Print settings state to log",
+  "dumpSettingsToast": "Settings state logged",
+  "languagePickerTitle": "Language",
+  "systemLocaleLabel": "System",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "loginTitle": "Login",
+  "loginWelcomeBack": "Welcome back!",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "passwordTooShort": "At least 6 characters",
+  "fieldRequired": "Required",
+  "invalidEmail": "Invalid email",
+  "loginAction": "Login",
+  "signupNavigate": "Don't have an account? Create one",
+  "signupTitle": "Create Account",
+  "fullNameLabel": "Full name",
+  "chooseRole": "Choose your role:",
+  "roleTrainer": "Trainer",
+  "roleTrainee": "Trainee",
+  "signupAction": "Sign Up",
+  "haveAccountLogin": "Already have an account? Login",
+  "selectRoleError": "Please select a role (trainer or trainee)",
+  "createCourseTitle": "Create New Course",
+  "courseNameLabel": "Course name",
+  "createCourseAction": "Create Course",
+  "courseCreatedSuccess": "Course created successfully!",
+  "shareCodeHint": "Share this code with your trainees to join:",
+  "backToHome": "Back to home",
+  "joinCourseTitle": "Join Course",
+  "enterCourseCode": "Enter course code",
+  "joinCourseSuccess": "Joined course successfully!",
+  "enterCourseCodeError": "Please enter a course code",
+  "loginFailed": "Login failed: {error}",
+  "@loginFailed": {"placeholders": {"error": {}}},
+  "unexpectedError": "Unexpected error: {error}",
+  "@unexpectedError": {"placeholders": {"error": {}}},
+  "signupFailed": "Signup failed: {error}",
+  "@signupFailed": {"placeholders": {"error": {}}},
+  "createCourseFailed": "Failed to create course: {error}",
+  "@createCourseFailed": {"placeholders": {"error": {}}},
+  "joinCourseFailed": "Failed to join course: {error}",
+  "@joinCourseFailed": {"placeholders": {"error": {}}},
+  "userNotLoggedIn": "User not signed in",
+  "threadTitle": "Discussion",
+  "refreshTooltip": "Refresh",
+  "noRepliesYet": "No replies yet",
+  "newTaskHint": "New task (Action plan)",
+  "addTaskTooltip": "Add task",
+  "noTasksYet": "No tasks yet",
+  "autoStopRecording": "Recording stopped automatically after reaching the time limit.",
+  "previewPlayError": "Could not play preview: {error}",
+  "@previewPlayError": {"placeholders": {"error": {}}},
+  "trainerAccountMissing": "Could not identify trainer account. Please log in again.",
+  "evaluationSendSuccess": "Evaluation sent successfully!",
+  "evaluationSendFailure": "Failed: {message}",
+  "@evaluationSendFailure": {"placeholders": {"message": {}}},
+  "unexpectedErrorMsg": "Unexpected error: {error}",
+  "@unexpectedErrorMsg": {"placeholders": {"error": {}}},
+  "courseNameFallback": "One of your courses",
+  "notificationNewEvaluationTitle": "You have a new evaluation!",
+  "notificationNewEvaluationBody": "Your trainer added a new evaluation for you in course: {courseName}",
+  "@notificationNewEvaluationBody": {"placeholders": {"courseName": {}}},
+  "cancelRecordingTitle": "Cancel recording?",
+  "cancelRecordingBody": "You are currently recording. Do you want to stop and lose the current recording?",
+  "dialogNo": "No",
+  "dialogYes": "Yes",
+  "reportTitle": "Report: {email}",
+  "@reportTitle": {"placeholders": {"email": {}}},
+  "scoreFieldLabel": "Score (out of 100)",
+  "scoreRequired": "Please enter a score",
+  "scoreRangeError": "Please enter a score between 0 and 100",
+  "feedbackFieldLabel": "Feedback and evaluation",
+  "feedbackRequired": "Please enter feedback",
+  "audioSectionOptional": "Add audio evaluation (optional):",
+  "submitEvaluation": "Submit Evaluation",
+  "recordingStartLabel": "Record audio evaluation",
+  "recordingInProgress": "Recording in progress",
+  "recordedLabel": "Recorded",
+  "previewAudioLabel": "Preview audio recording",
+  "previewButton": "Preview",
+  "durationLabel": "Duration: {value}",
+  "@durationLabel": {"placeholders": {"value": {}}},
+  "reRecord": "Re-record",
+  "pinAction": "Pin",
+  "unpinAction": "Unpin",
+  "copyTextAction": "Copy text",
+  "editAction": "Edit",
+  "deleteAction": "Delete",
+  "copiedToast": "Copied!",
+  "writeReplyHint": "Write a reply...",
+  "retryLabel": "Retry",
+  "uploadingAudio": "Uploading audio...",
+  "audioFailed": "Audio upload failed",
+  "audioLabel": "Audio",
+  "editCancel": "Cancel",
+  "editSave": "Save",
+  "pinnedReplyLabel": "Pinned reply: {id}",
+  "@pinnedReplyLabel": {"placeholders": {"id": {}}},
+  "commentUnknownUser": "Unknown user",
+  "commentFallbackName": "Anonymous",
+  "commentHint": "Add a comment...",
+  "noFeedback": "No feedback provided",
+  "discussionButton": "Discussion",
+  "scoreLabel": "Score: {score}",
+  "@scoreLabel": {"placeholders": {"score": {}}},
+  "audioPauseSemantic": "Pause audio",
+  "audioPlaySemantic": "Play audio",
+  "audioEvaluation": "Audio evaluation",
+  "audioPlayingNow": "Playing now",
+  "audioTapToPlay": "Tap to play",
+  "userMissing": "User not found",
+  "dashboardTitleTrainer": "Trainer Dashboard",
+  "createCourseFab": "Create Course",
+  "loadCoursesError": "Error loading courses: {error}",
+  "@loadCoursesError": {"placeholders": {"error": {}}},
+  "noTrainerCoursesTitleAlt": "No courses created yet",
+  "noTrainerCoursesHintAlt": "Press + to create your first course",
+  "loadMore": "Load more",
+  "courseCodePrefix": "Course code: {code}",
+  "@courseCodePrefix": {"placeholders": {"code": {}}},
+  "homeTitleTrainee": "Trainee Home",
+  "loadErrorGeneric": "Error loading data: {error}",
+  "@loadErrorGeneric": {"placeholders": {"error": {}}},
+  "noTraineeCoursesTitleAlt": "No courses joined yet",
+  "noTraineeCoursesHintAlt": "Press + to join your first course",
+  "trainerPrefix": "Trainer: {id}",
+  "@trainerPrefix": {"placeholders": {"id": {}}},
+  "joinCourseAction": "Join Course",
+  "reportGeneralSection": "General Information",
+  "reportQuizzesSection": "Quizzes",
+  "addEvaluationFab": "Add Evaluation",
+  "reportNoEvaluations": "No evaluations yet",
+  "reportNoQuizzes": "No quizzes yet",
+  "leaderboardTitle": "Leaderboard",
+  "leaderboardEmpty": "No players yet",
+  "leaderboardPoints": "{points} pts",
+  "@leaderboardPoints": {"placeholders": {"points": {}}},
+  "pointsLabel": "Points",
+  "dashboardSeeAll": "See all",
+  "timelineFilterAll": "All",
+  "timelineFilterQuizzes": "Quizzes",
+  "timelineFilterTasks": "Tasks",
+  "timelineFilterLessons": "Lessons",
+  "timelineFilterStreak": "Streak",
+  "timelineNoMoreEvents": "No more events",
+  "nextBadgeShort": "Next badge",
+  "badgesLabel": "Badges",
+  "levelLabel": "Level {level}",
+  "@levelLabel": {"placeholders": {"level": {}}},
+  "earnedBadgesSection": "Earned",
+  "allBadgesSection": "All",
+  "noBadgesYet": "No badges yet",
+  "reviewsTitle": "Reviews",
+  "addReviewAction": "Add Review",
+  "ratingLabel": "Rating",
+  "reviewSubmitSuccess": "Review submitted",
+  "reviewSubmitFailure": "Failed to submit review",
+  "averageRatingLabel": "Average: {value}",
+  "@averageRatingLabel": {"placeholders": {"value": {}}},
+  "streakLabel": "Streak: {days}d",
+  "@streakLabel": {"placeholders": {"days": {}}},
+  "nextBadgeProgress": "Next badge at {points} pts",
+  "@nextBadgeProgress": {"placeholders": {"points": {}}},
+  "dailyStreakAward": "Daily streak +{points}",
+  "@dailyStreakAward": {"placeholders": {"points": {}}},
+  "quizPassedAward": "Quiz passed +{points}",
+  "@quizPassedAward": {"placeholders": {"points": {}}},
+  "lessonCompletedAward": "Lesson completed +{points}",
+  "@lessonCompletedAward": {"placeholders": {"points": {}}},
+  "badgeEarnedToast": "Badge earned: {name}",
+  "@badgeEarnedToast": {"placeholders": {"name": {}}},
+  "badgesEarnedBatch": "Badge earned: {first} +{more}",
+  "@badgesEarnedBatch": {"placeholders": {"first": {}, "more": {}}},
+  "noReviewsYet": "No reviews yet",
+  "submitReview": "Submit Review",
+  "reviewCommentHint": "Your comment",
+  "reviewRatingHint": "Tap stars to rate",
+  "gamificationSection": "Progress & Achievements",
+  "progressTitle": "Progress",
+  "testsTabLabel": "Tests",
+  "tasksTabLabel": "Tasks",
+  "noQuizzesYet": "No quizzes available yet",
+  "quizLastScore": "Last score: {score}%",
+  "@quizLastScore": {"placeholders": {"score": {}}},
+  "quizNotStarted": "Not started yet",
+  "quizStartAction": "Start",
+  "quizRetakeAction": "Retake",
+  "noTasksYetAlt": "No tasks right now",
+  "addTaskDialogTitle": "New Task",
+  "fieldTitleHint": "Title",
+  "fieldDetailsHint": "Details (optional)",
+  "fieldPointsHint": "Points",
+  "priorityLabel": "Priority",
+  "priorityHigh": "High priority",
+  "priorityMed": "Medium priority",
+  "priorityLow": "Low priority",
+  "taskStatusNew": "New",
+  "taskStatusInProgress": "In progress",
+  "taskStatusDone": "Done",
+  "badgeManageTitle": "Manage Badges",
+  "noBadgesDefined": "No badges defined yet",
+  "newBadgeTitle": "New Badge",
+  "editBadgeTitle": "Edit Badge",
+  "deleteBadgeTitle": "Delete Badge",
+  "deleteConfirmBody": "Delete badge: {name}?",
+  "@deleteConfirmBody": {"placeholders": {"name": {}}},
+  "badgeIconUrlLabel": "Icon URL",
+  "criteriaSectionLabel": "Criteria",
+  "activeLabel": "Active",
+  "autoAwardLabel": "Auto award",
+  "saveActionLabel": "Save",
+  "dialogCancel": "Cancel",
+  "taskStatusSkipped": "Skipped",
+  "filterAll": "All",
+  "selectDueDate": "Select due date",
+  "dueDatePickerLabel": "Due",
+  "pickAction": "Pick",
+  "changeAction": "Change",
+  "clearAction": "Clear",
+  "duePast": "Past",
+  "dueToday": "Today",
+  "dueTomorrow": "Tomorrow",
+  "dueInDays": "In {days} days",
+  "@dueInDays": {"placeholders": {"days": {}}}
+  ,"quizPassedLabel": "Passed"
+  ,"quizSubmitAction": "Submit Quiz"
+  ,"quizPassThreshold": "Pass >= {score}%"
+  ,"@quizPassThreshold": {"placeholders": {"score": {}}}
+  ,"taskDueFilterOverdue": "Overdue"
+  ,"taskDueFilterToday": "Today"
+  ,"taskDueFilterWeek": "This Week"
+  ,"quizAttemptsUsed": "Attempts: {used}/{max}"
+  ,"@quizAttemptsUsed": {"placeholders": {"used": {}, "max": {}}}
+  ,"quizAttemptExceeded": "No more attempts"
+  ,"quizAttemptSingle": "Single attempt"
+  ,"quizAttemptMultiple": "Up to {max} attempts"
+  ,"@quizAttemptMultiple": {"placeholders": {"max": {}}}
+  ,"quizReviewAction": "Review"
+  ,"quizSettingsTitle": "Quiz Settings"
+  ,"quizPassPercentLabel": "Pass %"
+  ,"quizRewardPointsLabel": "Reward Points"
+  ,"quizMaxAttemptsLabel": "Max Attempts"
+  ,"quizUpdateSuccess": "Quiz updated"
+  ,"quizUpdateFailed": "Update failed"
+  ,"postPublishing": "Posting..."
+  ,"postPublished": "Post published"
+  ,"orgAdminDashboardTitle": "Organization Admin Dashboard"
+  ,"orgAdminDashboardSubtitle": "Metrics and trends for your institution"
+  ,"companyAdminDashboardTitle": "Company Admin Dashboard"
+  ,"companyAdminDashboardSubtitle": "Metrics and trends for your company"
+  ,"departmentsTitle": "Departments"
+  ,"departmentsSubtitle": "View your company departments"
+  ,"learningPathsTitle": "Learning Paths"
+  ,"learningPathsSubtitle": "View learning paths for your company"
+  ,"managerDashboardTitle": "Manager Dashboard"
+  ,"managerDashboardSubtitle": "Team overview and skill gaps (preview)"
+  ,"bulkImportTitle": "Bulk Import (CSV)"
+  ,"bulkImportSubtitle": "Import batched changes from CSV file"
+  ,"selectDepartmentHint": "Select a department from Departments to view team."
+  ,"labelActiveUsers": "Active Users"
+  ,"labelAvgEventsPerUser7d": "Avg Events/User (7d)"
+  ,"labelAvgMastery": "Avg Mastery"
+  ,"labelAvgMasteryDelta14d": "Avg Mastery Δ14d"
+  ,"labelLatestPrefix": "Latest"
+  ,"labelLatest7Days": "Latest 7 days"
+  ,"labelDate": "Date"
+  ,"labelActiveShort": "Active"
+  ,"labelAvgEvPerUsrShort": "AvgEv/Usr"
+  ,"labelAvgMasteryShort": "AvgMastery"
+  ,"labelDelta14dShort": "Δ14d"
+  ,"noDepartments": "No departments"
+  ,"idLabel": "ID: {id}"
+  ,"@idLabel": {"placeholders": {"id": {}}}
+  ,"noTeamMembers": "No team members in this department"
+  ,"topSkillGapsTitle": "Top skill gaps"
+  ,"noSkillData": "No skill data"
+  ,"activeChip": "Active"
+  ,"inactiveChip": "Inactive"
+  ,"pathTitle": "Path: {title}"
+  ,"@pathTitle": {"placeholders": {"title": {}}}
+  ,"noLearningPaths": "No learning paths"
+  ,"noSteps": "No steps"
+  ,"bulkImportCsvFormat": "CSV Format: collection,docId,field.path,value"
+  ,"bulkImportPickCsv": "Pick CSV"
+  ,"departmentsAddAction": "Add Department"
+  ,"departmentNameLabel": "Department name"
+  ,"assignUserToDepartmentTitle": "Assign user to department"
+  ,"departmentMembersTitle": "Department Members"
+  ,"manageMembersAction": "Manage members"
+  ,"assignMemberAction": "Assign member"
+  ,"searchUsersLabel": "Search users by name or email"
+  ,"noResults": "No results"
+  ,"assignSelectedAction": "Assign selected"
+  ,"selectAtLeastOneUser": "Select at least one user"
+  ,"assignmentCompletedToast": "Assigned {count} member(s)"
+  ,"@assignmentCompletedToast": {"placeholders": {"count": {}}}
+  ,"removeMemberConfirm": "Remove this member from the department?"
+  ,"memberRemovedToast": "Member removed"
+  ,"departmentCreatedToast": "Department created: {name}"
+  ,"@departmentCreatedToast": {"placeholders": {"name": {}}}
+  ,"alreadyMemberLabel": "Already in this department"
+}

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:training_app/core/l10n_ext.dart';
 
 class CommentSectionWidget extends StatefulWidget {
   final String postId;
@@ -25,8 +26,13 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
     final content = _commentController.text.trim();
     if (content.isEmpty || _currentUser == null) return;
 
-    final userData = await FirebaseFirestore.instance.collection('users').doc(_currentUser.uid).get();
-    final userName = userData.data()?['name'] ?? 'مستخدم غير معروف';
+    final userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_currentUser.uid)
+        .get();
+    if (!mounted) return; // guard context after await
+    final l = context.l;
+    final userName = userData.data()?['name'] ?? l.commentUnknownUser;
     final userImageUrl = userData.data()?['imageUrl'] as String?;
 
     await FirebaseFirestore.instance.collection('post_comments').add({
@@ -39,6 +45,7 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
     });
 
     _commentController.clear();
+    if (!mounted) return;
     FocusScope.of(context).unfocus();
   }
 
@@ -46,8 +53,7 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 8.0),
-      // لون خلفية أفتح قليلاً لتمييز قسم التعليقات
-      color: Colors.grey.withOpacity(0.05),
+      color: Colors.grey.withValues(alpha: 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,10 +65,16 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2.0)),
-                ));
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2.0),
+                    ),
+                  ),
+                );
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return const SizedBox.shrink();
@@ -75,18 +87,34 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
                 child: Column(
                   children: comments.map((doc) {
                     final commentData = doc.data() as Map<String, dynamic>;
-                    final authorName = commentData['authorName'] ?? 'مستخدم';
+                    final authorName =
+                        commentData['authorName'] ??
+                        context.l.commentFallbackName;
                     final content = commentData['content'] ?? '';
-                    final authorImageUrl = commentData['authorImageUrl'] as String?;
+                    final authorImageUrl =
+                        commentData['authorImageUrl'] as String?;
 
                     return ListTile(
                       leading: CircleAvatar(
                         radius: 18,
-                        backgroundImage: authorImageUrl != null ? NetworkImage(authorImageUrl) : null,
-                        child: authorImageUrl == null ? const Icon(Icons.person, size: 18) : null,
+                        backgroundImage: authorImageUrl != null
+                            ? NetworkImage(authorImageUrl)
+                            : null,
+                        child: authorImageUrl == null
+                            ? const Icon(Icons.person, size: 18)
+                            : null,
                       ),
-                      title: Text(authorName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                      subtitle: Text(content, style: const TextStyle(fontSize: 14)),
+                      title: Text(
+                        authorName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      subtitle: Text(
+                        content,
+                        style: const TextStyle(fontSize: 14),
+                      ),
                     );
                   }).toList(),
                 ),
@@ -101,14 +129,16 @@ class _CommentSectionWidgetState extends State<CommentSectionWidget> {
                   child: TextField(
                     controller: _commentController,
                     decoration: InputDecoration(
-                      hintText: 'اكتب تعليقًا...',
+                      hintText: context.l.commentHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
                     ),
                   ),
                 ),

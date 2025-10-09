@@ -21,7 +21,10 @@ class CourseManagement {
   }
 
   // دالة للانضمام إلى كورس باستخدام الكود
-  Future<DocumentSnapshot?> joinCourse(String courseCode, String traineeId) async {
+  Future<DocumentSnapshot?> joinCourse(
+    String courseCode,
+    String traineeId,
+  ) async {
     try {
       final querySnapshot = await _firestore
           .collection('courses')
@@ -47,6 +50,9 @@ class CourseManagement {
   String _generateUniqueCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final rand = Random();
-    return List.generate(6, (index) => chars[rand.nextInt(chars.length)]).join();
+    return List.generate(
+      6,
+      (index) => chars[rand.nextInt(chars.length)],
+    ).join();
   }
 }

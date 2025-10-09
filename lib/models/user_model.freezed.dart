@@ -23,14 +23,18 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 mixin _$AppUser {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
+  String get email =>
+      throw _privateConstructorUsedError; // role set now includes: trainer | trainee | super_admin | org_admin | company_admin (future: manager/employee variants)
   String get role =>
-      throw _privateConstructorUsedError; // 'trainer' | 'trainee'
+      throw _privateConstructorUsedError; // 'trainer' | 'trainee' | 'super_admin' | 'org_admin' | 'company_admin'
   @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get oneSignalPlayerId =>
       throw _privateConstructorUsedError; // Optional profile image URL
-  String? get imageUrl => throw _privateConstructorUsedError;
+  String? get imageUrl =>
+      throw _privateConstructorUsedError; // Multi-tenancy (placeholders, may remain null for B2C phase)
+  String? get institutionId => throw _privateConstructorUsedError;
+  String? get companyId => throw _privateConstructorUsedError;
 
   /// Serializes this AppUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,6 +58,8 @@ abstract class $AppUserCopyWith<$Res> {
     @TimestampConverter() DateTime? createdAt,
     String? oneSignalPlayerId,
     String? imageUrl,
+    String? institutionId,
+    String? companyId,
   });
 }
 
@@ -79,6 +85,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? createdAt = freezed,
     Object? oneSignalPlayerId = freezed,
     Object? imageUrl = freezed,
+    Object? institutionId = freezed,
+    Object? companyId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -110,6 +118,14 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
+            institutionId: freezed == institutionId
+                ? _value.institutionId
+                : institutionId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            companyId: freezed == companyId
+                ? _value.companyId
+                : companyId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -132,6 +148,8 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
     @TimestampConverter() DateTime? createdAt,
     String? oneSignalPlayerId,
     String? imageUrl,
+    String? institutionId,
+    String? companyId,
   });
 }
 
@@ -156,6 +174,8 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? oneSignalPlayerId = freezed,
     Object? imageUrl = freezed,
+    Object? institutionId = freezed,
+    Object? companyId = freezed,
   }) {
     return _then(
       _$AppUserImpl(
@@ -187,6 +207,14 @@ class __$$AppUserImplCopyWithImpl<$Res>
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
+        institutionId: freezed == institutionId
+            ? _value.institutionId
+            : institutionId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        companyId: freezed == companyId
+            ? _value.companyId
+            : companyId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -203,6 +231,8 @@ class _$AppUserImpl extends _AppUser {
     @TimestampConverter() this.createdAt,
     this.oneSignalPlayerId,
     this.imageUrl,
+    this.institutionId,
+    this.companyId,
   }) : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -214,9 +244,10 @@ class _$AppUserImpl extends _AppUser {
   final String name;
   @override
   final String email;
+  // role set now includes: trainer | trainee | super_admin | org_admin | company_admin (future: manager/employee variants)
   @override
   final String role;
-  // 'trainer' | 'trainee'
+  // 'trainer' | 'trainee' | 'super_admin' | 'org_admin' | 'company_admin'
   @override
   @TimestampConverter()
   final DateTime? createdAt;
@@ -225,10 +256,15 @@ class _$AppUserImpl extends _AppUser {
   // Optional profile image URL
   @override
   final String? imageUrl;
+  // Multi-tenancy (placeholders, may remain null for B2C phase)
+  @override
+  final String? institutionId;
+  @override
+  final String? companyId;
 
   @override
   String toString() {
-    return 'AppUser(id: $id, name: $name, email: $email, role: $role, createdAt: $createdAt, oneSignalPlayerId: $oneSignalPlayerId, imageUrl: $imageUrl)';
+    return 'AppUser(id: $id, name: $name, email: $email, role: $role, createdAt: $createdAt, oneSignalPlayerId: $oneSignalPlayerId, imageUrl: $imageUrl, institutionId: $institutionId, companyId: $companyId)';
   }
 
   @override
@@ -245,7 +281,11 @@ class _$AppUserImpl extends _AppUser {
             (identical(other.oneSignalPlayerId, oneSignalPlayerId) ||
                 other.oneSignalPlayerId == oneSignalPlayerId) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            (identical(other.institutionId, institutionId) ||
+                other.institutionId == institutionId) &&
+            (identical(other.companyId, companyId) ||
+                other.companyId == companyId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -259,6 +299,8 @@ class _$AppUserImpl extends _AppUser {
     createdAt,
     oneSignalPlayerId,
     imageUrl,
+    institutionId,
+    companyId,
   );
 
   /// Create a copy of AppUser
@@ -284,6 +326,8 @@ abstract class _AppUser extends AppUser {
     @TimestampConverter() final DateTime? createdAt,
     final String? oneSignalPlayerId,
     final String? imageUrl,
+    final String? institutionId,
+    final String? companyId,
   }) = _$AppUserImpl;
   const _AppUser._() : super._();
 
@@ -294,16 +338,20 @@ abstract class _AppUser extends AppUser {
   @override
   String get name;
   @override
-  String get email;
+  String get email; // role set now includes: trainer | trainee | super_admin | org_admin | company_admin (future: manager/employee variants)
   @override
-  String get role; // 'trainer' | 'trainee'
+  String get role; // 'trainer' | 'trainee' | 'super_admin' | 'org_admin' | 'company_admin'
   @override
   @TimestampConverter()
   DateTime? get createdAt;
   @override
   String? get oneSignalPlayerId; // Optional profile image URL
   @override
-  String? get imageUrl;
+  String? get imageUrl; // Multi-tenancy (placeholders, may remain null for B2C phase)
+  @override
+  String? get institutionId;
+  @override
+  String? get companyId;
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.

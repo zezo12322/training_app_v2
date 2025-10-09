@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../core/timestamp_converter.dart'; // provides @TimestampConverter
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
 
-/// Represents an application user (trainer or trainee).
+/// Represents an application user (trainer or trainee or elevated roles).
 @freezed
 class AppUser with _$AppUser {
   const AppUser._();
@@ -12,39 +13,26 @@ class AppUser with _$AppUser {
     required String id,
     required String name,
     required String email,
-    required String role, // 'trainer' | 'trainee'
+    // role set now includes: trainer | trainee | super_admin | org_admin | company_admin (future: manager/employee variants)
+    required String
+    role, // 'trainer' | 'trainee' | 'super_admin' | 'org_admin' | 'company_admin'
     @TimestampConverter() DateTime? createdAt,
     String? oneSignalPlayerId,
     // Optional profile image URL
     String? imageUrl,
+    // Multi-tenancy (placeholders, may remain null for B2C phase)
+    String? institutionId,
+    String? companyId,
   }) = _AppUser;
 
-  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
+  factory AppUser.fromJson(Map<String, dynamic> json) =>
+      _$AppUserFromJson(json);
 
   factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
-    return AppUser.fromJson({
-      'id': doc.id,
-      ...data,
-    });
+    return AppUser.fromJson({'id': doc.id, ...data});
   }
 }
 
 /// Converts Firestore Timestamp to DateTime and back.
-class TimestampConverter implements JsonConverter<DateTime?, Object?> {
-  const TimestampConverter();
-
-  @override
-  DateTime? fromJson(Object? json) {
-    if (json == null) return null;
-    if (json is Timestamp) return json.toDate();
-    if (json is DateTime) return json;
-    return null;
-  }
-
-  @override
-  Object? toJson(DateTime? object) {
-    if (object == null) return null;
-    return Timestamp.fromDate(object);
-  }
-}
+// (TimestampConverter moved to core/timestamp_converter.dart)

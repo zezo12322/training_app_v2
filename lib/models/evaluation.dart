@@ -18,14 +18,12 @@ class EvaluationModel with _$EvaluationModel {
     @TimestampConverter() DateTime? createdAt,
   }) = _EvaluationModel;
 
-  factory EvaluationModel.fromJson(Map<String, dynamic> json) => _$EvaluationModelFromJson(json);
+  factory EvaluationModel.fromJson(Map<String, dynamic> json) =>
+      _$EvaluationModelFromJson(json);
 
   factory EvaluationModel.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
-    return EvaluationModel.fromJson({
-      'id': doc.id,
-      ...data,
-    });
+    return EvaluationModel.fromJson({'id': doc.id, ...data});
   }
 }
 
@@ -38,6 +36,7 @@ class TimestampConverter implements JsonConverter<DateTime?, Object?> {
     if (json is DateTime) return json;
     return null;
   }
+
   @override
   Object? toJson(DateTime? object) {
     if (object == null) return null;

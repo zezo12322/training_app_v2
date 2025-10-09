@@ -13,27 +13,42 @@ class ManualGradingSubmissionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.watch(quizRepositoryProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('مراجعة إجابات نصية')), 
+      appBar: AppBar(title: const Text('مراجعة إجابات نصية')),
       body: StreamBuilder<List<QuizSubmission>>(
         stream: repo.watchSubmissionsNeedingReview(quizId),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
-            final subs = snapshot.data!;
-            if (subs.isEmpty) return const Center(child: Text('لا توجد تسليمات تحتاج تصحيح يدوي.'));
-            return ListView.builder(
-              itemCount: subs.length,
-              itemBuilder: (_, i) {
-                final s = subs[i];
-                return ListTile(
-                  title: Text(s.traineeEmail.isNotEmpty ? s.traineeEmail : s.traineeId),
-                  subtitle: Text('درجة آلية: ${s.autoScore} / ${s.totalQuestions}'),
-                  trailing: const Icon(Icons.edit),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => ManualGradeSubmissionScreen(submissionId: s.id, quizId: quizId),
-                  )),
-                );
-              },
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final subs = snapshot.data!;
+          if (subs.isEmpty) {
+            return const Center(
+              child: Text('لا توجد تسليمات تحتاج تصحيح يدوي.'),
             );
+          }
+          return ListView.builder(
+            itemCount: subs.length,
+            itemBuilder: (_, i) {
+              final s = subs[i];
+              return ListTile(
+                title: Text(
+                  s.traineeEmail.isNotEmpty ? s.traineeEmail : s.traineeId,
+                ),
+                subtitle: Text(
+                  'درجة آلية: ${s.autoScore} / ${s.totalQuestions}',
+                ),
+                trailing: const Icon(Icons.edit),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ManualGradeSubmissionScreen(
+                      submissionId: s.id,
+                      quizId: quizId,
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
         },
       ),
     );

@@ -1,0 +1,1130 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appTitle => 'Training App';
+
+  @override
+  String get navDashboardTrainer => 'Dashboard';
+
+  @override
+  String get navHomeTrainee => 'Home';
+
+  @override
+  String get navProfile => 'My Account';
+
+  @override
+  String get navSettings => 'Settings';
+
+  @override
+  String get actionNewCourse => 'New Course';
+
+  @override
+  String get actionJoin => 'Join';
+
+  @override
+  String greetingTrainer(Object name) {
+    return 'Hello, $name!';
+  }
+
+  @override
+  String get greetingTrainerFallback => 'Hello, Trainer!';
+
+  @override
+  String greetingTrainee(Object name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String get greetingTraineeFallback => 'Hello, Trainee!';
+
+  @override
+  String get trainerCoursesSubtitle => 'Your current courses:';
+
+  @override
+  String get traineeCoursesSubtitle => 'Your enrolled courses:';
+
+  @override
+  String get noTrainerCoursesTitle => 'You haven\'t created any courses yet';
+
+  @override
+  String get noTrainerCoursesHint => 'Press + below to start';
+
+  @override
+  String get noTraineeCoursesTitle => 'You haven\'t joined any courses yet';
+
+  @override
+  String get noTraineeCoursesHint => 'Press + to join a new course';
+
+  @override
+  String courseCodeLabel(Object code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String get onboardingTitle => 'Quick Guide';
+
+  @override
+  String get onboardingPointDashboardTitle => 'Home / Dashboard';
+
+  @override
+  String get onboardingPointDashboardBody => 'View and manage your courses.';
+
+  @override
+  String get onboardingPointProfileTitle => 'My Account';
+
+  @override
+  String get onboardingPointProfileBody => 'Update your name, photo and info.';
+
+  @override
+  String get onboardingPointSettingsTitle => 'Settings';
+
+  @override
+  String get onboardingPointSettingsBody =>
+      'Control theme, animations and playback.';
+
+  @override
+  String get onboardingRoleNote =>
+      'First tab changes based on your role (trainer/trainee).';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get onboardingLater => 'Later';
+
+  @override
+  String get onboardingFullTour => 'Full Tour';
+
+  @override
+  String get tourNext => 'Next';
+
+  @override
+  String get tourSkip => 'Skip';
+
+  @override
+  String get tourDone => 'Done';
+
+  @override
+  String get tourDashboardTitle => 'Dashboard';
+
+  @override
+  String get tourDashboardBody =>
+      'Your starting point. Shows summaries and quick actions.';
+
+  @override
+  String get tourFabTitleTrainer => 'Create Course';
+
+  @override
+  String get tourFabBodyTrainer =>
+      'Tap here any time to add a new course for trainees.';
+
+  @override
+  String get tourFabTitleTrainee => 'Join Course';
+
+  @override
+  String get tourFabBodyTrainee =>
+      'Tap to join a course using a code shared by a trainer.';
+
+  @override
+  String get tourProfileTitle => 'Profile';
+
+  @override
+  String get tourProfileBody =>
+      'Edit your name, photo and view stats & achievements.';
+
+  @override
+  String get tourSettingsTitle => 'Settings';
+
+  @override
+  String get tourSettingsBody =>
+      'Change theme, language and notification preferences.';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String errorGeneric(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsSubtitle =>
+      'Allow push notifications (OneSignal / FCM)';
+
+  @override
+  String get errorNetwork => 'Network issue. Please retry.';
+
+  @override
+  String errorAuth(Object details) {
+    return 'Authentication error: $details';
+  }
+
+  @override
+  String get errorNotFound => 'Resource not found';
+
+  @override
+  String errorNotFoundResource(Object resource) {
+    return 'Not found: $resource';
+  }
+
+  @override
+  String get errorValidation => 'Some fields are invalid';
+
+  @override
+  String get errorPermission => 'You don\'t have permission';
+
+  @override
+  String get errorRateLimited => 'Too many requests. Try later.';
+
+  @override
+  String errorRateLimitedRetry(Object seconds) {
+    return 'Please retry after ${seconds}s';
+  }
+
+  @override
+  String get errorStorage => 'Storage error occurred';
+
+  @override
+  String get errorUnknown => 'An unexpected error occurred';
+
+  @override
+  String get funAnimationsTitle => 'Fun animations';
+
+  @override
+  String get funAnimationsSubtitle => 'Enable subtle entrance animations';
+
+  @override
+  String get autoplayAudioTitle => 'Autoplay audio';
+
+  @override
+  String get autoplayAudioSubtitle => 'When opening a new voice evaluation';
+
+  @override
+  String get clearCacheTitle => 'Clear cache (pseudo)';
+
+  @override
+  String get clearCacheSubtitle => 'May fix some sync issues';
+
+  @override
+  String get confirmationTitle => 'Confirm';
+
+  @override
+  String get clearCacheConfirm => 'Perform a pseudo clear of local cache?';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get cacheClearedToast => 'Cache cleared (simulated)';
+
+  @override
+  String get aboutTitle => 'About';
+
+  @override
+  String get aboutSubtitle => 'Training beta build';
+
+  @override
+  String get logoutAction => 'Logout';
+
+  @override
+  String get logoutConfirm => 'Are you sure you want to logout?';
+
+  @override
+  String logoutFailed(Object error) {
+    return 'Logout failed: $error';
+  }
+
+  @override
+  String get dumpSettingsAction => 'Print settings state to log';
+
+  @override
+  String get dumpSettingsToast => 'Settings state logged';
+
+  @override
+  String get languagePickerTitle => 'Language';
+
+  @override
+  String get systemLocaleLabel => 'System';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get loginTitle => 'Login';
+
+  @override
+  String get loginWelcomeBack => 'Welcome back!';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordTooShort => 'At least 6 characters';
+
+  @override
+  String get fieldRequired => 'Required';
+
+  @override
+  String get invalidEmail => 'Invalid email';
+
+  @override
+  String get loginAction => 'Login';
+
+  @override
+  String get signupNavigate => 'Don\'t have an account? Create one';
+
+  @override
+  String get signupTitle => 'Create Account';
+
+  @override
+  String get fullNameLabel => 'Full name';
+
+  @override
+  String get chooseRole => 'Choose your role:';
+
+  @override
+  String get roleTrainer => 'Trainer';
+
+  @override
+  String get roleTrainee => 'Trainee';
+
+  @override
+  String get signupAction => 'Sign Up';
+
+  @override
+  String get haveAccountLogin => 'Already have an account? Login';
+
+  @override
+  String get selectRoleError => 'Please select a role (trainer or trainee)';
+
+  @override
+  String get createCourseTitle => 'Create New Course';
+
+  @override
+  String get courseNameLabel => 'Course name';
+
+  @override
+  String get createCourseAction => 'Create Course';
+
+  @override
+  String get courseCreatedSuccess => 'Course created successfully!';
+
+  @override
+  String get shareCodeHint => 'Share this code with your trainees to join:';
+
+  @override
+  String get backToHome => 'Back to home';
+
+  @override
+  String get joinCourseTitle => 'Join Course';
+
+  @override
+  String get enterCourseCode => 'Enter course code';
+
+  @override
+  String get joinCourseSuccess => 'Joined course successfully!';
+
+  @override
+  String get enterCourseCodeError => 'Please enter a course code';
+
+  @override
+  String loginFailed(Object error) {
+    return 'Login failed: $error';
+  }
+
+  @override
+  String unexpectedError(Object error) {
+    return 'Unexpected error: $error';
+  }
+
+  @override
+  String signupFailed(Object error) {
+    return 'Signup failed: $error';
+  }
+
+  @override
+  String createCourseFailed(Object error) {
+    return 'Failed to create course: $error';
+  }
+
+  @override
+  String joinCourseFailed(Object error) {
+    return 'Failed to join course: $error';
+  }
+
+  @override
+  String get userNotLoggedIn => 'User not signed in';
+
+  @override
+  String get threadTitle => 'Discussion';
+
+  @override
+  String get refreshTooltip => 'Refresh';
+
+  @override
+  String get noRepliesYet => 'No replies yet';
+
+  @override
+  String get newTaskHint => 'New task (Action plan)';
+
+  @override
+  String get addTaskTooltip => 'Add task';
+
+  @override
+  String get noTasksYet => 'No tasks yet';
+
+  @override
+  String get autoStopRecording =>
+      'Recording stopped automatically after reaching the time limit.';
+
+  @override
+  String previewPlayError(Object error) {
+    return 'Could not play preview: $error';
+  }
+
+  @override
+  String get trainerAccountMissing =>
+      'Could not identify trainer account. Please log in again.';
+
+  @override
+  String get evaluationSendSuccess => 'Evaluation sent successfully!';
+
+  @override
+  String evaluationSendFailure(Object message) {
+    return 'Failed: $message';
+  }
+
+  @override
+  String unexpectedErrorMsg(Object error) {
+    return 'Unexpected error: $error';
+  }
+
+  @override
+  String get courseNameFallback => 'One of your courses';
+
+  @override
+  String get notificationNewEvaluationTitle => 'You have a new evaluation!';
+
+  @override
+  String notificationNewEvaluationBody(Object courseName) {
+    return 'Your trainer added a new evaluation for you in course: $courseName';
+  }
+
+  @override
+  String get cancelRecordingTitle => 'Cancel recording?';
+
+  @override
+  String get cancelRecordingBody =>
+      'You are currently recording. Do you want to stop and lose the current recording?';
+
+  @override
+  String get dialogNo => 'No';
+
+  @override
+  String get dialogYes => 'Yes';
+
+  @override
+  String reportTitle(Object email) {
+    return 'Report: $email';
+  }
+
+  @override
+  String get scoreFieldLabel => 'Score (out of 100)';
+
+  @override
+  String get scoreRequired => 'Please enter a score';
+
+  @override
+  String get scoreRangeError => 'Please enter a score between 0 and 100';
+
+  @override
+  String get feedbackFieldLabel => 'Feedback and evaluation';
+
+  @override
+  String get feedbackRequired => 'Please enter feedback';
+
+  @override
+  String get audioSectionOptional => 'Add audio evaluation (optional):';
+
+  @override
+  String get submitEvaluation => 'Submit Evaluation';
+
+  @override
+  String get recordingStartLabel => 'Record audio evaluation';
+
+  @override
+  String get recordingInProgress => 'Recording in progress';
+
+  @override
+  String get recordedLabel => 'Recorded';
+
+  @override
+  String get previewAudioLabel => 'Preview audio recording';
+
+  @override
+  String get previewButton => 'Preview';
+
+  @override
+  String durationLabel(Object value) {
+    return 'Duration: $value';
+  }
+
+  @override
+  String get reRecord => 'Re-record';
+
+  @override
+  String get pinAction => 'Pin';
+
+  @override
+  String get unpinAction => 'Unpin';
+
+  @override
+  String get copyTextAction => 'Copy text';
+
+  @override
+  String get editAction => 'Edit';
+
+  @override
+  String get deleteAction => 'Delete';
+
+  @override
+  String get copiedToast => 'Copied!';
+
+  @override
+  String get writeReplyHint => 'Write a reply...';
+
+  @override
+  String get retryLabel => 'Retry';
+
+  @override
+  String get uploadingAudio => 'Uploading audio...';
+
+  @override
+  String get audioFailed => 'Audio upload failed';
+
+  @override
+  String get audioLabel => 'Audio';
+
+  @override
+  String get editCancel => 'Cancel';
+
+  @override
+  String get editSave => 'Save';
+
+  @override
+  String pinnedReplyLabel(Object id) {
+    return 'Pinned reply: $id';
+  }
+
+  @override
+  String get commentUnknownUser => 'Unknown user';
+
+  @override
+  String get commentFallbackName => 'Anonymous';
+
+  @override
+  String get commentHint => 'Add a comment...';
+
+  @override
+  String get noFeedback => 'No feedback provided';
+
+  @override
+  String get discussionButton => 'Discussion';
+
+  @override
+  String scoreLabel(Object score) {
+    return 'Score: $score';
+  }
+
+  @override
+  String get audioPauseSemantic => 'Pause audio';
+
+  @override
+  String get audioPlaySemantic => 'Play audio';
+
+  @override
+  String get audioEvaluation => 'Audio evaluation';
+
+  @override
+  String get audioPlayingNow => 'Playing now';
+
+  @override
+  String get audioTapToPlay => 'Tap to play';
+
+  @override
+  String get userMissing => 'User not found';
+
+  @override
+  String get dashboardTitleTrainer => 'Trainer Dashboard';
+
+  @override
+  String get createCourseFab => 'Create Course';
+
+  @override
+  String loadCoursesError(Object error) {
+    return 'Error loading courses: $error';
+  }
+
+  @override
+  String get noTrainerCoursesTitleAlt => 'No courses created yet';
+
+  @override
+  String get noTrainerCoursesHintAlt => 'Press + to create your first course';
+
+  @override
+  String get loadMore => 'Load more';
+
+  @override
+  String courseCodePrefix(Object code) {
+    return 'Course code: $code';
+  }
+
+  @override
+  String get homeTitleTrainee => 'Trainee Home';
+
+  @override
+  String loadErrorGeneric(Object error) {
+    return 'Error loading data: $error';
+  }
+
+  @override
+  String get noTraineeCoursesTitleAlt => 'No courses joined yet';
+
+  @override
+  String get noTraineeCoursesHintAlt => 'Press + to join your first course';
+
+  @override
+  String trainerPrefix(Object id) {
+    return 'Trainer: $id';
+  }
+
+  @override
+  String get joinCourseAction => 'Join Course';
+
+  @override
+  String get reportGeneralSection => 'General Information';
+
+  @override
+  String get reportQuizzesSection => 'Quizzes';
+
+  @override
+  String get addEvaluationFab => 'Add Evaluation';
+
+  @override
+  String get reportNoEvaluations => 'No evaluations yet';
+
+  @override
+  String get reportNoQuizzes => 'No quizzes yet';
+
+  @override
+  String get leaderboardTitle => 'Leaderboard';
+
+  @override
+  String get leaderboardEmpty => 'No players yet';
+
+  @override
+  String leaderboardPoints(Object points) {
+    return '$points pts';
+  }
+
+  @override
+  String get pointsLabel => 'Points';
+
+  @override
+  String get dashboardSeeAll => 'See all';
+
+  @override
+  String get timelineFilterAll => 'All';
+
+  @override
+  String get timelineFilterQuizzes => 'Quizzes';
+
+  @override
+  String get timelineFilterTasks => 'Tasks';
+
+  @override
+  String get timelineFilterLessons => 'Lessons';
+
+  @override
+  String get timelineFilterStreak => 'Streak';
+
+  @override
+  String get timelineNoMoreEvents => 'No more events';
+
+  @override
+  String get nextBadgeShort => 'Next badge';
+
+  @override
+  String get badgesLabel => 'Badges';
+
+  @override
+  String levelLabel(Object level) {
+    return 'Level $level';
+  }
+
+  @override
+  String get earnedBadgesSection => 'Earned';
+
+  @override
+  String get allBadgesSection => 'All';
+
+  @override
+  String get noBadgesYet => 'No badges yet';
+
+  @override
+  String get reviewsTitle => 'Reviews';
+
+  @override
+  String get addReviewAction => 'Add Review';
+
+  @override
+  String get ratingLabel => 'Rating';
+
+  @override
+  String get reviewSubmitSuccess => 'Review submitted';
+
+  @override
+  String get reviewSubmitFailure => 'Failed to submit review';
+
+  @override
+  String averageRatingLabel(Object value) {
+    return 'Average: $value';
+  }
+
+  @override
+  String streakLabel(Object days) {
+    return 'Streak: ${days}d';
+  }
+
+  @override
+  String nextBadgeProgress(Object points) {
+    return 'Next badge at $points pts';
+  }
+
+  @override
+  String dailyStreakAward(Object points) {
+    return 'Daily streak +$points';
+  }
+
+  @override
+  String quizPassedAward(Object points) {
+    return 'Quiz passed +$points';
+  }
+
+  @override
+  String lessonCompletedAward(Object points) {
+    return 'Lesson completed +$points';
+  }
+
+  @override
+  String badgeEarnedToast(Object name) {
+    return 'Badge earned: $name';
+  }
+
+  @override
+  String badgesEarnedBatch(Object first, Object more) {
+    return 'Badge earned: $first +$more';
+  }
+
+  @override
+  String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get submitReview => 'Submit Review';
+
+  @override
+  String get reviewCommentHint => 'Your comment';
+
+  @override
+  String get reviewRatingHint => 'Tap stars to rate';
+
+  @override
+  String get gamificationSection => 'Progress & Achievements';
+
+  @override
+  String get progressTitle => 'Progress';
+
+  @override
+  String get testsTabLabel => 'Tests';
+
+  @override
+  String get tasksTabLabel => 'Tasks';
+
+  @override
+  String get noQuizzesYet => 'No quizzes available yet';
+
+  @override
+  String quizLastScore(Object score) {
+    return 'Last score: $score%';
+  }
+
+  @override
+  String get quizNotStarted => 'Not started yet';
+
+  @override
+  String get quizStartAction => 'Start';
+
+  @override
+  String get quizRetakeAction => 'Retake';
+
+  @override
+  String get noTasksYetAlt => 'No tasks right now';
+
+  @override
+  String get addTaskDialogTitle => 'New Task';
+
+  @override
+  String get fieldTitleHint => 'Title';
+
+  @override
+  String get fieldDetailsHint => 'Details (optional)';
+
+  @override
+  String get fieldPointsHint => 'Points';
+
+  @override
+  String get priorityLabel => 'Priority';
+
+  @override
+  String get priorityHigh => 'High priority';
+
+  @override
+  String get priorityMed => 'Medium priority';
+
+  @override
+  String get priorityLow => 'Low priority';
+
+  @override
+  String get taskStatusNew => 'New';
+
+  @override
+  String get taskStatusInProgress => 'In progress';
+
+  @override
+  String get taskStatusDone => 'Done';
+
+  @override
+  String get badgeManageTitle => 'Manage Badges';
+
+  @override
+  String get noBadgesDefined => 'No badges defined yet';
+
+  @override
+  String get newBadgeTitle => 'New Badge';
+
+  @override
+  String get editBadgeTitle => 'Edit Badge';
+
+  @override
+  String get deleteBadgeTitle => 'Delete Badge';
+
+  @override
+  String deleteConfirmBody(Object name) {
+    return 'Delete badge: $name?';
+  }
+
+  @override
+  String get badgeIconUrlLabel => 'Icon URL';
+
+  @override
+  String get criteriaSectionLabel => 'Criteria';
+
+  @override
+  String get activeLabel => 'Active';
+
+  @override
+  String get autoAwardLabel => 'Auto award';
+
+  @override
+  String get saveActionLabel => 'Save';
+
+  @override
+  String get dialogCancel => 'Cancel';
+
+  @override
+  String get taskStatusSkipped => 'Skipped';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get selectDueDate => 'Select due date';
+
+  @override
+  String get dueDatePickerLabel => 'Due';
+
+  @override
+  String get pickAction => 'Pick';
+
+  @override
+  String get changeAction => 'Change';
+
+  @override
+  String get clearAction => 'Clear';
+
+  @override
+  String get duePast => 'Past';
+
+  @override
+  String get dueToday => 'Today';
+
+  @override
+  String get dueTomorrow => 'Tomorrow';
+
+  @override
+  String dueInDays(Object days) {
+    return 'In $days days';
+  }
+
+  @override
+  String get quizPassedLabel => 'Passed';
+
+  @override
+  String get quizSubmitAction => 'Submit Quiz';
+
+  @override
+  String quizPassThreshold(Object score) {
+    return 'Pass >= $score%';
+  }
+
+  @override
+  String get taskDueFilterOverdue => 'Overdue';
+
+  @override
+  String get taskDueFilterToday => 'Today';
+
+  @override
+  String get taskDueFilterWeek => 'This Week';
+
+  @override
+  String quizAttemptsUsed(Object used, Object max) {
+    return 'Attempts: $used/$max';
+  }
+
+  @override
+  String get quizAttemptExceeded => 'No more attempts';
+
+  @override
+  String get quizAttemptSingle => 'Single attempt';
+
+  @override
+  String quizAttemptMultiple(Object max) {
+    return 'Up to $max attempts';
+  }
+
+  @override
+  String get quizReviewAction => 'Review';
+
+  @override
+  String get quizSettingsTitle => 'Quiz Settings';
+
+  @override
+  String get quizPassPercentLabel => 'Pass %';
+
+  @override
+  String get quizRewardPointsLabel => 'Reward Points';
+
+  @override
+  String get quizMaxAttemptsLabel => 'Max Attempts';
+
+  @override
+  String get quizUpdateSuccess => 'Quiz updated';
+
+  @override
+  String get quizUpdateFailed => 'Update failed';
+
+  @override
+  String get postPublishing => 'Posting...';
+
+  @override
+  String get postPublished => 'Post published';
+
+  @override
+  String get orgAdminDashboardTitle => 'Organization Admin Dashboard';
+
+  @override
+  String get orgAdminDashboardSubtitle =>
+      'Metrics and trends for your institution';
+
+  @override
+  String get companyAdminDashboardTitle => 'Company Admin Dashboard';
+
+  @override
+  String get companyAdminDashboardSubtitle =>
+      'Metrics and trends for your company';
+
+  @override
+  String get departmentsTitle => 'Departments';
+
+  @override
+  String get departmentsSubtitle => 'View your company departments';
+
+  @override
+  String get learningPathsTitle => 'Learning Paths';
+
+  @override
+  String get learningPathsSubtitle => 'View learning paths for your company';
+
+  @override
+  String get managerDashboardTitle => 'Manager Dashboard';
+
+  @override
+  String get managerDashboardSubtitle =>
+      'Team overview and skill gaps (preview)';
+
+  @override
+  String get bulkImportTitle => 'Bulk Import (CSV)';
+
+  @override
+  String get bulkImportSubtitle => 'Import batched changes from CSV file';
+
+  @override
+  String get selectDepartmentHint =>
+      'Select a department from Departments to view team.';
+
+  @override
+  String get labelActiveUsers => 'Active Users';
+
+  @override
+  String get labelAvgEventsPerUser7d => 'Avg Events/User (7d)';
+
+  @override
+  String get labelAvgMastery => 'Avg Mastery';
+
+  @override
+  String get labelAvgMasteryDelta14d => 'Avg Mastery Δ14d';
+
+  @override
+  String get labelLatestPrefix => 'Latest';
+
+  @override
+  String get labelLatest7Days => 'Latest 7 days';
+
+  @override
+  String get labelDate => 'Date';
+
+  @override
+  String get labelActiveShort => 'Active';
+
+  @override
+  String get labelAvgEvPerUsrShort => 'AvgEv/Usr';
+
+  @override
+  String get labelAvgMasteryShort => 'AvgMastery';
+
+  @override
+  String get labelDelta14dShort => 'Δ14d';
+
+  @override
+  String get noDepartments => 'No departments';
+
+  @override
+  String idLabel(Object id) {
+    return 'ID: $id';
+  }
+
+  @override
+  String get noTeamMembers => 'No team members in this department';
+
+  @override
+  String get topSkillGapsTitle => 'Top skill gaps';
+
+  @override
+  String get noSkillData => 'No skill data';
+
+  @override
+  String get activeChip => 'Active';
+
+  @override
+  String get inactiveChip => 'Inactive';
+
+  @override
+  String pathTitle(Object title) {
+    return 'Path: $title';
+  }
+
+  @override
+  String get noLearningPaths => 'No learning paths';
+
+  @override
+  String get noSteps => 'No steps';
+
+  @override
+  String get bulkImportCsvFormat =>
+      'CSV Format: collection,docId,field.path,value';
+
+  @override
+  String get bulkImportPickCsv => 'Pick CSV';
+
+  @override
+  String get departmentsAddAction => 'Add Department';
+
+  @override
+  String get departmentNameLabel => 'Department name';
+
+  @override
+  String get assignUserToDepartmentTitle => 'Assign user to department';
+
+  @override
+  String get departmentMembersTitle => 'Department Members';
+
+  @override
+  String get manageMembersAction => 'Manage members';
+
+  @override
+  String get assignMemberAction => 'Assign member';
+
+  @override
+  String get searchUsersLabel => 'Search users by name or email';
+
+  @override
+  String get noResults => 'No results';
+
+  @override
+  String get assignSelectedAction => 'Assign selected';
+
+  @override
+  String get selectAtLeastOneUser => 'Select at least one user';
+
+  @override
+  String assignmentCompletedToast(Object count) {
+    return 'Assigned $count member(s)';
+  }
+
+  @override
+  String get removeMemberConfirm => 'Remove this member from the department?';
+
+  @override
+  String get memberRemovedToast => 'Member removed';
+
+  @override
+  String departmentCreatedToast(Object name) {
+    return 'Department created: $name';
+  }
+
+  @override
+  String get alreadyMemberLabel => 'Already in this department';
+}

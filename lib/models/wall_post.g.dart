@@ -12,6 +12,7 @@ _$WallPostImpl _$$WallPostImplFromJson(Map<String, dynamic> json) =>
       courseId: json['courseId'] as String,
       authorId: json['authorId'] as String,
       content: json['content'] as String,
+      authorEmail: json['authorEmail'] as String?,
       fileUrl: json['fileUrl'] as String?,
       createdAt: const TimestampConverter().fromJson(json['createdAt']),
     );
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$WallPostImplToJson(_$WallPostImpl instance) =>
       'courseId': instance.courseId,
       'authorId': instance.authorId,
       'content': instance.content,
+      'authorEmail': instance.authorEmail,
       'fileUrl': instance.fileUrl,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };
