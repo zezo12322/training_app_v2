@@ -5,6 +5,7 @@ import 'auth_provider.dart';
 import '../models/system_settings.dart';
 import '../models/institution.dart';
 import '../models/company.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 
 /// Global stats lightweight aggregation (client-side approximation until CF aggregation exists)
 class GlobalStats {
@@ -99,3 +100,29 @@ final globalStatsProvider = Provider<GlobalStats?>((ref) {
 final ensureSuperAdminProvider = Provider<bool>(
   (ref) => ref.watch(isSuperAdminProvider),
 );
+
+/// Find any user by email (global), super_admin use only in UI
+final findUserByEmailProvider = FutureProvider.family<AppUser?, String>((ref, email) async {
+  final fs = ref.read(_firestoreProvider);
+  final q = await fs
+      .collection('users')
+      .where('email', isEqualTo: email)
+      .limit(1)
+      .get();
+  if (q.docs.isEmpty) return null;
+  final doc = q.docs.first as DocumentSnapshot<Map<String, dynamic>>;
+  return AppUser.fromDoc(doc);
+});
+
+/// Update a user's role and optional tenant linkage fields
+final updateUserRoleProvider = FutureProvider.family<void, ({String userId, String role, String? institutionId, String? companyId})>((ref, args) async {
+  final fs = ref.read(_firestoreProvider);
+  final data = <String, dynamic>{
+    'role': args.role,
+    'updatedAt': FieldValue.serverTimestamp(),
+  };
+  // Clear both first then set the relevant one to avoid stale links
+  data['institutionId'] = args.institutionId ?? FieldValue.delete();
+  data['companyId'] = args.companyId ?? FieldValue.delete();
+  await fs.collection('users').doc(args.userId).update(data);
+});

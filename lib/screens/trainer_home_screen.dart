@@ -11,6 +11,7 @@ import '../widgets/animations/slide_fade_in.dart';
 import 'course_details_screen.dart';
 import 'personal_profile_screen.dart';
 import '../widgets/skeleton.dart';
+import 'auth_wrapper.dart';
 
 class TrainerHomeScreen extends ConsumerStatefulWidget {
   final bool embed; // if true, hide own Scaffold and AppBar (used inside shell)
@@ -124,7 +125,14 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(authRepositoryProvider).signOut(),
+            onPressed: () async {
+              await ref.read(authRepositoryProvider).signOut();
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const AuthWrapper()),
+                (route) => false,
+              );
+            },
           ),
         ],
       ),

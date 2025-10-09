@@ -30,7 +30,15 @@ class AppUser with _$AppUser {
 
   factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
-    return AppUser.fromJson({'id': doc.id, ...data});
+    // Fallback: if 'name' is missing/null in Firestore, derive a displayable name from email prefix.
+    final derivedName = (data['name'] as String?) ??
+        ((data['email'] as String?)?.split('@').first ?? '');
+    // Ensure required fields like 'id' and a non-null 'name' are present for JSON parsing.
+    return AppUser.fromJson({
+      ...data,
+      'id': doc.id,
+      'name': derivedName,
+    });
   }
 }
 

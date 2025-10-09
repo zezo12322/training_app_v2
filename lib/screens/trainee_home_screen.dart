@@ -12,6 +12,7 @@ import '../widgets/animations/slide_fade_in.dart';
 import 'course_details_screen.dart';
 import 'personal_profile_screen.dart';
 import '../widgets/skeleton.dart';
+import 'auth_wrapper.dart';
 
 class TraineeHomeScreen extends ConsumerStatefulWidget {
   final bool embed;
@@ -119,7 +120,14 @@ class _TraineeHomeScreenState extends ConsumerState<TraineeHomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(authRepositoryProvider).signOut(),
+            onPressed: () async {
+              await ref.read(authRepositoryProvider).signOut();
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const AuthWrapper()),
+                (route) => false,
+              );
+            },
           ),
         ],
       ),

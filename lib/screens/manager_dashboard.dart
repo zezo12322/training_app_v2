@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/team_providers.dart';
 import '../providers/department_providers.dart';
 import 'package:training_app/core/l10n_ext.dart';
+import '../providers/auth_provider.dart';
+import 'bottom_nav_shell.dart';
 
 class ManagerDashboard extends ConsumerWidget {
   final String departmentId;
@@ -20,7 +22,25 @@ class ManagerDashboard extends ConsumerWidget {
       error: (e, st) => context.managerDashboardTitle,
     );
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        title: Text(title),
+        actions: [
+          IconButton(
+            tooltip: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            onPressed: () async {
+              final appUser = await ref.read(currentUserModelProvider.future);
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => BottomNavShell(role: appUser?.role ?? 'trainee'),
+                ),
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

@@ -1,6 +1,6 @@
 # Master Roadmap & Architecture Plan
 
-_Last updated: 2025-10-09 (updated: i18n fallbacks removed, manager auto-open, company_admin write flows for departments and member mappings, member management UI, manager per-member assign/remove, enhanced user search + confirmations/toasts with existing-member exclusion label, l10n config cleanup, onboarding refactor to avoid BuildContext across async gaps, analyzer warnings cleared, learning paths server-side progress callable, indexes doc updated)_
+_Last updated: 2025-10-09 (updated: i18n fallbacks removed, manager auto-open, company_admin write flows for departments and member mappings, member management UI, manager per-member assign/remove, enhanced user search + confirmations/toasts with existing-member exclusion label, l10n config cleanup, onboarding refactor to avoid BuildContext across async gaps, analyzer warnings cleared, learning paths progress via secure client writes, rules allow super_admin CRUD for institutions/companies, in-app create dialogs added, indexes doc updated)_
 
 This document unifies: 
 1. SuperAdmin Phase (global oversight + predictive risk + intrusion detection)
@@ -226,6 +226,8 @@ Completed:
 - [x] Tenant helper rule functions: `sameInstitution()`, `sameCompany()`
 - [x] Backfill script (`tools/backfill_tenants.dart`)
 - [x] SuperAdmin listing UI (Institutions / Companies)
+  - [x] SuperAdmin can create Institutions/Companies from the app (dialogs + providers)
+  - [x] Firestore rules: allow super_admin create/update/delete institutions & companies (field whitelist)
 - [x] Migration guide (`docs/TENANT_MIGRATION.md`)
 - [x] Feature flag scaffolding (`enforceTenantReads`, `enforceTenantWrites`)
   - [x] org_admin / company_admin roles + rule helpers (scoped user reads)
@@ -334,7 +336,7 @@ DoD: manual test cases + no analyzer errors + rule simulation passes
   - [x] Assignment UX polish: user search (name/email, multi-select), exclude already assigned members with label, confirmations before removal, and success toasts
   - [x] Manager dashboard (team table + skill gap): sortable team table (avg mastery, Δ14d per member) and top skill gaps list; highlight at-risk members (Δ14d ≤ 0)
 - [x] `learning_paths`, `path_steps`, `user_path_progress` (read-only UI complete; per-user progress header on steps; writes deferred to server)
-  - [x] Server-side write: callable CF `setUserPathProgress` to update `user_path_progress` with tenant validation and totalSteps computation
+  - [x] Client-side write: secure rules allow owner-only progress updates with tenant validation and bounded deltas; callable removed to avoid Blaze
   - [x] Documented required composite indexes for learning paths and related queries in `docs/INDEXES.md`
 - [x] Risk extension for employees (skill plateau weighting): Δ14d + low activity composite risk surfaced in Manager Dashboard (teamMemberRiskProvider)
 

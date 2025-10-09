@@ -5,6 +5,7 @@ import 'package:training_app/screens/login_screen.dart';
 import 'bottom_nav_shell.dart';
 import 'package:training_app/widgets/badge_award_listener.dart';
 import 'package:training_app/providers/quiz_providers.dart'; // للوصول لمزود notificationServiceProvider
+import 'super_admin_dashboard.dart';
 
 class AuthWrapper extends ConsumerWidget {
   const AuthWrapper({super.key});
@@ -52,6 +53,10 @@ class AuthWrapper extends ConsumerWidget {
               );
             }
             final role = appUser.role;
+            // إذا كان المستخدم Super Admin، ننتقل مباشرةً إلى لوحة التحكم الخاصة به
+            if (role == 'super_admin') {
+              return const SuperAdminDashboard();
+            }
             // نلف الـ BottomNavShell بـ BadgeAwardListener لكي تظهر تنبيهات الشارات في كل الصفحات الرئيسية
             return BadgeAwardListener(child: BottomNavShell(role: role));
           },

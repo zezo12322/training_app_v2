@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/tenant_metrics_providers.dart';
 import '../widgets/sparkline.dart';
+import '../providers/auth_provider.dart';
+import 'bottom_nav_shell.dart';
 
 class OrgAdminDashboard extends ConsumerWidget {
   final String institutionId;
@@ -18,7 +20,25 @@ class OrgAdminDashboard extends ConsumerWidget {
       orgTenantMetricsProvider((tenantId: institutionId, days: days)),
     );
     return Scaffold(
-      appBar: AppBar(title: const Text('Org Admin Dashboard')),
+      appBar: AppBar(
+        title: const Text('Org Admin Dashboard'),
+        actions: [
+          IconButton(
+            tooltip: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            onPressed: () async {
+              final appUser = await ref.read(currentUserModelProvider.future);
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => BottomNavShell(role: appUser?.role ?? 'trainee'),
+                ),
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
       body: metricsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, st) => Center(child: Text('Error: $e')),

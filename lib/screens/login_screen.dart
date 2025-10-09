@@ -37,8 +37,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
+      // No explicit navigation here. AuthWrapper listens to auth state and
+      // will rebuild to the correct destination automatically.
       if (!mounted) return; // context safety after await
-      Navigator.of(context).pop();
     } on Exception catch (e) {
       _showSnackBar(l.loginFailed(e.toString()));
     } catch (e) {

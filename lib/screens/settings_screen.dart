@@ -13,6 +13,9 @@ import 'departments_screen.dart';
 import 'learning_paths_screen.dart';
 import 'manager_dashboard.dart';
 import '../providers/department_providers.dart';
+import 'super_admin_dashboard.dart';
+import '../services/preferences_service.dart';
+import 'auth_wrapper.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -148,6 +151,20 @@ class SettingsScreen extends ConsumerWidget {
                 elevation: 1,
                 child: Column(
                   children: [
+                    if (isSuperAdmin)
+                      ListTile(
+                        leading: const Icon(Icons.security_outlined),
+                        title: const Text('Super Admin Dashboard'),
+                        subtitle: const Text('Open global admin & tenants tools'),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const SuperAdminDashboard(),
+                            ),
+                          );
+                        },
+                      ),
+                    if (isSuperAdmin) const Divider(height: 0),
                     if (isOrgAdmin && institutionId != null)
                       ListTile(
                         leading: const Icon(
@@ -451,6 +468,17 @@ class SettingsScreen extends ConsumerWidget {
                       if (confirm == true) {
                         try {
                           await ref.read(authRepositoryProvider).signOut();
+                          // Reset saved tab so next login lands on Home
+                          final prefs = await PreferencesService.instance();
+                          await prefs.set('last_nav_index', '0');
+                          if (!context.mounted) return;
+                          // Replace the entire stack with a fresh AuthWrapper to ensure Login is shown
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (_) => const AuthWrapper(),
+                            ),
+                            (route) => false,
+                          );
                         } catch (e, st) {
                           logger.e('Logout failed', error: e, stackTrace: st);
                           if (context.mounted) {

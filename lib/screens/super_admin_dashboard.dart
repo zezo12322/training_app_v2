@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/super_admin_providers.dart';
 import '../models/system_settings.dart';
 import 'package:flutter/services.dart';
+import '../providers/auth_provider.dart';
+import 'bottom_nav_shell.dart';
 
 class SuperAdminDashboard extends ConsumerWidget {
   const SuperAdminDashboard({super.key});
@@ -31,7 +33,25 @@ class SuperAdminDashboard extends ConsumerWidget {
     final settingsAsync = ref.watch(systemSettingsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Super Admin')),
+      appBar: AppBar(
+        title: const Text('Super Admin'),
+        actions: [
+          IconButton(
+            tooltip: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            onPressed: () async {
+              final appUser = await ref.read(currentUserModelProvider.future);
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => BottomNavShell(role: appUser?.role ?? 'trainee'),
+                ),
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           // For now streams auto-update; placeholder for future manual triggers.

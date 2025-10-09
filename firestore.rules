@@ -35,9 +35,16 @@ service cloud.firestore {
     function isSuperAdmin() { return isSignedIn() && userDoc().data.role == 'super_admin'; }
     function isOrgAdmin() { return isSignedIn() && userDoc().data.role == 'org_admin'; }
     function isCompanyAdmin() { return isSignedIn() && userDoc().data.role == 'company_admin'; }
-    function _flagsDoc() { return get(/databases/$(database)/documents/system_settings/global); }
-    function tenantReadsEnforced() { return _flagsDoc().data.featureFlags.enforceTenantReads == true; }
-    function tenantWritesEnforced() { return _flagsDoc().data.featureFlags.enforceTenantWrites == true; }
+    function _flagsPath() { return "/databases/" + database + "/documents/system_settings/global"; }
+    function _flagsExist() { return exists(path(_flagsPath())); }
+    function _flagsHasFeatureFlags() { return _flagsExist() && (get(path(_flagsPath())).data.featureFlags is map); }
+    // Default to false when settings/flags doc is missing to avoid global read/write lockouts
+    function tenantReadsEnforced() {
+      return _flagsHasFeatureFlags() && (get(path(_flagsPath())).data.featureFlags.enforceTenantReads == true);
+    }
+    function tenantWritesEnforced() {
+      return _flagsHasFeatureFlags() && (get(path(_flagsPath())).data.featureFlags.enforceTenantWrites == true);
+    }
     // Suspension helpers: treat missing doc/status as active to avoid accidental global lock
     function institutionActive(instId) {
       return instId == null || !exists(/databases/$(database)/documents/institutions/$(instId)) ||
@@ -323,6 +330,32 @@ service cloud.firestore {
       allow get, list: if isSuperAdmin() && request.query.limit <= 200;
       allow create: if false; // only via callable function (server)
       allow update, delete: if false;
+    }
+
+    /* ===================== System Settings (global flags) ===================== */
+    // Only super admin can read system settings from the client app.
+    // Server/Admin SDK should manage writes; clients must not modify.
+    match /system_settings/{docId} {
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if false; // server-only
+    }
+
+    /* ===================== Tenants: Institutions & Companies ===================== */
+    // Basic super_admin visibility and management; org/company admins can read own tenant by id.
+    match /institutions/{institutionId} {
+      // Super admin can list with bounds; others cannot list the whole collection from client.
+      allow list: if isSuperAdmin() && request.query.limit != null && request.query.limit <= 100;
+      // Read rules: super admin, or the org_admin assigned to this institution
+      allow get: if isSuperAdmin() || (isOrgAdmin() && userDoc().data.institutionId == institutionId);
+      // Writes: super admin only from client; server/Admin SDK bypasses rules.
+      allow create, update: if isSuperAdmin();
+      allow delete: if false;
+    }
+    match /companies/{companyId} {
+      allow list: if isSuperAdmin() && request.query.limit != null && request.query.limit <= 100;
+      allow get: if isSuperAdmin() || (isCompanyAdmin() && userDoc().data.companyId == companyId);
+      allow create, update: if isSuperAdmin();
+      allow delete: if false;
     }
 
     /* ===================== Tenant Invites ===================== */
