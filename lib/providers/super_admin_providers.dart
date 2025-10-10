@@ -5,7 +5,6 @@ import 'auth_provider.dart';
 import '../models/system_settings.dart';
 import '../models/institution.dart';
 import '../models/company.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 
 /// Global stats lightweight aggregation (client-side approximation until CF aggregation exists)
 class GlobalStats {

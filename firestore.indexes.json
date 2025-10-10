@@ -220,6 +220,38 @@
         { "fieldPath": "ts", "order": "DESCENDING" }
       ]
     }
+    ,
+    {
+      "collectionGroup": "teaching_assignments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "trainerId", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "startAt", "order": "DESCENDING" }
+      ]
+    }
+    ,
+    {
+      "collectionGroup": "teaching_assignments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tenantType", "order": "ASCENDING" },
+        { "fieldPath": "tenantId", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "startAt", "order": "DESCENDING" }
+      ]
+    }
+    ,
+    {
+      "collectionGroup": "teaching_assignments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "scopeType", "order": "ASCENDING" },
+        { "fieldPath": "scopeId", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "startAt", "order": "DESCENDING" }
+      ]
+    }
   ],
   "fieldOverrides": []
 }

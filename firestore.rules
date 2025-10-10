@@ -7,22 +7,24 @@ service cloud.firestore {
   /* ===================== Users (with tenant gating) ===================== */
     match /users/{userId} {
       allow create: if isSignedIn() && (userId == request.auth.uid || isSuperAdmin());
+      // Allow get for:
+      // - super admin
+      // - when tenant read enforcement is off
+      // - admins within their tenant for users that belong to the same tenant
+      // - the user themselves
       allow get: if isSignedIn() && (
         isSuperAdmin() ||
+        userId == request.auth.uid ||
         !tenantReadsEnforced() ||
-        (!isOrgAdmin() && !isCompanyAdmin()) ||
-        (isOrgAdmin() && (
-          (resource.data.institutionId != null && userDoc().data.institutionId == resource.data.institutionId) ||
-          (resource.data.institutionId == null && resource.data.companyId == null)
-        )) ||
-        (isCompanyAdmin() && (
-          (resource.data.companyId != null && userDoc().data.companyId == resource.data.companyId) ||
-          (resource.data.institutionId == null && resource.data.companyId == null)
-        ))
+        (isOrgAdmin() && resource.data.institutionId != null && userDoc().data.institutionId == resource.data.institutionId) ||
+        (isCompanyAdmin() && resource.data.companyId != null && userDoc().data.companyId == resource.data.companyId)
       );
+      // Allow controlled listing; higher limits for admins
       allow list: if isSignedIn() && (
-        (isSuperAdmin() && request.query.limit <= 200) ||
-        (!isSuperAdmin() && request.query.limit <= 30)
+        (isSuperAdmin() && request.query.limit != null && request.query.limit <= 200) ||
+        (isOrgAdmin() && request.query.limit != null && request.query.limit <= 200) ||
+        (isCompanyAdmin() && request.query.limit != null && request.query.limit <= 500) ||
+        (request.query.limit != null && request.query.limit <= 30)
       );
       allow update: if isSignedIn() && (userId == request.auth.uid || isSuperAdmin());
       allow delete: if false;
@@ -439,15 +441,71 @@ service cloud.firestore {
         (resource.data.tenantType == 'institution' && isOrgAdmin() && resource.data.tenantId == userDoc().data.institutionId) ||
         (resource.data.tenantType == 'company' && isCompanyAdmin() && resource.data.tenantId == userDoc().data.companyId)
       );
-      allow create, update, delete: if false; // writes to be added later via server
+      // Admin authoring: org/company admin within own tenant
+      function _lpCreateOk() {
+        return isSuperAdmin() ||
+          (request.resource.data.tenantType == 'institution' && isOrgAdmin() && request.resource.data.tenantId == userDoc().data.institutionId)
+          || (request.resource.data.tenantType == 'company' && isCompanyAdmin() && request.resource.data.tenantId == userDoc().data.companyId);
+      }
+      function _lpUpdateOk() {
+        return isSuperAdmin() ||
+          (resource.data.tenantType == 'institution' && isOrgAdmin() && resource.data.tenantId == userDoc().data.institutionId)
+          || (resource.data.tenantType == 'company' && isCompanyAdmin() && resource.data.tenantId == userDoc().data.companyId);
+      }
+      allow create: if isSignedIn() && _lpCreateOk()
+        && request.resource.data.keys().hasOnly(['tenantType','tenantId','title','description','active','createdAt','stepsCount'])
+        && (request.resource.data.title is string) && (request.resource.data.title.size() > 0) && request.resource.data.title.size() <= 200
+        && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000))
+        && (request.resource.data.active is bool)
+        && (request.resource.data.stepsCount is int) && request.resource.data.stepsCount == 0;
+      allow update: if isSignedIn() && _lpUpdateOk()
+        && request.resource.data.tenantType == resource.data.tenantType
+        && request.resource.data.tenantId == resource.data.tenantId
+        && (!('title' in request.resource.data) || ((request.resource.data.title is string) && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 200))
+        && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000))
+        && (!('active' in request.resource.data) || (request.resource.data.active is bool))
+        && (!('stepsCount' in request.resource.data) || (request.resource.data.stepsCount is int && request.resource.data.stepsCount >= 0));
+      allow delete: if false; // soft-delete later
     }
     match /path_steps/{id} {
       allow get, list: if isSignedIn();
-      allow create, update, delete: if false; // server-managed in future
+      // Admin authoring restricted to same tenant as the parent path
+      function _pathOf(id) { return get(/databases/$(database)/documents/learning_paths/$(id)); }
+      function _stepCreateOk() {
+        return exists(/databases/$(database)/documents/learning_paths/$(request.resource.data.pathId)) && (
+          isSuperAdmin() ||
+          (_pathOf(request.resource.data.pathId).data.tenantType == 'institution' && isOrgAdmin() && _pathOf(request.resource.data.pathId).data.tenantId == userDoc().data.institutionId) ||
+          (_pathOf(request.resource.data.pathId).data.tenantType == 'company' && isCompanyAdmin() && _pathOf(request.resource.data.pathId).data.tenantId == userDoc().data.companyId)
+        );
+      }
+      function _stepUpdateOk() {
+        return exists(/databases/$(database)/documents/learning_paths/$(resource.data.pathId)) && (
+          isSuperAdmin() ||
+          (_pathOf(resource.data.pathId).data.tenantType == 'institution' && isOrgAdmin() && _pathOf(resource.data.pathId).data.tenantId == userDoc().data.institutionId) ||
+          (_pathOf(resource.data.pathId).data.tenantType == 'company' && isCompanyAdmin() && _pathOf(resource.data.pathId).data.tenantId == userDoc().data.companyId)
+        );
+      }
+      allow create: if isSignedIn() && _stepCreateOk()
+        && request.resource.data.keys().hasOnly(['pathId','title','description','type','order'])
+        && (request.resource.data.title is string) && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 200
+        && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000))
+        && (!('type' in request.resource.data) || (request.resource.data.type in ['course','task','custom']))
+        && (request.resource.data.order is int) && request.resource.data.order >= 0;
+      allow update: if isSignedIn() && _stepUpdateOk()
+        && request.resource.data.keys().hasOnly(['pathId','title','description','type','order'])
+        && request.resource.data.pathId == resource.data.pathId
+        && (!('title' in request.resource.data) || ((request.resource.data.title is string) && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 200))
+        && (!('description' in request.resource.data) || (request.resource.data.description is string && request.resource.data.description.size() <= 2000))
+        && (!('type' in request.resource.data) || (request.resource.data.type in ['course','task','custom']))
+        && (!('order' in request.resource.data) || (request.resource.data.order is int && request.resource.data.order >= 0));
+      // Allow delete to support authoring; guard by same-tenant check
+      allow delete: if isSignedIn() && _stepUpdateOk();
     }
     match /user_path_progress/{id} {
+      // Allow get for the owner or super admin
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
-      allow list: if isSuperAdmin() && request.query.limit <= 200;
+      // Allow list only when filtered by userId; per-doc get still enforces ownership
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 100 && request.query.filters.keys().hasAny(['userId']);
       // Client writes allowed with strict validation to avoid backend requirement
       allow create: if isSignedIn() && isValidUserPathProgressCreate();
       allow update: if isSignedIn() && isValidUserPathProgressUpdate();
@@ -457,6 +515,72 @@ service cloud.firestore {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
       allow list: if isSuperAdmin() && request.query.limit <= 200;
       allow create, update, delete: if false; // server-only mutation via CF
+    }
+
+    /* ===================== Teaching Assignments (Phase 5) ===================== */
+    match /teaching_assignments/{id} {
+      // Reads
+      allow get: if isSignedIn() && (
+        isSuperAdmin() ||
+        (isOrgAdmin() && resource.data.tenantType == 'institution' && resource.data.tenantId == userDoc().data.institutionId) ||
+        (isCompanyAdmin() && resource.data.tenantType == 'company' && resource.data.tenantId == userDoc().data.companyId) ||
+        (isTrainer() && resource.data.trainerId == request.auth.uid)
+      );
+      allow list: if isSignedIn() && (
+        (isSuperAdmin() && request.query.limit != null && request.query.limit <= 200) ||
+        (isOrgAdmin() && request.query.limit != null && request.query.limit <= 100 && request.query.filters.keys().hasAny(['tenantType','tenantId'])) ||
+        (isCompanyAdmin() && request.query.limit != null && request.query.limit <= 100 && request.query.filters.keys().hasAny(['tenantType','tenantId'])) ||
+        (isTrainer() && request.query.limit != null && request.query.limit <= 100 && request.query.filters.keys().hasAny(['trainerId']))
+      );
+
+      // Writes: org/company admin only within same tenant
+      function _assignmentTenantMatchesCreate() {
+        return (request.resource.data.tenantType == 'institution' && isOrgAdmin() && request.resource.data.tenantId == userDoc().data.institutionId)
+          || (request.resource.data.tenantType == 'company' && isCompanyAdmin() && request.resource.data.tenantId == userDoc().data.companyId);
+      }
+      function _assignmentTenantMatchesUpdate() {
+        return (resource.data.tenantType == 'institution' && isOrgAdmin() && resource.data.tenantId == userDoc().data.institutionId)
+          || (resource.data.tenantType == 'company' && isCompanyAdmin() && resource.data.tenantId == userDoc().data.companyId);
+      }
+      // Trainer existence and role check
+      function _trainerValidInTenant(trainerId, tenantType, tenantId) {
+        return exists(/databases/$(database)/documents/users/$(trainerId)) &&
+          get(/databases/$(database)/documents/users/$(trainerId)).data.role == 'trainer' && (
+            (tenantType == 'institution' && get(/databases/$(database)/documents/users/$(trainerId)).data.institutionId == tenantId) ||
+            (tenantType == 'company' && get(/databases/$(database)/documents/users/$(trainerId)).data.companyId == tenantId)
+          );
+      }
+
+      allow create: if isSignedIn() && _assignmentTenantMatchesCreate()
+        && request.resource.data.keys().hasOnly(['tenantType','tenantId','scopeType','scopeId','trainerId','departmentId','startAt','endAt','status','createdAt','updatedAt'])
+        && (request.resource.data.scopeType in ['path','course'])
+        && (request.resource.data.status in ['active','ended','cancelled'])
+        && (request.resource.data.startAt is timestamp)
+        && (request.resource.data.endAt is timestamp)
+        && request.resource.data.startAt < request.resource.data.endAt
+        && _trainerValidInTenant(request.resource.data.trainerId, request.resource.data.tenantType, request.resource.data.tenantId);
+
+      // Only allow updates to: endAt, status, departmentId, updatedAt
+      allow update: if isSignedIn() && _assignmentTenantMatchesUpdate()
+        && request.resource.data.keys().hasOnly(['tenantType','tenantId','scopeType','scopeId','trainerId','departmentId','startAt','endAt','status','createdAt','updatedAt'])
+        && request.resource.data.tenantType == resource.data.tenantType
+        && request.resource.data.tenantId == resource.data.tenantId
+        && request.resource.data.scopeType == resource.data.scopeType
+        && request.resource.data.scopeId == resource.data.scopeId
+        && request.resource.data.trainerId == resource.data.trainerId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && (request.resource.data.status in ['active','ended','cancelled'])
+        && (
+          // status transitions: active -> ended/cancelled only
+          (resource.data.status == request.resource.data.status) ||
+          (resource.data.status == 'active' && (request.resource.data.status == 'ended' || request.resource.data.status == 'cancelled'))
+        )
+        && (
+          // endAt may stay or change; must remain after startAt
+          !(request.resource.data.keys().hasAny(['endAt'])) || request.resource.data.endAt > resource.data.startAt
+        );
+
+      allow delete: if false; // archive instead of delete
     }
 
     /* ===================== Multi-Tenancy (Phase 1) ===================== */

@@ -5,15 +5,28 @@ import '../providers/department_providers.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import '../providers/auth_provider.dart';
 import 'bottom_nav_shell.dart';
+import '../providers/teaching_assignment_providers.dart';
+import '../models/teaching_assignment.dart';
 
-class ManagerDashboard extends ConsumerWidget {
+enum _AssignmentFilter { activeNow, upcoming, archive }
+
+class ManagerDashboard extends ConsumerStatefulWidget {
   final String departmentId;
   const ManagerDashboard({super.key, required this.departmentId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ManagerDashboard> createState() => _ManagerDashboardState();
+}
+
+class _ManagerDashboardState extends ConsumerState<ManagerDashboard> {
+  _AssignmentFilter _filter = _AssignmentFilter.activeNow;
+  // For simplicity, use a fixed window for upcoming/archive (30d)
+  final int _windowDays = 30;
+
+  @override
+  Widget build(BuildContext context) {
     // teamMemberMasteriesProvider handles team user aggregation
-    final deptAsync = ref.watch(departmentByIdProvider(departmentId));
+    final deptAsync = ref.watch(departmentByIdProvider(widget.departmentId));
     final title = deptAsync.when(
       data: (d) => d == null
           ? context.managerDashboardTitle
@@ -44,9 +57,89 @@ class ManagerDashboard extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Assignments panel
+          deptAsync.when(
+            loading: () => const SizedBox.shrink(),
+            error: (e, st) => const SizedBox.shrink(),
+            data: (dept) {
+              if (dept == null) return const SizedBox.shrink();
+              final asgAsync = ref.watch(assignmentsByTenantProvider((
+                tenantType: 'company',
+                tenantId: dept.companyId,
+                status: null,
+              )));
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.assignment_outlined),
+                        const SizedBox(width: 8),
+                        Text('Assignments', style: Theme.of(context).textTheme.titleMedium),
+                        const Spacer(),
+                        DropdownButton<_AssignmentFilter>(
+                          value: _filter,
+                          onChanged: (v) {
+                            if (v != null) setState(() => _filter = v);
+                          },
+                          items: const [
+                            DropdownMenuItem(value: _AssignmentFilter.activeNow, child: Text('Active Now')),
+                            DropdownMenuItem(value: _AssignmentFilter.upcoming, child: Text('Upcoming 30d')),
+                            DropdownMenuItem(value: _AssignmentFilter.archive, child: Text('Archive 30d')),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    asgAsync.when(
+                      loading: () => const LinearProgressIndicator(),
+                      error: (e, st) => Text('Error: $e'),
+                      data: (list) {
+                        final now = DateTime.now();
+                        final endWindow = now.add(Duration(days: _windowDays));
+                        final pastWindow = now.subtract(Duration(days: _windowDays));
+                        // Filter by this department and selected window
+                        final filtered = list.where((a) {
+                          if (a.departmentId != widget.departmentId) return false;
+                          final s = a.startAt;
+                          final e = a.endAt;
+                          switch (_filter) {
+                            case _AssignmentFilter.activeNow:
+                              return s.isBefore(now) && e.isAfter(now) && a.status == 'active';
+                            case _AssignmentFilter.upcoming:
+                              return s.isAfter(now) && s.isBefore(endWindow) && a.status == 'active';
+                            case _AssignmentFilter.archive:
+                              return e.isBefore(now) || a.status != 'active' && e.isAfter(pastWindow);
+                          }
+                        }).toList()
+                          ..sort((a, b) => a.startAt.compareTo(b.startAt));
+                        if (filtered.isEmpty) {
+                          return Text('No assignments for selected filter');
+                        }
+                        return SizedBox(
+                          height: 120,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: filtered.length.clamp(0, 20),
+                            separatorBuilder: (_, __) => const SizedBox(width: 8),
+                            itemBuilder: (_, i) {
+                              final a = filtered[i];
+                              return _AssignmentCard(assignment: a);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
           Expanded(
             flex: 2,
-            child: ref.watch(teamMemberMasteriesProvider(departmentId)).when(
+            child: ref.watch(teamMemberMasteriesProvider(widget.departmentId)).when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (e, st) => Center(child: Text('Error: $e')),
                   data: (members) {
@@ -86,8 +179,8 @@ class ManagerDashboard extends ConsumerWidget {
                               numeric: idx != 0,
                             );
 
-                        final plateauSetAsync = ref.watch(teamPlateauFlagsProvider(departmentId));
-                        final riskAsync = ref.watch(teamMemberRiskProvider(departmentId));
+                        final plateauSetAsync = ref.watch(teamPlateauFlagsProvider(widget.departmentId));
+                        final riskAsync = ref.watch(teamMemberRiskProvider(widget.departmentId));
                         return plateauSetAsync.when(
                           loading: () => const Center(child: CircularProgressIndicator()),
                           error: (e, st) => const SizedBox.shrink(),
@@ -127,7 +220,7 @@ class ManagerDashboard extends ConsumerWidget {
                                     risks: risks,
                                   )),
                                   DataCell(_MemberActions(
-                                    departmentId: departmentId,
+                                    departmentId: widget.departmentId,
                                     userId: m.userId,
                                   )),
                                 ]),
@@ -151,8 +244,8 @@ class ManagerDashboard extends ConsumerWidget {
           ),
           Expanded(
             flex: 1,
-            child: ref
-                .watch(departmentSkillGapsProvider(departmentId))
+      child: ref
+        .watch(departmentSkillGapsProvider(widget.departmentId))
                 .when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
@@ -179,6 +272,51 @@ class ManagerDashboard extends ConsumerWidget {
                   },
                 ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AssignmentCard extends ConsumerWidget {
+  final TeachingAssignment assignment;
+  const _AssignmentCard({required this.assignment});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userAsync = ref.watch(appUserByIdProvider(assignment.trainerId));
+    final s = assignment.startAt;
+    final e = assignment.endAt;
+    final date = '${s.toLocal().toString().split(' ').first} → ${e.toLocal().toString().split(' ').first}';
+    final scopeIcon = assignment.scopeType == 'path' ? Icons.route_outlined : Icons.menu_book_outlined;
+    return Container(
+      width: 260,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(scopeIcon, size: 18),
+              const SizedBox(width: 6),
+              Text(assignment.scopeType.toUpperCase()),
+              const Spacer(),
+              Chip(label: Text(assignment.status)),
+            ],
+          ),
+          const SizedBox(height: 6),
+          userAsync.when(
+            loading: () => const LinearProgressIndicator(minHeight: 2),
+            error: (e, st) => Text(assignment.trainerId),
+            data: (u) => Text(u?.name ?? assignment.trainerId, style: Theme.of(context).textTheme.titleSmall),
+          ),
+          const SizedBox(height: 6),
+          Text(date, style: Theme.of(context).textTheme.bodySmall),
         ],
       ),
     );
