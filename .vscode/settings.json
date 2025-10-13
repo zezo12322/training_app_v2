@@ -1,4 +1,7 @@
 {
     "cmake.sourceDirectory": "G:/training_app_v2/linux",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "chat.agent.todoList": {
+        "position": "default"
+    }
 }

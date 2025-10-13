@@ -127,13 +127,76 @@ service cloud.firestore {
 
     /* ===================== Course Wall Posts ===================== */
     match /course_wall/{postId} {
+      // Anyone enrolled in the course can read posts
       allow get, list: if isSignedIn();
-      allow create: if isSignedIn();
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn();
+      
+      // Only enrolled users can create posts
+      allow create: if isSignedIn() && 
+        request.resource.data.authorId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['courseId', 'authorId', 'content', 'createdAt']) &&
+        request.resource.data.content is string &&
+        request.resource.data.content.size() >= 0 &&
+        request.resource.data.content.size() <= 5000;
+      
+      // Authors can update their own posts, trainers can pin/archive
+      allow update: if isSignedIn() && (
+        // Author can edit content and add poll (including merge operations)
+        (resource.data.authorId == request.auth.uid && 
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'isEdited', 'updatedAt', 'imageUrl', 'fileUrl', 'imageUrls', 'poll'])) ||
+        
+        // Author can add just poll field (for merge operations)
+        (resource.data.authorId == request.auth.uid && 
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['poll'])) ||
+        
+        // Trainers can pin/archive posts in their courses
+        (isTrainer() && 
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isPinned', 'isArchived', 'pinnedAt'])) ||
+        
+        // Any user can add reactions
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionUsers'])) ||
+        
+        // System can update comment count when comments are added/deleted
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount']))
+      );
+      
+      // Authors and trainers can delete posts
+      allow delete: if isSignedIn() && (
+        resource.data.authorId == request.auth.uid ||
+        isTrainer()
+      );
+      
+      /* -------- Wall Comments subcollection -------- */
+      match /comments/{commentId} {
+        // Anyone can read comments
+        allow get, list: if isSignedIn();
+        
+        // Enrolled users can create comments
+        allow create: if isSignedIn() &&
+          request.resource.data.authorId == request.auth.uid &&
+          request.resource.data.keys().hasAll(['postId', 'courseId', 'authorId', 'content', 'createdAt']) &&
+          request.resource.data.content is string &&
+          request.resource.data.content.size() > 0 &&
+          request.resource.data.content.size() <= 2000;
+        
+        // Authors can update their comments (edit or react)
+        allow update: if isSignedIn() && (
+          // Author can edit content
+          (resource.data.authorId == request.auth.uid &&
+           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'isEdited', 'updatedAt'])) ||
+          
+          // Any user can add reactions
+          (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionUsers']))
+        );
+        
+        // Authors and trainers can delete comments
+        allow delete: if isSignedIn() && (
+          resource.data.authorId == request.auth.uid ||
+          isTrainer()
+        );
+      }
     }
 
-    /* ===================== Post Comments ===================== */
+    /* ===================== Post Comments (DEPRECATED - use subcollection) ===================== */
     match /post_comments/{commentId} {
       allow get, list: if isSignedIn();
       allow create: if isSignedIn();
@@ -702,5 +765,116 @@ service cloud.firestore {
          // Write gating (future): require sameInstitution/company when enforceTenantWrites == true
        }
     */
+
+    /* ===================== Polls ===================== */
+    match /polls/{pollId} {
+      // Anyone can read polls
+      allow get, list: if isSignedIn();
+      
+      // Helper function to validate poll creation data
+      function isValidPollData() {
+        let requiredFields = ['question', 'options', 'createdBy', 'createdAt', 'totalVotes'];
+        let optionalFields = ['allowMultipleVotes', 'showResultsBeforeVoting', 'endsAt'];
+        let allAllowedFields = requiredFields.concat(optionalFields);
+        
+        return request.resource.data.createdBy == request.auth.uid &&
+          // Check all required fields exist
+          request.resource.data.keys().hasAll(requiredFields) &&
+          // Check no extra fields beyond allowed
+          request.resource.data.keys().hasOnly(allAllowedFields) &&
+          // Validate required field types and values
+          request.resource.data.question is string &&
+          request.resource.data.question.size() > 0 &&
+          request.resource.data.question.size() <= 500 &&
+          request.resource.data.options is list &&
+          request.resource.data.options.size() >= 2 &&
+          request.resource.data.options.size() <= 10 &&
+          request.resource.data.createdAt is timestamp &&
+          request.resource.data.totalVotes is int &&
+          // Validate optional fields if present
+          (!request.resource.data.keys().hasAny(['allowMultipleVotes']) || request.resource.data.allowMultipleVotes is bool) &&
+          (!request.resource.data.keys().hasAny(['showResultsBeforeVoting']) || request.resource.data.showResultsBeforeVoting is bool) &&
+          (!request.resource.data.keys().hasAny(['endsAt']) || request.resource.data.endsAt is timestamp);
+      }
+      
+      // Allow create operations
+      allow create: if isSignedIn() && isValidPollData();
+      
+      // Allow write (covers both create and update for new documents)
+      allow write: if isSignedIn() && !exists(/databases/$(database)/documents/polls/$(pollId)) && isValidPollData();
+      
+      // Users can vote (update options and totalVotes only)
+      allow update: if isSignedIn() &&
+        exists(/databases/$(database)/documents/polls/$(pollId)) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['options', 'totalVotes']);
+      
+      // Only poll creator can delete
+      allow delete: if isSignedIn() && 
+        resource.data.createdBy == request.auth.uid;
+    }
+
+    /* ===================== Chat Rooms ===================== */
+    match /chat_rooms/{roomId} {
+      // Helper: check if user is participant
+      function isParticipant() {
+        return request.auth.uid in resource.data.participantIds;
+      }
+      
+      // Helper: check tenant match
+      function matchesTenant() {
+        return resource.data.institutionId == userDoc().data.institutionId &&
+               resource.data.companyId == userDoc().data.companyId;
+      }
+
+      // Anyone in the tenant can create chat rooms
+      allow create: if isSignedIn() &&
+        request.resource.data.institutionId == userDoc().data.institutionId &&
+        request.resource.data.companyId == userDoc().data.companyId &&
+        request.resource.data.participantIds is list &&
+        request.auth.uid in request.resource.data.participantIds;
+      
+      // Participants can read their chat rooms
+      allow get: if isSignedIn() && matchesTenant() && isParticipant();
+      
+      // List chat rooms where user is participant
+      allow list: if isSignedIn() &&
+        request.query.limit != null &&
+        request.query.limit <= 100;
+      
+      // Participants can update (for adding new participants, updating last message, etc.)
+      allow update: if isSignedIn() && matchesTenant() && isParticipant();
+      
+      // No delete allowed (soft delete via isArchived flag)
+      allow delete: if false;
+
+      /* ===================== Chat Messages (subcollection) ===================== */
+      match /messages/{messageId} {
+        // Anyone in the room can send messages
+        allow create: if isSignedIn() &&
+          get(/databases/$(database)/documents/chat_rooms/$(roomId)).data.participantIds.hasAny([request.auth.uid]) &&
+          request.resource.data.authorId == request.auth.uid &&
+          request.resource.data.institutionId == userDoc().data.institutionId &&
+          request.resource.data.companyId == userDoc().data.companyId &&
+          !get(/databases/$(database)/documents/chat_rooms/$(roomId)).data.blockedUsers.hasAny([request.auth.uid]);
+        
+        // Participants can read messages
+        allow get, list: if isSignedIn() &&
+          get(/databases/$(database)/documents/chat_rooms/$(roomId)).data.participantIds.hasAny([request.auth.uid]);
+        
+        // Author can edit their own messages
+        allow update: if isSignedIn() &&
+          resource.data.authorId == request.auth.uid &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'isEdited', 'updatedAt', 'readBy']);
+        
+        // Author or moderators can delete messages
+        allow delete: if isSignedIn() && (
+          resource.data.authorId == request.auth.uid ||
+          isCompanyAdmin() ||
+          isOrgAdmin() ||
+          isSuperAdmin()
+        );
+      }
+    }
   }
 }
+

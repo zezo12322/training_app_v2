@@ -6,6 +6,10 @@ import 'bottom_nav_shell.dart';
 import 'package:training_app/widgets/badge_award_listener.dart';
 import 'package:training_app/providers/quiz_providers.dart'; // للوصول لمزود notificationServiceProvider
 import 'super_admin_dashboard.dart';
+import 'org_admin_dashboard.dart';
+import 'company_admin_dashboard.dart';
+import 'manager_dashboard.dart';
+import '../providers/department_providers.dart';
 
 class AuthWrapper extends ConsumerWidget {
   const AuthWrapper({super.key});
@@ -53,12 +57,37 @@ class AuthWrapper extends ConsumerWidget {
               );
             }
             final role = appUser.role;
-            // إذا كان المستخدم Super Admin، ننتقل مباشرةً إلى لوحة التحكم الخاصة به
-            if (role == 'super_admin') {
-              return const SuperAdminDashboard();
+            final instId = appUser.institutionId;
+            final compId = appUser.companyId;
+            // Route by role to avoid mixing features across personas
+            switch (role) {
+              case 'super_admin':
+                return const SuperAdminDashboard();
+              case 'org_admin':
+                return OrgAdminDashboard(institutionId: instId ?? '');
+              case 'company_admin':
+                return CompanyAdminDashboard(companyId: compId ?? '');
+              case 'manager':
+                // Managers may be mapped to multiple departments via user_department_map.
+                final depsAsync = ref.watch(departmentsForUserProvider(appUser.id));
+                return depsAsync.when(
+                  data: (deps) {
+                    if (deps.isEmpty) {
+                      // No department mapping yet; fallback to trainer shell until assigned
+                      return const BadgeAwardListener(child: BottomNavShell(role: 'trainer'));
+                    }
+                    // Pick the first department for now; Settings screen already offers a chooser.
+                    return ManagerDashboard(departmentId: deps.first.id);
+                  },
+                  loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+                  error: (e, st) => const BadgeAwardListener(child: BottomNavShell(role: 'trainer')),
+                );
+              case 'trainer':
+                return const BadgeAwardListener(child: BottomNavShell(role: 'trainer'));
+              case 'trainee':
+              default:
+                return const BadgeAwardListener(child: BottomNavShell(role: 'trainee'));
             }
-            // نلف الـ BottomNavShell بـ BadgeAwardListener لكي تظهر تنبيهات الشارات في كل الصفحات الرئيسية
-            return BadgeAwardListener(child: BottomNavShell(role: role));
           },
           loading: () =>
               const Scaffold(body: Center(child: CircularProgressIndicator())),

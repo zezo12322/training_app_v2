@@ -20,11 +20,7 @@ final companyLearningPathsProvider =
           .snapshots()
           .map(
             (q) => q.docs
-                .map(
-                  (d) => LearningPath.fromDoc(
-                    d as DocumentSnapshot<Map<String, dynamic>>,
-                  ),
-                )
+                .map((d) => LearningPath.fromDoc(d))
                 .toList(),
           );
     });
@@ -43,11 +39,7 @@ final userPathProgressProvider =
         toFirestore: (value, _) => value,
       )
       .snapshots()
-      .map((snap) => snap.exists
-          ? UserPathProgress.fromDoc(
-              snap as DocumentSnapshot<Map<String, dynamic>>,
-            )
-          : null);
+      .map((snap) => snap.exists ? UserPathProgress.fromDoc(snap) : null);
 });
 
 // Create a new learning path (admin scope)

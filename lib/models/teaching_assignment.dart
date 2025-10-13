@@ -18,6 +18,7 @@ class TeachingAssignment {
   final DateTime? createdAt;
   @TimestampConverter()
   final DateTime? updatedAt;
+  final String title; // Title of the assignment
 
   const TeachingAssignment({
     required this.id,
@@ -32,6 +33,7 @@ class TeachingAssignment {
     required this.status,
     this.createdAt,
     this.updatedAt,
+    required this.title, // Added title property
   });
 
   factory TeachingAssignment.fromDoc(
@@ -50,6 +52,7 @@ class TeachingAssignment {
       status: (d['status'] ?? 'active') as String,
       createdAt: (d['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (d['updatedAt'] as Timestamp?)?.toDate(),
+      title: (d['title'] ?? '') as String,
     );
   }
 
@@ -66,6 +69,7 @@ class TeachingAssignment {
       'status': status,
       if (createdAt != null) 'createdAt': Timestamp.fromDate(createdAt!),
       if (updatedAt != null) 'updatedAt': Timestamp.fromDate(updatedAt!),
+      'title': title,
     };
   }
 }

@@ -13,8 +13,26 @@ class WallPost with _$WallPost {
     required String authorId,
     required String content,
     String? authorEmail,
+    String? authorName,
     String? fileUrl,
+    String? imageUrl,
+    @Default([]) List<String> imageUrls, // Multiple images support
+    
+    // Enhanced features
+    @Default(false) bool isPinned,
+    @Default(false) bool isArchived,
+    @Default(false) bool isEdited,
+    @Default({}) Map<String, int> reactions, // {'👍': 5, '❤️': 3}
+    @Default({}) Map<String, List<String>> reactionUsers, // {'👍': ['uid1', 'uid2']}
+    @Default(0) int commentCount,
+    
+    // Poll support (optional)
+    Map<String, dynamic>? poll,
+    
+    // Metadata
     @TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? updatedAt,
+    @TimestampConverter() DateTime? pinnedAt,
   }) = _WallPost;
 
   factory WallPost.fromJson(Map<String, dynamic> json) =>
@@ -23,6 +41,12 @@ class WallPost with _$WallPost {
   factory WallPost.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data() ?? {};
     return WallPost.fromJson({'id': doc.id, ...data});
+  }
+  
+  // Helpers
+  int get totalReactions => reactions.values.fold(0, (s, c) => s + c);
+  bool hasUserReacted(String userId, String emoji) {
+    return reactionUsers[emoji]?.contains(userId) ?? false;
   }
 }
 

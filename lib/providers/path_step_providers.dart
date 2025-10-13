@@ -19,30 +19,31 @@ final pathStepsProvider = StreamProvider.family<List<PathStep>, String>((
       )
       .snapshots()
       .map(
-        (q) => q.docs
-            .map(
-              (d) =>
-                  PathStep.fromDoc(d as DocumentSnapshot<Map<String, dynamic>>),
-            )
-            .toList(),
+        (q) => q.docs.map((d) => PathStep.fromDoc(d)).toList(),
       );
 });
 
 // Add a new step at the end
 final addPathStepProvider = FutureProvider.family
-    .autoDispose<void, ({String pathId, String title, String? description, String? type, int currentCount})>((ref, args) async {
+    .autoDispose<void, ({String pathId, String title, String? description, String? type})>((ref, args) async {
   final fs = ref.read(_fs);
-  final doc = fs.collection('path_steps').doc();
-  await doc.set({
-    'pathId': args.pathId,
-    'title': args.title,
-    if (args.description != null) 'description': args.description,
-    if (args.type != null) 'type': args.type,
-    'order': args.currentCount, // append at end
-  });
-  // bump stepsCount on path
-  await fs.collection('learning_paths').doc(args.pathId).update({
-    'stepsCount': args.currentCount + 1,
+  await fs.runTransaction((tx) async {
+    final pathRef = fs.collection('learning_paths').doc(args.pathId);
+    final pathSnap = await tx.get(pathRef);
+    if (!pathSnap.exists) return;
+  final data = pathSnap.data() ?? {};
+    final currentCount = (data['stepsCount'] as int?) ?? 0;
+    final stepRef = fs.collection('path_steps').doc();
+    tx.set(stepRef, {
+      'pathId': args.pathId,
+      'title': args.title,
+      if (args.description != null) 'description': args.description,
+      if (args.type != null) 'type': args.type,
+      'order': currentCount, // append at end
+    });
+    tx.update(pathRef, {
+      'stepsCount': FieldValue.increment(1),
+    });
   });
 });
 
@@ -61,12 +62,14 @@ final updatePathStepProvider = FutureProvider.family
 
 // Delete step: reindex orders simply client-side after delete
 final deletePathStepProvider = FutureProvider.family
-    .autoDispose<void, ({String id, String pathId, int currentCount})>((ref, args) async {
+    .autoDispose<void, ({String id, String pathId})>((ref, args) async {
   final fs = ref.read(_fs);
-  await fs.collection('path_steps').doc(args.id).delete();
-  // decrement stepsCount
-  await fs.collection('learning_paths').doc(args.pathId).update({
-    'stepsCount': (args.currentCount - 1).clamp(0, args.currentCount),
+  await fs.runTransaction((tx) async {
+    final pathRef = fs.collection('learning_paths').doc(args.pathId);
+    tx.delete(fs.collection('path_steps').doc(args.id));
+    tx.update(pathRef, {
+      'stepsCount': FieldValue.increment(-1),
+    });
   });
 });
 

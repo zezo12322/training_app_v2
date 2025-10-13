@@ -28,7 +28,7 @@ final deleteBadgeProvider = FutureProvider.family<void, String>((
   await col.doc(badgeId).delete();
 });
 
-final activeBadgesProvider = StreamProvider<List<Badge>>((ref) {
+final activeBadgesProvider = StreamProvider.autoDispose<List<Badge>>((ref) {
   final col = ref.watch(badgeManagementRepositoryProvider);
   return col
       .where('active', isEqualTo: true)
@@ -40,7 +40,7 @@ final activeBadgesProvider = StreamProvider<List<Badge>>((ref) {
       );
 });
 
-final allBadgesStreamProvider = StreamProvider<List<Badge>>((ref) {
+final allBadgesStreamProvider = StreamProvider.autoDispose<List<Badge>>((ref) {
   final col = ref.watch(badgeManagementRepositoryProvider);
   return col.snapshots().map(
     (snap) => snap.docs
