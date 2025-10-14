@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/gamification/gamification_settings.dart';
 import '../../models/gamification/user_course_progress.dart';
 import '../../models/gamification/points_transaction.dart';
@@ -57,10 +56,7 @@ final userCourseProgressProvider = StreamProvider.family<UserCourseProgress?, ({
 final currentUserProgressProvider = StreamProvider.family<UserCourseProgress?, String>(
   (ref, courseId) {
     final authState = ref.watch(authStateProvider);
-    final userId = authState.maybeWhen(
-      authenticated: (user) => user.uid,
-      orElse: () => null,
-    );
+    final userId = authState.value?.uid;
 
     if (userId == null) {
       return Stream.value(null);
@@ -95,10 +91,7 @@ final topThreeLeaderboardProvider = StreamProvider.family<List<UserCourseProgres
 final currentUserPointsHistoryProvider = StreamProvider.family<List<PointsTransaction>, String>(
   (ref, courseId) {
     final authState = ref.watch(authStateProvider);
-    final userId = authState.maybeWhen(
-      authenticated: (user) => user.uid,
-      orElse: () => null,
-    );
+    final userId = authState.value?.uid;
 
     if (userId == null) {
       return Stream.value([]);

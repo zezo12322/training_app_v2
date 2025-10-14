@@ -49,10 +49,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
   Future<void> _checkDailyStreak() async {
     try {
       final authState = ref.read(authStateProvider);
-      final userId = authState.maybeWhen(
-        authenticated: (user) => user.uid,
-        orElse: () => null,
-      );
+      final userId = authState.value?.uid;
       
       if (userId != null) {
         final updateStreak = ref.read(updateDailyStreakProvider);
@@ -60,7 +57,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       }
     } catch (e) {
       // Silent fail - لا نزعج المستخدم
-      print('⚠️ Failed to update daily streak: $e');
+      logger.w('Failed to update daily streak', error: e);
     }
   }
 

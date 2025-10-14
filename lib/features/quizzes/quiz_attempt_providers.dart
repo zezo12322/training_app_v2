@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'quiz_models.dart';
@@ -151,7 +152,7 @@ final submitQuizAttemptProvider = FutureProvider.autoDispose
         }
       } catch (e) {
         // لا نفشل الـ quiz submission إذا فشل منح النقاط
-        print('⚠️ Failed to award gamification points: $e');
+        debugPrint('⚠️ Failed to award gamification points: $e');
       }
       
       // Return lite

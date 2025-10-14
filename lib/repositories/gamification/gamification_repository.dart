@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/gamification/gamification_settings.dart';
 import '../../models/gamification/user_course_progress.dart';
 import '../../models/gamification/points_transaction.dart';
+import '../../core/logging.dart';
 
 /// Repository لإدارة بيانات نظام التقدم في Firestore
 class GamificationRepository {
@@ -39,7 +40,7 @@ class GamificationRepository {
         data['gamificationSettings'] as Map<String, dynamic>,
       );
     } catch (e) {
-      print('Error getting gamification settings: $e');
+      logger.e('Error getting gamification settings', error: e);
       return null;
     }
   }
@@ -77,7 +78,7 @@ class GamificationRepository {
       final data = doc.data() as Map<String, dynamic>;
       return UserCourseProgress.fromJson(data);
     } catch (e) {
-      print('Error getting user progress: $e');
+      logger.e('Error getting user progress', error: e);
       return null;
     }
   }
@@ -91,7 +92,7 @@ class GamificationRepository {
         SetOptions(merge: true),
       );
     } catch (e) {
-      print('Error updating user progress: $e');
+      logger.e('Error updating user progress', error: e);
       rethrow;
     }
   }
@@ -114,7 +115,7 @@ class GamificationRepository {
               ))
           .toList();
     } catch (e) {
-      print('Error getting leaderboard: $e');
+      logger.e('Error getting leaderboard', error: e);
       return [];
     }
   }
@@ -157,7 +158,7 @@ class GamificationRepository {
     try {
       await _transactionsCollection.add(transaction.toJson());
     } catch (e) {
-      print('Error adding points transaction: $e');
+      logger.e('Error adding points transaction', error: e);
       rethrow;
     }
   }
@@ -226,7 +227,7 @@ class GamificationRepository {
       
       await batch.commit();
     } catch (e) {
-      print('Error resetting course progress: $e');
+      logger.e('Error resetting course progress', error: e);
       rethrow;
     }
   }

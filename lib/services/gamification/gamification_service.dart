@@ -2,6 +2,7 @@ import '../../models/gamification/gamification_settings.dart';
 import '../../models/gamification/user_course_progress.dart';
 import '../../models/gamification/points_transaction.dart';
 import '../../repositories/gamification/gamification_repository.dart';
+import '../../core/logging.dart';
 import 'points_calculator.dart';
 import 'level_system.dart';
 
@@ -49,13 +50,11 @@ class GamificationService {
     }
 
     // الحصول على تقدم المستخدم الحالي
-    var progress = await _repository.getUserProgress(userId, courseId);
-    if (progress == null) {
-      progress = UserCourseProgress.create(
-        userId: userId,
-        courseId: courseId,
-      );
-    }
+    var progress = await _repository.getUserProgress(userId, courseId) ??
+        UserCourseProgress.create(
+          userId: userId,
+          courseId: courseId,
+        );
 
     // حساب النقاط والمستوى الجديد
     final newTotalPoints = progress.totalPoints + points;
@@ -114,7 +113,7 @@ class GamificationService {
     // 3. إضافة تأثيرات بصرية في الواجهة
     
     // TODO: سيتم تطويرها في مراحل قادمة
-    print('🎉 تهانينا! وصلت للمستوى $newLevel');
+    logger.i('🎉 Level up! User $userId reached level $newLevel in course $courseId');
   }
 
   /// تحديث إعدادات نقاط الكورس (للمدرب فقط)
