@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/gamification/activity_points.dart';
-import '../models/gamification/gamification_settings.dart';
-import '../models/gamification/user_course_progress.dart';
-import '../models/gamification/points_transaction.dart';
-import '../repositories/gamification/gamification_repository.dart';
+import '../../models/gamification/gamification_settings.dart';
+import '../../models/gamification/user_course_progress.dart';
+import '../../models/gamification/points_transaction.dart';
+import '../../repositories/gamification/gamification_repository.dart';
 import 'points_calculator.dart';
 import 'level_system.dart';
 

@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'quiz_models.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/gamification/gamification_providers.dart';
+import '../../models/gamification/points_transaction.dart';
 import 'quiz_providers.dart';
 
 class QuizQuestionModel {
@@ -108,6 +110,50 @@ final submitQuizAttemptProvider = FutureProvider.autoDispose
         'submittedAt': FieldValue.serverTimestamp(),
       };
       await doc.set(submissionData);
+      
+      // 🎮 منح نقاط Gamification
+      try {
+        final awardPoints = ref.read(awardPointsProvider);
+        
+        // التحقق من اجتياز الاختبار
+        final passingScore = quiz.passScore;
+        
+        if (scorePercent >= passingScore) {
+          // منح نقاط اجتياز الاختبار
+          await awardPoints(
+            userId: user.uid,
+            courseId: input.courseId,
+            activityType: ActivityType.passingQuiz,
+            activityName: ActivityType.getActivityName(ActivityType.passingQuiz),
+            metadata: {
+              'quizId': input.quizId,
+              'quizTitle': quiz.title,
+              'score': scorePercent,
+              'correct': correct,
+              'total': input.questions.length,
+            },
+          );
+          
+          // إذا حصل على الدرجة الكاملة (100%)
+          if (scorePercent == 100) {
+            await awardPoints(
+              userId: user.uid,
+              courseId: input.courseId,
+              activityType: ActivityType.perfectQuiz,
+              activityName: ActivityType.getActivityName(ActivityType.perfectQuiz),
+              metadata: {
+                'quizId': input.quizId,
+                'quizTitle': quiz.title,
+                'score': 100,
+              },
+            );
+          }
+        }
+      } catch (e) {
+        // لا نفشل الـ quiz submission إذا فشل منح النقاط
+        print('⚠️ Failed to award gamification points: $e');
+      }
+      
       // Return lite
       return QuizSubmissionLite(
         id: doc.id,

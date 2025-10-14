@@ -1,5 +1,5 @@
-import '../models/gamification/activity_points.dart';
-import '../models/gamification/points_transaction.dart';
+import '../../models/gamification/activity_points.dart';
+import '../../models/gamification/points_transaction.dart';
 
 /// حاسبة النقاط
 /// 
@@ -118,7 +118,7 @@ class PointsCalculator {
     required int lessonsAvailable,
     required int quizzesAvailable,
   }) {
-    var potential = 0;
+    var potential = 0.0;
     
     // الدروس
     potential += lessonsAvailable * activityPoints.completingLesson;
@@ -137,6 +137,6 @@ class PointsCalculator {
       potential += activityPoints.commentingOnPost * 3; // 3 تعليقات
     }
     
-    return potential;
+    return potential.round();
   }
 }

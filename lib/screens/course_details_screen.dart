@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/providers/wall_post_providers.dart';
 import 'package:training_app/providers/wall_filter_providers.dart';
+import 'package:training_app/providers/gamification/gamification_providers.dart';
 import 'package:training_app/core/logging.dart';
 import 'package:training_app/services/notification_service.dart';
 import '../widgets/wall_post_card.dart';
 import '../widgets/add_post_dialog.dart';
 import '../widgets/create_poll_dialog.dart';
 import '../widgets/wall_search_bar.dart';
+import '../widgets/gamification/progress_card.dart';
 import 'trainee_list_screen.dart';
 import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
@@ -35,6 +37,33 @@ class CourseDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // 🎮 تحديث Daily Streak عند فتح الكورس
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkDailyStreak();
+    });
+  }
+
+  Future<void> _checkDailyStreak() async {
+    try {
+      final authState = ref.read(authStateProvider);
+      final userId = authState.maybeWhen(
+        authenticated: (user) => user.uid,
+        orElse: () => null,
+      );
+      
+      if (userId != null) {
+        final updateStreak = ref.read(updateDailyStreakProvider);
+        await updateStreak(userId, widget.courseId);
+      }
+    } catch (e) {
+      // Silent fail - لا نزعج المستخدم
+      print('⚠️ Failed to update daily streak: $e');
+    }
+  }
+
   Future<void> _sendNotificationsToTrainees(
     String authorEmail,
     String courseName,
@@ -187,7 +216,23 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
           WallSearchBar(courseId: widget.courseId),
           const Divider(height: 1),
           
-          Expanded(child: _buildPostsList()),
+          // Content
+          Expanded(
+            child: Column(
+              children: [
+                // Progress Card
+                ProgressCard(
+                  courseId: widget.courseId,
+                  showStreak: true,
+                  onTap: () {
+                    // TODO: فتح صفحة التفاصيل الكاملة
+                  },
+                ),
+                // Posts List
+                Expanded(child: _buildPostsList()),
+              ],
+            ),
+          ),
           if (isTrainer) _buildPostComposer(),
         ],
       ),
