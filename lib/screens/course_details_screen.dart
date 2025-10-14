@@ -18,6 +18,7 @@ import 'my_evaluations_screen.dart';
 import 'resource_library_screen.dart';
 import 'quiz_hub_screen.dart';
 import 'badges_overview_screen.dart';
+import 'gamification/gamification_settings_screen.dart';
 
 class CourseDetailsScreen extends ConsumerStatefulWidget {
   final String courseId;
@@ -151,6 +152,16 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                 case 'trainees':
                   _navigateToTraineeList();
                   break;
+                case 'gamification':
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => GamificationSettingsScreen(
+                        courseId: widget.courseId,
+                        courseName: widget.courseName,
+                      ),
+                    ),
+                  );
+                  break;
                 case 'evaluations':
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -185,7 +196,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              if (isTrainer)
+              if (isTrainer) ...[
                 const PopupMenuItem(
                   value: 'trainees',
                   child: ListTile(
@@ -194,6 +205,15 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
+                const PopupMenuItem(
+                  value: 'gamification',
+                  child: ListTile(
+                    leading: Icon(Icons.settings_outlined),
+                    title: Text('إعدادات النقاط'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
               if (!isTrainer)
                 const PopupMenuItem(
                   value: 'evaluations',
