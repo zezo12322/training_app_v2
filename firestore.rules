@@ -37,6 +37,17 @@ service cloud.firestore {
     function isSuperAdmin() { return isSignedIn() && userDoc().data.role == 'super_admin'; }
     function isOrgAdmin() { return isSignedIn() && userDoc().data.role == 'org_admin'; }
     function isCompanyAdmin() { return isSignedIn() && userDoc().data.role == 'company_admin'; }
+    
+    // Gamification helper functions
+    function isTrainerOfCourse(userId, courseId) {
+      let course = get(/databases/$(database)/documents/courses/$(courseId));
+      return userId == course.data.trainerId;
+    }
+    
+    function isEnrolledInCourse(userId, courseId) {
+      let course = get(/databases/$(database)/documents/courses/$(courseId));
+      return userId in course.data.trainees || userId == course.data.trainerId;
+    }
     function _flagsPath() { return "/databases/" + database + "/documents/system_settings/global"; }
     function _flagsExist() { return exists(path(_flagsPath())); }
     function _flagsHasFeatureFlags() { return _flagsExist() && (get(path(_flagsPath())).data.featureFlags is map); }
@@ -874,6 +885,70 @@ service cloud.firestore {
           isSuperAdmin()
         );
       }
+    }
+
+    /* ==================== GAMIFICATION SYSTEM ==================== */
+    
+    /* ===================== User Course Progress ===================== */
+    match /user_course_progress/{progressId} {
+      // Extract userId and courseId from document ID format: {userId}_{courseId}
+      function getUserIdFromProgress() {
+        return progressId.split('_')[0];
+      }
+      
+      function getCourseIdFromProgress() {
+        return progressId.split('_')[1];
+      }
+      
+      // Read: User can read their own progress, trainer can read all in their course
+      allow read: if isSignedIn() && (
+        request.auth.uid == getUserIdFromProgress() ||
+        isTrainerOfCourse(request.auth.uid, getCourseIdFromProgress())
+      );
+      
+      // Create: Only when user is enrolled and creating their own progress
+      allow create: if isSignedIn() &&
+        request.auth.uid == getUserIdFromProgress() &&
+        isEnrolledInCourse(request.auth.uid, getCourseIdFromProgress()) &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.courseId == getCourseIdFromProgress() &&
+        request.resource.data.totalPoints is int &&
+        request.resource.data.totalPoints >= 0;
+      
+      // Update: Only user can update their own progress (via service)
+      // Ensures userId and courseId never change
+      allow update: if isSignedIn() &&
+        request.auth.uid == getUserIdFromProgress() &&
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.courseId == resource.data.courseId &&
+        request.resource.data.totalPoints is int &&
+        request.resource.data.totalPoints >= resource.data.totalPoints; // Points can only increase
+      
+      // Delete: Only trainer can delete (for reset functionality)
+      allow delete: if isSignedIn() &&
+        isTrainerOfCourse(request.auth.uid, getCourseIdFromProgress());
+    }
+
+    /* ===================== Points Transactions ===================== */
+    match /points_transactions/{transactionId} {
+      // Read: User can read their own transactions, trainer can read all for their course
+      allow read: if isSignedIn() && (
+        request.auth.uid == resource.data.userId ||
+        isTrainerOfCourse(request.auth.uid, resource.data.courseId)
+      );
+      
+      // Create: Only system (via service) can create transactions
+      // Must have all required fields and valid values
+      allow create: if isSignedIn() &&
+        request.auth.uid == request.resource.data.userId &&
+        isEnrolledInCourse(request.auth.uid, request.resource.data.courseId) &&
+        request.resource.data.points is int &&
+        request.resource.data.points > 0 &&
+        request.resource.data.activityType is string &&
+        request.resource.data.timestamp is timestamp;
+      
+      // Update/Delete: Never allowed - transactions are immutable audit log
+      allow update, delete: if false;
     }
   }
 }
