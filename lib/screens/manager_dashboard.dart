@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/team_providers.dart';
 import '../providers/department_providers.dart';
 import 'package:training_app/core/l10n_ext.dart';
-import '../providers/auth_provider.dart';
-import 'bottom_nav_shell.dart';
 import '../providers/teaching_assignment_providers.dart';
-import '../models/teaching_assignment.dart';
+import '../core/roles.dart';
 
 enum _AssignmentFilter { activeNow, upcoming, archive }
 
@@ -34,7 +32,7 @@ class _ManagerDashboardState extends ConsumerState<ManagerDashboard> {
       loading: () => context.managerDashboardTitle,
       error: (e, st) => context.managerDashboardTitle,
     );
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
@@ -42,14 +40,9 @@ class _ManagerDashboardState extends ConsumerState<ManagerDashboard> {
             tooltip: 'Home',
             icon: const Icon(Icons.home_outlined),
             onPressed: () async {
-              final appUser = await ref.read(currentUserModelProvider.future);
               if (!context.mounted) return;
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => BottomNavShell(role: appUser?.role ?? 'trainee'),
-                ),
-                (route) => false,
-              );
+              // Route back through AuthWrapper by popping to root.
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),
         ],
@@ -105,28 +98,47 @@ class _ManagerDashboardState extends ConsumerState<ManagerDashboard> {
                           if (a.departmentId != widget.departmentId) return false;
                           final s = a.startAt;
                           final e = a.endAt;
-                          switch (_filter) {
-                            case _AssignmentFilter.activeNow:
-                              return s.isBefore(now) && e.isAfter(now) && a.status == 'active';
-                            case _AssignmentFilter.upcoming:
-                              return s.isAfter(now) && s.isBefore(endWindow) && a.status == 'active';
-                            case _AssignmentFilter.archive:
-                              return e.isBefore(now) || a.status != 'active' && e.isAfter(pastWindow);
+                          if (_filter == _AssignmentFilter.activeNow) {
+                            return s.isBefore(now) && e.isAfter(now);
+                          } else if (_filter == _AssignmentFilter.upcoming) {
+                            return s.isAfter(now) && s.isBefore(endWindow);
+                          } else if (_filter == _AssignmentFilter.archive) {
+                            return e.isBefore(now) && e.isAfter(pastWindow);
                           }
-                        }).toList()
-                          ..sort((a, b) => a.startAt.compareTo(b.startAt));
+                          return false;
+                        }).toList();
+
                         if (filtered.isEmpty) {
-                          return Text('No assignments for selected filter');
+                          return Center(
+                            child: Text(
+                              'No assignments found for the selected filter.',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          );
                         }
+
                         return SizedBox(
                           height: 120,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: filtered.length.clamp(0, 20),
+                            itemCount: filtered.length,
                             separatorBuilder: (_, __) => const SizedBox(width: 8),
                             itemBuilder: (_, i) {
                               final a = filtered[i];
-                              return _AssignmentCard(assignment: a);
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(a.title, style: Theme.of(context).textTheme.titleSmall),
+                                      const SizedBox(height: 4),
+                                      Text('Start: ${a.startAt}', style: Theme.of(context).textTheme.bodySmall),
+                                      Text('End: ${a.endAt}', style: Theme.of(context).textTheme.bodySmall),
+                                    ],
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         );
@@ -275,51 +287,9 @@ class _ManagerDashboardState extends ConsumerState<ManagerDashboard> {
         ],
       ),
     );
-  }
-}
-
-class _AssignmentCard extends ConsumerWidget {
-  final TeachingAssignment assignment;
-  const _AssignmentCard({required this.assignment});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(appUserByIdProvider(assignment.trainerId));
-    final s = assignment.startAt;
-    final e = assignment.endAt;
-    final date = '${s.toLocal().toString().split(' ').first} → ${e.toLocal().toString().split(' ').first}';
-    final scopeIcon = assignment.scopeType == 'path' ? Icons.route_outlined : Icons.menu_book_outlined;
-    return Container(
-      width: 260,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Theme.of(context).dividerColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(scopeIcon, size: 18),
-              const SizedBox(width: 6),
-              Text(assignment.scopeType.toUpperCase()),
-              const Spacer(),
-              Chip(label: Text(assignment.status)),
-            ],
-          ),
-          const SizedBox(height: 6),
-          userAsync.when(
-            loading: () => const LinearProgressIndicator(minHeight: 2),
-            error: (e, st) => Text(assignment.trainerId),
-            data: (u) => Text(u?.name ?? assignment.trainerId, style: Theme.of(context).textTheme.titleSmall),
-          ),
-          const SizedBox(height: 6),
-          Text(date, style: Theme.of(context).textTheme.bodySmall),
-        ],
-      ),
-    );
+    return const bool.fromEnvironment('dart.vm.product')
+        ? scaffold
+        : RoleDebugWrapper(child: scaffold);
   }
 }
 

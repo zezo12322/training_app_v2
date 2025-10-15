@@ -6,6 +6,7 @@ import 'manager_dashboard.dart';
 import 'department_members_screen.dart';
 import '../widgets/user_search_dialog.dart';
 import 'package:training_app/core/l10n_ext.dart';
+import '../core/roles.dart';
 
 class DepartmentsScreen extends ConsumerWidget {
   final String companyId;
@@ -14,6 +15,7 @@ class DepartmentsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final depsAsync = ref.watch(departmentsByCompanyProvider(companyId));
+    final isCompanyAdmin = ref.watch(isCompanyAdminForCompanyProvider(companyId));
     return Scaffold(
       appBar: AppBar(title: Text(context.departmentsTitle)),
       body: depsAsync.when(
@@ -33,6 +35,7 @@ class DepartmentsScreen extends ConsumerWidget {
                 title: Text(d.name),
                 subtitle: Text(context.idLabel(d.id)),
                 onTap: () {
+                  // Anyone can view the manager dashboard if they have access to the department list view; admin can also manage.
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) => ManagerDashboard(departmentId: d.id),
@@ -40,6 +43,7 @@ class DepartmentsScreen extends ConsumerWidget {
                   );
                 },
                 onLongPress: () async {
+                  if (!isCompanyAdmin) return; // Only company admins can assign members
                   // Enhanced quick-assign via user search dialog (multi-select)
                   final currentIds = await ref.read(teamUserIdsByDepartmentProvider(d.id).future);
                   if (!context.mounted) return;
@@ -60,28 +64,31 @@ class DepartmentsScreen extends ConsumerWidget {
                     SnackBar(content: Text(context.l.assignmentCompletedToast(selected.length))),
                   );
                 },
-                trailing: IconButton(
-                  icon: const Icon(Icons.group_outlined),
-                  tooltip: context.l.manageMembersAction,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => DepartmentMembersScreen(
-                          departmentId: d.id,
-                          companyId: companyId,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                trailing: isCompanyAdmin
+                    ? IconButton(
+                        icon: const Icon(Icons.group_outlined),
+                        tooltip: context.l.manageMembersAction,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => DepartmentMembersScreen(
+                                departmentId: d.id,
+                                companyId: companyId,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : null,
               );
             },
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: isCompanyAdmin
+          ? FloatingActionButton.extended(
         icon: const Icon(Icons.add_business_outlined),
-  label: Text(context.l.departmentsAddAction),
+        label: Text(context.l.departmentsAddAction),
         onPressed: () async {
           final nameController = TextEditingController();
           final ok = await showDialog<bool>(
@@ -118,7 +125,8 @@ class DepartmentsScreen extends ConsumerWidget {
             );
           }
         },
-      ),
+      )
+          : null,
     );
   }
 }

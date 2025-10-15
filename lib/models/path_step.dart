@@ -1,30 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class PathStep {
-  final String id;
-  final String pathId;
-  final String title;
-  final String? description;
-  final int order;
-  final String? type; // optional: 'course'|'task'|'custom'
-  const PathStep({
-    required this.id,
-    required this.pathId,
-    required this.title,
-    this.description,
-    required this.order,
-    this.type,
-  });
+part 'path_step.freezed.dart';
+part 'path_step.g.dart';
 
-  factory PathStep.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final d = doc.data() ?? {};
-    return PathStep(
-      id: doc.id,
-      pathId: (d['pathId'] ?? '') as String,
-      title: (d['title'] ?? '') as String,
-      description: d['description'] as String?,
-      order: (d['order'] ?? 0) as int,
-      type: d['type'] as String?,
-    );
+// Helper to convert Firestore Timestamps to/from DateTime
+class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
+  const TimestampConverter();
+
+  @override
+  DateTime fromJson(Timestamp timestamp) => timestamp.toDate();
+
+  @override
+  Timestamp toJson(DateTime date) => Timestamp.fromDate(date);
+}
+
+enum PathStepType {
+  task,
+  quiz,
+  resource,
+}
+
+@freezed
+class PathStep with _$PathStep {
+  const PathStep._(); // Add this private constructor
+
+  const factory PathStep({
+    required String id,
+    required String pathId,
+    required String title,
+    String? description, // Added description
+    @Default(PathStepType.task) PathStepType type,
+    String? resourceId, // Made optional as it might not always exist
+    required int order,
+    @TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? updatedAt,
+  }) = _PathStep;
+
+  factory PathStep.fromJson(Map<String, dynamic> json) =>
+      _$PathStepFromJson(json);
+
+  // Added fromDoc factory
+  factory PathStep.fromDoc(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return PathStep.fromJson(<String, dynamic>{...data, 'id': doc.id});
   }
 }

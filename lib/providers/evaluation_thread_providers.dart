@@ -9,7 +9,7 @@ import '../config/app_config.dart';
 
 // Stream of replies (basic version, no pagination yet)
 final evaluationRepliesProvider =
-    StreamProvider.family<List<ReplyModel>, String>((ref, evaluationId) {
+    StreamProvider.autoDispose.family<List<ReplyModel>, String>((ref, evaluationId) {
       final col = FirebaseFirestore.instance
           .collection('evaluations')
           .doc(evaluationId)
@@ -22,7 +22,7 @@ final evaluationRepliesProvider =
 
 /// Stream parent evaluation doc (for status, pinnedReplyId, etc.)
 final evaluationMetaProvider =
-    StreamProvider.family<DocumentSnapshot<Map<String, dynamic>>?, String>((
+    StreamProvider.autoDispose.family<DocumentSnapshot<Map<String, dynamic>>?, String>((
       ref,
       evaluationId,
     ) {
@@ -32,7 +32,7 @@ final evaluationMetaProvider =
           .snapshots();
     });
 
-final evaluationTasksProvider = StreamProvider.family<List<TaskModel>, String>((
+final evaluationTasksProvider = StreamProvider.autoDispose.family<List<TaskModel>, String>((
   ref,
   evaluationId,
 ) {

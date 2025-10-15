@@ -13,6 +13,6 @@ final usersInCompanyProvider =
       .limit(500)
       .get();
   return q.docs
-      .map((d) => AppUser.fromDoc(d as DocumentSnapshot<Map<String, dynamic>>))
+      .map((d) => AppUser.fromDoc(d))
       .toList();
 });

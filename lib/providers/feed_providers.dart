@@ -45,7 +45,7 @@ Stream<List<FeedEvent>> _masteryUpdates(FirebaseFirestore fs, String userId) => 
         .toList());
 
 /// Aggregated feed combining multiple sources, sorted by timestamp desc.
-final userFeedProvider = StreamProvider.family<List<FeedEvent>, String>((ref, userId) {
+final userFeedProvider = StreamProvider.autoDispose.family<List<FeedEvent>, String>((ref, userId) {
   final fs = ref.watch(_fs);
   final streams = [
     _pointsEvents(fs, userId),

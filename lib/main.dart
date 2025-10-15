@@ -9,6 +9,8 @@ import 'package:training_app/core/bootstrap.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:training_app/config/app_config.dart';
 import 'package:training_app/core/logging.dart';
+import 'package:training_app/core/timeago_setup.dart';
+import 'package:training_app/providers/fcm_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/settings_providers.dart';
 import 'services/preferences_service.dart';
@@ -48,6 +50,7 @@ void main() async {
   final start = DateTime.now();
   WidgetsFlutterBinding.ensureInitialized();
   initAppMonitoring();
+  setupTimeago(); // تهيئة timeago للعربية
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Log storage backend configuration (R2 vs none)
   logger.i(
@@ -113,6 +116,16 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mode = ref.watch(themeModeProvider);
     final locale = ref.watch(appLocaleProvider);
+    
+    // Initialize FCM on app startup
+    ref.listen(fcmInitializationProvider, (previous, next) {
+      next.when(
+        data: (_) => logger.i('[App] FCM initialized successfully'),
+        loading: () => logger.i('[App] Initializing FCM...'),
+        error: (error, stack) => logger.e('[App] FCM initialization failed', error: error, stackTrace: stack),
+      );
+    });
+    
     return MaterialApp(
       title: 'Training App',
       theme: AppTheme.light(),

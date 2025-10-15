@@ -5,12 +5,14 @@ import '../providers/path_step_providers.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import '../providers/auth_provider.dart';
 import '../models/user_path_progress.dart';
+import '../models/path_step.dart';
 import '../services/user_path_progress_service.dart';
 import '../providers/user_providers.dart';
 import '../providers/department_providers.dart';
 import '../providers/teaching_assignment_providers.dart';
 import '../models/user_model.dart';
 import '../models/department.dart';
+import '../core/roles.dart';
 
 class LearningPathsScreen extends ConsumerWidget {
   final String companyId;
@@ -21,8 +23,7 @@ class LearningPathsScreen extends ConsumerWidget {
     final pathsAsync = ref.watch(companyLearningPathsProvider(companyId));
     // Load current user for role gating
     requestCurrentUserLoad(ref);
-    final currentUser = ref.watch(currentUserModelProvider).value;
-    final isCompanyAdmin = currentUser?.role == 'company_admin' && currentUser?.companyId == companyId;
+  final isCompanyAdmin = ref.watch(isCompanyAdminForCompanyProvider(companyId));
     return Scaffold(
       appBar: AppBar(
         title: Text(context.learningPathsTitle),
@@ -457,13 +458,11 @@ class _ManageStepsScreenState extends ConsumerState<_ManageStepsScreen> {
                             nav.pop(true);
                             setState(() => _submitting = true);
                             try {
-                              final current = stepsAsync.value?.length ?? 0;
                               await ref.read(addPathStepProvider((
                                 pathId: widget.pathId,
                                 title: titleController.text.trim(),
                                 description: descController.text.trim().isEmpty ? null : descController.text.trim(),
                                 type: type,
-                                currentCount: current,
                               )).future);
                               if (!mounted) return;
                               messenger.showSnackBar(const SnackBar(content: Text('Step added')));
@@ -508,7 +507,7 @@ class _ManageStepsScreenState extends ConsumerState<_ManageStepsScreen> {
                     final messenger = ScaffoldMessenger.of(context);
                     setState(() => _submitting = true);
                     try {
-                      await ref.read(deletePathStepProvider((id: s.id, pathId: widget.pathId, currentCount: steps.length)).future);
+                      await ref.read(deletePathStepProvider((id: s.id, pathId: widget.pathId)).future);
                       if (!mounted) return;
                       messenger.showSnackBar(const SnackBar(content: Text('Step deleted')));
                     } catch (e) {
@@ -529,7 +528,7 @@ class _ManageStepsScreenState extends ConsumerState<_ManageStepsScreen> {
                       onPressed: () async {
                         final titleController = TextEditingController(text: s.title);
                         final descController = TextEditingController(text: s.description ?? '');
-                        String? type = s.type;
+                        PathStepType? type = s.type;
                         await showDialog<bool>(
                           context: context,
                           builder: (_) => AlertDialog(
@@ -541,12 +540,12 @@ class _ManageStepsScreenState extends ConsumerState<_ManageStepsScreen> {
                                 const SizedBox(height: 8),
                                 TextField(controller: descController, decoration: const InputDecoration(labelText: 'Description')),
                                 const SizedBox(height: 8),
-                                DropdownButtonFormField<String>(
+                                DropdownButtonFormField<PathStepType>(
                                   initialValue: type,
                                   items: const [
-                                    DropdownMenuItem(value: 'course', child: Text('Course')),
-                                    DropdownMenuItem(value: 'task', child: Text('Task')),
-                                    DropdownMenuItem(value: 'custom', child: Text('Custom')),
+                                    DropdownMenuItem(value: PathStepType.task, child: Text('Task')),
+                                    DropdownMenuItem(value: PathStepType.quiz, child: Text('Quiz')),
+                                    DropdownMenuItem(value: PathStepType.resource, child: Text('Resource')),
                                   ],
                                   onChanged: (v) => type = v,
                                   decoration: const InputDecoration(labelText: 'Type'),
@@ -566,7 +565,7 @@ class _ManageStepsScreenState extends ConsumerState<_ManageStepsScreen> {
                                       id: s.id,
                                       title: titleController.text.trim(),
                                       description: descController.text.trim().isEmpty ? null : descController.text.trim(),
-                                      type: type,
+                                      type: type?.name,
                                     )).future);
                                     if (!mounted) return;
                                     messenger.showSnackBar(const SnackBar(content: Text('Step updated')));

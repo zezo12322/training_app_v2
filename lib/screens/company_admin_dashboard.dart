@@ -5,6 +5,7 @@ import '../widgets/sparkline.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import '../providers/auth_provider.dart';
 import 'bottom_nav_shell.dart';
+import '../core/roles.dart';
 
 class CompanyAdminDashboard extends ConsumerWidget {
   final String companyId;
@@ -20,7 +21,7 @@ class CompanyAdminDashboard extends ConsumerWidget {
     final metricsAsync = ref.watch(
       companyTenantMetricsProvider((tenantId: companyId, days: days)),
     );
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: Text(context.companyAdminDashboardTitle),
         actions: [
@@ -99,6 +100,9 @@ class CompanyAdminDashboard extends ConsumerWidget {
         },
       ),
     );
+    return const bool.fromEnvironment('dart.vm.product')
+        ? scaffold
+        : RoleDebugWrapper(child: scaffold);
   }
 
   Widget _metricCard(

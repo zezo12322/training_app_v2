@@ -65,7 +65,7 @@ final allBadgesProvider = FutureProvider<List<Badge>>((ref) async {
 });
 
 /// Real-time badges stream so newly added badges appear immediately (e.g. for trainer)
-final allBadgesStreamProvider = StreamProvider<List<Badge>>((ref) {
+final allBadgesStreamProvider = StreamProvider.autoDispose<List<Badge>>((ref) {
   final fs = ref.watch(firebaseFirestoreProvider);
   return fs
       .collection('badges')
