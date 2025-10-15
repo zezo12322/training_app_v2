@@ -1,0 +1,437 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/chat_message.dart';
+import '../models/chat_room.dart';
+import '../core/logging.dart';
+
+/// خدمة المحادثات المباشرة (Direct Messages)
+class DirectMessageService {
+  final FirebaseFirestore _firestore;
+
+  DirectMessageService({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
+
+  /// إنشاء أو جلب غرفة محادثة مباشرة بين مستخدمين
+  Future<ChatRoom?> getOrCreateDirectRoom({
+    required String user1Id,
+    required String user2Id,
+    required String institutionId,
+    required String companyId,
+  }) async {
+    try {
+      // البحث عن غرفة موجودة
+      final existingRoom = await _findExistingDirectRoom(user1Id, user2Id);
+      if (existingRoom != null) {
+        return existingRoom;
+      }
+
+      // إنشاء غرفة جديدة
+      final roomId = _generateDirectRoomId(user1Id, user2Id);
+      final newRoom = ChatRoom(
+        id: roomId,
+        type: ChatRoomType.direct,
+        institutionId: institutionId,
+        companyId: companyId,
+        participantIds: [user1Id, user2Id],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        unreadCounts: {user1Id: 0, user2Id: 0},
+      );
+
+      await _firestore
+          .collection('chat_rooms')
+          .doc(roomId)
+          .set(newRoom.toJson());
+
+      logger.i('Created direct message room: $roomId');
+      return newRoom;
+    } catch (e, stackTrace) {
+      logger.e('Error creating direct room', error: e, stackTrace: stackTrace);
+      return null;
+    }
+  }
+
+  /// إرسال رسالة مباشرة
+  Future<ChatMessage?> sendDirectMessage({
+    required String roomId,
+    required String senderId,
+    required String senderName,
+    required String senderRole,
+    required String recipientId,
+    required String content,
+    required String institutionId,
+    required String companyId,
+    String? imageUrl,
+  }) async {
+    try {
+      final messageId = _generateId();
+      final now = DateTime.now();
+
+      final message = ChatMessage(
+        id: messageId,
+        chatRoomId: roomId,
+        courseId: '', // DMs ليست مرتبطة بكورس محدد
+        institutionId: institutionId,
+        companyId: companyId,
+        authorId: senderId,
+        authorName: senderName,
+        authorRole: senderRole,
+        content: content,
+        imageUrl: imageUrl,
+        createdAt: now,
+        readBy: [senderId], // المرسل قرأها تلقائياً
+      );
+
+      // حفظ الرسالة
+      await _firestore
+          .collection('chat_messages')
+          .doc(messageId)
+          .set(message.toJson());
+
+      // تحديث غرفة المحادثة
+      await _updateRoomAfterMessage(
+        roomId: roomId,
+        lastContent: content,
+        lastAuthor: senderName,
+        lastMessageAt: now,
+        recipientId: recipientId,
+      );
+
+      logger.i('Sent direct message from $senderId to $recipientId');
+      return message;
+    } catch (e, stackTrace) {
+      logger.e('Error sending direct message', error: e, stackTrace: stackTrace);
+      return null;
+    }
+  }
+
+  /// تحديث حالة القراءة
+  Future<void> markAsRead({
+    required String messageId,
+    required String userId,
+  }) async {
+    try {
+      await _firestore.collection('chat_messages').doc(messageId).update({
+        'readBy': FieldValue.arrayUnion([userId]),
+      });
+
+      logger.d('Message $messageId marked as read by $userId');
+    } catch (e) {
+      logger.e('Error marking message as read', error: e);
+    }
+  }
+
+  /// تحديث حالة القراءة لكل رسائل الغرفة
+  Future<void> markAllAsRead({
+    required String roomId,
+    required String userId,
+  }) async {
+    try {
+      // جلب الرسائل غير المقروءة
+      final unreadMessages = await _firestore
+          .collection('chat_messages')
+          .where('chatRoomId', isEqualTo: roomId)
+          .where('authorId', isNotEqualTo: userId)
+          .get();
+
+      final batch = _firestore.batch();
+      for (final doc in unreadMessages.docs) {
+        final message = ChatMessage.fromJson(doc.data());
+        if (!message.readBy.contains(userId)) {
+          batch.update(doc.reference, {
+            'readBy': FieldValue.arrayUnion([userId]),
+          });
+        }
+      }
+
+      // تصفير عداد عدم القراءة
+      batch.update(_firestore.collection('chat_rooms').doc(roomId), {
+        'unreadCounts.$userId': 0,
+      });
+
+      await batch.commit();
+      logger.i('Marked all messages as read in room $roomId for user $userId');
+    } catch (e) {
+      logger.e('Error marking all as read', error: e);
+    }
+  }
+
+  /// تعديل رسالة (خلال 15 دقيقة)
+  Future<bool> editMessage({
+    required String messageId,
+    required String userId,
+    required String newContent,
+  }) async {
+    try {
+      final messageDoc = await _firestore
+          .collection('chat_messages')
+          .doc(messageId)
+          .get();
+
+      if (!messageDoc.exists) return false;
+
+      final message = ChatMessage.fromJson(messageDoc.data()!);
+
+      // التحقق من الملكية
+      if (message.authorId != userId) {
+        logger.w('User $userId tried to edit message owned by ${message.authorId}');
+        return false;
+      }
+
+      // التحقق من المدة الزمنية (15 دقيقة)
+      final now = DateTime.now();
+      final timeDiff = now.difference(message.createdAt);
+      if (timeDiff.inMinutes > 15) {
+        logger.w('Cannot edit message after 15 minutes');
+        return false;
+      }
+
+      // التحقق من عدم الحذف
+      if (message.isDeleted) {
+        logger.w('Cannot edit deleted message');
+        return false;
+      }
+
+      // تحديث الرسالة
+      await _firestore.collection('chat_messages').doc(messageId).update({
+        'content': newContent,
+        'isEdited': true,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      logger.i('Message $messageId edited by $userId');
+      return true;
+    } catch (e) {
+      logger.e('Error editing message', error: e);
+      return false;
+    }
+  }
+
+  /// حذف رسالة (خلال 15 دقيقة)
+  Future<bool> deleteMessage({
+    required String messageId,
+    required String userId,
+  }) async {
+    try {
+      final messageDoc = await _firestore
+          .collection('chat_messages')
+          .doc(messageId)
+          .get();
+
+      if (!messageDoc.exists) return false;
+
+      final message = ChatMessage.fromJson(messageDoc.data()!);
+
+      // التحقق من الملكية
+      if (message.authorId != userId) {
+        logger.w('User $userId tried to delete message owned by ${message.authorId}');
+        return false;
+      }
+
+      // التحقق من المدة الزمنية (15 دقيقة)
+      final now = DateTime.now();
+      final timeDiff = now.difference(message.createdAt);
+      if (timeDiff.inMinutes > 15) {
+        logger.w('Cannot delete message after 15 minutes');
+        return false;
+      }
+
+      // وضع علامة الحذف (لا نحذف فعلياً)
+      await _firestore.collection('chat_messages').doc(messageId).update({
+        'isDeleted': true,
+        'deletedAt': FieldValue.serverTimestamp(),
+        'content': '', // مسح المحتوى
+      });
+
+      logger.i('Message $messageId deleted by $userId');
+      return true;
+    } catch (e) {
+      logger.e('Error deleting message', error: e);
+      return false;
+    }
+  }
+
+  /// تحديث حالة الكتابة
+  Future<void> updateTypingStatus({
+    required String roomId,
+    required String userId,
+    required bool isTyping,
+  }) async {
+    try {
+      final typingDoc = _firestore
+          .collection('chat_rooms')
+          .doc(roomId)
+          .collection('typing_status')
+          .doc(userId);
+
+      if (isTyping) {
+        await typingDoc.set({
+          'userId': userId,
+          'isTyping': true,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+      } else {
+        await typingDoc.delete();
+      }
+    } catch (e) {
+      logger.e('Error updating typing status', error: e);
+    }
+  }
+
+  /// Stream لحالة الكتابة
+  Stream<List<String>> streamTypingUsers({
+    required String roomId,
+    required String currentUserId,
+  }) {
+    return _firestore
+        .collection('chat_rooms')
+        .doc(roomId)
+        .collection('typing_status')
+        .snapshots()
+        .map((snapshot) {
+      // تصفية المستخدم الحالي واستبعاد الحالات القديمة (أكثر من 5 ثواني)
+      final now = Timestamp.now();
+      return snapshot.docs
+          .where((doc) {
+            final data = doc.data();
+            final userId = data['userId'] as String?;
+            final timestamp = data['timestamp'] as Timestamp?;
+            
+            if (userId == currentUserId) return false;
+            if (timestamp == null) return false;
+            
+            final diff = now.seconds - timestamp.seconds;
+            return diff <= 5; // 5 ثواني
+          })
+          .map((doc) => doc.id)
+          .toList();
+    });
+  }
+
+  /// Stream لرسائل الغرفة
+  Stream<List<ChatMessage>> streamRoomMessages({
+    required String roomId,
+    int limit = 50,
+  }) {
+    return _firestore
+        .collection('chat_messages')
+        .where('chatRoomId', isEqualTo: roomId)
+        .orderBy('createdAt', descending: true)
+        .limit(limit)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ChatMessage.fromJson(doc.data()))
+          .toList();
+    });
+  }
+
+  /// Stream لغرف المحادثة المباشرة للمستخدم
+  Stream<List<ChatRoom>> streamUserDirectRooms(String userId) {
+    return _firestore
+        .collection('chat_rooms')
+        .where('type', isEqualTo: ChatRoomType.direct.toString())
+        .where('participantIds', arrayContains: userId)
+        .where('isArchived', isEqualTo: false)
+        .orderBy('lastMessageAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ChatRoom.fromJson(doc.data()))
+          .toList();
+    });
+  }
+
+  /// أرشفة غرفة محادثة
+  Future<void> archiveRoom({
+    required String roomId,
+    required bool archive,
+  }) async {
+    try {
+      await _firestore.collection('chat_rooms').doc(roomId).update({
+        'isArchived': archive,
+      });
+
+      logger.i('Room $roomId ${archive ? 'archived' : 'unarchived'}');
+    } catch (e) {
+      logger.e('Error archiving room', error: e);
+    }
+  }
+
+  /// كتم إشعارات غرفة
+  Future<void> muteRoom({
+    required String roomId,
+    required String userId,
+    required bool mute,
+  }) async {
+    try {
+      if (mute) {
+        await _firestore.collection('chat_rooms').doc(roomId).update({
+          'mutedBy': FieldValue.arrayUnion([userId]),
+        });
+      } else {
+        await _firestore.collection('chat_rooms').doc(roomId).update({
+          'mutedBy': FieldValue.arrayRemove([userId]),
+        });
+      }
+
+      logger.i('Room $roomId ${mute ? 'muted' : 'unmuted'} by $userId');
+    } catch (e) {
+      logger.e('Error muting room', error: e);
+    }
+  }
+
+  // ========== Private Methods ==========
+
+  Future<ChatRoom?> _findExistingDirectRoom(String user1Id, String user2Id) async {
+    try {
+      final snapshot = await _firestore
+          .collection('chat_rooms')
+          .where('type', isEqualTo: ChatRoomType.direct.toString())
+          .where('participantIds', arrayContains: user1Id)
+          .get();
+
+      for (final doc in snapshot.docs) {
+        final room = ChatRoom.fromJson(doc.data());
+        if (room.participantIds.contains(user2Id) &&
+            room.participantIds.length == 2) {
+          return room;
+        }
+      }
+
+      return null;
+    } catch (e) {
+      logger.e('Error finding existing room', error: e);
+      return null;
+    }
+  }
+
+  String _generateDirectRoomId(String user1Id, String user2Id) {
+    // ترتيب IDs لضمان نفس الـ ID بغض النظر عن الترتيب
+    final ids = [user1Id, user2Id]..sort();
+    return 'dm_${ids[0]}_${ids[1]}';
+  }
+
+  Future<void> _updateRoomAfterMessage({
+    required String roomId,
+    required String lastContent,
+    required String lastAuthor,
+    required DateTime lastMessageAt,
+    required String recipientId,
+  }) async {
+    try {
+      await _firestore.collection('chat_rooms').doc(roomId).update({
+        'lastMessageContent': lastContent,
+        'lastMessageAuthor': lastAuthor,
+        'lastMessageAt': Timestamp.fromDate(lastMessageAt),
+        'updatedAt': FieldValue.serverTimestamp(),
+        'unreadCounts.$recipientId': FieldValue.increment(1),
+      });
+    } catch (e) {
+      logger.e('Error updating room after message', error: e);
+    }
+  }
+
+  String _generateId() {
+    return _firestore.collection('chat_messages').doc().id;
+  }
+}
