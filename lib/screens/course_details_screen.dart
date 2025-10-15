@@ -19,6 +19,7 @@ import 'resource_library_screen.dart';
 import 'quiz_hub_screen.dart';
 import 'badges_overview_screen.dart';
 import 'gamification/gamification_settings_screen.dart';
+import 'gamification/modules_screen.dart';
 
 class CourseDetailsScreen extends ConsumerStatefulWidget {
   final String courseId;
@@ -132,6 +133,13 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                     MaterialPageRoute(builder: (_) => const BadgesOverviewScreen()),
                   );
                   break;
+                case 'modules':
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ModulesScreen(courseId: widget.courseId),
+                    ),
+                  );
+                  break;
                 case 'quizzes':
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -177,6 +185,14 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                 child: ListTile(
                   leading: Icon(Icons.emoji_events_outlined),
                   title: Text('الشارات والإنجازات'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'modules',
+                child: ListTile(
+                  leading: Icon(Icons.school_outlined),
+                  title: Text('الوحدات التعليمية'),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),

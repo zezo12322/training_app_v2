@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/gamification/learning_module.dart';
 import '../../providers/gamification/module_providers.dart';
+import 'module_detail_screen.dart';
 
 /// شاشة عرض كل الوحدات التعليمية في الكورس
 class ModulesScreen extends ConsumerWidget {
@@ -145,15 +146,6 @@ class ModulesScreen extends ConsumerWidget {
   }
 
   void _navigateToModuleDetail(BuildContext context, LearningModule module) {
-    // TODO: Navigate to ModuleDetailScreen when implemented
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('جاري تطوير شاشة تفاصيل الوحدة: ${module.title}'),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    
-    /* Will be implemented:
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -163,7 +155,6 @@ class ModulesScreen extends ConsumerWidget {
         ),
       ),
     );
-    */
   }
 }
 
