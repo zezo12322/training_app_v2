@@ -157,6 +157,44 @@
     }
     ,
     {
+      "collectionGroup": "learning_modules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "courseId", "order": "ASCENDING" },
+        { "fieldPath": "orderIndex", "order": "ASCENDING" }
+      ]
+    }
+    ,
+    {
+      "collectionGroup": "learning_modules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "courseId", "order": "ASCENDING" },
+        { "fieldPath": "isActive", "order": "ASCENDING" },
+        { "fieldPath": "orderIndex", "order": "ASCENDING" }
+      ]
+    }
+    ,
+    {
+      "collectionGroup": "module_progress",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "courseId", "order": "ASCENDING" },
+        { "fieldPath": "lastAccessedAt", "order": "DESCENDING" }
+      ]
+    }
+    ,
+    {
+      "collectionGroup": "module_progress",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "moduleId", "order": "ASCENDING" }
+      ]
+    }
+    ,
+    {
       "collectionGroup": "learning_paths",
       "queryScope": "COLLECTION",
       "fields": [

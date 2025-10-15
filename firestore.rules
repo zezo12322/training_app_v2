@@ -362,6 +362,49 @@ service cloud.firestore {
       allow delete: if isTrainer() || (isSignedIn() && resource.data.reviewerId == request.auth.uid);
     }
 
+    /* ===================== Learning Modules ===================== */
+    // Modules are created/edited by trainers, readable by enrolled students
+    match /learning_modules/{moduleId} {
+      allow get: if isSignedIn() && isEnrolledInCourse(request.auth.uid, resource.data.courseId);
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 100;
+      // Only trainers can create/update/delete modules for their courses
+      allow create: if isTrainer()
+        && isTrainerOfCourse(request.auth.uid, request.resource.data.courseId)
+        && request.resource.data.keys().hasOnly([
+          'courseId', 'title', 'description', 'orderIndex', 
+          'contents', 'requirements', 'completionPoints', 'isActive', 'createdAt', 'updatedAt'
+        ]);
+      allow update: if isTrainer()
+        && isTrainerOfCourse(request.auth.uid, resource.data.courseId)
+        && request.resource.data.courseId == resource.data.courseId; // Cannot change course
+      allow delete: if isTrainer() && isTrainerOfCourse(request.auth.uid, resource.data.courseId);
+    }
+
+    /* ===================== Module Progress ===================== */
+    // Track user progress through modules (userId_moduleId format)
+    match /module_progress/{progressId} {
+      // Users can read their own progress, trainers can read any in their courses
+      allow get: if isSignedIn() && (
+        progressId.matches('^' + request.auth.uid + '_.*') ||
+        isTrainer()
+      );
+      allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 100;
+      // Users can only create/update their own progress
+      allow create: if isSignedIn()
+        && progressId.matches('^' + request.auth.uid + '_.*')
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasOnly([
+          'userId', 'moduleId', 'courseId', 'completedContents', 
+          'progressPercentage', 'isCompleted', 'completedAt', 'lastAccessedAt'
+        ]);
+      allow update: if isSignedIn()
+        && progressId.matches('^' + request.auth.uid + '_.*')
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.moduleId == resource.data.moduleId; // Cannot change module
+      allow delete: if false; // Progress is never deleted
+    }
+
     /* ===================== Security Events (instrumentation) ===================== */
     // Append-only client instrumentation of denied operations / suspicious patterns.
     match /security_events/{eventId} {
