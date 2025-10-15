@@ -28,6 +28,9 @@ _$ChatMessageImpl _$$ChatMessageImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      parentMessageId: json['parentMessageId'] as String?,
+      threadCount: (json['threadCount'] as num?)?.toInt() ?? 0,
+      hasThread: json['hasThread'] as bool? ?? false,
       isFlagged: json['isFlagged'] as bool? ?? false,
       isModerated: json['isModerated'] as bool? ?? false,
       moderatedBy: json['moderatedBy'] as String?,
@@ -52,6 +55,9 @@ Map<String, dynamic> _$$ChatMessageImplToJson(_$ChatMessageImpl instance) =>
       'isEdited': instance.isEdited,
       'isDeleted': instance.isDeleted,
       'readBy': instance.readBy,
+      'parentMessageId': instance.parentMessageId,
+      'threadCount': instance.threadCount,
+      'hasThread': instance.hasThread,
       'isFlagged': instance.isFlagged,
       'isModerated': instance.isModerated,
       'moderatedBy': instance.moderatedBy,

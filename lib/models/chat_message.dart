@@ -46,6 +46,11 @@ class ChatMessage with _$ChatMessage {
     /// Read receipts (list of user IDs who read this message)
     @Default([]) List<String> readBy,
 
+    /// Threading support
+    String? parentMessageId,
+    @Default(0) int threadCount,
+    @Default(false) bool hasThread,
+
     /// Moderation
     @Default(false) bool isFlagged,
     @Default(false) bool isModerated,
@@ -68,6 +73,12 @@ class ChatMessage with _$ChatMessage {
     if (isModerated) return 'رسالة مخالفة للقواعد';
     return content;
   }
+
+  /// Check if message is a reply to another message
+  bool get isReply => parentMessageId != null;
+
+  /// Check if message has replies
+  bool get hasReplies => hasThread && threadCount > 0;
 }
 
 /// DTO for creating a new chat message

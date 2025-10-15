@@ -60,6 +60,11 @@ mixin _$ChatMessage {
   /// Read receipts (list of user IDs who read this message)
   List<String> get readBy => throw _privateConstructorUsedError;
 
+  /// Threading support
+  String? get parentMessageId => throw _privateConstructorUsedError;
+  int get threadCount => throw _privateConstructorUsedError;
+  bool get hasThread => throw _privateConstructorUsedError;
+
   /// Moderation
   bool get isFlagged => throw _privateConstructorUsedError;
   bool get isModerated => throw _privateConstructorUsedError;
@@ -100,6 +105,9 @@ abstract class $ChatMessageCopyWith<$Res> {
     bool isEdited,
     bool isDeleted,
     List<String> readBy,
+    String? parentMessageId,
+    int threadCount,
+    bool hasThread,
     bool isFlagged,
     bool isModerated,
     String? moderatedBy,
@@ -138,6 +146,9 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
     Object? isEdited = null,
     Object? isDeleted = null,
     Object? readBy = null,
+    Object? parentMessageId = freezed,
+    Object? threadCount = null,
+    Object? hasThread = null,
     Object? isFlagged = null,
     Object? isModerated = null,
     Object? moderatedBy = freezed,
@@ -209,6 +220,18 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
                 ? _value.readBy
                 : readBy // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            parentMessageId: freezed == parentMessageId
+                ? _value.parentMessageId
+                : parentMessageId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            threadCount: null == threadCount
+                ? _value.threadCount
+                : threadCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            hasThread: null == hasThread
+                ? _value.hasThread
+                : hasThread // ignore: cast_nullable_to_non_nullable
+                      as bool,
             isFlagged: null == isFlagged
                 ? _value.isFlagged
                 : isFlagged // ignore: cast_nullable_to_non_nullable
@@ -257,6 +280,9 @@ abstract class _$$ChatMessageImplCopyWith<$Res>
     bool isEdited,
     bool isDeleted,
     List<String> readBy,
+    String? parentMessageId,
+    int threadCount,
+    bool hasThread,
     bool isFlagged,
     bool isModerated,
     String? moderatedBy,
@@ -294,6 +320,9 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
     Object? isEdited = null,
     Object? isDeleted = null,
     Object? readBy = null,
+    Object? parentMessageId = freezed,
+    Object? threadCount = null,
+    Object? hasThread = null,
     Object? isFlagged = null,
     Object? isModerated = null,
     Object? moderatedBy = freezed,
@@ -365,6 +394,18 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
             ? _value._readBy
             : readBy // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        parentMessageId: freezed == parentMessageId
+            ? _value.parentMessageId
+            : parentMessageId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        threadCount: null == threadCount
+            ? _value.threadCount
+            : threadCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hasThread: null == hasThread
+            ? _value.hasThread
+            : hasThread // ignore: cast_nullable_to_non_nullable
+                  as bool,
         isFlagged: null == isFlagged
             ? _value.isFlagged
             : isFlagged // ignore: cast_nullable_to_non_nullable
@@ -406,6 +447,9 @@ class _$ChatMessageImpl extends _ChatMessage {
     this.isEdited = false,
     this.isDeleted = false,
     final List<String> readBy = const [],
+    this.parentMessageId,
+    this.threadCount = 0,
+    this.hasThread = false,
     this.isFlagged = false,
     this.isModerated = false,
     this.moderatedBy,
@@ -481,6 +525,16 @@ class _$ChatMessageImpl extends _ChatMessage {
     return EqualUnmodifiableListView(_readBy);
   }
 
+  /// Threading support
+  @override
+  final String? parentMessageId;
+  @override
+  @JsonKey()
+  final int threadCount;
+  @override
+  @JsonKey()
+  final bool hasThread;
+
   /// Moderation
   @override
   @JsonKey()
@@ -495,7 +549,7 @@ class _$ChatMessageImpl extends _ChatMessage {
 
   @override
   String toString() {
-    return 'ChatMessage(id: $id, chatRoomId: $chatRoomId, courseId: $courseId, institutionId: $institutionId, companyId: $companyId, authorId: $authorId, authorName: $authorName, authorRole: $authorRole, content: $content, imageUrl: $imageUrl, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, isEdited: $isEdited, isDeleted: $isDeleted, readBy: $readBy, isFlagged: $isFlagged, isModerated: $isModerated, moderatedBy: $moderatedBy, moderationReason: $moderationReason)';
+    return 'ChatMessage(id: $id, chatRoomId: $chatRoomId, courseId: $courseId, institutionId: $institutionId, companyId: $companyId, authorId: $authorId, authorName: $authorName, authorRole: $authorRole, content: $content, imageUrl: $imageUrl, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, isEdited: $isEdited, isDeleted: $isDeleted, readBy: $readBy, parentMessageId: $parentMessageId, threadCount: $threadCount, hasThread: $hasThread, isFlagged: $isFlagged, isModerated: $isModerated, moderatedBy: $moderatedBy, moderationReason: $moderationReason)';
   }
 
   @override
@@ -532,6 +586,12 @@ class _$ChatMessageImpl extends _ChatMessage {
             (identical(other.isDeleted, isDeleted) ||
                 other.isDeleted == isDeleted) &&
             const DeepCollectionEquality().equals(other._readBy, _readBy) &&
+            (identical(other.parentMessageId, parentMessageId) ||
+                other.parentMessageId == parentMessageId) &&
+            (identical(other.threadCount, threadCount) ||
+                other.threadCount == threadCount) &&
+            (identical(other.hasThread, hasThread) ||
+                other.hasThread == hasThread) &&
             (identical(other.isFlagged, isFlagged) ||
                 other.isFlagged == isFlagged) &&
             (identical(other.isModerated, isModerated) ||
@@ -562,6 +622,9 @@ class _$ChatMessageImpl extends _ChatMessage {
     isEdited,
     isDeleted,
     const DeepCollectionEquality().hash(_readBy),
+    parentMessageId,
+    threadCount,
+    hasThread,
     isFlagged,
     isModerated,
     moderatedBy,
@@ -600,6 +663,9 @@ abstract class _ChatMessage extends ChatMessage {
     final bool isEdited,
     final bool isDeleted,
     final List<String> readBy,
+    final String? parentMessageId,
+    final int threadCount,
+    final bool hasThread,
     final bool isFlagged,
     final bool isModerated,
     final String? moderatedBy,
@@ -664,6 +730,14 @@ abstract class _ChatMessage extends ChatMessage {
   /// Read receipts (list of user IDs who read this message)
   @override
   List<String> get readBy;
+
+  /// Threading support
+  @override
+  String? get parentMessageId;
+  @override
+  int get threadCount;
+  @override
+  bool get hasThread;
 
   /// Moderation
   @override
