@@ -20,6 +20,9 @@ import 'quiz_hub_screen.dart';
 import 'badges_overview_screen.dart';
 import 'gamification/gamification_settings_screen.dart';
 import 'gamification/modules_screen.dart';
+import 'gamification/leaderboard_screen.dart';
+import 'gamification/achievements_screen.dart';
+import 'gamification/analytics_dashboard_screen.dart';
 
 class CourseDetailsScreen extends ConsumerStatefulWidget {
   final String courseId;
@@ -170,6 +173,27 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                     ),
                   );
                   break;
+                case 'leaderboard':
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LeaderboardScreen(courseId: widget.courseId),
+                    ),
+                  );
+                  break;
+                case 'achievements':
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AchievementsScreen(courseId: widget.courseId),
+                    ),
+                  );
+                  break;
+                case 'analytics':
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AnalyticsDashboardScreen(courseId: widget.courseId),
+                    ),
+                  );
+                  break;
                 case 'evaluations':
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -185,6 +209,22 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                 child: ListTile(
                   leading: Icon(Icons.emoji_events_outlined),
                   title: Text('الشارات والإنجازات'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'leaderboard',
+                child: ListTile(
+                  leading: Icon(Icons.leaderboard_outlined),
+                  title: Text('لوحة المتصدرين'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'achievements',
+                child: ListTile(
+                  leading: Icon(Icons.military_tech_outlined),
+                  title: Text('الإنجازات'),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
@@ -218,6 +258,14 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                   child: ListTile(
                     leading: Icon(Icons.people_alt_outlined),
                     title: Text('المتدربين'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'analytics',
+                  child: ListTile(
+                    leading: Icon(Icons.analytics_outlined),
+                    title: Text('تحليلات الكورس'),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
