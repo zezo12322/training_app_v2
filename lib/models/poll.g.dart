@@ -13,7 +13,7 @@ _$PollImpl _$$PollImplFromJson(Map<String, dynamic> json) => _$PollImpl(
       .map((e) => PollOption.fromJson(e as Map<String, dynamic>))
       .toList(),
   createdBy: json['createdBy'] as String,
-  createdAt: _timestampFromJson(json['createdAt']),
+  createdAt: DateTime.parse(json['createdAt'] as String),
   endsAt: const TimestampConverter().fromJson(json['endsAt']),
   allowMultipleVotes: json['allowMultipleVotes'] as bool? ?? false,
   showResultsBeforeVoting: json['showResultsBeforeVoting'] as bool? ?? false,
@@ -26,7 +26,7 @@ Map<String, dynamic> _$$PollImplToJson(_$PollImpl instance) =>
       'question': instance.question,
       'options': instance.options.map((e) => e.toJson()).toList(),
       'createdBy': instance.createdBy,
-      'createdAt': _timestampToJson(instance.createdAt),
+      'createdAt': instance.createdAt.toIso8601String(),
       'endsAt': const TimestampConverter().toJson(instance.endsAt),
       'allowMultipleVotes': instance.allowMultipleVotes,
       'showResultsBeforeVoting': instance.showResultsBeforeVoting,

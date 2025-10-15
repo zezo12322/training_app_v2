@@ -5,21 +5,6 @@ import '../core/timestamp_converter.dart';
 part 'poll.freezed.dart';
 part 'poll.g.dart';
 
-// Helper functions for timestamp conversion
-DateTime _timestampFromJson(dynamic value) {
-  if (value is Timestamp) {
-    return value.toDate();
-  }
-  if (value is String) {
-    return DateTime.parse(value);
-  }
-  throw ArgumentError('Invalid timestamp value: $value');
-}
-
-dynamic _timestampToJson(DateTime dateTime) {
-  return dateTime.toIso8601String();
-}
-
 @freezed
 class Poll with _$Poll {
   const Poll._();
@@ -29,11 +14,7 @@ class Poll with _$Poll {
     required String question,
     required List<PollOption> options,
     required String createdBy,
-    @JsonKey(
-      fromJson: _timestampFromJson,
-      toJson: _timestampToJson,
-    )
-    required DateTime createdAt,
+    @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() DateTime? endsAt,
     @Default(false) bool allowMultipleVotes,
     @Default(false) bool showResultsBeforeVoting,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/l10n_ext.dart';
 import '../../models/gamification/leaderboard_entry.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/gamification/leaderboard_providers.dart';
@@ -28,7 +27,6 @@ class LeaderboardScreen extends ConsumerStatefulWidget {
 class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  LeaderboardTimeframe _currentTimeframe = LeaderboardTimeframe.allTime;
 
   @override
   void initState() {
@@ -47,36 +45,25 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
   void _onTabChanged() {
     if (!_tabController.indexIsChanging) {
       setState(() {
-        switch (_tabController.index) {
-          case 0:
-            _currentTimeframe = LeaderboardTimeframe.weekly;
-            break;
-          case 1:
-            _currentTimeframe = LeaderboardTimeframe.monthly;
-            break;
-          case 2:
-            _currentTimeframe = LeaderboardTimeframe.allTime;
-            break;
-        }
+        // Rebuild on tab change
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final authState = ref.watch(authStateProvider);
     final userId = authState.value?.uid;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n?.leaderboard ?? 'المتصدرين'),
+        title: const Text('المتصدرين'),
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
-            Tab(text: l10n?.weekly ?? 'أسبوعي'),
-            Tab(text: l10n?.monthly ?? 'شهري'),
-            Tab(text: l10n?.allTime ?? 'كل الأوقات'),
+          tabs: const [
+            Tab(text: 'أسبوعي'),
+            Tab(text: 'شهري'),
+            Tab(text: 'كل الأوقات'),
           ],
         ),
       ),

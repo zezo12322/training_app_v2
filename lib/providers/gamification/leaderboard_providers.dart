@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/gamification/leaderboard_entry.dart';
 import '../../repositories/gamification/leaderboard_repository.dart';
 
 // ==================== Repository Provider ====================
 
 final leaderboardRepositoryProvider = Provider<LeaderboardRepository>((ref) {
-  return LeaderboardRepository();
+  return LeaderboardRepository(FirebaseFirestore.instance);
 });
 
 // ==================== Leaderboard Stream ====================
@@ -68,15 +68,18 @@ final userLeaderboardEntryProvider = StreamProvider.family<
       )),
     );
 
-    return leaderboardStream.whenData((entries) {
-      try {
-        return entries.firstWhere((entry) => entry.userId == params.userId);
-      } catch (e) {
-        return null;
-      }
-    }).value != null
-        ? Stream.value(leaderboardStream.value)
-        : const Stream.empty();
+    return leaderboardStream.when(
+      data: (entries) {
+        try {
+          final userEntry = entries.firstWhere((entry) => entry.userId == params.userId);
+          return Stream.value(userEntry);
+        } catch (e) {
+          return const Stream.empty();
+        }
+      },
+      loading: () => const Stream.empty(),
+      error: (_, __) => const Stream.empty(),
+    );
   },
 );
 

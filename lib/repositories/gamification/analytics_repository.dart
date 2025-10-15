@@ -101,7 +101,7 @@ class AnalyticsRepository {
   }
 
   /// Get activity breakdown for specific timeframe
-  Future<List<ActivityStats>> getActivityBreakdown({
+  Future<Map<String, int>> getActivityBreakdown({
     required String courseId,
     DateTime? startDate,
     DateTime? endDate,
@@ -110,11 +110,11 @@ class AnalyticsRepository {
       var query = _progressCollection.where('courseId', isEqualTo: courseId);
 
       if (startDate != null) {
-        query = query.where('lastActivityDate', isGreaterThanOrEqualTo: startDate);
+        query = query.where('lastActivityAt', isGreaterThanOrEqualTo: startDate);
       }
 
       if (endDate != null) {
-        query = query.where('lastActivityDate', isLessThanOrEqualTo: endDate);
+        query = query.where('lastActivityAt', isLessThanOrEqualTo: endDate);
       }
 
       final snapshot = await query.get();
@@ -243,9 +243,9 @@ class AnalyticsRepository {
       activeStudents: 0,
       avgPoints: 0,
       avgLevel: 1,
-      activityBreakdown: [],
+      activityBreakdown: {},
       topStudents: [],
-      engagementRate: 0.0,
+      engagementRate: {'overall': 0.0, 'daily': 0.0, 'weekly': 0.0},
       totalPointsAwarded: 0,
       totalAchievementsUnlocked: 0,
     );
@@ -256,9 +256,7 @@ class AnalyticsRepository {
     final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
 
     return progressList
-        .where((p) =>
-            p.lastActivityDate != null &&
-            p.lastActivityDate!.isAfter(sevenDaysAgo))
+        .where((p) => p.lastActivityAt.isAfter(sevenDaysAgo))
         .length;
   }
 
@@ -267,9 +265,9 @@ class AnalyticsRepository {
 
     final totalPoints = progressList.fold<int>(
       0,
-      (sum, p) => sum + (p.totalPoints ?? 0),
+      (sum, p) => sum + p.totalPoints,
     );
-
+    
     return totalPoints / progressList.length;
   }
 
@@ -278,67 +276,38 @@ class AnalyticsRepository {
 
     final totalLevel = progressList.fold<int>(
       0,
-      (sum, p) => sum + (p.currentLevel ?? 1),
+      (sum, p) => sum + p.currentLevel,
     );
-
+    
     return totalLevel / progressList.length;
   }
 
   int _calculateTotalPoints(List<UserCourseProgress> progressList) {
     return progressList.fold<int>(
       0,
-      (sum, p) => sum + (p.totalPoints ?? 0),
+      (sum, p) => sum + p.totalPoints,
     );
-  }
-
-  List<ActivityStats> _calculateActivityBreakdown(
+  }  Map<String, int> _calculateActivityBreakdown(
     List<UserCourseProgress> progressList,
   ) {
-    if (progressList.isEmpty) return [];
+    if (progressList.isEmpty) return {};
 
-    // Calculate totals
+    // Calculate totals using activityCounts
     int totalModules = 0;
     int totalQuizzes = 0;
-    int totalStreaks = 0;
-    int totalModulePoints = 0;
-    int totalQuizPoints = 0;
-    int totalStreakPoints = 0;
+    int totalLessons = 0;
 
     for (final progress in progressList) {
-      totalModules += progress.completedModules.length;
-      totalQuizzes += progress.passedQuizzes.length;
-      totalStreaks += progress.currentStreak ?? 0;
-
-      // Estimate points per activity type
-      // Module = 100 pts, Quiz = 50 pts, Streak day = 10 pts
-      totalModulePoints += progress.completedModules.length * 100;
-      totalQuizPoints += progress.passedQuizzes.length * 50;
-      totalStreakPoints += (progress.currentStreak ?? 0) * 10;
+      totalModules += progress.activityCounts['completing_module'] ?? 0;
+      totalQuizzes += progress.activityCounts['passing_quiz'] ?? 0;
+      totalLessons += progress.activityCounts['completing_lesson'] ?? 0;
     }
 
-    final totalActivities = totalModules + totalQuizzes + totalStreaks;
-    if (totalActivities == 0) return [];
-
-    return [
-      ActivityStats(
-        activityType: 'modules',
-        count: totalModules,
-        percentage: (totalModules / totalActivities) * 100,
-        totalPoints: totalModulePoints,
-      ),
-      ActivityStats(
-        activityType: 'quizzes',
-        count: totalQuizzes,
-        percentage: (totalQuizzes / totalActivities) * 100,
-        totalPoints: totalQuizPoints,
-      ),
-      ActivityStats(
-        activityType: 'streaks',
-        count: totalStreaks,
-        percentage: (totalStreaks / totalActivities) * 100,
-        totalPoints: totalStreakPoints,
-      ),
-    ];
+    return {
+      'modules': totalModules,
+      'quizzes': totalQuizzes,
+      'lessons': totalLessons,
+    };
   }
 
   Future<List<TopStudent>> _getTopStudents(
@@ -347,8 +316,8 @@ class AnalyticsRepository {
   }) async {
     // Sort by points
     progressList.sort((a, b) {
-      final pointsA = a.totalPoints ?? 0;
-      final pointsB = b.totalPoints ?? 0;
+      final pointsA = a.totalPoints;
+      final pointsB = b.totalPoints;
       return pointsB.compareTo(pointsA);
     });
 
@@ -375,8 +344,8 @@ class AnalyticsRepository {
           TopStudent(
             userId: progress.userId,
             userName: userData['name'] as String? ?? 'مستخدم',
-            points: progress.totalPoints ?? 0,
-            level: progress.currentLevel ?? 1,
+            points: progress.totalPoints,
+            level: progress.currentLevel,
             userAvatar: userData['photoUrl'] as String?,
             rank: rank,
           ),
@@ -392,11 +361,24 @@ class AnalyticsRepository {
     return topStudents;
   }
 
-  double _calculateEngagementRate(List<UserCourseProgress> progressList) {
-    if (progressList.isEmpty) return 0.0;
+  Map<String, double> _calculateEngagementRate(List<UserCourseProgress> progressList) {
+    if (progressList.isEmpty) return {'overall': 0.0};
 
     final activeStudents = _countActiveStudents(progressList);
-    return (activeStudents / progressList.length) * 100;
+    final dailyActive = _countDailyActiveStudents(progressList);
+    
+    return {
+      'overall': (activeStudents / progressList.length) * 100,
+      'daily': (dailyActive / progressList.length) * 100,
+      'weekly': (activeStudents / progressList.length) * 100,
+    };
+  }
+  
+  int _countDailyActiveStudents(List<UserCourseProgress> progressList) {
+    final oneDayAgo = DateTime.now().subtract(const Duration(days: 1));
+    return progressList.where((p) => 
+      p.lastActivityAt.isAfter(oneDayAgo)
+    ).length;
   }
 
   Future<int> _getTotalAchievements(String courseId) async {

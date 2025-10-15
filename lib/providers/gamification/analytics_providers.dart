@@ -21,7 +21,7 @@ final courseAnalyticsProvider = FutureProvider.family<CourseAnalytics, String>(
 
 /// Get activity breakdown
 final activityBreakdownProvider = FutureProvider.family<
-    List<ActivityStats>,
+    Map<String, int>,
     ({String courseId, DateTime? startDate, DateTime? endDate})>(
   (ref, params) async {
     final repository = ref.watch(analyticsRepositoryProvider);
@@ -156,7 +156,7 @@ final monthlyEngagementRateProvider = FutureProvider.family<double, String>(
 );
 
 /// Get weekly activity breakdown
-final weeklyActivityBreakdownProvider = FutureProvider.family<List<ActivityStats>, String>(
+final weeklyActivityBreakdownProvider = FutureProvider.family<Map<String, int>, String>(
   (ref, courseId) async {
     final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
 
@@ -171,7 +171,7 @@ final weeklyActivityBreakdownProvider = FutureProvider.family<List<ActivityStats
 );
 
 /// Get monthly activity breakdown
-final monthlyActivityBreakdownProvider = FutureProvider.family<List<ActivityStats>, String>(
+final monthlyActivityBreakdownProvider = FutureProvider.family<Map<String, int>, String>(
   (ref, courseId) async {
     final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
 

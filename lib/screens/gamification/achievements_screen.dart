@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/l10n_ext.dart';
 import '../../models/gamification/achievement.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/gamification/achievement_providers.dart';
@@ -33,13 +32,12 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final authState = ref.watch(authStateProvider);
     final userId = authState.value?.uid;
 
     if (userId == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n?.achievements ?? 'الإنجازات')),
+        appBar: AppBar(title: const Text('الإنجازات')),
         body: const Center(child: Text('يجب تسجيل الدخول')),
       );
     }
@@ -53,7 +51,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n?.achievements ?? 'الإنجازات'),
+        title: const Text('الإنجازات'),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),

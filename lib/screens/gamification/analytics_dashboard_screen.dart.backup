@@ -366,7 +366,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                         color: Colors.grey.shade600,
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

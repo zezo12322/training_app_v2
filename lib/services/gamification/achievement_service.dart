@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logging/logging.dart';
 
 import '../../models/gamification/achievement.dart';
@@ -152,8 +151,8 @@ class AchievementService {
 
       // Get user progress
       final progress = await _gamificationRepository.getUserProgress(
-        userId: userId,
-        courseId: courseId,
+        userId,
+        courseId,
       );
 
       if (progress == null) {

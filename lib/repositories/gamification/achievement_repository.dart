@@ -218,7 +218,7 @@ class AchievementRepository {
     required String userId,
     required String achievementId,
     required String courseId,
-    double? currentProgress,
+    int? currentProgress,
   }) async {
     try {
       _logger.info(
@@ -240,7 +240,7 @@ class AchievementRepository {
         courseId: courseId,
         unlockedAt: DateTime.now(),
         isViewed: false,
-        currentProgress: currentProgress,
+        currentProgress: currentProgress ?? 0,
       );
 
       // Save to Firestore

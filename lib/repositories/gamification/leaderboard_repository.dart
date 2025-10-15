@@ -14,7 +14,7 @@ class LeaderboardRepository {
     required LeaderboardTimeframe timeframe,
     int limit = 50,
   }) {
-    appLogger.i('Streaming leaderboard for course: $courseId, timeframe: $timeframe');
+    logger.i('Streaming leaderboard for course: $courseId, timeframe: $timeframe');
 
     try {
       Query query = _firestore
@@ -62,11 +62,11 @@ class LeaderboardRepository {
           entries.add(entry);
         }
 
-        appLogger.i('Leaderboard loaded: ${entries.length} entries');
+        logger.i('Leaderboard loaded: ${entries.length} entries');
         return entries;
       });
     } catch (e, stackTrace) {
-      appLogger.e('Error streaming leaderboard', error: e, stackTrace: stackTrace);
+      logger.e('Error streaming leaderboard', error: e, stackTrace: stackTrace);
       return Stream.error(e);
     }
   }
@@ -77,7 +77,7 @@ class LeaderboardRepository {
     required String courseId,
     required LeaderboardTimeframe timeframe,
   }) async {
-    appLogger.i('Getting rank for user: $userId');
+    logger.i('Getting rank for user: $userId');
 
     try {
       // Get user's points
@@ -107,10 +107,10 @@ class LeaderboardRepository {
       final snapshot = await query.count().get();
       final rank = (snapshot.count ?? 0) + 1;
 
-      appLogger.i('User rank: $rank');
+      logger.i('User rank: $rank');
       return rank;
     } catch (e, stackTrace) {
-      appLogger.e('Error getting user rank', error: e, stackTrace: stackTrace);
+      logger.e('Error getting user rank', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -120,7 +120,7 @@ class LeaderboardRepository {
     required String courseId,
     int limit = 5,
   }) async {
-    appLogger.i('Getting top $limit students for course: $courseId');
+    logger.i('Getting top $limit students for course: $courseId');
 
     try {
       final query = _firestore
@@ -161,8 +161,9 @@ class LeaderboardRepository {
 
       return entries;
     } catch (e, stackTrace) {
-      appLogger.e('Error getting top students', error: e, stackTrace: stackTrace);
+      logger.e('Error getting top students', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
 }
+
