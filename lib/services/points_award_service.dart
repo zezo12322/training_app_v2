@@ -5,16 +5,24 @@ import '../providers/auth_provider.dart';
 import '../providers/gamification_providers.dart'
     show firebaseFirestoreProvider, pointsRepositoryProvider;
 
-/// A unified, idempotent service for awarding points & triggering badge evaluation.
-/// It stores a single immutable event document in `user_points_events` and increments
-/// the user's points atomically in a Firestore transaction. If the event already
-/// exists it returns false (no new award).
+/// ⚠️ DEPRECATED: Use GamificationService instead
+/// 
+/// This service is kept for backward compatibility only.
+/// New code should use:
+/// - GamificationService.awardPoints() for awarding points
+/// - GamificationService.checkAndUpdateDailyStreak() for streaks
+/// 
+/// See: lib/services/gamification/gamification_service.dart
+@Deprecated('Use GamificationService instead. Will be removed in future versions.')
 class PointsAwardService {
   final FirebaseFirestore _firestore;
   PointsAwardService(this._firestore);
 
+  /// ⚠️ DEPRECATED: Use GamificationService.awardPoints() instead
+  /// 
   /// Awards points once per unique [eventId]. Extra metadata can be passed via [extra].
   /// Returns true if a new award was created, false if the event already existed.
+  @Deprecated('Use GamificationService.awardPoints() instead')
   Future<bool> award({
     required String userId,
     required String eventId,
@@ -46,6 +54,8 @@ class PointsAwardService {
     return created;
   }
 
+  /// ⚠️ DEPRECATED: Use GamificationService.checkAndUpdateDailyStreak() instead
+  /// 
   /// Atomically updates the user's daily streak (if day changed) and awards daily streak points once per day.
   /// Returns a tuple (awardedPoints, newStreak).
   Future<(bool awardedPoints, int newStreak)> updateDailyStreakAndAward({
@@ -122,7 +132,10 @@ final pointsAwardServiceProvider = Provider<PointsAwardService>((ref) {
   return PointsAwardService(fs);
 });
 
+/// ⚠️ DEPRECATED: Use GamificationService.awardPoints() instead
+/// 
 /// Convenience provider to award the current signed-in user without manually pulling UID.
+@Deprecated('Use GamificationService.awardPoints() instead')
 final awardCurrentUserPointsProvider =
     FutureProvider.family<
       bool,
@@ -140,7 +153,25 @@ final awardCurrentUserPointsProvider =
       );
     });
 
+/// ⚠️ DEPRECATED: Use GamificationService.awardPoints() with ActivityType.completingLesson
+/// 
 /// Award lesson completion points once per lesson per user.
+/// 
+/// Migration example:
+/// ```dart
+/// // Old way:
+/// await ref.read(awardLessonCompletedProvider(lessonId).future);
+/// 
+/// // New way:
+/// await ref.read(gamificationServiceProvider).awardPoints(
+///   userId: userId,
+///   courseId: courseId,
+///   activityType: ActivityType.completingLesson,
+///   activityName: 'إتمام درس: $lessonTitle',
+///   metadata: {'lessonId': lessonId},
+/// );
+/// ```
+@Deprecated('Use GamificationService.awardPoints() instead')
 final awardLessonCompletedProvider = FutureProvider.family<bool, String>((
   ref,
   lessonId,

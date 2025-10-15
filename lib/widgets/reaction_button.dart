@@ -58,6 +58,8 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
       postId: widget.post.id,
       userId: widget.userId,
       emoji: emoji,
+      courseId: widget.post.courseId, // Added for gamification
+      authorId: widget.post.authorId, // Added for gamification
     );
 
     if (mounted) {

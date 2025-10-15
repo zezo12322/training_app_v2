@@ -104,6 +104,8 @@ class CommentReactionButton extends ConsumerWidget {
             commentId: comment.id,
             userId: userId,
             emoji: emoji,
+            courseId: comment.courseId, // Added for gamification
+            commentAuthorId: comment.authorId, // Added for gamification
           );
         },
       ),
