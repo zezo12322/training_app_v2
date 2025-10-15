@@ -1,0 +1,411 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/l10n_ext.dart';
+import '../../providers/gamification/analytics_providers.dart';
+
+/// لوحة تحليلات الكورس (للمدربين)
+///
+/// تعرض:
+/// - إحصائيات عامة (عدد الطلاب، النقاط، المستوى)
+/// - معدل التفاعل
+/// - أفضل الطلاب
+/// - توزيع الأنشطة
+class AnalyticsDashboardScreen extends ConsumerWidget {
+  final String courseId;
+
+  const AnalyticsDashboardScreen({
+    super.key,
+    required this.courseId,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final analyticsAsync = ref.watch(courseAnalyticsProvider(courseId));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n?.analytics ?? 'التحليلات'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              ref.invalidate(courseAnalyticsProvider);
+            },
+          ),
+        ],
+      ),
+      body: analyticsAsync.when(
+        data: (analytics) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(courseAnalyticsProvider);
+            },
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildOverviewCards(analytics, context),
+                const SizedBox(height: 24),
+                _buildEngagementCard(analytics, context),
+                const SizedBox(height: 24),
+                _buildTopStudentsCard(analytics, context),
+                const SizedBox(height: 24),
+                _buildPointsCard(analytics, context),
+              ],
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => _buildErrorState(context, ref, error),
+      ),
+    );
+  }
+
+  Widget _buildOverviewCards(dynamic analytics, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'نظرة عامة',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatCard(
+                '👥',
+                '${analytics.totalStudents}',
+                'إجمالي الطلاب',
+                Colors.blue,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildStatCard(
+                '✅',
+                '${analytics.activeStudents}',
+                'النشطون',
+                Colors.green,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatCard(
+                '⭐',
+                '${analytics.avgPoints.toStringAsFixed(1)}',
+                'متوسط النقاط',
+                Colors.amber,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildStatCard(
+                '📊',
+                '${analytics.avgLevel.toStringAsFixed(1)}',
+                'متوسط المستوى',
+                Colors.purple,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(
+    String emoji,
+    String value,
+    String label,
+    Color color,
+  ) {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 32)),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEngagementCard(dynamic analytics, BuildContext context) {
+    // Calculate simple engagement rate
+    final engagementPercent = analytics.totalStudents > 0
+        ? (analytics.activeStudents / analytics.totalStudents * 100)
+        : 0.0;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Text('📈', style: TextStyle(fontSize: 24)),
+                const SizedBox(width: 8),
+                const Text(
+                  'معدل التفاعل',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            LinearProgressIndicator(
+              value: engagementPercent / 100,
+              backgroundColor: Colors.grey.shade200,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                _getEngagementColor(engagementPercent),
+              ),
+              minHeight: 12,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${engagementPercent.toStringAsFixed(1)}% من الطلاب نشطون',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'النشطون: ${analytics.activeStudents} من ${analytics.totalStudents}',
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getEngagementColor(double percent) {
+    if (percent >= 80) return Colors.green;
+    if (percent >= 60) return Colors.amber;
+    if (percent >= 40) return Colors.orange;
+    return Colors.red;
+  }
+
+  Widget _buildTopStudentsCard(dynamic analytics, BuildContext context) {
+    final topStudents = analytics.topStudents ?? [];
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Text('🏆', style: TextStyle(fontSize: 24)),
+                const SizedBox(width: 8),
+                const Text(
+                  'أفضل الطلاب',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (topStudents.isEmpty)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Text(
+                    'لا يوجد طلاب بعد',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              )
+            else
+              ...topStudents.take(5).map((student) {
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: CircleAvatar(
+                    backgroundColor: _getRankColor(student.rank),
+                    child: Text(
+                      '#${student.rank}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  title: Text(student.userName),
+                  subtitle: Text('المستوى ${student.level}'),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${student.points}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        'نقطة',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getRankColor(int rank) {
+    if (rank == 1) return Colors.amber;
+    if (rank == 2) return Colors.grey.shade400;
+    if (rank == 3) return Colors.brown.shade300;
+    return Colors.blue;
+  }
+
+  Widget _buildPointsCard(dynamic analytics, BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Text('⭐', style: TextStyle(fontSize: 24)),
+                const SizedBox(width: 8),
+                const Text(
+                  'إحصائيات النقاط',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    const Text(
+                      '🎯',
+                      style: TextStyle(fontSize: 32),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${analytics.totalPointsAwarded}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'نقطة ممنوحة',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Text(
+                      '🏅',
+                      style: TextStyle(fontSize: 32),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${analytics.totalAchievementsUnlocked}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'إنجاز مفتوح',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorState(
+    BuildContext context,
+    WidgetRef ref,
+    Object error,
+  ) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const SizedBox(height: 16),
+          const Text('حدث خطأ في تحميل التحليلات'),
+          const SizedBox(height: 8),
+          Text(
+            error.toString(),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: () {
+              ref.invalidate(courseAnalyticsProvider);
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('إعادة المحاولة'),
+          ),
+        ],
+      ),
+    );
+  }
+}
