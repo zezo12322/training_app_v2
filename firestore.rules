@@ -993,6 +993,45 @@ service cloud.firestore {
       // Update/Delete: Never allowed - transactions are immutable audit log
       allow update, delete: if false;
     }
+
+    /* ===================== Day 6: Achievements ===================== */
+    match /achievements/{achievementId} {
+      // Read: All signed-in users can read achievements for their courses
+      allow read: if isSignedIn();
+      
+      // Create/Update/Delete: Only trainers can manage achievements
+      allow create, update: if isSignedIn() &&
+        (isTrainer() || isSuperAdmin()) &&
+        isTrainerOfCourse(request.auth.uid, request.resource.data.courseId);
+      
+      allow delete: if isSignedIn() &&
+        (isTrainer() || isSuperAdmin()) &&
+        isTrainerOfCourse(request.auth.uid, resource.data.courseId);
+    }
+
+    /* ===================== Day 6: User Achievements ===================== */
+    match /user_achievements/{userAchievementId} {
+      // Read: Users can read their own achievements, trainers can read all for their courses
+      allow read: if isSignedIn() && (
+        request.auth.uid == resource.data.userId ||
+        isTrainerOfCourse(request.auth.uid, resource.data.courseId)
+      );
+      
+      // Create: Only system (via service) can unlock achievements
+      // Must have all required fields
+      allow create: if isSignedIn() &&
+        request.auth.uid == request.resource.data.userId &&
+        isEnrolledInCourse(request.auth.uid, request.resource.data.courseId) &&
+        request.resource.data.achievementId is string &&
+        request.resource.data.unlockedAt is timestamp;
+      
+      // Update: Only to mark as viewed
+      allow update: if isSignedIn() &&
+        request.auth.uid == resource.data.userId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isViewed']);
+      
+      // Delete: Never allowed
+      allow delete: if false;
+    }
   }
 }
-
