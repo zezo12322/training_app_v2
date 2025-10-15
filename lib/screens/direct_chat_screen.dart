@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/chat_message.dart';
 import '../providers/direct_message_providers.dart';
+import '../widgets/report_dialog.dart';
 import 'dart:async';
 
 /// شاشة المحادثة المباشرة
@@ -395,22 +396,32 @@ class _MessageBubble extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('تعديل'),
-              onTap: () {
-                Navigator.pop(context);
-                _editMessage(context, ref);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('حذف'),
-              onTap: () {
-                Navigator.pop(context);
-                _deleteMessage(context, ref);
-              },
-            ),
+            if (_canEditOrDelete()) ...[
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: const Text('تعديل'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _editMessage(context, ref);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete),
+                title: const Text('حذف'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _deleteMessage(context, ref);
+                },
+              ),
+            ],
+            // زر الإبلاغ (للرسائل من مستخدمين آخرين)
+            if (!isMe && !message.isDeleted)
+              ReportButton(
+                contentType: 'message',
+                contentId: message.id,
+                reportedUserId: message.authorId,
+                courseId: null,
+              ),
           ],
         ),
       ),
