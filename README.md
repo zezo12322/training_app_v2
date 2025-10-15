@@ -47,6 +47,46 @@ A comprehensive Flutter-based training management application with advanced feat
 - Firestore security rules
 - Data validation and sanitization
 
+### 🌐 Advanced Features
+
+#### 🔑 SSO Integration
+- **Google Sign-In**: OAuth 2.0 authentication
+- **Apple Sign-In**: Sign in with Apple support
+- Email authentication as fallback
+- Auto-provisioning of user profiles
+
+#### 📊 HRIS Import (HR Information System)
+- **Bulk User Import**: CSV & Excel file support
+- **Flexible Mapping**: Custom column mapping wizard
+- **Validation**: Email format, required fields, duplicate detection
+- **Progress Tracking**: Real-time import progress
+- **Error Handling**: Detailed error reports per user
+- **Templates**: Save and reuse mapping configurations
+- **History**: View all import jobs with status and statistics
+
+#### 📈 BigQuery Export
+- **Data Export**: Users, courses, analytics data
+- **Scheduling**: Manual, daily, weekly, monthly exports
+- **Job Tracking**: Monitor export status and progress
+- **Configuration**: Project ID, dataset ID, credentials
+- **History**: View all export jobs with row counts
+- Note: BigQuery API integration ready (requires google_cloud package)
+
+#### 🤖 ML Anomaly Detection
+- **Statistical Analysis**: Z-score based detection algorithms
+- **6 Detection Types**:
+  * Unusual quiz scores (cheating detection)
+  * Suspicious login patterns
+  * Rapid progress (unrealistic speed)
+  * Multiple failed attempts
+  * Unusual access patterns
+  * Data inconsistency
+- **Real-time Monitoring**: Live anomaly dashboard
+- **Severity Levels**: Critical, High, Medium, Low
+- **Status Workflow**: Pending → Investigating → Resolved/False Positive
+- **Configurable Thresholds**: Adjust sensitivity per detection type
+- **Auto-actions**: Optional auto-notify and auto-block
+
 ## 🚀 Getting Started
 
 ### Core Concepts
@@ -251,9 +291,12 @@ flutter analyze                                 # Code analysis
 
 - [Development Summary](DEVELOPMENT_SUMMARY.md) - Detailed feature documentation
 - [Security Migration](docs/SECURITY_MIGRATION.md) - Security updates guide
+- [HRIS Import Guide](docs/HRIS_IMPORT.md) - Bulk user import documentation
+- [BigQuery Export Guide](docs/BIGQUERY_EXPORT.md) - Data export setup and usage
+- [Anomaly Detection Guide](docs/ANOMALY_DETECTION.md) - ML-based anomaly detection system
 
 ---
 
 **Version**: 2.0  
-**Last Updated**: October 12, 2025  
+**Last Updated**: January 2025  
 **Status**: Production Ready 
