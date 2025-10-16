@@ -1398,4 +1398,144 @@ class AppLocalizationsAr extends AppLocalizations {
   String addPostCharacterCount(Object current, Object max) {
     return '$current/$max';
   }
+
+  @override
+  String get editPostTitle => 'تعديل المنشور';
+
+  @override
+  String get editPostPlaceholder => 'اكتب محتوى المنشور...';
+
+  @override
+  String editPostCharacterCount(Object current, Object max) {
+    return '$current/$max حرف';
+  }
+
+  @override
+  String get editPostSaveButton => 'حفظ';
+
+  @override
+  String get editPostSuccess => 'تم تحديث المنشور';
+
+  @override
+  String get createPollTitle => 'إنشاء استطلاع';
+
+  @override
+  String get createPollQuestionLabel => 'السؤال';
+
+  @override
+  String get createPollQuestionHint => 'اكتب سؤال الاستطلاع...';
+
+  @override
+  String get createPollQuestionRequired => 'الرجاء إدخال السؤال';
+
+  @override
+  String get createPollOptionsTitle => 'الخيارات';
+
+  @override
+  String createPollOptionLabel(Object number) {
+    return 'الخيار $number';
+  }
+
+  @override
+  String get createPollOptionRequired => 'مطلوب';
+
+  @override
+  String get createPollAddOption => 'إضافة خيار';
+
+  @override
+  String get createPollMaxOptionsError => 'الحد الأقصى 10 خيارات';
+
+  @override
+  String get createPollMinOptionsError => 'يجب أن يكون هناك على الأقل خيارين';
+
+  @override
+  String get createPollMinOptionsSubmitError => 'يجب إضافة خيارين على الأقل';
+
+  @override
+  String get createPollSettingsTitle => 'الإعدادات';
+
+  @override
+  String get createPollAllowMultiple => 'السماح باختيار أكثر من خيار';
+
+  @override
+  String get createPollShowResults => 'إظهار النتائج قبل التصويت';
+
+  @override
+  String get createPollEndDateLabel => 'تاريخ انتهاء الاستطلاع';
+
+  @override
+  String get createPollEndDateNone => 'لا يوجد (مفتوح دائماً)';
+
+  @override
+  String get createPollCreateButton => 'إنشاء';
+
+  @override
+  String get createPollCreatingButton => 'جاري الإنشاء...';
+
+  @override
+  String get createPollSuccess => 'تم إنشاء الاستطلاع بنجاح';
+
+  @override
+  String get reportDialogTitle => 'الإبلاغ عن محتوى';
+
+  @override
+  String get reportTypeLabel => 'نوع البلاغ';
+
+  @override
+  String get reportTypeInappropriate => 'محتوى غير لائق';
+
+  @override
+  String get reportTypeHarassment => 'تحرش أو مضايقة';
+
+  @override
+  String get reportTypeSpam => 'رسائل غير مرغوب فيها';
+
+  @override
+  String get reportTypeMisinformation => 'معلومات مضللة';
+
+  @override
+  String get reportTypeHarmful => 'محتوى ضار';
+
+  @override
+  String get reportTypeCopyright => 'انتهاك حقوق النشر';
+
+  @override
+  String get reportTypeOther => 'أخرى';
+
+  @override
+  String get reportReasonLabel => 'السبب *';
+
+  @override
+  String get reportReasonHint => 'أدخل سبب الإبلاغ';
+
+  @override
+  String get reportReasonRequired => 'يرجى إدخال سبب الإبلاغ';
+
+  @override
+  String get reportDescriptionLabel => 'تفاصيل إضافية (اختياري)';
+
+  @override
+  String get reportDescriptionHint => 'أضف أي تفاصيل إضافية تساعد في المراجعة';
+
+  @override
+  String get reportReviewNote => 'سيتم مراجعة البلاغ من قبل فريق الإشراف';
+
+  @override
+  String get reportSubmitButton => 'إرسال البلاغ';
+
+  @override
+  String get reportSuccess =>
+      'تم إرسال البلاغ بنجاح. سيتم مراجعته من قبل المشرفين.';
+
+  @override
+  String get reportError => 'حدث خطأ أثناء إرسال البلاغ';
+
+  @override
+  String get reportLoginRequired => 'يجب تسجيل الدخول أولاً';
+
+  @override
+  String get reportButtonLabel => 'الإبلاغ';
+
+  @override
+  String get commentPlaceholder => 'اكتب تعليقك...';
 }

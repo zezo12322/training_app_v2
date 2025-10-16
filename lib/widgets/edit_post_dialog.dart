@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/wall_post.dart';
 import '../providers/wall_post_providers.dart';
+import '../core/l10n_ext.dart';
 
 class EditPostDialog extends ConsumerStatefulWidget {
   final WallPost post;
@@ -49,13 +50,15 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
 
     if (!mounted) return;
 
+    final l = context.l;
+    
     result.when(
       success: (_) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم تحديث المنشور'),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(l.editPostSuccess),
+            duration: const Duration(seconds: 2),
           ),
         );
       },
@@ -63,7 +66,7 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
         setState(() => _isUpdating = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('خطأ: ${error.message}'),
+            content: Text('${l.errorGeneric}: ${error.message}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -73,10 +76,11 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final theme = Theme.of(context);
 
     return AlertDialog(
-      title: const Text('تعديل المنشور'),
+      title: Text(l.editPostTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -86,15 +90,17 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
               maxLines: 8,
               maxLength: 5000,
               autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'اكتب محتوى المنشور...',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: l.editPostPlaceholder,
+                border: const OutlineInputBorder(),
                 counterText: '',
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              '${_controller.text.length}/5000 حرف',
+              l.editPostCharacterCount
+                  .replaceAll('{current}', '${_controller.text.length}')
+                  .replaceAll('{max}', '5000'),
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey.shade600,
@@ -106,7 +112,7 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
       actions: [
         TextButton(
           onPressed: _isUpdating ? null : () => Navigator.pop(context),
-          child: const Text('إلغاء'),
+          child: Text(l.dialogCancelButton),
         ),
         ElevatedButton(
           onPressed: _isUpdating ? null : _save,
@@ -123,7 +129,7 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
                     color: Colors.white,
                   ),
                 )
-              : const Text('حفظ'),
+              : Text(l.editPostSaveButton),
         ),
       ],
     );

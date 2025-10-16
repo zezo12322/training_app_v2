@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../providers/poll_providers.dart';
+import '../core/l10n_ext.dart';
 
 class CreatePollDialog extends ConsumerStatefulWidget {
   final String postId;
@@ -46,9 +47,10 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
   }
 
   void _addOption() {
+    final l = context.l;
     if (_optionControllers.length >= 10) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('الحد الأقصى 10 خيارات')),
+        SnackBar(content: Text(l.createPollMaxOptionsError)),
       );
       return;
     }
@@ -58,9 +60,10 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
   }
 
   void _removeOption(int index) {
+    final l = context.l;
     if (_optionControllers.length <= 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يجب أن يكون هناك على الأقل خيارين')),
+        SnackBar(content: Text(l.createPollMinOptionsError)),
       );
       return;
     }
@@ -100,6 +103,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
   }
 
   Future<void> _submit() async {
+    final l = context.l;
     if (!_formKey.currentState!.validate()) return;
 
     final options = _optionControllers
@@ -109,7 +113,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
 
     if (options.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يجب إضافة خيارين على الأقل')),
+        SnackBar(content: Text(l.createPollMinOptionsSubmitError)),
       );
       return;
     }
@@ -148,13 +152,13 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
       if (mounted) {
         Navigator.of(context).pop(poll); // Return the created poll
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم إنشاء الاستطلاع بنجاح')),
+          SnackBar(content: Text(l.createPollSuccess)),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: $e')),
+          SnackBar(content: Text('${l.errorGeneric}: $e')),
         );
       }
     } finally {
@@ -166,6 +170,8 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return Dialog(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 600, maxHeight: 700),
@@ -189,7 +195,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'إنشاء استطلاع',
+                    l.createPollTitle,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -213,16 +219,16 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                     // Question
                     TextFormField(
                       controller: _questionController,
-                      decoration: const InputDecoration(
-                        labelText: 'السؤال',
-                        hintText: 'اكتب سؤال الاستطلاع...',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.question_mark),
+                      decoration: InputDecoration(
+                        labelText: l.createPollQuestionLabel,
+                        hintText: l.createPollQuestionHint,
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.question_mark),
                       ),
                       maxLines: 2,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'الرجاء إدخال السؤال';
+                          return l.createPollQuestionRequired;
                         }
                         return null;
                       },
@@ -231,7 +237,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
 
                     // Options
                     Text(
-                      'الخيارات',
+                      l.createPollOptionsTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 12),
@@ -247,13 +253,13 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                               child: TextFormField(
                                 controller: controller,
                                 decoration: InputDecoration(
-                                  labelText: 'الخيار ${index + 1}',
+                                  labelText: l.createPollOptionLabel.replaceAll('{number}', '${index + 1}'),
                                   border: const OutlineInputBorder(),
                                   prefixIcon: const Icon(Icons.check_box_outline_blank),
                                 ),
                                 validator: (value) {
                                   if (index < 2 && (value == null || value.trim().isEmpty)) {
-                                    return 'مطلوب';
+                                    return l.createPollOptionRequired;
                                   }
                                   return null;
                                 },
@@ -274,19 +280,19 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                     OutlinedButton.icon(
                       onPressed: _addOption,
                       icon: const Icon(Icons.add),
-                      label: const Text('إضافة خيار'),
+                      label: Text(l.createPollAddOption),
                     ),
                     const SizedBox(height: 24),
 
                     // Settings
                     Text(
-                      'الإعدادات',
+                      l.createPollSettingsTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
 
                     SwitchListTile(
-                      title: const Text('السماح باختيار أكثر من خيار'),
+                      title: Text(l.createPollAllowMultiple),
                       value: _allowMultipleVotes,
                       onChanged: (value) {
                         setState(() => _allowMultipleVotes = value);
@@ -294,7 +300,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                     ),
 
                     SwitchListTile(
-                      title: const Text('إظهار النتائج قبل التصويت'),
+                      title: Text(l.createPollShowResults),
                       value: _showResultsBeforeVoting,
                       onChanged: (value) {
                         setState(() => _showResultsBeforeVoting = value);
@@ -303,12 +309,12 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
 
                     // End Date
                     ListTile(
-                      title: const Text('تاريخ انتهاء الاستطلاع'),
+                      title: Text(l.createPollEndDateLabel),
                       subtitle: _endsAt != null
                           ? Text(
                               '${_endsAt!.year}-${_endsAt!.month.toString().padLeft(2, '0')}-${_endsAt!.day.toString().padLeft(2, '0')} ${_endsAt!.hour.toString().padLeft(2, '0')}:${_endsAt!.minute.toString().padLeft(2, '0')}',
                             )
-                          : const Text('لا يوجد (مفتوح دائماً)'),
+                          : Text(l.createPollEndDateNone),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -345,7 +351,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                 children: [
                   TextButton(
                     onPressed: _isSubmitting ? null : () => Navigator.of(context).pop(),
-                    child: const Text('إلغاء'),
+                    child: Text(l.dialogCancelButton),
                   ),
                   const SizedBox(width: 12),
                   FilledButton.icon(
@@ -357,7 +363,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.check),
-                    label: Text(_isSubmitting ? 'جاري الإنشاء...' : 'إنشاء'),
+                    label: Text(_isSubmitting ? l.createPollCreatingButton : l.createPollCreateButton),
                   ),
                 ],
               ),

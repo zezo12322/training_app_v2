@@ -577,16 +577,21 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
 
                 // Content (editable or text)
                 if (_isEditing && !isReply) ...[
-                  TextField(
-                    controller: _editController,
-                    maxLines: null,
-                    maxLength: 2000,
-                    decoration: const InputDecoration(
-                      hintText: 'اكتب تعليقك...',
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    style: TextStyle(fontSize: isReply ? 13 : 14, height: 1.4),
+                  Builder(
+                    builder: (ctx) {
+                      final l = ctx.l;
+                      return TextField(
+                        controller: _editController,
+                        maxLines: null,
+                        maxLength: 2000,
+                        decoration: InputDecoration(
+                          hintText: l.commentPlaceholder,
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        style: TextStyle(fontSize: isReply ? 13 : 14, height: 1.4),
+                      );
+                    },
                   ),
                   const SizedBox(height: 8),
                   Row(

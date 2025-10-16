@@ -1409,4 +1409,145 @@ class AppLocalizationsEn extends AppLocalizations {
   String addPostCharacterCount(Object current, Object max) {
     return '$current/$max';
   }
+
+  @override
+  String get editPostTitle => 'Edit Post';
+
+  @override
+  String get editPostPlaceholder => 'Write post content...';
+
+  @override
+  String editPostCharacterCount(Object current, Object max) {
+    return '$current/$max characters';
+  }
+
+  @override
+  String get editPostSaveButton => 'Save';
+
+  @override
+  String get editPostSuccess => 'Post updated';
+
+  @override
+  String get createPollTitle => 'Create Poll';
+
+  @override
+  String get createPollQuestionLabel => 'Question';
+
+  @override
+  String get createPollQuestionHint => 'Write your poll question...';
+
+  @override
+  String get createPollQuestionRequired => 'Please enter the question';
+
+  @override
+  String get createPollOptionsTitle => 'Options';
+
+  @override
+  String createPollOptionLabel(Object number) {
+    return 'Option $number';
+  }
+
+  @override
+  String get createPollOptionRequired => 'Required';
+
+  @override
+  String get createPollAddOption => 'Add Option';
+
+  @override
+  String get createPollMaxOptionsError => 'Maximum 10 options';
+
+  @override
+  String get createPollMinOptionsError => 'Must have at least 2 options';
+
+  @override
+  String get createPollMinOptionsSubmitError => 'Must add at least 2 options';
+
+  @override
+  String get createPollSettingsTitle => 'Settings';
+
+  @override
+  String get createPollAllowMultiple => 'Allow multiple selections';
+
+  @override
+  String get createPollShowResults => 'Show results before voting';
+
+  @override
+  String get createPollEndDateLabel => 'Poll end date';
+
+  @override
+  String get createPollEndDateNone => 'None (always open)';
+
+  @override
+  String get createPollCreateButton => 'Create';
+
+  @override
+  String get createPollCreatingButton => 'Creating...';
+
+  @override
+  String get createPollSuccess => 'Poll created successfully';
+
+  @override
+  String get reportDialogTitle => 'Report Content';
+
+  @override
+  String get reportTypeLabel => 'Report Type';
+
+  @override
+  String get reportTypeInappropriate => 'Inappropriate content';
+
+  @override
+  String get reportTypeHarassment => 'Harassment';
+
+  @override
+  String get reportTypeSpam => 'Spam';
+
+  @override
+  String get reportTypeMisinformation => 'Misinformation';
+
+  @override
+  String get reportTypeHarmful => 'Harmful content';
+
+  @override
+  String get reportTypeCopyright => 'Copyright violation';
+
+  @override
+  String get reportTypeOther => 'Other';
+
+  @override
+  String get reportReasonLabel => 'Reason *';
+
+  @override
+  String get reportReasonHint => 'Enter report reason';
+
+  @override
+  String get reportReasonRequired => 'Please enter a reason';
+
+  @override
+  String get reportDescriptionLabel => 'Additional details (optional)';
+
+  @override
+  String get reportDescriptionHint =>
+      'Add any additional details to help with review';
+
+  @override
+  String get reportReviewNote => 'Report will be reviewed by moderation team';
+
+  @override
+  String get reportSubmitButton => 'Submit Report';
+
+  @override
+  String get reportSuccess =>
+      'Report submitted successfully. Will be reviewed by moderators.';
+
+  @override
+  String get reportError => 'Error submitting report';
+
+  @override
+  String get reportLoginRequired => 'Must be logged in first';
+
+  @override
+  String get reportButtonLabel => 'Report';
+
+  @override
+  String get commentPlaceholder => 'Write your comment...';
 }

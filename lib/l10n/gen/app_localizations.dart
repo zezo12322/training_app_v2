@@ -2653,6 +2653,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current}/{max}'**
   String addPostCharacterCount(Object current, Object max);
+
+  /// No description provided for @editPostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Post'**
+  String get editPostTitle;
+
+  /// No description provided for @editPostPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write post content...'**
+  String get editPostPlaceholder;
+
+  /// No description provided for @editPostCharacterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{current}/{max} characters'**
+  String editPostCharacterCount(Object current, Object max);
+
+  /// No description provided for @editPostSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get editPostSaveButton;
+
+  /// No description provided for @editPostSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post updated'**
+  String get editPostSuccess;
+
+  /// No description provided for @createPollTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Poll'**
+  String get createPollTitle;
+
+  /// No description provided for @createPollQuestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get createPollQuestionLabel;
+
+  /// No description provided for @createPollQuestionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your poll question...'**
+  String get createPollQuestionHint;
+
+  /// No description provided for @createPollQuestionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the question'**
+  String get createPollQuestionRequired;
+
+  /// No description provided for @createPollOptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get createPollOptionsTitle;
+
+  /// No description provided for @createPollOptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Option {number}'**
+  String createPollOptionLabel(Object number);
+
+  /// No description provided for @createPollOptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get createPollOptionRequired;
+
+  /// No description provided for @createPollAddOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Option'**
+  String get createPollAddOption;
+
+  /// No description provided for @createPollMaxOptionsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum 10 options'**
+  String get createPollMaxOptionsError;
+
+  /// No description provided for @createPollMinOptionsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Must have at least 2 options'**
+  String get createPollMinOptionsError;
+
+  /// No description provided for @createPollMinOptionsSubmitError.
+  ///
+  /// In en, this message translates to:
+  /// **'Must add at least 2 options'**
+  String get createPollMinOptionsSubmitError;
+
+  /// No description provided for @createPollSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get createPollSettingsTitle;
+
+  /// No description provided for @createPollAllowMultiple.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow multiple selections'**
+  String get createPollAllowMultiple;
+
+  /// No description provided for @createPollShowResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Show results before voting'**
+  String get createPollShowResults;
+
+  /// No description provided for @createPollEndDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll end date'**
+  String get createPollEndDateLabel;
+
+  /// No description provided for @createPollEndDateNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None (always open)'**
+  String get createPollEndDateNone;
+
+  /// No description provided for @createPollCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createPollCreateButton;
+
+  /// No description provided for @createPollCreatingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating...'**
+  String get createPollCreatingButton;
+
+  /// No description provided for @createPollSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll created successfully'**
+  String get createPollSuccess;
+
+  /// No description provided for @reportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Content'**
+  String get reportDialogTitle;
+
+  /// No description provided for @reportTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Type'**
+  String get reportTypeLabel;
+
+  /// No description provided for @reportTypeInappropriate.
+  ///
+  /// In en, this message translates to:
+  /// **'Inappropriate content'**
+  String get reportTypeInappropriate;
+
+  /// No description provided for @reportTypeHarassment.
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment'**
+  String get reportTypeHarassment;
+
+  /// No description provided for @reportTypeSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam'**
+  String get reportTypeSpam;
+
+  /// No description provided for @reportTypeMisinformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Misinformation'**
+  String get reportTypeMisinformation;
+
+  /// No description provided for @reportTypeHarmful.
+  ///
+  /// In en, this message translates to:
+  /// **'Harmful content'**
+  String get reportTypeHarmful;
+
+  /// No description provided for @reportTypeCopyright.
+  ///
+  /// In en, this message translates to:
+  /// **'Copyright violation'**
+  String get reportTypeCopyright;
+
+  /// No description provided for @reportTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reportTypeOther;
+
+  /// No description provided for @reportReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason *'**
+  String get reportReasonLabel;
+
+  /// No description provided for @reportReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter report reason'**
+  String get reportReasonHint;
+
+  /// No description provided for @reportReasonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a reason'**
+  String get reportReasonRequired;
+
+  /// No description provided for @reportDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional details (optional)'**
+  String get reportDescriptionLabel;
+
+  /// No description provided for @reportDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any additional details to help with review'**
+  String get reportDescriptionHint;
+
+  /// No description provided for @reportReviewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Report will be reviewed by moderation team'**
+  String get reportReviewNote;
+
+  /// No description provided for @reportSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Report'**
+  String get reportSubmitButton;
+
+  /// No description provided for @reportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Report submitted successfully. Will be reviewed by moderators.'**
+  String get reportSuccess;
+
+  /// No description provided for @reportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error submitting report'**
+  String get reportError;
+
+  /// No description provided for @reportLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be logged in first'**
+  String get reportLoginRequired;
+
+  /// No description provided for @reportButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportButtonLabel;
+
+  /// No description provided for @commentPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your comment...'**
+  String get commentPlaceholder;
 }
 
 class _AppLocalizationsDelegate

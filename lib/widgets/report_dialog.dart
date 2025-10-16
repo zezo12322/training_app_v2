@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/moderation.dart';
 import '../providers/moderation_providers.dart';
 import '../providers/auth_provider.dart';
+import '../core/l10n_ext.dart';
 
 /// حوار الإبلاغ عن محتوى
 class ReportDialog extends ConsumerStatefulWidget {
@@ -37,9 +38,10 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
   }
 
   Future<void> _submitReport() async {
+    final l = context.l;
     if (_reasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يرجى إدخال سبب الإبلاغ')),
+        SnackBar(content: Text(l.reportReasonRequired)),
       );
       return;
     }
@@ -48,7 +50,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
     final currentUser = currentUserAsync.value;
     if (currentUser == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يجب تسجيل الدخول أولاً')),
+        SnackBar(content: Text(l.reportLoginRequired)),
       );
       return;
     }
@@ -76,16 +78,16 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
 
       if (result != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم إرسال البلاغ بنجاح. سيتم مراجعته من قبل المشرفين.'),
+          SnackBar(
+            content: Text(l.reportSuccess),
             backgroundColor: Colors.green,
           ),
         );
         Navigator.of(context).pop(true);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('حدث خطأ أثناء إرسال البلاغ'),
+          SnackBar(
+            content: Text(l.reportError),
             backgroundColor: Colors.red,
           ),
         );
@@ -94,11 +96,11 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('خطأ: $e'),
+          content: Text('${l.errorGeneric}: $e'),
           backgroundColor: Colors.red,
         ),
       );
-    } finally {
+    } finally{
       if (mounted) {
         setState(() => _isSubmitting = false);
       }
@@ -106,34 +108,36 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
   }
 
   String _getReportTypeLabel(ReportType type) {
+    final l = context.l;
     switch (type) {
       case ReportType.inappropriate:
-        return 'محتوى غير لائق';
+        return l.reportTypeInappropriate;
       case ReportType.harassment:
-        return 'تحرش أو مضايقة';
+        return l.reportTypeHarassment;
       case ReportType.spam:
-        return 'رسائل غير مرغوب فيها';
+        return l.reportTypeSpam;
       case ReportType.misinformation:
-        return 'معلومات مضللة';
+        return l.reportTypeMisinformation;
       case ReportType.harmful:
-        return 'محتوى ضار';
+        return l.reportTypeHarmful;
       case ReportType.copyright:
-        return 'انتهاك حقوق النشر';
+        return l.reportTypeCopyright;
       case ReportType.other:
-        return 'أخرى';
+        return l.reportTypeOther;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final theme = Theme.of(context);
 
     return AlertDialog(
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.report, color: Colors.red),
-          SizedBox(width: 8),
-          Text('الإبلاغ عن محتوى'),
+          const Icon(Icons.report, color: Colors.red),
+          const SizedBox(width: 8),
+          Text(l.reportDialogTitle),
         ],
       ),
       content: SingleChildScrollView(
@@ -144,9 +148,9 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
             // نوع البلاغ
             DropdownButtonFormField<ReportType>(
               initialValue: _selectedType,
-              decoration: const InputDecoration(
-                labelText: 'نوع البلاغ',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l.reportTypeLabel,
+                border: const OutlineInputBorder(),
               ),
               items: ReportType.values.map((type) {
                 return DropdownMenuItem(
@@ -166,10 +170,10 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
             // السبب
             TextField(
               controller: _reasonController,
-              decoration: const InputDecoration(
-                labelText: 'السبب *',
-                hintText: 'أدخل سبب الإبلاغ',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l.reportReasonLabel,
+                hintText: l.reportReasonHint,
+                border: const OutlineInputBorder(),
               ),
               maxLines: 2,
             ),
@@ -179,10 +183,10 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
             // التفاصيل
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'تفاصيل إضافية (اختياري)',
-                hintText: 'أضف أي تفاصيل إضافية تساعد في المراجعة',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l.reportDescriptionLabel,
+                hintText: l.reportDescriptionHint,
+                border: const OutlineInputBorder(),
               ),
               maxLines: 4,
             ),
@@ -190,7 +194,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
             const SizedBox(height: 8),
 
             Text(
-              'سيتم مراجعة البلاغ من قبل فريق الإشراف',
+              l.reportReviewNote,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: Colors.grey,
               ),
@@ -201,7 +205,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
       actions: [
         TextButton(
           onPressed: _isSubmitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('إلغاء'),
+          child: Text(l.dialogCancelButton),
         ),
         ElevatedButton(
           onPressed: _isSubmitting ? null : _submitReport,
@@ -214,7 +218,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
                   height: 16,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('إرسال البلاغ'),
+              : Text(l.reportSubmitButton),
         ),
       ],
     );
@@ -238,9 +242,11 @@ class ReportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return ListTile(
       leading: const Icon(Icons.report, color: Colors.red),
-      title: const Text('الإبلاغ'),
+      title: Text(l.reportButtonLabel),
       onTap: () {
         Navigator.of(context).pop(); // إغلاق القائمة
         showDialog(
