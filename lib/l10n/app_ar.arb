@@ -781,4 +781,20 @@
   ,"addQuestionValidPairsError": "أدخل أزواج مطابقة صالحة (على الأقل زوجان وبعدد متساوٍ)"
   ,"addQuestionError": "حدث خطأ: {error}"
   ,"@addQuestionError": {"placeholders": {"error": {}}}
+  
+  ,"wallCommentsTitle": "التعليقات"
+  ,"wallCommentsReplyAdded": "تم إضافة الرد"
+  ,"wallCommentsCommentAdded": "تم إضافة التعليق"
+  ,"wallCommentsError": "خطأ: {error}"
+  ,"@wallCommentsError": {"placeholders": {"error": {}}}
+  ,"wallCommentsNoCommentsYet": "لا توجد تعليقات حتى الآن"
+  ,"wallCommentsBeFirstToComment": "كن أول من يعلّق!"
+  ,"wallCommentsReplyingTo": "الرد على {username}"
+  ,"@wallCommentsReplyingTo": {"placeholders": {"username": {}}}
+  ,"wallCommentsReplyPlaceholder": "اكتب ردك..."
+  ,"wallCommentsCommentPlaceholder": "اكتب تعليقاً..."
+  ,"wallCommentsCommentEdited": "تم تعديل التعليق"
+  ,"wallCommentsHideReplies": "إخفاء الردود"
+  ,"wallCommentsShowReplies": "{count} {count, plural, =1{رد} other{ردود}}"
+  ,"@wallCommentsShowReplies": {"placeholders": {"count": {}}}
 }

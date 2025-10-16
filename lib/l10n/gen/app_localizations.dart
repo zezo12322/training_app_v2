@@ -4057,6 +4057,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred: {error}'**
   String addQuestionError(Object error);
+
+  /// No description provided for @wallCommentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get wallCommentsTitle;
+
+  /// No description provided for @wallCommentsReplyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply added'**
+  String get wallCommentsReplyAdded;
+
+  /// No description provided for @wallCommentsCommentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment added'**
+  String get wallCommentsCommentAdded;
+
+  /// No description provided for @wallCommentsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String wallCommentsError(Object error);
+
+  /// No description provided for @wallCommentsNoCommentsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet'**
+  String get wallCommentsNoCommentsYet;
+
+  /// No description provided for @wallCommentsBeFirstToComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to comment!'**
+  String get wallCommentsBeFirstToComment;
+
+  /// No description provided for @wallCommentsReplyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {username}'**
+  String wallCommentsReplyingTo(Object username);
+
+  /// No description provided for @wallCommentsReplyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your reply...'**
+  String get wallCommentsReplyPlaceholder;
+
+  /// No description provided for @wallCommentsCommentPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get wallCommentsCommentPlaceholder;
+
+  /// No description provided for @wallCommentsCommentEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment edited'**
+  String get wallCommentsCommentEdited;
+
+  /// No description provided for @wallCommentsHideReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide replies'**
+  String get wallCommentsHideReplies;
+
+  /// No description provided for @wallCommentsShowReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} {count, plural, =1{reply} other{replies}}'**
+  String wallCommentsShowReplies(num count);
 }
 
 class _AppLocalizationsDelegate

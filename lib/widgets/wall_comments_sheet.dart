@@ -79,8 +79,8 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(_replyingToCommentId != null 
-                ? 'تم إضافة الرد' 
-                : 'تم إضافة التعليق'),
+                ? context.l.wallCommentsReplyAdded 
+                : context.l.wallCommentsCommentAdded),
             duration: const Duration(seconds: 1),
           ),
         );
@@ -88,7 +88,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: $e')),
+          SnackBar(content: Text(context.l.wallCommentsError.replaceAll('{error}', e.toString()))),
         );
       }
     } finally {
@@ -133,7 +133,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                 child: Row(
                   children: [
                     Text(
-                      'التعليقات',
+                      l.wallCommentsTitle,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -156,31 +156,31 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                     child: CircularProgressIndicator(),
                   ),
                   error: (error, stack) => Center(
-                    child: Text('خطأ: $error'),
+                    child: Text(l.wallCommentsError.replaceAll('{error}', error.toString())),
                   ),
                   data: (comments) {
                     if (comments.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.comment_outlined,
                               size: 64,
                               color: Colors.grey,
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Text(
-                              'لا توجد تعليقات حتى الآن',
-                              style: TextStyle(
+                              l.wallCommentsNoCommentsYet,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
-                              'كن أول من يعلّق!',
-                              style: TextStyle(
+                              l.wallCommentsBeFirstToComment,
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
@@ -220,7 +220,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                           replies: replies,
                           onReply: () => _setReplyMode(
                             comment.id,
-                            comment.authorName ?? comment.authorEmail ?? 'مستخدم',
+                            comment.authorName ?? comment.authorEmail ?? l.commentUnknownUser,
                           ),
                         );
                       },
@@ -274,7 +274,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'الرد على $_replyingToUsername',
+                                l.wallCommentsReplyingTo.replaceAll('{username}', _replyingToUsername!),
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: theme.colorScheme.onPrimaryContainer,
@@ -307,8 +307,8 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                             onSubmitted: (_) => _addComment(),
                             decoration: InputDecoration(
                               hintText: _replyingToUsername != null
-                                  ? 'اكتب ردك...'
-                                  : 'اكتب تعليقاً...',
+                                  ? l.wallCommentsReplyPlaceholder
+                                  : l.wallCommentsCommentPlaceholder,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(24),
                                 borderSide: BorderSide.none,
@@ -401,12 +401,12 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
       
       setState(() => _isEditing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تم تعديل التعليق')),
+        SnackBar(content: Text(context.l.wallCommentsCommentEdited)),
       );
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('خطأ: $error')),
+        SnackBar(content: Text(context.l.wallCommentsError.replaceAll('{error}', error.toString()))),
       );
     }
   }
@@ -466,8 +466,8 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                   ),
                   label: Text(
                     _showReplies
-                        ? 'إخفاء الردود'
-                        : '${widget.replies.length} ${widget.replies.length == 1 ? 'رد' : 'ردود'}',
+                        ? l.wallCommentsHideReplies
+                        : l.wallCommentsShowReplies.replaceAll('{count}', widget.replies.length.toString()),
                     style: const TextStyle(fontSize: 12),
                   ),
                   style: TextButton.styleFrom(
@@ -554,11 +554,13 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                 // Author name
                 Row(
                   children: [
-                    Text(
-                      comment.authorName ?? comment.authorEmail ?? 'مستخدم',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: isReply ? 13 : 14,
+                    Builder(
+                      builder: (ctx) => Text(
+                        comment.authorName ?? comment.authorEmail ?? ctx.l.commentUnknownUser,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isReply ? 13 : 14,
+                        ),
                       ),
                     ),
                     if (comment.isEdited) ...[
@@ -690,14 +692,16 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                       ),
                     ),
                   ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'delete',
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete_outline, size: 18, color: Colors.red),
-                      SizedBox(width: 8),
-                      Text('حذف', style: TextStyle(color: Colors.red)),
-                    ],
+                  child: Builder(
+                    builder: (ctx) => Row(
+                      children: [
+                        const Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                        const SizedBox(width: 8),
+                        Text(ctx.l.dialogDeleteButton, style: const TextStyle(color: Colors.red)),
+                      ],
+                    ),
                   ),
                 ),
               ],

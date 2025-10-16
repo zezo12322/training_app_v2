@@ -2195,4 +2195,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String addQuestionError(Object error) {
     return 'حدث خطأ: $error';
   }
+
+  @override
+  String get wallCommentsTitle => 'التعليقات';
+
+  @override
+  String get wallCommentsReplyAdded => 'تم إضافة الرد';
+
+  @override
+  String get wallCommentsCommentAdded => 'تم إضافة التعليق';
+
+  @override
+  String wallCommentsError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get wallCommentsNoCommentsYet => 'لا توجد تعليقات حتى الآن';
+
+  @override
+  String get wallCommentsBeFirstToComment => 'كن أول من يعلّق!';
+
+  @override
+  String wallCommentsReplyingTo(Object username) {
+    return 'الرد على $username';
+  }
+
+  @override
+  String get wallCommentsReplyPlaceholder => 'اكتب ردك...';
+
+  @override
+  String get wallCommentsCommentPlaceholder => 'اكتب تعليقاً...';
+
+  @override
+  String get wallCommentsCommentEdited => 'تم تعديل التعليق';
+
+  @override
+  String get wallCommentsHideReplies => 'إخفاء الردود';
+
+  @override
+  String wallCommentsShowReplies(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ردود',
+      one: 'رد',
+    );
+    return '$count $_temp0';
+  }
 }

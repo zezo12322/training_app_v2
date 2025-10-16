@@ -2210,4 +2210,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String addQuestionError(Object error) {
     return 'An error occurred: $error';
   }
+
+  @override
+  String get wallCommentsTitle => 'Comments';
+
+  @override
+  String get wallCommentsReplyAdded => 'Reply added';
+
+  @override
+  String get wallCommentsCommentAdded => 'Comment added';
+
+  @override
+  String wallCommentsError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get wallCommentsNoCommentsYet => 'No comments yet';
+
+  @override
+  String get wallCommentsBeFirstToComment => 'Be the first to comment!';
+
+  @override
+  String wallCommentsReplyingTo(Object username) {
+    return 'Replying to $username';
+  }
+
+  @override
+  String get wallCommentsReplyPlaceholder => 'Write your reply...';
+
+  @override
+  String get wallCommentsCommentPlaceholder => 'Write a comment...';
+
+  @override
+  String get wallCommentsCommentEdited => 'Comment edited';
+
+  @override
+  String get wallCommentsHideReplies => 'Hide replies';
+
+  @override
+  String wallCommentsShowReplies(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'replies',
+      one: 'reply',
+    );
+    return '$count $_temp0';
+  }
 }

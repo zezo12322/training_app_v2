@@ -781,4 +781,20 @@
   ,"addQuestionValidPairsError": "Enter valid matching pairs (at least 2 pairs with equal counts)"
   ,"addQuestionError": "An error occurred: {error}"
   ,"@addQuestionError": {"placeholders": {"error": {}}}
+  
+  ,"wallCommentsTitle": "Comments"
+  ,"wallCommentsReplyAdded": "Reply added"
+  ,"wallCommentsCommentAdded": "Comment added"
+  ,"wallCommentsError": "Error: {error}"
+  ,"@wallCommentsError": {"placeholders": {"error": {}}}
+  ,"wallCommentsNoCommentsYet": "No comments yet"
+  ,"wallCommentsBeFirstToComment": "Be the first to comment!"
+  ,"wallCommentsReplyingTo": "Replying to {username}"
+  ,"@wallCommentsReplyingTo": {"placeholders": {"username": {}}}
+  ,"wallCommentsReplyPlaceholder": "Write your reply..."
+  ,"wallCommentsCommentPlaceholder": "Write a comment..."
+  ,"wallCommentsCommentEdited": "Comment edited"
+  ,"wallCommentsHideReplies": "Hide replies"
+  ,"wallCommentsShowReplies": "{count} {count, plural, =1{reply} other{replies}}"
+  ,"@wallCommentsShowReplies": {"placeholders": {"count": {}}}
 }
