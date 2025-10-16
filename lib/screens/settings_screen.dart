@@ -16,6 +16,8 @@ import '../providers/department_providers.dart';
 import 'super_admin_dashboard.dart';
 import '../services/preferences_service.dart';
 import 'auth_wrapper.dart';
+import 'privacy_policy_screen.dart';
+import 'terms_of_service_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -431,11 +433,46 @@ class SettingsScreen extends ConsumerWidget {
               elevation: 1,
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline, color: cs.primary),
+                        const SizedBox(width: 12),
+                        Text(
+                          l.aboutSection,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   ListTile(
-                    leading: const Icon(Icons.info_outline),
-                    title: Text(l.aboutTitle),
-                    subtitle: Text(l.aboutSubtitle),
-                    onTap: () {},
+                    leading: const Icon(Icons.privacy_tip_outlined),
+                    title: Text(l.privacyPolicy),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const PrivacyPolicyScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  const Divider(height: 0),
+                  ListTile(
+                    leading: const Icon(Icons.article_outlined),
+                    title: Text(l.termsOfService),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const TermsOfServiceScreen(),
+                        ),
+                      );
+                    },
                   ),
                   const Divider(height: 0),
                   ListTile(

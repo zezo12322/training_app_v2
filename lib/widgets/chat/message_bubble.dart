@@ -100,8 +100,8 @@ class MessageBubble extends StatelessWidget {
                     _formatTime(message.createdAt),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: isCurrentUser
-                          ? theme.colorScheme.onPrimary.withOpacity(0.7)
-                          : theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                          ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
+                          : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
                       fontSize: 10,
                     ),
                   ),
@@ -111,9 +111,9 @@ class MessageBubble extends StatelessWidget {
                       '(معدلة)',
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: isCurrentUser
-                            ? theme.colorScheme.onPrimary.withOpacity(0.7)
+                            ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
                             : theme.colorScheme.onSurfaceVariant
-                                .withOpacity(0.7),
+                                .withValues(alpha: 0.7),
                         fontSize: 10,
                         fontStyle: FontStyle.italic,
                       ),

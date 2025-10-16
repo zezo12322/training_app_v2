@@ -35,7 +35,7 @@ final leaderboardRepositoryProvider = Provider<LeaderboardRepository>((ref) {
 });
 
 /// مراقبة نقاط المستخدم (Stream)
-final userPointsStreamProvider = StreamProvider.family<UserPoints?, String>((
+final userPointsStreamProvider = StreamProvider.family.autoDispose<UserPoints?, String>((
   ref,
   userId,
 ) {

@@ -214,6 +214,26 @@ final flagMessageProvider = Provider.autoDispose<
       );
 });
 
+/// Provider for muting/unmuting a chat room
+final toggleRoomMuteProvider = Provider.autoDispose<
+    Future<void> Function({
+  required String roomId,
+  required String userId,
+  required bool mute,
+})>((ref) {
+  final repository = ref.watch(chatRepositoryProvider);
+  return ({
+    required String roomId,
+    required String userId,
+    required bool mute,
+  }) =>
+      repository.toggleRoomMute(
+        roomId: roomId,
+        userId: userId,
+        mute: mute,
+      );
+});
+
 // ==================== Total Unread Count ====================
 
 /// Provider for total unread messages across all rooms

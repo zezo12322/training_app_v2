@@ -43,7 +43,7 @@ mixin _$HRISImport {
   /// معلومات المستخدم الذي قام بالاستيراد
   String get uploadedBy => throw _privateConstructorUsedError;
   String get uploaderName => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get uploadedAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get completedAt => throw _privateConstructorUsedError;
@@ -89,7 +89,7 @@ abstract class $HRISImportCopyWith<$Res> {
     Map<String, dynamic> errorDetails,
     String uploadedBy,
     String uploaderName,
-    @TimestampConverter() DateTime uploadedAt,
+    @RequiredTimestampConverter() DateTime uploadedAt,
     @TimestampConverter() DateTime? completedAt,
     FieldMapping fieldMapping,
     bool updateExistingUsers,
@@ -264,7 +264,7 @@ abstract class _$$HRISImportImplCopyWith<$Res>
     Map<String, dynamic> errorDetails,
     String uploadedBy,
     String uploaderName,
-    @TimestampConverter() DateTime uploadedAt,
+    @RequiredTimestampConverter() DateTime uploadedAt,
     @TimestampConverter() DateTime? completedAt,
     FieldMapping fieldMapping,
     bool updateExistingUsers,
@@ -422,7 +422,7 @@ class _$HRISImportImpl implements _HRISImport {
     final Map<String, dynamic> errorDetails = const {},
     required this.uploadedBy,
     required this.uploaderName,
-    @TimestampConverter() required this.uploadedAt,
+    @RequiredTimestampConverter() required this.uploadedAt,
     @TimestampConverter() this.completedAt,
     required this.fieldMapping,
     this.updateExistingUsers = true,
@@ -490,7 +490,7 @@ class _$HRISImportImpl implements _HRISImport {
   @override
   final String uploaderName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime uploadedAt;
   @override
   @TimestampConverter()
@@ -622,7 +622,7 @@ abstract class _HRISImport implements HRISImport {
     final Map<String, dynamic> errorDetails,
     required final String uploadedBy,
     required final String uploaderName,
-    @TimestampConverter() required final DateTime uploadedAt,
+    @RequiredTimestampConverter() required final DateTime uploadedAt,
     @TimestampConverter() final DateTime? completedAt,
     required final FieldMapping fieldMapping,
     final bool updateExistingUsers,
@@ -671,7 +671,7 @@ abstract class _HRISImport implements HRISImport {
   @override
   String get uploaderName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get uploadedAt;
   @override
   @TimestampConverter()
@@ -1615,7 +1615,7 @@ mixin _$ImportTemplate {
   FieldMapping get fieldMapping => throw _privateConstructorUsedError;
   String get institutionId => throw _privateConstructorUsedError;
   String? get companyId => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
 
@@ -1643,7 +1643,7 @@ abstract class $ImportTemplateCopyWith<$Res> {
     FieldMapping fieldMapping,
     String institutionId,
     String? companyId,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     String createdBy,
   });
 
@@ -1740,7 +1740,7 @@ abstract class _$$ImportTemplateImplCopyWith<$Res>
     FieldMapping fieldMapping,
     String institutionId,
     String? companyId,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     String createdBy,
   });
 
@@ -1820,7 +1820,7 @@ class _$ImportTemplateImpl implements _ImportTemplate {
     required this.fieldMapping,
     required this.institutionId,
     this.companyId,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     required this.createdBy,
   });
 
@@ -1840,7 +1840,7 @@ class _$ImportTemplateImpl implements _ImportTemplate {
   @override
   final String? companyId;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   final String createdBy;
@@ -1910,7 +1910,7 @@ abstract class _ImportTemplate implements ImportTemplate {
     required final FieldMapping fieldMapping,
     required final String institutionId,
     final String? companyId,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     required final String createdBy,
   }) = _$ImportTemplateImpl;
 
@@ -1930,7 +1930,7 @@ abstract class _ImportTemplate implements ImportTemplate {
   @override
   String? get companyId;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   String get createdBy;

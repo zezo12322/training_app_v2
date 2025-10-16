@@ -35,38 +35,41 @@ _$AnomalyScoreImpl _$$AnomalyScoreImplFromJson(Map<String, dynamic> json) =>
       reviewNotes: json['reviewNotes'] as String?,
       actionTaken: json['actionTaken'] as bool? ?? false,
       action: json['action'] as String?,
-      detectedAt: DateTime.parse(json['detectedAt'] as String),
+      detectedAt: const RequiredTimestampConverter().fromJson(
+        json['detectedAt'] as Object,
+      ),
       resolvedAt: const TimestampConverter().fromJson(json['resolvedAt']),
     );
 
-Map<String, dynamic> _$$AnomalyScoreImplToJson(_$AnomalyScoreImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'userId': instance.userId,
-      'userName': instance.userName,
-      'institutionId': instance.institutionId,
-      'companyId': instance.companyId,
-      'type': _$AnomalyTypeEnumMap[instance.type]!,
-      'severity': _$AnomalySeverityEnumMap[instance.severity]!,
-      'score': instance.score,
-      'confidenceLevel': instance.confidenceLevel,
-      'metadata': instance.metadata,
-      'relatedEntityId': instance.relatedEntityId,
-      'relatedEntityType': instance.relatedEntityType,
-      'description': instance.description,
-      'reason': instance.reason,
-      'evidencePoints': instance.evidencePoints,
-      'status': _$InvestigationStatusEnumMap[instance.status]!,
-      'isReviewed': instance.isReviewed,
-      'reviewedBy': instance.reviewedBy,
-      'reviewerName': instance.reviewerName,
-      'reviewedAt': const TimestampConverter().toJson(instance.reviewedAt),
-      'reviewNotes': instance.reviewNotes,
-      'actionTaken': instance.actionTaken,
-      'action': instance.action,
-      'detectedAt': instance.detectedAt.toIso8601String(),
-      'resolvedAt': const TimestampConverter().toJson(instance.resolvedAt),
-    };
+Map<String, dynamic> _$$AnomalyScoreImplToJson(
+  _$AnomalyScoreImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'userId': instance.userId,
+  'userName': instance.userName,
+  'institutionId': instance.institutionId,
+  'companyId': instance.companyId,
+  'type': _$AnomalyTypeEnumMap[instance.type]!,
+  'severity': _$AnomalySeverityEnumMap[instance.severity]!,
+  'score': instance.score,
+  'confidenceLevel': instance.confidenceLevel,
+  'metadata': instance.metadata,
+  'relatedEntityId': instance.relatedEntityId,
+  'relatedEntityType': instance.relatedEntityType,
+  'description': instance.description,
+  'reason': instance.reason,
+  'evidencePoints': instance.evidencePoints,
+  'status': _$InvestigationStatusEnumMap[instance.status]!,
+  'isReviewed': instance.isReviewed,
+  'reviewedBy': instance.reviewedBy,
+  'reviewerName': instance.reviewerName,
+  'reviewedAt': const TimestampConverter().toJson(instance.reviewedAt),
+  'reviewNotes': instance.reviewNotes,
+  'actionTaken': instance.actionTaken,
+  'action': instance.action,
+  'detectedAt': const RequiredTimestampConverter().toJson(instance.detectedAt),
+  'resolvedAt': const TimestampConverter().toJson(instance.resolvedAt),
+};
 
 const _$AnomalyTypeEnumMap = {
   AnomalyType.suspiciousLogin: 'suspiciousLogin',
@@ -114,28 +117,31 @@ _$AnomalyAlertImpl _$$AnomalyAlertImplFromJson(Map<String, dynamic> json) =>
       isDismissed: json['isDismissed'] as bool,
       dismissedBy: json['dismissedBy'] as String?,
       dismissedAt: const TimestampConverter().fromJson(json['dismissedAt']),
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: const RequiredTimestampConverter().fromJson(
+        json['createdAt'] as Object,
+      ),
       expiresAt: const TimestampConverter().fromJson(json['expiresAt']),
     );
 
-Map<String, dynamic> _$$AnomalyAlertImplToJson(_$AnomalyAlertImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'anomalyId': instance.anomalyId,
-      'institutionId': instance.institutionId,
-      'companyId': instance.companyId,
-      'title': instance.title,
-      'message': instance.message,
-      'severity': _$AnomalySeverityEnumMap[instance.severity]!,
-      'recipientIds': instance.recipientIds,
-      'readBy': instance.readBy,
-      'isRead': instance.isRead,
-      'isDismissed': instance.isDismissed,
-      'dismissedBy': instance.dismissedBy,
-      'dismissedAt': const TimestampConverter().toJson(instance.dismissedAt),
-      'createdAt': instance.createdAt.toIso8601String(),
-      'expiresAt': const TimestampConverter().toJson(instance.expiresAt),
-    };
+Map<String, dynamic> _$$AnomalyAlertImplToJson(
+  _$AnomalyAlertImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'anomalyId': instance.anomalyId,
+  'institutionId': instance.institutionId,
+  'companyId': instance.companyId,
+  'title': instance.title,
+  'message': instance.message,
+  'severity': _$AnomalySeverityEnumMap[instance.severity]!,
+  'recipientIds': instance.recipientIds,
+  'readBy': instance.readBy,
+  'isRead': instance.isRead,
+  'isDismissed': instance.isDismissed,
+  'dismissedBy': instance.dismissedBy,
+  'dismissedAt': const TimestampConverter().toJson(instance.dismissedAt),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
+  'expiresAt': const TimestampConverter().toJson(instance.expiresAt),
+};
 
 _$AnomalyDetectionSettingsImpl _$$AnomalyDetectionSettingsImplFromJson(
   Map<String, dynamic> json,
@@ -169,7 +175,9 @@ _$AnomalyDetectionSettingsImpl _$$AnomalyDetectionSettingsImplFromJson(
       AnomalySeverity.medium,
   autoSuspendCritical: json['autoSuspendCritical'] as bool,
   autoFlagCheating: json['autoFlagCheating'] as bool,
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  updatedAt: const RequiredTimestampConverter().fromJson(
+    json['updatedAt'] as Object,
+  ),
   updatedBy: json['updatedBy'] as String,
 );
 
@@ -193,7 +201,7 @@ Map<String, dynamic> _$$AnomalyDetectionSettingsImplToJson(
   'minAlertSeverity': _$AnomalySeverityEnumMap[instance.minAlertSeverity]!,
   'autoSuspendCritical': instance.autoSuspendCritical,
   'autoFlagCheating': instance.autoFlagCheating,
-  'updatedAt': instance.updatedAt.toIso8601String(),
+  'updatedAt': const RequiredTimestampConverter().toJson(instance.updatedAt),
   'updatedBy': instance.updatedBy,
 };
 
@@ -209,7 +217,9 @@ _$AnomalyDetectionModelImpl _$$AnomalyDetectionModelImplFromJson(
   precision: (json['precision'] as num?)?.toDouble() ?? 0.0,
   recall: (json['recall'] as num?)?.toDouble() ?? 0.0,
   trainingDataSize: (json['trainingDataSize'] as num).toInt(),
-  trainedAt: DateTime.parse(json['trainedAt'] as String),
+  trainedAt: const RequiredTimestampConverter().fromJson(
+    json['trainedAt'] as Object,
+  ),
   trainedBy: json['trainedBy'] as String?,
   isActive: json['isActive'] as bool,
   lastUsedAt: const TimestampConverter().fromJson(json['lastUsedAt']),
@@ -228,7 +238,7 @@ Map<String, dynamic> _$$AnomalyDetectionModelImplToJson(
   'precision': instance.precision,
   'recall': instance.recall,
   'trainingDataSize': instance.trainingDataSize,
-  'trainedAt': instance.trainedAt.toIso8601String(),
+  'trainedAt': const RequiredTimestampConverter().toJson(instance.trainedAt),
   'trainedBy': instance.trainedBy,
   'isActive': instance.isActive,
   'lastUsedAt': const TimestampConverter().toJson(instance.lastUsedAt),
@@ -272,8 +282,12 @@ _$BehaviorPatternImpl _$$BehaviorPatternImplFromJson(
           ?.map((e) => e as String)
           .toList() ??
       const [],
-  lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  lastUpdatedAt: const RequiredTimestampConverter().fromJson(
+    json['lastUpdatedAt'] as Object,
+  ),
+  createdAt: const RequiredTimestampConverter().fromJson(
+    json['createdAt'] as Object,
+  ),
 );
 
 Map<String, dynamic> _$$BehaviorPatternImplToJson(
@@ -296,8 +310,10 @@ Map<String, dynamic> _$$BehaviorPatternImplToJson(
   'totalActivities': instance.totalActivities,
   'avgSessionDuration': instance.avgSessionDuration,
   'peakActivityHours': instance.peakActivityHours,
-  'lastUpdatedAt': instance.lastUpdatedAt.toIso8601String(),
-  'createdAt': instance.createdAt.toIso8601String(),
+  'lastUpdatedAt': const RequiredTimestampConverter().toJson(
+    instance.lastUpdatedAt,
+  ),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
 };
 
 _$ActivityEventImpl _$$ActivityEventImplFromJson(Map<String, dynamic> json) =>
@@ -312,35 +328,42 @@ _$ActivityEventImpl _$$ActivityEventImplFromJson(Map<String, dynamic> json) =>
       ipAddress: json['ipAddress'] as String?,
       location: json['location'] as String?,
       userAgent: json['userAgent'] as String?,
-      timestamp: DateTime.parse(json['timestamp'] as String),
+      timestamp: const RequiredTimestampConverter().fromJson(
+        json['timestamp'] as Object,
+      ),
       isFlagged: json['isFlagged'] as bool? ?? false,
       anomalyScore: (json['anomalyScore'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$ActivityEventImplToJson(_$ActivityEventImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'userId': instance.userId,
-      'institutionId': instance.institutionId,
-      'eventType': instance.eventType,
-      'eventData': instance.eventData,
-      'deviceId': instance.deviceId,
-      'deviceType': instance.deviceType,
-      'ipAddress': instance.ipAddress,
-      'location': instance.location,
-      'userAgent': instance.userAgent,
-      'timestamp': instance.timestamp.toIso8601String(),
-      'isFlagged': instance.isFlagged,
-      'anomalyScore': instance.anomalyScore,
-    };
+Map<String, dynamic> _$$ActivityEventImplToJson(
+  _$ActivityEventImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'userId': instance.userId,
+  'institutionId': instance.institutionId,
+  'eventType': instance.eventType,
+  'eventData': instance.eventData,
+  'deviceId': instance.deviceId,
+  'deviceType': instance.deviceType,
+  'ipAddress': instance.ipAddress,
+  'location': instance.location,
+  'userAgent': instance.userAgent,
+  'timestamp': const RequiredTimestampConverter().toJson(instance.timestamp),
+  'isFlagged': instance.isFlagged,
+  'anomalyScore': instance.anomalyScore,
+};
 
 _$DetectionStatisticsImpl _$$DetectionStatisticsImplFromJson(
   Map<String, dynamic> json,
 ) => _$DetectionStatisticsImpl(
   institutionId: json['institutionId'] as String,
   companyId: json['companyId'] as String?,
-  startDate: DateTime.parse(json['startDate'] as String),
-  endDate: DateTime.parse(json['endDate'] as String),
+  startDate: const RequiredTimestampConverter().fromJson(
+    json['startDate'] as Object,
+  ),
+  endDate: const RequiredTimestampConverter().fromJson(
+    json['endDate'] as Object,
+  ),
   totalAnomaliesDetected: (json['totalAnomaliesDetected'] as num).toInt(),
   confirmedAnomalies: (json['confirmedAnomalies'] as num).toInt(),
   falsePositives: (json['falsePositives'] as num).toInt(),
@@ -361,7 +384,9 @@ _$DetectionStatisticsImpl _$$DetectionStatisticsImplFromJson(
   truePositiveRate: (json['truePositiveRate'] as num?)?.toDouble() ?? 0.0,
   avgDetectionTime: (json['avgDetectionTime'] as num?)?.toDouble() ?? 0.0,
   avgReviewTime: (json['avgReviewTime'] as num?)?.toDouble() ?? 0.0,
-  generatedAt: DateTime.parse(json['generatedAt'] as String),
+  generatedAt: const RequiredTimestampConverter().fromJson(
+    json['generatedAt'] as Object,
+  ),
 );
 
 Map<String, dynamic> _$$DetectionStatisticsImplToJson(
@@ -369,8 +394,8 @@ Map<String, dynamic> _$$DetectionStatisticsImplToJson(
 ) => <String, dynamic>{
   'institutionId': instance.institutionId,
   'companyId': instance.companyId,
-  'startDate': instance.startDate.toIso8601String(),
-  'endDate': instance.endDate.toIso8601String(),
+  'startDate': const RequiredTimestampConverter().toJson(instance.startDate),
+  'endDate': const RequiredTimestampConverter().toJson(instance.endDate),
   'totalAnomaliesDetected': instance.totalAnomaliesDetected,
   'confirmedAnomalies': instance.confirmedAnomalies,
   'falsePositives': instance.falsePositives,
@@ -386,5 +411,7 @@ Map<String, dynamic> _$$DetectionStatisticsImplToJson(
   'truePositiveRate': instance.truePositiveRate,
   'avgDetectionTime': instance.avgDetectionTime,
   'avgReviewTime': instance.avgReviewTime,
-  'generatedAt': instance.generatedAt.toIso8601String(),
+  'generatedAt': const RequiredTimestampConverter().toJson(
+    instance.generatedAt,
+  ),
 };

@@ -73,7 +73,7 @@ mixin _$Report {
   String? get reviewNotes => throw _privateConstructorUsedError;
 
   /// تاريخ الإنشاء
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// تاريخ المراجعة
@@ -120,7 +120,7 @@ abstract class $ReportCopyWith<$Res> {
     String? reviewerName,
     ModerationAction action,
     String? reviewNotes,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? reviewedAt,
     @TimestampConverter() DateTime? resolvedAt,
     String institutionId,
@@ -288,7 +288,7 @@ abstract class _$$ReportImplCopyWith<$Res> implements $ReportCopyWith<$Res> {
     String? reviewerName,
     ModerationAction action,
     String? reviewNotes,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? reviewedAt,
     @TimestampConverter() DateTime? resolvedAt,
     String institutionId,
@@ -449,7 +449,7 @@ class _$ReportImpl implements _Report {
     this.reviewerName,
     this.action = ModerationAction.none,
     this.reviewNotes,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.reviewedAt,
     @TimestampConverter() this.resolvedAt,
     required this.institutionId,
@@ -540,7 +540,7 @@ class _$ReportImpl implements _Report {
 
   /// تاريخ الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
 
   /// تاريخ المراجعة
@@ -673,7 +673,7 @@ abstract class _Report implements Report {
     final String? reviewerName,
     final ModerationAction action,
     final String? reviewNotes,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? reviewedAt,
     @TimestampConverter() final DateTime? resolvedAt,
     required final String institutionId,
@@ -751,7 +751,7 @@ abstract class _Report implements Report {
 
   /// تاريخ الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
 
   /// تاريخ المراجعة
@@ -803,7 +803,7 @@ mixin _$ModerationLog {
   int? get durationDays => throw _privateConstructorUsedError;
 
   /// تاريخ البدء
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startDate => throw _privateConstructorUsedError;
 
   /// تاريخ الانتهاء
@@ -860,7 +860,7 @@ abstract class $ModerationLogCopyWith<$Res> {
     ModerationAction action,
     String reason,
     int? durationDays,
-    @TimestampConverter() DateTime startDate,
+    @RequiredTimestampConverter() DateTime startDate,
     @TimestampConverter() DateTime? endDate,
     String moderatorId,
     String moderatorName,
@@ -999,7 +999,7 @@ abstract class _$$ModerationLogImplCopyWith<$Res>
     ModerationAction action,
     String reason,
     int? durationDays,
-    @TimestampConverter() DateTime startDate,
+    @RequiredTimestampConverter() DateTime startDate,
     @TimestampConverter() DateTime? endDate,
     String moderatorId,
     String moderatorName,
@@ -1130,7 +1130,7 @@ class _$ModerationLogImpl implements _ModerationLog {
     required this.action,
     required this.reason,
     this.durationDays,
-    @TimestampConverter() required this.startDate,
+    @RequiredTimestampConverter() required this.startDate,
     @TimestampConverter() this.endDate,
     required this.moderatorId,
     required this.moderatorName,
@@ -1172,7 +1172,7 @@ class _$ModerationLogImpl implements _ModerationLog {
 
   /// تاريخ البدء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime startDate;
 
   /// تاريخ الانتهاء
@@ -1303,7 +1303,7 @@ abstract class _ModerationLog implements ModerationLog {
     required final ModerationAction action,
     required final String reason,
     final int? durationDays,
-    @TimestampConverter() required final DateTime startDate,
+    @RequiredTimestampConverter() required final DateTime startDate,
     @TimestampConverter() final DateTime? endDate,
     required final String moderatorId,
     required final String moderatorName,
@@ -1345,7 +1345,7 @@ abstract class _ModerationLog implements ModerationLog {
 
   /// تاريخ البدء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startDate;
 
   /// تاريخ الانتهاء

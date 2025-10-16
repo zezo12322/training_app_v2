@@ -306,7 +306,7 @@ class AnomalyDetectionService {
           relatedEntityId: courseId,
           relatedEntityType: 'course',
           description: 'تقدم سريع جداً في الدورة',
-          reason: 'تقدم ${progressChange.toStringAsFixed(1)}% في ${minutesElapsed} دقيقة',
+          reason: 'تقدم ${progressChange.toStringAsFixed(1)}% في $minutesElapsed دقيقة',
           evidencePoints: [
             'التقدم: ${progressChange.toStringAsFixed(1)}%',
             'الوقت: $minutesElapsed دقيقة',

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../core/logging.dart';
+import 'navigation_service.dart';
 
 /// Background message handler (must be top-level function)
 @pragma('vm:entry-point')
@@ -175,14 +176,9 @@ class FcmNotificationService {
   void _handleNotificationTap(Map<String, dynamic> data) {
     logger.i('[FCM] Handling notification tap: $data');
     
-    // TODO: Implement navigation based on notification type
-    final type = data['type'] as String?;
-    final courseId = data['courseId'] as String?;
-    final postId = data['postId'] as String?;
-
-    // This will be implemented when we have a navigation service
-    // For now, just log the data
-    logger.i('[FCM] Type: $type, CourseId: $courseId, PostId: $postId');
+    // Navigate using NavigationService
+    final navigationService = NavigationService();
+    navigationService.handleNotificationNavigation(data);
   }
 
   /// Save FCM token to Firestore
@@ -193,10 +189,11 @@ class FcmNotificationService {
     if (user == null) return;
 
     try {
-      await _firestore.collection('users').doc(user.uid).update({
+      // استخدام set مع merge بدل update عشان مايفشلش لو الـ document مش موجود
+      await _firestore.collection('users').doc(user.uid).set({
         'fcmToken': token,
         'fcmTokenUpdatedAt': FieldValue.serverTimestamp(),
-      });
+      }, SetOptions(merge: true));
       logger.i('[FCM] Token saved to Firestore');
     } catch (e, st) {
       logger.e('[FCM] Error saving token', error: e, stackTrace: st);
@@ -257,8 +254,9 @@ class FcmNotificationService {
       logger.i('[FCM] Data: $data');
       logger.i('[FCM] Tokens: ${tokens.length}');
       
-      // TODO: Call Cloud Function
-      // await _callCloudFunction(tokens, title, body, data);
+      // Note: Cloud Functions are implemented in functions/index.js
+      // They automatically send FCM notifications on Firestore triggers
+      // This method is kept for manual notifications if needed
       
     } catch (e, st) {
       logger.e('[FCM] Error sending notification', error: e, stackTrace: st);

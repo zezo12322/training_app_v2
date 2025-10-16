@@ -40,3 +40,17 @@ final usersInCompanyProvider =
       .map((d) => AppUser.fromDoc(d))
       .toList();
 });
+
+/// Provider للمستخدمين في نفس المؤسسة
+final usersInSameInstitutionProvider =
+    FutureProvider.family<List<AppUser>, String>((ref, institutionId) async {
+  final fs = ref.read(_fs);
+  final q = await fs
+      .collection('users')
+      .where('institutionId', isEqualTo: institutionId)
+      .limit(500)
+      .get();
+  return q.docs
+      .map((d) => AppUser.fromDoc(d))
+      .toList();
+});

@@ -69,12 +69,12 @@ class ReactionRow extends ConsumerWidget {
                     ),
                     decoration: BoxDecoration(
                       color: hasReacted
-                          ? Colors.blue.withOpacity(0.2)
-                          : Colors.grey.withOpacity(0.1),
+                          ? Colors.blue.withValues(alpha: 0.2)
+                          : Colors.grey.withValues(alpha: 0.1),
                       border: Border.all(
                         color: hasReacted
                             ? Colors.blue
-                            : Colors.grey.withOpacity(0.3),
+                            : Colors.grey.withValues(alpha: 0.3),
                         width: hasReacted ? 1.5 : 1,
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -101,7 +101,7 @@ class ReactionRow extends ConsumerWidget {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
               
               // زر إضافة تفاعل جديد
               InkWell(
@@ -113,8 +113,8 @@ class ReactionRow extends ConsumerWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
-                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                    color: Colors.grey.withValues(alpha: 0.1),
+                    border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -286,3 +286,4 @@ class AddReactionButton extends ConsumerWidget {
     );
   }
 }
+

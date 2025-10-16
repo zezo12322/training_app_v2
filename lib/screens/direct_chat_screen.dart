@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 import '../models/chat_message.dart';
 import '../providers/direct_message_providers.dart';
+import '../providers/user_providers.dart';
+import '../services/hybrid_storage_service.dart';
 import '../widgets/report_dialog.dart';
 import 'dart:async';
 
@@ -90,16 +95,27 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
     _messageController.clear();
     _setTypingStatus(false);
 
+    // جلب بيانات المستخدم الحالي
+    final currentUserAsync = ref.read(currentUserProvider);
+    final currentUser = currentUserAsync.value;
+    
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('خطأ: لم يتم العثور على بيانات المستخدم')),
+      );
+      return;
+    }
+
     final sendMessage = ref.read(sendDirectMessageProvider);
     await sendMessage(
       roomId: widget.roomId,
       senderId: widget.currentUserId,
-      senderName: 'أنا', // TODO: جلب من البروفايل
-      senderRole: 'trainee', // TODO: جلب من البروفايل
+      senderName: currentUser.name,
+      senderRole: currentUser.role,
       recipientId: widget.otherUserId,
       content: content,
-      institutionId: 'inst_1', // TODO: جلب من السياق
-      companyId: 'comp_1', // TODO: جلب من السياق
+      institutionId: currentUser.institutionId ?? '',
+      companyId: currentUser.companyId ?? '',
     );
 
     // التمرير للأسفل
@@ -152,8 +168,111 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
         ),
         actions: [
           PopupMenuButton<String>(
-            onSelected: (value) {
-              // TODO: إضافة خيارات (حظر، إبلاغ، حذف المحادثة)
+            onSelected: (value) async {
+              switch (value) {
+                case 'block':
+                  // تأكيد الحظر
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('حظر المستخدم'),
+                      content: const Text('هل تريد حظر هذا المستخدم؟ لن تتمكن من استقبال رسائله.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text('إلغاء'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text('حظر'),
+                        ),
+                      ],
+                    ),
+                  );
+                  
+                  if (confirm != true) break;
+                  if (!mounted) break;
+                  
+                  final blockUser = ref.read(blockUserProvider);
+                  final success = await blockUser(
+                    userId: widget.currentUserId,
+                    blockedUserId: widget.otherUserId,
+                  );
+                  
+                  if (!mounted) break;
+                  
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(success ? 'تم حظر المستخدم' : 'فشل حظر المستخدم'),
+                    ),
+                  );
+                  
+                  if (success) {
+                    Navigator.pop(context);
+                  }
+                  break;
+                  
+                case 'report':
+                  // فتح نافذة الإبلاغ
+                  if (!mounted) return;
+                  await showDialog(
+                    context: context,
+                    builder: (context) => ReportDialog(
+                      contentType: 'user',
+                      contentId: widget.otherUserId,
+                      reportedUserId: widget.otherUserId,
+                    ),
+                  );
+                  break;
+                  
+                case 'delete':
+                  // تأكيد الحذف
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('حذف المحادثة'),
+                      content: const Text('هل تريد حذف هذه المحادثة؟ سيتم إخفاؤها من قائمتك فقط.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text('إلغاء'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text('حذف'),
+                        ),
+                      ],
+                    ),
+                  );
+                  
+                  if (confirm != true) break;
+                  if (!mounted) break;
+                  
+                  final deleteConversation = ref.read(deleteConversationProvider);
+                  final success = await deleteConversation(
+                    roomId: widget.roomId,
+                    userId: widget.currentUserId,
+                  );
+                  
+                  if (!mounted) break;
+                  
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(success ? 'تم حذف المحادثة' : 'فشل حذف المحادثة'),
+                    ),
+                  );
+                  
+                  if (success) {
+                    Navigator.pop(context);
+                  }
+                  break;
+              }
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
@@ -215,7 +334,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withValues(alpha: 0.2),
                   blurRadius: 4,
                   offset: const Offset(0, -2),
                 ),
@@ -225,15 +344,92 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.attach_file),
-                  onPressed: () {
-                    // TODO: إرفاق ملف
+                  onPressed: () async {
+                    // إرفاق ملف
+                    final result = await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'],
+                    );
+                    
+                    if (result != null && result.files.single.path != null) {
+                      final file = File(result.files.single.path!);
+                      final fileName = result.files.single.name;
+                      
+                      // رفع الملف
+                      try {
+                        final storage = HybridStorageService();
+                        final uploadResult = await storage.uploadFile(file);
+                        
+                        if (!mounted) return;
+                        
+                        // إرسال رسالة مع الملف
+                        final currentUserAsync = ref.read(currentUserProvider);
+                        final currentUser = currentUserAsync.value;
+                        if (currentUser != null) {
+                          final sendMessage = ref.read(sendDirectMessageProvider);
+                          await sendMessage(
+                            roomId: widget.roomId,
+                            senderId: widget.currentUserId,
+                            senderName: currentUser.name,
+                            senderRole: currentUser.role,
+                            recipientId: widget.otherUserId,
+                            content: fileName,
+                            fileUrl: uploadResult.url,
+                            institutionId: currentUser.institutionId ?? '',
+                            companyId: currentUser.companyId ?? '',
+                          );
+                        }
+                      } catch (e) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('فشل رفع الملف: $e')),
+                        );
+                      }
+                    }
                   },
                   tooltip: 'إرفاق',
                 ),
                 IconButton(
                   icon: const Icon(Icons.image),
-                  onPressed: () {
-                    // TODO: إرفاق صورة
+                  onPressed: () async {
+                    // إرفاق صورة
+                    final picker = ImagePicker();
+                    final image = await picker.pickImage(source: ImageSource.gallery);
+                    
+                    if (image != null) {
+                      final file = File(image.path);
+                      
+                      // رفع الصورة
+                      try {
+                        final storage = HybridStorageService();
+                        final uploadResult = await storage.uploadFile(file);
+                        
+                        if (!mounted) return;
+                        
+                        // إرسال رسالة مع الصورة
+                        final currentUserAsync = ref.read(currentUserProvider);
+                        final currentUser = currentUserAsync.value;
+                        if (currentUser != null) {
+                          final sendMessage = ref.read(sendDirectMessageProvider);
+                          await sendMessage(
+                            roomId: widget.roomId,
+                            senderId: widget.currentUserId,
+                            senderName: currentUser.name,
+                            senderRole: currentUser.role,
+                            recipientId: widget.otherUserId,
+                            content: 'صورة',
+                            imageUrl: uploadResult.url,
+                            institutionId: currentUser.institutionId ?? '',
+                            companyId: currentUser.companyId ?? '',
+                          );
+                        }
+                      } catch (e) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('فشل رفع الصورة: $e')),
+                        );
+                      }
+                    }
                   },
                   tooltip: 'صورة',
                 ),

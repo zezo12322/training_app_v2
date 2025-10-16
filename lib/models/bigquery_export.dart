@@ -63,7 +63,7 @@ class BigQueryExport with _$BigQueryExport {
     /// معلومات التنفيذ
     required String triggeredBy,
     required String triggeredByName,
-    @TimestampConverter() required DateTime startedAt,
+    @RequiredTimestampConverter() required DateTime startedAt,
     @TimestampConverter() DateTime? completedAt,
     
     /// الجدولة
@@ -98,7 +98,7 @@ class BigQueryConfig with _$BigQueryConfig {
     String? defaultCronExpression,
     
     /// معلومات الإنشاء
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     required String createdBy,
     @TimestampConverter() DateTime? updatedAt,
     String? updatedBy,
@@ -144,7 +144,7 @@ class ExportRecord with _$ExportRecord {
     required String recordId,
     required ExportType exportType,
     required Map<String, dynamic> data,
-    @TimestampConverter() required DateTime exportedAt,
+    @RequiredTimestampConverter() required DateTime exportedAt,
     bool? isSuccess,
     String? errorMessage,
   }) = _ExportRecord;

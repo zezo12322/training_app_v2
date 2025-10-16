@@ -39,7 +39,7 @@ mixin _$ChatRoom {
   List<String> get participantIds => throw _privateConstructorUsedError;
 
   /// Room metadata
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -61,7 +61,9 @@ mixin _$ChatRoom {
   bool get isMuted => throw _privateConstructorUsedError;
   List<String> get mutedBy =>
       throw _privateConstructorUsedError; // List of user IDs who muted this room
-  List<String> get blockedUsers => throw _privateConstructorUsedError;
+  List<String> get blockedUsers =>
+      throw _privateConstructorUsedError; // Users blocked from posting
+  List<String> get deletedBy => throw _privateConstructorUsedError;
 
   /// Serializes this ChatRoom to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -86,7 +88,7 @@ abstract class $ChatRoomCopyWith<$Res> {
     String institutionId,
     String companyId,
     List<String> participantIds,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
     String? lastMessageContent,
     String? lastMessageAuthor,
@@ -97,6 +99,7 @@ abstract class $ChatRoomCopyWith<$Res> {
     bool isMuted,
     List<String> mutedBy,
     List<String> blockedUsers,
+    List<String> deletedBy,
   });
 }
 
@@ -133,6 +136,7 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
     Object? isMuted = null,
     Object? mutedBy = null,
     Object? blockedUsers = null,
+    Object? deletedBy = null,
   }) {
     return _then(
       _value.copyWith(
@@ -208,6 +212,10 @@ class _$ChatRoomCopyWithImpl<$Res, $Val extends ChatRoom>
                 ? _value.blockedUsers
                 : blockedUsers // ignore: cast_nullable_to_non_nullable
                       as List<String>,
+            deletedBy: null == deletedBy
+                ? _value.deletedBy
+                : deletedBy // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
           )
           as $Val,
     );
@@ -231,7 +239,7 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
     String institutionId,
     String companyId,
     List<String> participantIds,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
     String? lastMessageContent,
     String? lastMessageAuthor,
@@ -242,6 +250,7 @@ abstract class _$$ChatRoomImplCopyWith<$Res>
     bool isMuted,
     List<String> mutedBy,
     List<String> blockedUsers,
+    List<String> deletedBy,
   });
 }
 
@@ -277,6 +286,7 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
     Object? isMuted = null,
     Object? mutedBy = null,
     Object? blockedUsers = null,
+    Object? deletedBy = null,
   }) {
     return _then(
       _$ChatRoomImpl(
@@ -352,6 +362,10 @@ class __$$ChatRoomImplCopyWithImpl<$Res>
             ? _value._blockedUsers
             : blockedUsers // ignore: cast_nullable_to_non_nullable
                   as List<String>,
+        deletedBy: null == deletedBy
+            ? _value._deletedBy
+            : deletedBy // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
       ),
     );
   }
@@ -368,7 +382,7 @@ class _$ChatRoomImpl extends _ChatRoom {
     required this.institutionId,
     required this.companyId,
     required final List<String> participantIds,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.updatedAt,
     this.lastMessageContent,
     this.lastMessageAuthor,
@@ -379,10 +393,12 @@ class _$ChatRoomImpl extends _ChatRoom {
     this.isMuted = false,
     final List<String> mutedBy = const [],
     final List<String> blockedUsers = const [],
+    final List<String> deletedBy = const [],
   }) : _participantIds = participantIds,
        _unreadCounts = unreadCounts,
        _mutedBy = mutedBy,
        _blockedUsers = blockedUsers,
+       _deletedBy = deletedBy,
        super._();
 
   factory _$ChatRoomImpl.fromJson(Map<String, dynamic> json) =>
@@ -421,7 +437,7 @@ class _$ChatRoomImpl extends _ChatRoom {
 
   /// Room metadata
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
@@ -480,9 +496,20 @@ class _$ChatRoomImpl extends _ChatRoom {
     return EqualUnmodifiableListView(_blockedUsers);
   }
 
+  // Users blocked from posting
+  final List<String> _deletedBy;
+  // Users blocked from posting
+  @override
+  @JsonKey()
+  List<String> get deletedBy {
+    if (_deletedBy is EqualUnmodifiableListView) return _deletedBy;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_deletedBy);
+  }
+
   @override
   String toString() {
-    return 'ChatRoom(id: $id, type: $type, courseId: $courseId, courseName: $courseName, institutionId: $institutionId, companyId: $companyId, participantIds: $participantIds, createdAt: $createdAt, updatedAt: $updatedAt, lastMessageContent: $lastMessageContent, lastMessageAuthor: $lastMessageAuthor, lastMessageAt: $lastMessageAt, unreadCounts: $unreadCounts, isActive: $isActive, isArchived: $isArchived, isMuted: $isMuted, mutedBy: $mutedBy, blockedUsers: $blockedUsers)';
+    return 'ChatRoom(id: $id, type: $type, courseId: $courseId, courseName: $courseName, institutionId: $institutionId, companyId: $companyId, participantIds: $participantIds, createdAt: $createdAt, updatedAt: $updatedAt, lastMessageContent: $lastMessageContent, lastMessageAuthor: $lastMessageAuthor, lastMessageAt: $lastMessageAt, unreadCounts: $unreadCounts, isActive: $isActive, isArchived: $isArchived, isMuted: $isMuted, mutedBy: $mutedBy, blockedUsers: $blockedUsers, deletedBy: $deletedBy)';
   }
 
   @override
@@ -527,12 +554,16 @@ class _$ChatRoomImpl extends _ChatRoom {
             const DeepCollectionEquality().equals(
               other._blockedUsers,
               _blockedUsers,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._deletedBy,
+              _deletedBy,
             ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     id,
     type,
@@ -552,7 +583,8 @@ class _$ChatRoomImpl extends _ChatRoom {
     isMuted,
     const DeepCollectionEquality().hash(_mutedBy),
     const DeepCollectionEquality().hash(_blockedUsers),
-  );
+    const DeepCollectionEquality().hash(_deletedBy),
+  ]);
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.
@@ -577,7 +609,7 @@ abstract class _ChatRoom extends ChatRoom {
     required final String institutionId,
     required final String companyId,
     required final List<String> participantIds,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? updatedAt,
     final String? lastMessageContent,
     final String? lastMessageAuthor,
@@ -588,6 +620,7 @@ abstract class _ChatRoom extends ChatRoom {
     final bool isMuted,
     final List<String> mutedBy,
     final List<String> blockedUsers,
+    final List<String> deletedBy,
   }) = _$ChatRoomImpl;
   const _ChatRoom._() : super._();
 
@@ -620,7 +653,7 @@ abstract class _ChatRoom extends ChatRoom {
 
   /// Room metadata
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   @TimestampConverter()
@@ -651,7 +684,9 @@ abstract class _ChatRoom extends ChatRoom {
   @override
   List<String> get mutedBy; // List of user IDs who muted this room
   @override
-  List<String> get blockedUsers;
+  List<String> get blockedUsers; // Users blocked from posting
+  @override
+  List<String> get deletedBy;
 
   /// Create a copy of ChatRoom
   /// with the given fields replaced by the non-null parameter values.

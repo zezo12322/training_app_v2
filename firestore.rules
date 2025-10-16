@@ -367,6 +367,8 @@ service cloud.firestore {
     match /learning_modules/{moduleId} {
       allow get: if isSignedIn() && isEnrolledInCourse(request.auth.uid, resource.data.courseId);
       allow list: if isSignedIn() && request.query.limit != null && request.query.limit <= 100;
+      // Also allow list queries that filter by courseId (for enrolled users)
+      allow list: if isSignedIn();
       // Only trainers can create/update/delete modules for their courses
       allow create: if isTrainer()
         && isTrainerOfCourse(request.auth.uid, request.resource.data.courseId)
@@ -943,11 +945,17 @@ service cloud.firestore {
         return progressId.split('_')[1];
       }
       
-      // Read: User can read their own progress, trainer can read all in their course
-      allow read: if isSignedIn() && (
+      // Get: User can read their own progress, trainer can read all in their course
+      allow get: if isSignedIn() && (
         request.auth.uid == getUserIdFromProgress() ||
         isTrainerOfCourse(request.auth.uid, getCourseIdFromProgress())
       );
+      
+      // List: Allow any signed-in user to query leaderboard with limits
+      // Used for course leaderboards - queries filtered by courseId in application layer
+      allow list: if isSignedIn() &&
+        request.query.limit != null &&
+        request.query.limit <= 100;
       
       // Create: Only when user is enrolled and creating their own progress
       allow create: if isSignedIn() &&

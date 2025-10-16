@@ -32,38 +32,41 @@ _$ReportImpl _$$ReportImplFromJson(Map<String, dynamic> json) => _$ReportImpl(
       $enumDecodeNullable(_$ModerationActionEnumMap, json['action']) ??
       ModerationAction.none,
   reviewNotes: json['reviewNotes'] as String?,
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  createdAt: const RequiredTimestampConverter().fromJson(
+    json['createdAt'] as Object,
+  ),
   reviewedAt: const TimestampConverter().fromJson(json['reviewedAt']),
   resolvedAt: const TimestampConverter().fromJson(json['resolvedAt']),
   institutionId: json['institutionId'] as String,
   companyId: json['companyId'] as String,
 );
 
-Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'type': _$ReportTypeEnumMap[instance.type]!,
-      'status': _$ReportStatusEnumMap[instance.status]!,
-      'reporterId': instance.reporterId,
-      'reporterName': instance.reporterName,
-      'contentType': instance.contentType,
-      'contentId': instance.contentId,
-      'reportedUserId': instance.reportedUserId,
-      'reportedUserName': instance.reportedUserName,
-      'reason': instance.reason,
-      'description': instance.description,
-      'evidenceUrls': instance.evidenceUrls,
-      'courseId': instance.courseId,
-      'reviewerId': instance.reviewerId,
-      'reviewerName': instance.reviewerName,
-      'action': _$ModerationActionEnumMap[instance.action]!,
-      'reviewNotes': instance.reviewNotes,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'reviewedAt': const TimestampConverter().toJson(instance.reviewedAt),
-      'resolvedAt': const TimestampConverter().toJson(instance.resolvedAt),
-      'institutionId': instance.institutionId,
-      'companyId': instance.companyId,
-    };
+Map<String, dynamic> _$$ReportImplToJson(
+  _$ReportImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'type': _$ReportTypeEnumMap[instance.type]!,
+  'status': _$ReportStatusEnumMap[instance.status]!,
+  'reporterId': instance.reporterId,
+  'reporterName': instance.reporterName,
+  'contentType': instance.contentType,
+  'contentId': instance.contentId,
+  'reportedUserId': instance.reportedUserId,
+  'reportedUserName': instance.reportedUserName,
+  'reason': instance.reason,
+  'description': instance.description,
+  'evidenceUrls': instance.evidenceUrls,
+  'courseId': instance.courseId,
+  'reviewerId': instance.reviewerId,
+  'reviewerName': instance.reviewerName,
+  'action': _$ModerationActionEnumMap[instance.action]!,
+  'reviewNotes': instance.reviewNotes,
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
+  'reviewedAt': const TimestampConverter().toJson(instance.reviewedAt),
+  'resolvedAt': const TimestampConverter().toJson(instance.resolvedAt),
+  'institutionId': instance.institutionId,
+  'companyId': instance.companyId,
+};
 
 const _$ReportTypeEnumMap = {
   ReportType.inappropriate: 'inappropriate',
@@ -101,7 +104,9 @@ _$ModerationLogImpl _$$ModerationLogImplFromJson(Map<String, dynamic> json) =>
       action: $enumDecode(_$ModerationActionEnumMap, json['action']),
       reason: json['reason'] as String,
       durationDays: (json['durationDays'] as num?)?.toInt(),
-      startDate: DateTime.parse(json['startDate'] as String),
+      startDate: const RequiredTimestampConverter().fromJson(
+        json['startDate'] as Object,
+      ),
       endDate: const TimestampConverter().fromJson(json['endDate']),
       moderatorId: json['moderatorId'] as String,
       moderatorName: json['moderatorName'] as String,
@@ -114,26 +119,27 @@ _$ModerationLogImpl _$$ModerationLogImplFromJson(Map<String, dynamic> json) =>
       companyId: json['companyId'] as String,
     );
 
-Map<String, dynamic> _$$ModerationLogImplToJson(_$ModerationLogImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'targetUserId': instance.targetUserId,
-      'targetUserName': instance.targetUserName,
-      'action': _$ModerationActionEnumMap[instance.action]!,
-      'reason': instance.reason,
-      'durationDays': instance.durationDays,
-      'startDate': instance.startDate.toIso8601String(),
-      'endDate': const TimestampConverter().toJson(instance.endDate),
-      'moderatorId': instance.moderatorId,
-      'moderatorName': instance.moderatorName,
-      'relatedReportId': instance.relatedReportId,
-      'notes': instance.notes,
-      'isActive': instance.isActive,
-      'cancelledAt': const TimestampConverter().toJson(instance.cancelledAt),
-      'cancellationReason': instance.cancellationReason,
-      'institutionId': instance.institutionId,
-      'companyId': instance.companyId,
-    };
+Map<String, dynamic> _$$ModerationLogImplToJson(
+  _$ModerationLogImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'targetUserId': instance.targetUserId,
+  'targetUserName': instance.targetUserName,
+  'action': _$ModerationActionEnumMap[instance.action]!,
+  'reason': instance.reason,
+  'durationDays': instance.durationDays,
+  'startDate': const RequiredTimestampConverter().toJson(instance.startDate),
+  'endDate': const TimestampConverter().toJson(instance.endDate),
+  'moderatorId': instance.moderatorId,
+  'moderatorName': instance.moderatorName,
+  'relatedReportId': instance.relatedReportId,
+  'notes': instance.notes,
+  'isActive': instance.isActive,
+  'cancelledAt': const TimestampConverter().toJson(instance.cancelledAt),
+  'cancellationReason': instance.cancellationReason,
+  'institutionId': instance.institutionId,
+  'companyId': instance.companyId,
+};
 
 _$ContentFilterImpl _$$ContentFilterImplFromJson(Map<String, dynamic> json) =>
     _$ContentFilterImpl(

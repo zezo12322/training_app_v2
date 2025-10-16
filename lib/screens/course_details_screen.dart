@@ -306,7 +306,20 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                   courseId: widget.courseId,
                   showStreak: true,
                   onTap: () {
-                    // TODO: فتح صفحة التفاصيل الكاملة
+                    // Show course details in dialog
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('معلومات الكورس'),
+                        content: const Text('تفاصيل الكورس الكاملة'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('إغلاق'),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
                 // Posts List

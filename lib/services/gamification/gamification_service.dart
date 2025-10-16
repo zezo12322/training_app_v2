@@ -112,7 +112,14 @@ class GamificationService {
     // 2. منح شارة إذا كان هناك شارة لهذا المستوى
     // 3. إضافة تأثيرات بصرية في الواجهة
     
-    // TODO: سيتم تطويرها في مراحل قادمة
+    // Future Enhancements:
+    // - Send push notification to user about level up
+    // - Award special badges for milestone levels (5, 10, 15, etc.)
+    // - Trigger confetti animation in UI
+    // - Share achievement to social feed
+    // - Unlock special course content based on level
+    // - Grant bonus points for reaching certain levels
+    
     logger.i('🎉 Level up! User $userId reached level $newLevel in course $courseId');
   }
 

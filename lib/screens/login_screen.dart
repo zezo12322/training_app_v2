@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
+// import 'package:training_app/services/sso_service.dart'; // ❌ REMOVED - No more SSO
 import 'signup_screen.dart'; // لاستيراد شاشة إنشاء الحساب
+import 'forgot_password_screen.dart'; // شاشة نسيت كلمة المرور
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -40,6 +43,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       // No explicit navigation here. AuthWrapper listens to auth state and
       // will rebuild to the correct destination automatically.
       if (!mounted) return; // context safety after await
+    } on FirebaseAuthException catch (e) {
+      // معالجة أخطاء Firebase بشكل محدد
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = l.authErrorUserNotFound;
+          break;
+        case 'wrong-password':
+        case 'invalid-credential':
+        case 'invalid-email':
+          errorMessage = l.authErrorWrongPassword;
+          break;
+        case 'user-disabled':
+          errorMessage = l.authErrorUserDisabled;
+          break;
+        case 'too-many-requests':
+          errorMessage = l.authErrorTooManyRequests;
+          break;
+        case 'network-request-failed':
+          errorMessage = l.authErrorNetworkFailed;
+          break;
+        default:
+          errorMessage = l.authErrorDefault;
+      }
+      _showSnackBar(errorMessage);
     } on Exception catch (e) {
       _showSnackBar(l.loginFailed(e.toString()));
     } catch (e) {
@@ -52,6 +80,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     }
   }
+
+  // ❌ REMOVED: _signInWithGoogle() and _signInWithApple()
+  // Using Email/Password authentication only
 
   @override
   void dispose() {
@@ -117,7 +148,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       (v == null || v.length < 6) ? l.passwordTooShort : null,
                   onFieldSubmitted: (_) => _signIn(),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
+                // زر نسيت كلمة المرور
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(l.forgotPasswordNavigate),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 FilledButton(
                   onPressed: _isLoading ? null : _signIn,
                   style: FilledButton.styleFrom(
@@ -138,7 +184,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         : Text(key: const ValueKey('text'), l.loginAction),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 24),
+                // ❌ REMOVED: Google & Apple Sign-In buttons
+                // Using Email/Password authentication only
                 TextButton(
                   onPressed: () {
                     // الانتقال إلى شاشة إنشاء حساب

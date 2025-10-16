@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="C:/flutter" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../flutter_pub_cache/git/goldens-64d0f6051b9b7b9933d3d16194170a38f544634a" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
 </project>

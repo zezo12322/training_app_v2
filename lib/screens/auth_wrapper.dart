@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/screens/login_screen.dart';
+import 'package:training_app/screens/email_verification_screen.dart';
 import 'bottom_nav_shell.dart';
 import 'package:training_app/widgets/badge_award_listener.dart';
 import 'package:training_app/providers/quiz_providers.dart'; // للوصول لمزود notificationServiceProvider
@@ -18,8 +19,11 @@ class AuthWrapper extends ConsumerWidget {
 
   void _initOneSignalOnce(WidgetRef ref) {
     if (_oneSignalStarted) return;
+    // 🔥 تأجيل OneSignal بـ 500ms بعد أول frame عشان يخف الضغط
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_oneSignalStarted) return; // double guard
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (!ref.context.mounted) return;
       final service = ref.read(notificationServiceProvider);
       await service.initOneSignal();
       _oneSignalStarted = true;
@@ -31,9 +35,26 @@ class AuthWrapper extends ConsumerWidget {
     // نستمع لحالة تسجيل الدخول
     final authState = ref.watch(authStateProvider);
 
+    // Clean up providers when user signs out
+    ref.listen(authStateProvider, (previous, next) {
+      next.whenData((user) {
+        if (user == null && previous?.value != null) {
+          // User just signed out - invalidate all data providers
+          // This will cancel all active Firestore listeners
+          ref.invalidate(currentUserModelProvider);
+          // Add any other providers that need cleanup here
+        }
+      });
+    });
+
     return authState.when(
       data: (user) {
         if (user == null) return const LoginScreen();
+
+        // Check email verification
+        if (!user.emailVerified) {
+          return const EmailVerificationScreen();
+        }
 
         // Trigger user model load (idempotent) after authentication.
         WidgetsBinding.instance.addPostFrameCallback(
@@ -56,6 +77,9 @@ class AuthWrapper extends ConsumerWidget {
                 body: Center(child: CircularProgressIndicator()),
               );
             }
+            
+  
+            
             final role = appUser.role;
             final instId = appUser.institutionId;
             final compId = appUser.companyId;

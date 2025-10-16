@@ -121,7 +121,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<ExportType>(
-                    value: _selectedType,
+                    initialValue: _selectedType,
                     decoration: const InputDecoration(
                       labelText: 'نوع البيانات',
                       border: OutlineInputBorder(),

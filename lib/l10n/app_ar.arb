@@ -82,6 +82,9 @@
   "logoutFailed": "فشل تسجيل الخروج: {error}","@logoutFailed":{"placeholders":{"error":{}}},
   "dumpSettingsAction": "طباعة حالة الإعدادات في السجل",
   "dumpSettingsToast": "تم إرسال الحالة إلى السجل",
+  "privacyPolicy": "سياسة الخصوصية",
+  "termsOfService": "شروط الاستخدام",
+  "aboutSection": "حول التطبيق",
   "languagePickerTitle": "اللغة",
   "systemLocaleLabel": "النظام",
   "themeSystem": "النظام",
@@ -95,7 +98,21 @@
   "fieldRequired": "مطلوب",
   "invalidEmail": "بريد غير صالح",
   "loginAction": "تسجيل الدخول",
+  "orContinueWith": "أو تابع باستخدام",
+  "signInWithGoogle": "تسجيل الدخول باستخدام Google",
+  "signInWithApple": "تسجيل الدخول باستخدام Apple",
+  "ssoLoginFailed": "فشل تسجيل الدخول: {error}",
+  "@ssoLoginFailed": {"placeholders": {"error": {}}},
   "signupNavigate": "ليس لديك حساب؟ إنشاء حساب جديد",
+  "forgotPasswordNavigate": "نسيت كلمة المرور؟",
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "forgotPasswordDescription": "أدخل بريدك الإلكتروني وسنرسل لك رابط لإعادة تعيين كلمة المرور",
+  "sendResetEmail": "إرسال رابط إعادة التعيين",
+  "passwordResetEmailSent": "تم إرسال رسالة إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+  "passwordResetFailed": "فشل إرسال رسالة إعادة التعيين",
+  "emailSent": "تم الإرسال",
+  "backToLogin": "العودة لتسجيل الدخول",
+  "forgotPasswordNote": "تأكد من التحقق من صندوق البريد الوارد ومجلد الرسائل غير المرغوب فيها",
   "signupTitle": "إنشاء حساب جديد",
   "fullNameLabel": "الاسم الكامل",
   "chooseRole": "اختر دورك:",
@@ -121,6 +138,7 @@
   "@unexpectedError": {"placeholders": {"error": {}}},
   "signupFailed": "فشل إنشاء الحساب: {error}",
   "@signupFailed": {"placeholders": {"error": {}}},
+  "signupSuccessCheckEmail": "تم إنشاء الحساب! يرجى التحقق من بريدك الإلكتروني للتحقق من حسابك.",
   "createCourseFailed": "فشل إنشاء الكورس: {error}",
   "@createCourseFailed": {"placeholders": {"error": {}}},
   "joinCourseFailed": "فشل الانضمام إلى الكورس: {error}",
@@ -382,4 +400,46 @@
   ,"departmentMembersTitle": "أعضاء القسم"
   ,"manageMembersAction": "إدارة الأعضاء"
   ,"assignMemberAction": "تعيين عضو"
+  ,"pleaseSelectRole": "الرجاء اختيار الدور"
+  
+  ,"authErrorWrongPassword": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+  ,"authErrorUserNotFound": "البريد الإلكتروني غير مسجل"
+  ,"authErrorEmailInUse": "البريد الإلكتروني مسجل بالفعل"
+  ,"authErrorInvalidEmail": "البريد الإلكتروني غير صحيح"
+  ,"authErrorWeakPassword": "كلمة المرور ضعيفة جداً"
+  ,"authErrorUserDisabled": "هذا الحساب معطل. يرجى التواصل مع الدعم"
+  ,"authErrorTooManyRequests": "محاولات كثيرة. يرجى المحاولة لاحقاً"
+  ,"authErrorNetworkFailed": "خطأ في الاتصال بالإنترنت"
+  ,"authErrorOperationNotAllowed": "العملية غير مسموح بها"
+  ,"authErrorDefault": "حدث خطأ أثناء المصادقة"
+  
+  ,"dialogConfirmTitle": "تأكيد"
+  ,"dialogDeleteTitle": "حذف"
+  ,"dialogCancelButton": "إلغاء"
+  ,"dialogConfirmButton": "تأكيد"
+  ,"dialogDeleteButton": "حذف"
+  ,"dialogSaveButton": "حفظ"
+  ,"dialogCloseButton": "إغلاق"
+  
+  ,"commentReply": "رد"
+  ,"commentEdit": "تعديل"
+  ,"commentDelete": "حذف"
+  ,"commentDeleteConfirm": "هل أنت متأكد؟"
+  ,"commentDeleteTitle": "حذف التعليق"
+  
+  ,"filterPostsTitle": "تصفية المنشورات"
+  ,"sortPostsTitle": "ترتيب المنشورات"
+  ,"filterClearDates": "مسح التواريخ"
+  ,"filterReset": "إعادة تعيين"
+  ,"filterApply": "تطبيق"
+  ,"sortPinnedFirst": "المثبتة أولاً"
+  
+  ,"reactionsClose": "إغلاق"
+  
+  ,"emailVerificationTitle": "التحقق من البريد الإلكتروني"
+  ,"privacyPolicyTitle": "سياسة الخصوصية"
+  ,"termsOfServiceTitle": "شروط الاستخدام"
+  ,"settingsTitle": "الإعدادات"
+  ,"superAdminDashboard": "لوحة الإدارة الرئيسية"
+  ,"superAdminDashboardSubtitle": "إدارة المؤسسات والشركات والإعدادات"
 }

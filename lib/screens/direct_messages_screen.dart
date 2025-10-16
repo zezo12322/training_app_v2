@@ -5,13 +5,53 @@ import '../models/chat_room.dart';
 import '../providers/direct_message_providers.dart';
 import '../providers/auth_provider.dart';
 import 'direct_chat_screen.dart';
+import 'user_picker_screen.dart';
 
 /// شاشة قائمة المحادثات المباشرة
-class DirectMessagesScreen extends ConsumerWidget {
+class DirectMessagesScreen extends ConsumerStatefulWidget {
   const DirectMessagesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DirectMessagesScreen> createState() => _DirectMessagesScreenState();
+}
+
+class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+        _searchQuery = '';
+      }
+    });
+  }
+
+  List<ChatRoom> _filterRooms(List<ChatRoom> rooms) {
+    if (_searchQuery.isEmpty) return rooms;
+    
+    final query = _searchQuery.toLowerCase();
+    return rooms.where((room) {
+      // البحث في اسم المستخدم الآخر
+      final authorName = (room.lastMessageAuthor ?? '').toLowerCase();
+      // البحث في آخر رسالة
+      final lastMessage = (room.lastMessageContent ?? '').toLowerCase();
+      
+      return authorName.contains(query) || lastMessage.contains(query);
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final authUser = ref.watch(authStateProvider).value;
     
     if (authUser == null) {
@@ -24,32 +64,50 @@ class DirectMessagesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المحادثات'),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  hintText: 'ابحث في المحادثات...',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              )
+            : const Text('المحادثات'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: إضافة بحث
-            },
-            tooltip: 'بحث',
+            icon: Icon(_isSearching ? Icons.close : Icons.search),
+            onPressed: _toggleSearch,
+            tooltip: _isSearching ? 'إلغاء البحث' : 'بحث',
           ),
         ],
       ),
       body: roomsAsync.when(
         data: (rooms) {
-          if (rooms.isEmpty) {
+          final filteredRooms = _filterRooms(rooms);
+          
+          if (filteredRooms.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.chat_bubble_outline,
+                    _searchQuery.isNotEmpty ? Icons.search_off : Icons.chat_bubble_outline,
                     size: 64,
                     color: Colors.grey[400],
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'لا توجد محادثات بعد',
+                    _searchQuery.isNotEmpty 
+                        ? 'لا توجد نتائج'
+                        : 'لا توجد محادثات بعد',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -57,7 +115,9 @@ class DirectMessagesScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'ابدأ محادثة جديدة من قائمة الأعضاء',
+                    _searchQuery.isNotEmpty
+                        ? 'جرب كلمات بحث مختلفة'
+                        : 'ابدأ محادثة جديدة من قائمة الأعضاء',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[500],
@@ -69,10 +129,10 @@ class DirectMessagesScreen extends ConsumerWidget {
           }
 
           return ListView.separated(
-            itemCount: rooms.length,
+            itemCount: filteredRooms.length,
             separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
-              final room = rooms[index];
+              final room = filteredRooms[index];
               final otherUserId = room.participantIds
                   .firstWhere((id) => id != authUser.uid);
               final unreadCount = room.unreadCountFor(authUser.uid);
@@ -84,6 +144,7 @@ class DirectMessagesScreen extends ConsumerWidget {
                 currentUserId: authUser.uid,
                 unreadCount: unreadCount,
                 isMuted: isMuted,
+                searchQuery: _searchQuery,
               );
             },
           );
@@ -102,13 +163,14 @@ class DirectMessagesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: إضافة شاشة اختيار مستخدم
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('قريباً: اختيار مستخدم للمحادثة')),
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const UserPickerScreen(),
+            ),
           );
         },
-        child: const Icon(Icons.add_comment),
         tooltip: 'محادثة جديدة',
+        child: const Icon(Icons.add_comment),
       ),
     );
   }
@@ -121,6 +183,7 @@ class _DirectMessageTile extends ConsumerWidget {
   final String currentUserId;
   final int unreadCount;
   final bool isMuted;
+  final String searchQuery;
 
   const _DirectMessageTile({
     required this.room,
@@ -128,6 +191,7 @@ class _DirectMessageTile extends ConsumerWidget {
     required this.currentUserId,
     required this.unreadCount,
     required this.isMuted,
+    this.searchQuery = '',
   });
 
   @override

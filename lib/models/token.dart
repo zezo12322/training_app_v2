@@ -111,7 +111,7 @@ class TokenTransaction with _$TokenTransaction {
     String? toUserId,
     
     /// تاريخ المعاملة
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     
     /// تاريخ انتهاء الصلاحية (optional)
     @TimestampConverter() DateTime? expiresAt,
@@ -270,7 +270,7 @@ class Purchase with _$Purchase {
     @Default(false) bool isUsed,
     
     /// تاريخ الشراء
-    @TimestampConverter() required DateTime purchasedAt,
+    @RequiredTimestampConverter() required DateTime purchasedAt,
     
     /// تاريخ الاستخدام
     @TimestampConverter() DateTime? usedAt,

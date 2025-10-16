@@ -35,7 +35,7 @@ class ChatRoom with _$ChatRoom {
     required List<String> participantIds,
 
     /// Room metadata
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
 
     /// Last message info (for preview)
@@ -54,6 +54,7 @@ class ChatRoom with _$ChatRoom {
     @Default(false) bool isMuted,
     @Default([]) List<String> mutedBy, // List of user IDs who muted this room
     @Default([]) List<String> blockedUsers, // Users blocked from posting
+    @Default([]) List<String> deletedBy, // Users who deleted this conversation
   }) = _ChatRoom;
 
   factory ChatRoom.fromJson(Map<String, dynamic> json) =>
@@ -67,6 +68,9 @@ class ChatRoom with _$ChatRoom {
 
   /// Check if user is muted
   bool isMutedBy(String userId) => mutedBy.contains(userId);
+  
+  /// Check if user deleted this conversation
+  bool isDeletedBy(String userId) => deletedBy.contains(userId);
 
   /// Check if user is blocked
   bool isUserBlocked(String userId) => blockedUsers.contains(userId);

@@ -66,6 +66,7 @@ final sendDirectMessageProvider = Provider<
       required String institutionId,
       required String companyId,
       String? imageUrl,
+      String? fileUrl,
     })>((ref) {
   final service = ref.read(directMessageServiceProvider);
   return ({
@@ -78,6 +79,7 @@ final sendDirectMessageProvider = Provider<
     required String institutionId,
     required String companyId,
     String? imageUrl,
+    String? fileUrl,
   }) async {
     return service.sendDirectMessage(
       roomId: roomId,
@@ -89,6 +91,7 @@ final sendDirectMessageProvider = Provider<
       institutionId: institutionId,
       companyId: companyId,
       imageUrl: imageUrl,
+      fileUrl: fileUrl,
     );
   };
 });
@@ -197,5 +200,59 @@ final muteRoomProvider = Provider<
     required bool mute,
   }) async {
     await service.muteRoom(roomId: roomId, userId: userId, mute: mute);
+  };
+});
+
+/// Provider لحظر مستخدم
+final blockUserProvider = Provider<
+    Future<bool> Function({
+      required String userId,
+      required String blockedUserId,
+    })>((ref) {
+  final service = ref.read(directMessageServiceProvider);
+  return ({
+    required String userId,
+    required String blockedUserId,
+  }) async {
+    return await service.blockUser(
+      userId: userId,
+      blockedUserId: blockedUserId,
+    );
+  };
+});
+
+/// Provider لإلغاء حظر مستخدم
+final unblockUserProvider = Provider<
+    Future<bool> Function({
+      required String userId,
+      required String blockedUserId,
+    })>((ref) {
+  final service = ref.read(directMessageServiceProvider);
+  return ({
+    required String userId,
+    required String blockedUserId,
+  }) async {
+    return await service.unblockUser(
+      userId: userId,
+      blockedUserId: blockedUserId,
+    );
+  };
+});
+
+/// Provider لحذف محادثة
+final deleteConversationProvider = Provider<
+    Future<bool> Function({
+      required String roomId,
+      required String userId,
+    })>((ref) {
+  final service = ref.read(directMessageServiceProvider);
+  return ({
+    required String roomId,
+    required String userId,
+  }) async {
+    return await service.deleteConversation(
+      roomId: roomId,
+      userId: userId,
+    );
   };
 });

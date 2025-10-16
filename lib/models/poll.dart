@@ -14,7 +14,7 @@ class Poll with _$Poll {
     required String question,
     required List<PollOption> options,
     required String createdBy,
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     @TimestampConverter() DateTime? endsAt,
     @Default(false) bool allowMultipleVotes,
     @Default(false) bool showResultsBeforeVoting,
@@ -34,11 +34,6 @@ class Poll with _$Poll {
   Map<String, dynamic> toFirestore() {
     final json = toJson();
     json.remove('id');
-    
-    // CRITICAL FIX: json_serializable doesn't apply TimestampConverter to non-nullable DateTime
-    // It generates `.toIso8601String()` instead, which creates a STRING instead of a Timestamp.
-    // Security rules expect `createdAt is timestamp`, so we must convert manually.
-    json['createdAt'] = Timestamp.fromDate(createdAt);
     
     // Remove null endsAt field to avoid Firestore validation issues
     if (endsAt == null) {

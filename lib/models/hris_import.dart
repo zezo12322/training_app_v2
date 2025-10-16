@@ -45,7 +45,7 @@ class HRISImport with _$HRISImport {
     /// معلومات المستخدم الذي قام بالاستيراد
     required String uploadedBy,
     required String uploaderName,
-    @TimestampConverter() required DateTime uploadedAt,
+    @RequiredTimestampConverter() required DateTime uploadedAt,
     @TimestampConverter() DateTime? completedAt,
     
     /// إعدادات ال Mapping
@@ -128,7 +128,7 @@ class ImportTemplate with _$ImportTemplate {
     required FieldMapping fieldMapping,
     required String institutionId,
     String? companyId,
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     required String createdBy,
   }) = _ImportTemplate;
 

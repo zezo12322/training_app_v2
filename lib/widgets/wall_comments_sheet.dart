@@ -5,6 +5,7 @@ import '../models/wall_post.dart';
 import '../models/wall_comment.dart';
 import '../providers/auth_provider.dart';
 import '../providers/wall_comment_providers.dart';
+import '../core/l10n_ext.dart';
 import 'comment_reaction_button.dart';
 
 class WallCommentsSheet extends ConsumerStatefulWidget {
@@ -99,6 +100,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final commentsAsync = ref.watch(wallCommentsStreamProvider(widget.post.id));
     final theme = Theme.of(context);
 
@@ -416,6 +418,7 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final currentUser = ref.watch(authStateProvider).value;
     final isAuthor = currentUser?.uid == widget.comment.authorId;
     final theme = Theme.of(context);
@@ -445,7 +448,7 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
               TextButton.icon(
                 onPressed: widget.onReply,
                 icon: const Icon(Icons.reply, size: 14),
-                label: const Text('رد', style: TextStyle(fontSize: 12)),
+                label: Text(l.commentReply, style: const TextStyle(fontSize: 12)),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   minimumSize: Size.zero,
@@ -590,12 +593,12 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                     children: [
                       TextButton(
                         onPressed: _cancelEdit,
-                        child: const Text('إلغاء'),
+                        child: Text(l.dialogCancelButton),
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
                         onPressed: _saveEdit,
-                        child: const Text('حفظ'),
+                        child: Text(l.dialogSaveButton),
                       ),
                     ],
                   ),
@@ -636,23 +639,26 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                 } else if (value == 'delete') {
                   final confirm = await showDialog<bool>(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('حذف التعليق'),
-                      content: const Text('هل أنت متأكد؟'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: const Text('إلغاء'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          child: const Text(
-                            'حذف',
-                            style: TextStyle(color: Colors.red),
+                    builder: (ctx) {
+                      final l = ctx.l;
+                      return AlertDialog(
+                        title: Text(l.commentDeleteTitle),
+                        content: Text(l.commentDeleteConfirm),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx, false),
+                            child: Text(l.dialogCancelButton),
                           ),
-                        ),
-                      ],
-                    ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx, true),
+                            child: Text(
+                              l.dialogDeleteButton,
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   );
 
                   if (confirm == true) {
@@ -667,14 +673,16 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
               padding: EdgeInsets.zero,
               itemBuilder: (context) => [
                 if (!isReply)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'edit',
-                    child: Row(
-                      children: [
-                        Icon(Icons.edit_outlined, size: 18),
-                        SizedBox(width: 8),
-                        Text('تعديل'),
-                      ],
+                    child: Builder(
+                      builder: (ctx) => Row(
+                        children: [
+                          const Icon(Icons.edit_outlined, size: 18),
+                          const SizedBox(width: 8),
+                          Text(ctx.l.commentEdit),
+                        ],
+                      ),
                     ),
                   ),
                 const PopupMenuItem(

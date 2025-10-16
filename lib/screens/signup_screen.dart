@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
+// import 'package:training_app/services/sso_service.dart'; // ❌ REMOVED - No more SSO
 
 enum UserRole { trainer, trainee }
 
@@ -51,7 +53,39 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             role: _selectedRole == UserRole.trainer ? 'trainer' : 'trainee',
           );
       if (!mounted) return; // user may have left screen
+      
+      // Show success message
+      _showSnackBar(l.signupSuccessCheckEmail, isError: false);
+      
+      // Wait a moment for the message to be visible, then navigate
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (!mounted) return;
+      
+      // Pop back to login/auth wrapper - Firebase authState will trigger navigation to EmailVerificationScreen
       Navigator.of(context).pop();
+    } on FirebaseAuthException catch (e) {
+      // معالجة أخطاء Firebase بشكل محدد
+      String errorMessage;
+      switch (e.code) {
+        case 'email-already-in-use':
+          errorMessage = l.authErrorEmailInUse;
+          break;
+        case 'invalid-email':
+          errorMessage = l.authErrorInvalidEmail;
+          break;
+        case 'operation-not-allowed':
+          errorMessage = l.authErrorOperationNotAllowed;
+          break;
+        case 'weak-password':
+          errorMessage = l.authErrorWeakPassword;
+          break;
+        case 'network-request-failed':
+          errorMessage = l.authErrorNetworkFailed;
+          break;
+        default:
+          errorMessage = l.authErrorDefault;
+      }
+      _showSnackBar(errorMessage);
     } on Exception catch (e) {
       _showSnackBar(l.signupFailed(e.toString()));
     } catch (e) {
@@ -64,6 +98,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       }
     }
   }
+
+  // ❌ REMOVED: _signUpWithGoogle() and _signUpWithApple() methods - No more SSO
 
   @override
   void dispose() {
@@ -184,6 +220,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                // ❌ REMOVED: SSO buttons (Google Sign-In, Apple Sign-In) - No more SSO
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();

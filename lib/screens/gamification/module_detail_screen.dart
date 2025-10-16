@@ -326,7 +326,7 @@ class _ModuleHeader extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: progressPercentage / 100,
                   minHeight: 8,
-                  backgroundColor: Colors.white.withOpacity(0.3),
+                  backgroundColor: Colors.white.withValues(alpha: 0.3),
                   valueColor: AlwaysStoppedAnimation<Color>(
                     isCompleted ? Colors.green : theme.colorScheme.primary,
                   ),

@@ -29,7 +29,9 @@ _$CertificateImpl _$$CertificateImplFromJson(Map<String, dynamic> json) =>
       pdfUrl: json['pdfUrl'] as String?,
       qrCodeData: json['qrCodeData'] as String?,
       verificationUrl: json['verificationUrl'] as String?,
-      issuedAt: DateTime.parse(json['issuedAt'] as String),
+      issuedAt: const RequiredTimestampConverter().fromJson(
+        json['issuedAt'] as Object,
+      ),
       expiresAt: const TimestampConverter().fromJson(json['expiresAt']),
       revokedAt: const TimestampConverter().fromJson(json['revokedAt']),
       revocationReason: json['revocationReason'] as String?,
@@ -58,7 +60,7 @@ Map<String, dynamic> _$$CertificateImplToJson(_$CertificateImpl instance) =>
       'pdfUrl': instance.pdfUrl,
       'qrCodeData': instance.qrCodeData,
       'verificationUrl': instance.verificationUrl,
-      'issuedAt': instance.issuedAt.toIso8601String(),
+      'issuedAt': const RequiredTimestampConverter().toJson(instance.issuedAt),
       'expiresAt': const TimestampConverter().toJson(instance.expiresAt),
       'revokedAt': const TimestampConverter().toJson(instance.revokedAt),
       'revocationReason': instance.revocationReason,
@@ -166,7 +168,9 @@ _$CertificateVerificationImpl _$$CertificateVerificationImplFromJson(
       ? null
       : Certificate.fromJson(json['certificate'] as Map<String, dynamic>),
   invalidReason: json['invalidReason'] as String?,
-  verifiedAt: DateTime.parse(json['verifiedAt'] as String),
+  verifiedAt: const RequiredTimestampConverter().fromJson(
+    json['verifiedAt'] as Object,
+  ),
 );
 
 Map<String, dynamic> _$$CertificateVerificationImplToJson(
@@ -175,7 +179,7 @@ Map<String, dynamic> _$$CertificateVerificationImplToJson(
   'isValid': instance.isValid,
   'certificate': instance.certificate?.toJson(),
   'invalidReason': instance.invalidReason,
-  'verifiedAt': instance.verifiedAt.toIso8601String(),
+  'verifiedAt': const RequiredTimestampConverter().toJson(instance.verifiedAt),
 };
 
 _$CertificateStatsImpl _$$CertificateStatsImplFromJson(

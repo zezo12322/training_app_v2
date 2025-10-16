@@ -25,7 +25,7 @@ mixin _$Poll {
   String get question => throw _privateConstructorUsedError;
   List<PollOption> get options => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get endsAt => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $PollCopyWith<$Res> {
     String question,
     List<PollOption> options,
     String createdBy,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? endsAt,
     bool allowMultipleVotes,
     bool showResultsBeforeVoting,
@@ -142,7 +142,7 @@ abstract class _$$PollImplCopyWith<$Res> implements $PollCopyWith<$Res> {
     String question,
     List<PollOption> options,
     String createdBy,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? endsAt,
     bool allowMultipleVotes,
     bool showResultsBeforeVoting,
@@ -223,7 +223,7 @@ class _$PollImpl extends _Poll {
     required this.question,
     required final List<PollOption> options,
     required this.createdBy,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.endsAt,
     this.allowMultipleVotes = false,
     this.showResultsBeforeVoting = false,
@@ -249,7 +249,7 @@ class _$PollImpl extends _Poll {
   @override
   final String createdBy;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
@@ -329,7 +329,7 @@ abstract class _Poll extends Poll {
     required final String question,
     required final List<PollOption> options,
     required final String createdBy,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? endsAt,
     final bool allowMultipleVotes,
     final bool showResultsBeforeVoting,
@@ -348,7 +348,7 @@ abstract class _Poll extends Poll {
   @override
   String get createdBy;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   @TimestampConverter()

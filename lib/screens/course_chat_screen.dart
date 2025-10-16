@@ -61,28 +61,36 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
                 _showRoomInfo();
               }
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'mute',
-                child: Row(
-                  children: [
-                    Icon(Icons.notifications_off),
-                    SizedBox(width: 8),
-                    Text('كتم الإشعارات'),
-                  ],
+            itemBuilder: (context) {
+              final userAsync = ref.watch(currentUserModelProvider);
+              final user = userAsync.value;
+              final isMuted = user != null && _chatRoom != null 
+                  ? _chatRoom!.isMutedBy(user.id) 
+                  : false;
+
+              return [
+                PopupMenuItem(
+                  value: 'mute',
+                  child: Row(
+                    children: [
+                      Icon(isMuted ? Icons.notifications_active : Icons.notifications_off),
+                      const SizedBox(width: 8),
+                      Text(isMuted ? 'إلغاء كتم الإشعارات' : 'كتم الإشعارات'),
+                    ],
+                  ),
                 ),
-              ),
-              const PopupMenuItem(
-                value: 'info',
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline),
-                    SizedBox(width: 8),
-                    Text('معلومات المحادثة'),
-                  ],
+                const PopupMenuItem(
+                  value: 'info',
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline),
+                      SizedBox(width: 8),
+                      Text('معلومات المحادثة'),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ];
+            },
           ),
         ],
       ),
@@ -341,11 +349,42 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
     }
   }
 
-  void _toggleMute() {
-    // TODO: Implement mute functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('ميزة الكتم قيد التطوير')),
-    );
+  void _toggleMute() async {
+    if (_chatRoom == null) return;
+
+    final userAsync = ref.read(currentUserModelProvider);
+    final user = userAsync.value;
+    if (user == null) return;
+
+    final isMuted = _chatRoom!.isMutedBy(user.id);
+    
+    try {
+      final toggleMute = ref.read(toggleRoomMuteProvider);
+      await toggleMute(
+        roomId: _chatRoom!.id,
+        userId: user.id,
+        mute: !isMuted,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(isMuted ? 'تم إلغاء كتم الإشعارات' : 'تم كتم الإشعارات'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
+      // Refresh room data
+      ref.invalidate(courseChatRoomProvider);
+    } catch (e) {
+      logger.e('Error toggling mute', error: e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('حدث خطأ في تغيير حالة الكتم')),
+        );
+      }
+    }
   }
 
   void _showRoomInfo() {

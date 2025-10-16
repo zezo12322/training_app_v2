@@ -9,7 +9,7 @@ final pollRepositoryProvider = Provider<PollRepository>((ref) {
 });
 
 // Watch a specific poll
-final pollProvider = StreamProvider.family<Poll?, String>((ref, pollId) {
+final pollProvider = StreamProvider.family.autoDispose<Poll?, String>((ref, pollId) {
   return ref.read(pollRepositoryProvider).watchPoll(pollId);
 });
 

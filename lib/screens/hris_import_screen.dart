@@ -254,7 +254,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
             value: header,
             child: Text(header),
           );
-        }).toList(),
+        }),
       ],
       onChanged: onChanged,
     );
@@ -356,7 +356,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
                 ),
               ),
             );
-          }).toList(),
+          }),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: validCount > 0 ? _startImport : null,

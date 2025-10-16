@@ -12,7 +12,9 @@ _$MessageReactionImpl _$$MessageReactionImplFromJson(
   emoji: json['emoji'] as String,
   userId: json['userId'] as String,
   userName: json['userName'] as String,
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  createdAt: const RequiredTimestampConverter().fromJson(
+    json['createdAt'] as Object,
+  ),
 );
 
 Map<String, dynamic> _$$MessageReactionImplToJson(
@@ -21,7 +23,7 @@ Map<String, dynamic> _$$MessageReactionImplToJson(
   'emoji': instance.emoji,
   'userId': instance.userId,
   'userName': instance.userName,
-  'createdAt': instance.createdAt.toIso8601String(),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
 };
 
 _$ReactionSummaryImpl _$$ReactionSummaryImplFromJson(

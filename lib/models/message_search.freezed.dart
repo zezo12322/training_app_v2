@@ -354,7 +354,7 @@ mixin _$SearchResult {
   String? get authorAvatar => throw _privateConstructorUsedError;
   String get roomId => throw _privateConstructorUsedError;
   String? get roomName => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   bool get isDeleted => throw _privateConstructorUsedError;
   bool get isEdited => throw _privateConstructorUsedError;
@@ -390,7 +390,7 @@ abstract class $SearchResultCopyWith<$Res> {
     String? authorAvatar,
     String roomId,
     String? roomName,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     bool isDeleted,
     bool isEdited,
     List<String> highlightedSnippets,
@@ -499,7 +499,7 @@ abstract class _$$SearchResultImplCopyWith<$Res>
     String? authorAvatar,
     String roomId,
     String? roomName,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     bool isDeleted,
     bool isEdited,
     List<String> highlightedSnippets,
@@ -600,7 +600,7 @@ class _$SearchResultImpl implements _SearchResult {
     this.authorAvatar,
     required this.roomId,
     this.roomName,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     this.isDeleted = false,
     this.isEdited = false,
     final List<String> highlightedSnippets = const [],
@@ -625,7 +625,7 @@ class _$SearchResultImpl implements _SearchResult {
   @override
   final String? roomName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   @JsonKey()
@@ -729,7 +729,7 @@ abstract class _SearchResult implements SearchResult {
     final String? authorAvatar,
     required final String roomId,
     final String? roomName,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     final bool isDeleted,
     final bool isEdited,
     final List<String> highlightedSnippets,
@@ -754,7 +754,7 @@ abstract class _SearchResult implements SearchResult {
   @override
   String? get roomName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   bool get isDeleted;

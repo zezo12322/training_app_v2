@@ -542,6 +542,24 @@ abstract class AppLocalizations {
   /// **'Settings state logged'**
   String get dumpSettingsToast;
 
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @aboutSection.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutSection;
+
   /// No description provided for @languagePickerTitle.
   ///
   /// In en, this message translates to:
@@ -620,11 +638,89 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get loginAction;
 
+  /// No description provided for @orContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with'**
+  String get orContinueWith;
+
+  /// No description provided for @signInWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get signInWithGoogle;
+
+  /// No description provided for @signInWithApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Apple'**
+  String get signInWithApple;
+
+  /// No description provided for @ssoLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'SSO login failed: {error}'**
+  String ssoLoginFailed(Object error);
+
   /// No description provided for @signupNavigate.
   ///
   /// In en, this message translates to:
   /// **'Don\'t have an account? Create one'**
   String get signupNavigate;
+
+  /// No description provided for @forgotPasswordNavigate.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPasswordNavigate;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send you a link to reset your password'**
+  String get forgotPasswordDescription;
+
+  /// No description provided for @sendResetEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get sendResetEmail;
+
+  /// No description provided for @passwordResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email has been sent to your inbox'**
+  String get passwordResetEmailSent;
+
+  /// No description provided for @passwordResetFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send reset email'**
+  String get passwordResetFailed;
+
+  /// No description provided for @emailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Sent'**
+  String get emailSent;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// No description provided for @forgotPasswordNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure to check your inbox and spam folder'**
+  String get forgotPasswordNote;
 
   /// No description provided for @signupTitle.
   ///
@@ -751,6 +847,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signup failed: {error}'**
   String signupFailed(Object error);
+
+  /// No description provided for @signupSuccessCheckEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created! Please check your email to verify your account.'**
+  String get signupSuccessCheckEmail;
 
   /// No description provided for @createCourseFailed.
   ///
@@ -2125,6 +2227,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Already in this department'**
   String get alreadyMemberLabel;
+
+  /// No description provided for @pleaseSelectRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a role'**
+  String get pleaseSelectRole;
+
+  /// No description provided for @authErrorWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect'**
+  String get authErrorWrongPassword;
+
+  /// No description provided for @authErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is not registered'**
+  String get authErrorUserNotFound;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is already registered'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account is disabled. Contact support'**
+  String get authErrorUserDisabled;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again later'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorNetworkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Network connection error'**
+  String get authErrorNetworkFailed;
+
+  /// No description provided for @authErrorOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation not allowed'**
+  String get authErrorOperationNotAllowed;
+
+  /// No description provided for @authErrorDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during authentication'**
+  String get authErrorDefault;
+
+  /// No description provided for @dialogConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirmTitle;
+
+  /// No description provided for @dialogDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get dialogDeleteTitle;
+
+  /// No description provided for @dialogCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialogCancelButton;
+
+  /// No description provided for @dialogConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirmButton;
+
+  /// No description provided for @dialogDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get dialogDeleteButton;
+
+  /// No description provided for @dialogSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get dialogSaveButton;
+
+  /// No description provided for @dialogCloseButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get dialogCloseButton;
+
+  /// No description provided for @commentReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get commentReply;
+
+  /// No description provided for @commentEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get commentEdit;
+
+  /// No description provided for @commentDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get commentDelete;
+
+  /// No description provided for @commentDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get commentDeleteConfirm;
+
+  /// No description provided for @commentDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Comment'**
+  String get commentDeleteTitle;
+
+  /// No description provided for @filterPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Posts'**
+  String get filterPostsTitle;
+
+  /// No description provided for @sortPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort Posts'**
+  String get sortPostsTitle;
+
+  /// No description provided for @filterClearDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Dates'**
+  String get filterClearDates;
+
+  /// No description provided for @filterReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get filterReset;
+
+  /// No description provided for @filterApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get filterApply;
+
+  /// No description provided for @sortPinnedFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned First'**
+  String get sortPinnedFirst;
+
+  /// No description provided for @reactionsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get reactionsClose;
+
+  /// No description provided for @emailVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Verification'**
+  String get emailVerificationTitle;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @termsOfServiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfServiceTitle;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @superAdminDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Super Admin Dashboard'**
+  String get superAdminDashboard;
+
+  /// No description provided for @superAdminDashboardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage institutions, companies, and settings'**
+  String get superAdminDashboardSubtitle;
 }
 
 class _AppLocalizationsDelegate

@@ -24,7 +24,7 @@ class RecommendationCard extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: _getPriorityColor(recommendation.priority).withOpacity(0.3),
+          color: _getPriorityColor(recommendation.priority).withValues(alpha: 0.3),
           width: 2,
         ),
       ),
@@ -54,7 +54,7 @@ class RecommendationCard extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _getTypeColor(recommendation.type).withOpacity(0.1),
+                      color: _getTypeColor(recommendation.type).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -175,7 +175,7 @@ class RecommendationCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

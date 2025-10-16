@@ -209,7 +209,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: ExpansionTile(
         leading: CircleAvatar(
-          backgroundColor: typeColor.withOpacity(0.2),
+          backgroundColor: typeColor.withValues(alpha: 0.2),
           child: Icon(typeIcon, color: typeColor),
         ),
         title: Row(
@@ -342,7 +342,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
 
     return Chip(
       label: Text(label, style: const TextStyle(fontSize: 12)),
-      backgroundColor: color.withOpacity(0.2),
+      backgroundColor: color.withValues(alpha: 0.2),
       padding: EdgeInsets.zero,
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'task_models.dart';
 import '../../providers/auth_provider.dart';
-import '../../services/points_award_service.dart';
+import '../../providers/gamification/gamification_providers.dart';
 
 // Firestore collection root suggestion: tasks (flat) with composite indexes OR nested.
 // For flexibility we'll assume a top-level `tasks` collection storing all app tasks.
@@ -171,15 +171,22 @@ final awardTaskPointsIfNeededProvider = FutureProvider.autoDispose
       if (data['status'] != 'done') return;
       final points = (data['pointsOnComplete'] as int?) ?? 0;
       if (points <= 0) return;
-      await ref
-          .read(pointsAwardServiceProvider)
-          .award(
-            userId: auth.uid,
-            eventId: 'task_${taskId}_${auth.uid}',
-            type: 'task_completed',
-            points: points,
-            extra: {'taskId': taskId},
-          );
+      
+      // Get course ID from task parent
+      final parentType = data['parentType'] as String?;
+      final parentId = data['parentId'] as String?;
+      
+      // Award points only if task belongs to a course
+      if (parentType == 'course' && parentId != null) {
+        final gamificationService = ref.read(gamificationServiceProvider);
+        await gamificationService.awardPoints(
+          userId: auth.uid,
+          courseId: parentId,
+          activityType: 'task_completed',
+          activityName: data['title'] ?? 'Task',
+          metadata: {'taskId': taskId, 'points': points},
+        );
+      }
     });
 
 final deleteTaskProvider = FutureProvider.autoDispose.family<void, String>((

@@ -126,7 +126,7 @@ class Report with _$Report {
     String? reviewNotes,
     
     /// تاريخ الإنشاء
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     
     /// تاريخ المراجعة
     @TimestampConverter() DateTime? reviewedAt,
@@ -166,7 +166,7 @@ class ModerationLog with _$ModerationLog {
     int? durationDays,
     
     /// تاريخ البدء
-    @TimestampConverter() required DateTime startDate,
+    @RequiredTimestampConverter() required DateTime startDate,
     
     /// تاريخ الانتهاء
     @TimestampConverter() DateTime? endDate,

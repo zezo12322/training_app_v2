@@ -72,7 +72,7 @@ mixin _$Recommendation {
   bool get isCompleted => throw _privateConstructorUsedError;
 
   /// تاريخ الإنشاء
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -124,7 +124,7 @@ abstract class $RecommendationCopyWith<$Res> {
     bool isAccepted,
     bool isDismissed,
     bool isCompleted,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
     @TimestampConverter() DateTime? viewedAt,
     @TimestampConverter() DateTime? acceptedAt,
@@ -287,7 +287,7 @@ abstract class _$$RecommendationImplCopyWith<$Res>
     bool isAccepted,
     bool isDismissed,
     bool isCompleted,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
     @TimestampConverter() DateTime? viewedAt,
     @TimestampConverter() DateTime? acceptedAt,
@@ -442,7 +442,7 @@ class _$RecommendationImpl implements _Recommendation {
     this.isAccepted = false,
     this.isDismissed = false,
     this.isCompleted = false,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.expiresAt,
     @TimestampConverter() this.viewedAt,
     @TimestampConverter() this.acceptedAt,
@@ -528,7 +528,7 @@ class _$RecommendationImpl implements _Recommendation {
 
   /// تاريخ الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -669,7 +669,7 @@ abstract class _Recommendation implements Recommendation {
     final bool isAccepted,
     final bool isDismissed,
     final bool isCompleted,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? expiresAt,
     @TimestampConverter() final DateTime? viewedAt,
     @TimestampConverter() final DateTime? acceptedAt,
@@ -747,7 +747,7 @@ abstract class _Recommendation implements Recommendation {
 
   /// تاريخ الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
 
   /// تاريخ انتهاء الصلاحية (optional)

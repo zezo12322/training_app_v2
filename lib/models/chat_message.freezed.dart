@@ -46,7 +46,7 @@ mixin _$ChatMessage {
   String? get imageUrl => throw _privateConstructorUsedError;
 
   /// Message metadata
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -99,7 +99,7 @@ abstract class $ChatMessageCopyWith<$Res> {
     String authorRole,
     String content,
     String? imageUrl,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
     @TimestampConverter() DateTime? deletedAt,
     bool isEdited,
@@ -274,7 +274,7 @@ abstract class _$$ChatMessageImplCopyWith<$Res>
     String authorRole,
     String content,
     String? imageUrl,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
     @TimestampConverter() DateTime? deletedAt,
     bool isEdited,
@@ -441,7 +441,7 @@ class _$ChatMessageImpl extends _ChatMessage {
     required this.authorRole,
     required this.content,
     this.imageUrl,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.updatedAt,
     @TimestampConverter() this.deletedAt,
     this.isEdited = false,
@@ -496,7 +496,7 @@ class _$ChatMessageImpl extends _ChatMessage {
 
   /// Message metadata
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
@@ -657,7 +657,7 @@ abstract class _ChatMessage extends ChatMessage {
     required final String authorRole,
     required final String content,
     final String? imageUrl,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? updatedAt,
     @TimestampConverter() final DateTime? deletedAt,
     final bool isEdited,
@@ -712,7 +712,7 @@ abstract class _ChatMessage extends ChatMessage {
 
   /// Message metadata
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   @TimestampConverter()

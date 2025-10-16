@@ -35,7 +35,7 @@ class ChatMessage with _$ChatMessage {
     String? imageUrl,
 
     /// Message metadata
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     @TimestampConverter() DateTime? updatedAt,
     @TimestampConverter() DateTime? deletedAt,
 

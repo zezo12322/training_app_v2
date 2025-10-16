@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/message_search.dart';
 import '../services/message_search_service.dart';
+import 'course_chat_screen.dart';
 
 /// مزود خدمة البحث
 final messageSearchServiceProvider = Provider<MessageSearchService>((ref) {
@@ -263,7 +264,7 @@ class _SearchResultTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               );
-            }).toList()
+            })
           else
             Text(
               result.content,
@@ -299,9 +300,18 @@ class _SearchResultTile extends StatelessWidget {
         ],
       ),
       onTap: () {
-        // TODO: الانتقال إلى الرسالة في سياقها
-        // يمكن فتح شاشة المحادثة والتمرير إلى الرسالة المحددة
-        Navigator.pop(context, result);
+        // Navigate to the message in its context
+        if (result.roomId.isNotEmpty) {
+          // Navigate to course chat screen
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CourseChatScreen(
+                courseId: result.roomId,
+                courseName: result.roomName ?? 'محادثة',
+              ),
+            ),
+          );
+        }
       },
     );
   }

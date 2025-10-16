@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Widget to display a grid of images for wall posts
 class ImageGridWidget extends StatelessWidget {
@@ -278,11 +279,9 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.download),
-            onPressed: () {
-              // TODO: Implement download functionality
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Download feature coming soon')),
-              );
+            onPressed: () async {
+              final currentUrl = widget.imageUrls[_currentIndex];
+              await _downloadImage(context, currentUrl);
             },
           ),
         ],
@@ -333,5 +332,39 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _downloadImage(BuildContext context, String imageUrl) async {
+    try {
+      // Open URL in browser to download
+      final uri = Uri.parse(imageUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('تم فتح الصورة في المتصفح للتحميل'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('لا يمكن فتح الرابط')),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('حدث خطأ: $e')),
+        );
+      }
+    }
   }
 }

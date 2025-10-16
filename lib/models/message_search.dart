@@ -33,7 +33,7 @@ class SearchResult with _$SearchResult {
     String? authorAvatar,
     required String roomId,
     String? roomName,
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     @Default(false) bool isDeleted,
     @Default(false) bool isEdited,
     

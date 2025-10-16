@@ -264,7 +264,7 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<ExportFrequency>(
-                      value: _defaultFrequency,
+                      initialValue: _defaultFrequency,
                       decoration: const InputDecoration(
                         labelText: 'تكرار التصدير',
                         border: OutlineInputBorder(),

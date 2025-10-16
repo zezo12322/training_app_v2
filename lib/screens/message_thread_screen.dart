@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/chat_message.dart';
 import '../services/message_threading_service.dart';
+import '../providers/user_providers.dart';
 
 /// مزود خدمة Threading
 final messageThreadingServiceProvider = Provider<MessageThreadingService>((ref) {
@@ -75,6 +76,17 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
       return;
     }
 
+    // Get current user data
+    final currentUser = await ref.read(currentUserProvider.future);
+    if (currentUser == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('لم يتم العثور على بيانات المستخدم')),
+        );
+      }
+      return;
+    }
+
     final service = ref.read(messageThreadingServiceProvider);
     
     final reply = await service.replyToMessage(
@@ -84,8 +96,8 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
       institutionId: widget.institutionId,
       companyId: widget.companyId,
       authorId: widget.currentUserId,
-      authorName: 'Current User', // TODO: Get from current user
-      authorRole: 'trainee', // TODO: Get from current user
+      authorName: currentUser.name,
+      authorRole: currentUser.role,
       content: content,
     );
 
@@ -181,7 +193,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withValues(alpha: 0.2),
                   blurRadius: 4,
                   offset: const Offset(0, -2),
                 ),
@@ -233,7 +245,7 @@ class _ParentMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      color: Colors.blue.withOpacity(0.05),
+      color: Colors.blue.withValues(alpha: 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -374,9 +386,9 @@ class ThreadIndicator extends ConsumerWidget {
             margin: const EdgeInsets.only(top: 8, right: 40),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.05),
+              color: Colors.blue.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.blue.withOpacity(0.3)),
+              border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

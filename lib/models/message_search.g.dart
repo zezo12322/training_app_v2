@@ -39,7 +39,9 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       authorAvatar: json['authorAvatar'] as String?,
       roomId: json['roomId'] as String,
       roomName: json['roomName'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: const RequiredTimestampConverter().fromJson(
+        json['createdAt'] as Object,
+      ),
       isDeleted: json['isDeleted'] as bool? ?? false,
       isEdited: json['isEdited'] as bool? ?? false,
       highlightedSnippets:
@@ -50,21 +52,22 @@ _$SearchResultImpl _$$SearchResultImplFromJson(Map<String, dynamic> json) =>
       relevance: (json['relevance'] as num?)?.toDouble() ?? 0.0,
     );
 
-Map<String, dynamic> _$$SearchResultImplToJson(_$SearchResultImpl instance) =>
-    <String, dynamic>{
-      'messageId': instance.messageId,
-      'content': instance.content,
-      'authorId': instance.authorId,
-      'authorName': instance.authorName,
-      'authorAvatar': instance.authorAvatar,
-      'roomId': instance.roomId,
-      'roomName': instance.roomName,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'isDeleted': instance.isDeleted,
-      'isEdited': instance.isEdited,
-      'highlightedSnippets': instance.highlightedSnippets,
-      'relevance': instance.relevance,
-    };
+Map<String, dynamic> _$$SearchResultImplToJson(
+  _$SearchResultImpl instance,
+) => <String, dynamic>{
+  'messageId': instance.messageId,
+  'content': instance.content,
+  'authorId': instance.authorId,
+  'authorName': instance.authorName,
+  'authorAvatar': instance.authorAvatar,
+  'roomId': instance.roomId,
+  'roomName': instance.roomName,
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
+  'isDeleted': instance.isDeleted,
+  'isEdited': instance.isEdited,
+  'highlightedSnippets': instance.highlightedSnippets,
+  'relevance': instance.relevance,
+};
 
 _$SearchFiltersImpl _$$SearchFiltersImplFromJson(
   Map<String, dynamic> json,

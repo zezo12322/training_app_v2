@@ -1263,3 +1263,42 @@ exports.evaluateQuests = functions.pubsub.schedule('every 24 hours').onRun( asyn
   logInfo('quests.evaluate_placeholder', null, { active: activeQuests.size });
   return null;
 });
+
+// ================= FCM Notifications =================
+
+/**
+ * Send FCM notification when new chat message is created
+ */
+exports.sendMessageNotification = functions.firestore
+  .document('chat_messages/{messageId}')
+  .onCreate(async (snap, context) => {
+    try {
+      const message = snap.data();
+      const { authorId, authorName, content, chatRoomId, courseId } = message;
+      const roomDoc = await admin.firestore().collection('chat_rooms').doc(chatRoomId).get();
+      if (!roomDoc.exists || roomDoc.data().type === 'direct') return null;
+      const room = roomDoc.data();
+      const tokens = [];
+      const mutedUsers = room.mutedBy || [];
+      const participants = (room.participantIds || []).filter(id => id !== authorId);
+      for (let i = 0; i < participants.length; i += 10) {
+        const batch = participants.slice(i, i + 10);
+        const usersSnap = await admin.firestore().collection('users').where(admin.firestore.FieldPath.documentId(), 'in', batch).get();
+        usersSnap.docs.forEach(doc => {
+          if (!mutedUsers.includes(doc.id) && doc.data().fcmToken) tokens.push(doc.data().fcmToken);
+        });
+      }
+      if (tokens.length === 0) return null;
+      const response = await admin.messaging().sendEachForMulticast({
+        tokens,
+        notification: { title: authorName, body: content.substring(0, 100) },
+        data: { type: 'new_message', chatRoomId, courseId: courseId || '' }
+      });
+      logInfo('fcm.message_sent', null, { success: response.successCount });
+      return { success: response.successCount };
+    } catch (error) {
+      logError('fcm.message_error', error);
+      return null;
+    }
+  });
+

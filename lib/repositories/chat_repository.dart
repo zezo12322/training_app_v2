@@ -294,4 +294,30 @@ class ChatRepository {
       rethrow;
     }
   }
+
+  /// Toggle mute/unmute for a chat room
+  Future<void> toggleRoomMute({
+    required String roomId,
+    required String userId,
+    required bool mute,
+  }) async {
+    try {
+      if (mute) {
+        // Add user to mutedBy list
+        await _chatRoomsCollection.doc(roomId).update({
+          'mutedBy': FieldValue.arrayUnion([userId]),
+        });
+        logger.i('Room $roomId muted by $userId');
+      } else {
+        // Remove user from mutedBy list
+        await _chatRoomsCollection.doc(roomId).update({
+          'mutedBy': FieldValue.arrayRemove([userId]),
+        });
+        logger.i('Room $roomId unmuted by $userId');
+      }
+    } catch (e, stack) {
+      logger.e('Error toggling room mute', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
 }

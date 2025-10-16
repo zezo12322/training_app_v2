@@ -9,7 +9,7 @@ import '../providers/auth_provider.dart';
 import 'quiz_attempt_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../core/l10n_ext.dart';
-import '../services/points_award_service.dart';
+import '../providers/gamification/gamification_providers.dart';
 import 'create_quiz_screen.dart';
 
 // ---------------------------------------------------------------------------
@@ -499,17 +499,17 @@ class _TestsTab extends ConsumerWidget {
                                       .read(authStateProvider)
                                       .value;
                                   if (auth != null) {
-                                    final created = await ref
-                                        .read(pointsAwardServiceProvider)
-                                        .award(
-                                          userId: auth.uid,
-                                          eventId:
-                                              'quizpass_${q.id}_${auth.uid}',
-                                          type: 'quiz_pass',
-                                          points: q.rewardPoints,
-                                          extra: {'quizId': q.id},
-                                        );
-                                    if (created && context.mounted) {
+                                    // Award points using GamificationService
+                                    final gamificationService = ref.read(gamificationServiceProvider);
+                                    await gamificationService.awardPoints(
+                                      userId: auth.uid,
+                                      courseId: q.courseId,
+                                      activityType: 'quiz_pass',
+                                      activityName: q.title,
+                                      metadata: {'quizId': q.id, 'points': q.rewardPoints},
+                                    );
+                                    
+                                    if (context.mounted) {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(

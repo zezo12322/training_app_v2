@@ -19,3 +19,22 @@ class TimestampConverter implements JsonConverter<DateTime?, Object?> {
     return Timestamp.fromDate(object);
   }
 }
+
+/// Non-nullable Firestore Timestamp <-> DateTime converter.
+/// Use this for required DateTime fields that must convert to/from Firestore Timestamp.
+class RequiredTimestampConverter implements JsonConverter<DateTime, Object> {
+  const RequiredTimestampConverter();
+
+  @override
+  DateTime fromJson(Object json) {
+    if (json is Timestamp) return json.toDate();
+    if (json is DateTime) return json;
+    if (json is String) return DateTime.parse(json); // fallback for ISO strings
+    throw ArgumentError('Cannot convert $json to DateTime');
+  }
+
+  @override
+  Object toJson(DateTime object) {
+    return Timestamp.fromDate(object);
+  }
+}

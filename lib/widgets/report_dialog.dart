@@ -143,7 +143,7 @@ class _ReportDialogState extends ConsumerState<ReportDialog> {
           children: [
             // نوع البلاغ
             DropdownButtonFormField<ReportType>(
-              value: _selectedType,
+              initialValue: _selectedType,
               decoration: const InputDecoration(
                 labelText: 'نوع البلاغ',
                 border: OutlineInputBorder(),

@@ -90,7 +90,7 @@ class Certificate with _$Certificate {
     String? verificationUrl,
     
     /// تاريخ الإصدار
-    @TimestampConverter() required DateTime issuedAt,
+    @RequiredTimestampConverter() required DateTime issuedAt,
     
     /// تاريخ انتهاء الصلاحية (optional)
     @TimestampConverter() DateTime? expiresAt,
@@ -214,7 +214,7 @@ class CertificateVerification with _$CertificateVerification {
     String? invalidReason,
     
     /// تاريخ التحقق
-    @TimestampConverter() required DateTime verifiedAt,
+    @RequiredTimestampConverter() required DateTime verifiedAt,
   }) = _CertificateVerification;
 
   factory CertificateVerification.fromJson(Map<String, dynamic> json) =>

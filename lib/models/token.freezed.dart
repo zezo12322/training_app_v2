@@ -58,7 +58,7 @@ mixin _$TokenTransaction {
   String? get toUserId => throw _privateConstructorUsedError;
 
   /// تاريخ المعاملة
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -105,7 +105,7 @@ abstract class $TokenTransactionCopyWith<$Res> {
     Map<String, dynamic> metadata,
     String? fromUserId,
     String? toUserId,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
     bool isCancelled,
     @TimestampConverter() DateTime? cancelledAt,
@@ -244,7 +244,7 @@ abstract class _$$TokenTransactionImplCopyWith<$Res>
     Map<String, dynamic> metadata,
     String? fromUserId,
     String? toUserId,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
     bool isCancelled,
     @TimestampConverter() DateTime? cancelledAt,
@@ -375,7 +375,7 @@ class _$TokenTransactionImpl implements _TokenTransaction {
     final Map<String, dynamic> metadata = const {},
     this.fromUserId,
     this.toUserId,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.expiresAt,
     this.isCancelled = false,
     @TimestampConverter() this.cancelledAt,
@@ -444,7 +444,7 @@ class _$TokenTransactionImpl implements _TokenTransaction {
 
   /// تاريخ المعاملة
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -560,7 +560,7 @@ abstract class _TokenTransaction implements TokenTransaction {
     final Map<String, dynamic> metadata,
     final String? fromUserId,
     final String? toUserId,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? expiresAt,
     final bool isCancelled,
     @TimestampConverter() final DateTime? cancelledAt,
@@ -620,7 +620,7 @@ abstract class _TokenTransaction implements TokenTransaction {
 
   /// تاريخ المعاملة
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -1547,7 +1547,7 @@ mixin _$Purchase {
   bool get isUsed => throw _privateConstructorUsedError;
 
   /// تاريخ الشراء
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get purchasedAt => throw _privateConstructorUsedError;
 
   /// تاريخ الاستخدام
@@ -1585,7 +1585,7 @@ abstract class $PurchaseCopyWith<$Res> {
     int paidAmount,
     String transactionId,
     bool isUsed,
-    @TimestampConverter() DateTime purchasedAt,
+    @RequiredTimestampConverter() DateTime purchasedAt,
     @TimestampConverter() DateTime? usedAt,
     @TimestampConverter() DateTime? expiresAt,
     Map<String, dynamic> metadata,
@@ -1694,7 +1694,7 @@ abstract class _$$PurchaseImplCopyWith<$Res>
     int paidAmount,
     String transactionId,
     bool isUsed,
-    @TimestampConverter() DateTime purchasedAt,
+    @RequiredTimestampConverter() DateTime purchasedAt,
     @TimestampConverter() DateTime? usedAt,
     @TimestampConverter() DateTime? expiresAt,
     Map<String, dynamic> metadata,
@@ -1795,7 +1795,7 @@ class _$PurchaseImpl implements _Purchase {
     required this.paidAmount,
     required this.transactionId,
     this.isUsed = false,
-    @TimestampConverter() required this.purchasedAt,
+    @RequiredTimestampConverter() required this.purchasedAt,
     @TimestampConverter() this.usedAt,
     @TimestampConverter() this.expiresAt,
     final Map<String, dynamic> metadata = const {},
@@ -1839,7 +1839,7 @@ class _$PurchaseImpl implements _Purchase {
 
   /// تاريخ الشراء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime purchasedAt;
 
   /// تاريخ الاستخدام
@@ -1936,7 +1936,7 @@ abstract class _Purchase implements Purchase {
     required final int paidAmount,
     required final String transactionId,
     final bool isUsed,
-    @TimestampConverter() required final DateTime purchasedAt,
+    @RequiredTimestampConverter() required final DateTime purchasedAt,
     @TimestampConverter() final DateTime? usedAt,
     @TimestampConverter() final DateTime? expiresAt,
     final Map<String, dynamic> metadata,
@@ -1979,7 +1979,7 @@ abstract class _Purchase implements Purchase {
 
   /// تاريخ الشراء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get purchasedAt;
 
   /// تاريخ الاستخدام

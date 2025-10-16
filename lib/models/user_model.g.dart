@@ -17,6 +17,12 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String?,
       institutionId: json['institutionId'] as String?,
       companyId: json['companyId'] as String?,
+      blockedUsers:
+          (json['blockedUsers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
@@ -30,4 +36,6 @@ Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
       'imageUrl': instance.imageUrl,
       'institutionId': instance.institutionId,
       'companyId': instance.companyId,
+      'blockedUsers': instance.blockedUsers,
+      'fcmToken': instance.fcmToken,
     };

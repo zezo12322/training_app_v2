@@ -81,6 +81,9 @@
   "logoutFailed": "Logout failed: {error}","@logoutFailed":{"placeholders":{"error":{}}},
   "dumpSettingsAction": "Print settings state to log",
   "dumpSettingsToast": "Settings state logged",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "aboutSection": "About",
   "languagePickerTitle": "Language",
   "systemLocaleLabel": "System",
   "themeSystem": "System",
@@ -94,7 +97,21 @@
   "fieldRequired": "Required",
   "invalidEmail": "Invalid email",
   "loginAction": "Login",
+  "orContinueWith": "Or continue with",
+  "signInWithGoogle": "Sign in with Google",
+  "signInWithApple": "Sign in with Apple",
+  "ssoLoginFailed": "SSO login failed: {error}",
+  "@ssoLoginFailed": {"placeholders": {"error": {}}},
   "signupNavigate": "Don't have an account? Create one",
+  "forgotPasswordNavigate": "Forgot Password?",
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordDescription": "Enter your email and we'll send you a link to reset your password",
+  "sendResetEmail": "Send Reset Link",
+  "passwordResetEmailSent": "Password reset email has been sent to your inbox",
+  "passwordResetFailed": "Failed to send reset email",
+  "emailSent": "Email Sent",
+  "backToLogin": "Back to Login",
+  "forgotPasswordNote": "Make sure to check your inbox and spam folder",
   "signupTitle": "Create Account",
   "fullNameLabel": "Full name",
   "chooseRole": "Choose your role:",
@@ -119,6 +136,7 @@
   "@unexpectedError": {"placeholders": {"error": {}}},
   "signupFailed": "Signup failed: {error}",
   "@signupFailed": {"placeholders": {"error": {}}},
+  "signupSuccessCheckEmail": "Account created! Please check your email to verify your account.",
   "createCourseFailed": "Failed to create course: {error}",
   "@createCourseFailed": {"placeholders": {"error": {}}},
   "joinCourseFailed": "Failed to join course: {error}",
@@ -382,4 +400,46 @@
   ,"departmentCreatedToast": "Department created: {name}"
   ,"@departmentCreatedToast": {"placeholders": {"name": {}}}
   ,"alreadyMemberLabel": "Already in this department"
+  ,"pleaseSelectRole": "Please select a role"
+  
+  ,"authErrorWrongPassword": "Email or password is incorrect"
+  ,"authErrorUserNotFound": "Email is not registered"
+  ,"authErrorEmailInUse": "Email is already registered"
+  ,"authErrorInvalidEmail": "Invalid email address"
+  ,"authErrorWeakPassword": "Password is too weak"
+  ,"authErrorUserDisabled": "This account is disabled. Contact support"
+  ,"authErrorTooManyRequests": "Too many attempts. Try again later"
+  ,"authErrorNetworkFailed": "Network connection error"
+  ,"authErrorOperationNotAllowed": "Operation not allowed"
+  ,"authErrorDefault": "An error occurred during authentication"
+  
+  ,"dialogConfirmTitle": "Confirm"
+  ,"dialogDeleteTitle": "Delete"
+  ,"dialogCancelButton": "Cancel"
+  ,"dialogConfirmButton": "Confirm"
+  ,"dialogDeleteButton": "Delete"
+  ,"dialogSaveButton": "Save"
+  ,"dialogCloseButton": "Close"
+  
+  ,"commentReply": "Reply"
+  ,"commentEdit": "Edit"
+  ,"commentDelete": "Delete"
+  ,"commentDeleteConfirm": "Are you sure?"
+  ,"commentDeleteTitle": "Delete Comment"
+  
+  ,"filterPostsTitle": "Filter Posts"
+  ,"sortPostsTitle": "Sort Posts"
+  ,"filterClearDates": "Clear Dates"
+  ,"filterReset": "Reset"
+  ,"filterApply": "Apply"
+  ,"sortPinnedFirst": "Pinned First"
+  
+  ,"reactionsClose": "Close"
+  
+  ,"emailVerificationTitle": "Email Verification"
+  ,"privacyPolicyTitle": "Privacy Policy"
+  ,"termsOfServiceTitle": "Terms of Service"
+  ,"settingsTitle": "Settings"
+  ,"superAdminDashboard": "Super Admin Dashboard"
+  ,"superAdminDashboardSubtitle": "Manage institutions, companies, and settings"
 }

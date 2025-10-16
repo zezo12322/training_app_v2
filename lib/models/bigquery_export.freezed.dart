@@ -46,7 +46,7 @@ mixin _$BigQueryExport {
   /// معلومات التنفيذ
   String get triggeredBy => throw _privateConstructorUsedError;
   String get triggeredByName => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startedAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get completedAt => throw _privateConstructorUsedError;
@@ -90,7 +90,7 @@ abstract class $BigQueryExportCopyWith<$Res> {
     List<String> errors,
     String triggeredBy,
     String triggeredByName,
-    @TimestampConverter() DateTime startedAt,
+    @RequiredTimestampConverter() DateTime startedAt,
     @TimestampConverter() DateTime? completedAt,
     String? cronExpression,
     @TimestampConverter() DateTime? nextRunAt,
@@ -247,7 +247,7 @@ abstract class _$$BigQueryExportImplCopyWith<$Res>
     List<String> errors,
     String triggeredBy,
     String triggeredByName,
-    @TimestampConverter() DateTime startedAt,
+    @RequiredTimestampConverter() DateTime startedAt,
     @TimestampConverter() DateTime? completedAt,
     String? cronExpression,
     @TimestampConverter() DateTime? nextRunAt,
@@ -396,7 +396,7 @@ class _$BigQueryExportImpl implements _BigQueryExport {
     final List<String> errors = const [],
     required this.triggeredBy,
     required this.triggeredByName,
-    @TimestampConverter() required this.startedAt,
+    @RequiredTimestampConverter() required this.startedAt,
     @TimestampConverter() this.completedAt,
     this.cronExpression,
     @TimestampConverter() this.nextRunAt,
@@ -455,7 +455,7 @@ class _$BigQueryExportImpl implements _BigQueryExport {
   @override
   final String triggeredByName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime startedAt;
   @override
   @TimestampConverter()
@@ -578,7 +578,7 @@ abstract class _BigQueryExport implements BigQueryExport {
     final List<String> errors,
     required final String triggeredBy,
     required final String triggeredByName,
-    @TimestampConverter() required final DateTime startedAt,
+    @RequiredTimestampConverter() required final DateTime startedAt,
     @TimestampConverter() final DateTime? completedAt,
     final String? cronExpression,
     @TimestampConverter() final DateTime? nextRunAt,
@@ -629,7 +629,7 @@ abstract class _BigQueryExport implements BigQueryExport {
   @override
   String get triggeredByName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startedAt;
   @override
   @TimestampConverter()
@@ -676,7 +676,7 @@ mixin _$BigQueryConfig {
   String? get defaultCronExpression => throw _privateConstructorUsedError;
 
   /// معلومات الإنشاء
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -711,7 +711,7 @@ abstract class $BigQueryConfigCopyWith<$Res> {
     List<ExportType> enabledExports,
     ExportFrequency? defaultFrequency,
     String? defaultCronExpression,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     String createdBy,
     @TimestampConverter() DateTime? updatedAt,
     String? updatedBy,
@@ -832,7 +832,7 @@ abstract class _$$BigQueryConfigImplCopyWith<$Res>
     List<ExportType> enabledExports,
     ExportFrequency? defaultFrequency,
     String? defaultCronExpression,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     String createdBy,
     @TimestampConverter() DateTime? updatedAt,
     String? updatedBy,
@@ -945,7 +945,7 @@ class _$BigQueryConfigImpl implements _BigQueryConfig {
     final List<ExportType> enabledExports = const [],
     this.defaultFrequency,
     this.defaultCronExpression,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     required this.createdBy,
     @TimestampConverter() this.updatedAt,
     this.updatedBy,
@@ -989,7 +989,7 @@ class _$BigQueryConfigImpl implements _BigQueryConfig {
 
   /// معلومات الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   final String createdBy;
@@ -1089,7 +1089,7 @@ abstract class _BigQueryConfig implements BigQueryConfig {
     final List<ExportType> enabledExports,
     final ExportFrequency? defaultFrequency,
     final String? defaultCronExpression,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     required final String createdBy,
     @TimestampConverter() final DateTime? updatedAt,
     final String? updatedBy,
@@ -1127,7 +1127,7 @@ abstract class _BigQueryConfig implements BigQueryConfig {
 
   /// معلومات الإنشاء
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   String get createdBy;
@@ -1610,7 +1610,7 @@ mixin _$ExportRecord {
   String get recordId => throw _privateConstructorUsedError;
   ExportType get exportType => throw _privateConstructorUsedError;
   Map<String, dynamic> get data => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get exportedAt => throw _privateConstructorUsedError;
   bool? get isSuccess => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -1637,7 +1637,7 @@ abstract class $ExportRecordCopyWith<$Res> {
     String recordId,
     ExportType exportType,
     Map<String, dynamic> data,
-    @TimestampConverter() DateTime exportedAt,
+    @RequiredTimestampConverter() DateTime exportedAt,
     bool? isSuccess,
     String? errorMessage,
   });
@@ -1716,7 +1716,7 @@ abstract class _$$ExportRecordImplCopyWith<$Res>
     String recordId,
     ExportType exportType,
     Map<String, dynamic> data,
-    @TimestampConverter() DateTime exportedAt,
+    @RequiredTimestampConverter() DateTime exportedAt,
     bool? isSuccess,
     String? errorMessage,
   });
@@ -1787,7 +1787,7 @@ class _$ExportRecordImpl implements _ExportRecord {
     required this.recordId,
     required this.exportType,
     required final Map<String, dynamic> data,
-    @TimestampConverter() required this.exportedAt,
+    @RequiredTimestampConverter() required this.exportedAt,
     this.isSuccess,
     this.errorMessage,
   }) : _data = data;
@@ -1810,7 +1810,7 @@ class _$ExportRecordImpl implements _ExportRecord {
   }
 
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime exportedAt;
   @override
   final bool? isSuccess;
@@ -1875,7 +1875,7 @@ abstract class _ExportRecord implements ExportRecord {
     required final String recordId,
     required final ExportType exportType,
     required final Map<String, dynamic> data,
-    @TimestampConverter() required final DateTime exportedAt,
+    @RequiredTimestampConverter() required final DateTime exportedAt,
     final bool? isSuccess,
     final String? errorMessage,
   }) = _$ExportRecordImpl;
@@ -1892,7 +1892,7 @@ abstract class _ExportRecord implements ExportRecord {
   @override
   Map<String, dynamic> get data;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get exportedAt;
   @override
   bool? get isSuccess;

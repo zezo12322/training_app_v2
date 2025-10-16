@@ -247,6 +247,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dumpSettingsToast => 'تم إرسال الحالة إلى السجل';
 
   @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get termsOfService => 'شروط الاستخدام';
+
+  @override
+  String get aboutSection => 'حول التطبيق';
+
+  @override
   String get languagePickerTitle => 'اللغة';
 
   @override
@@ -286,7 +295,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loginAction => 'تسجيل الدخول';
 
   @override
+  String get orContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get signInWithGoogle => 'تسجيل الدخول باستخدام Google';
+
+  @override
+  String get signInWithApple => 'تسجيل الدخول باستخدام Apple';
+
+  @override
+  String ssoLoginFailed(Object error) {
+    return 'فشل تسجيل الدخول: $error';
+  }
+
+  @override
   String get signupNavigate => 'ليس لديك حساب؟ إنشاء حساب جديد';
+
+  @override
+  String get forgotPasswordNavigate => 'نسيت كلمة المرور؟';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get forgotPasswordDescription =>
+      'أدخل بريدك الإلكتروني وسنرسل لك رابط لإعادة تعيين كلمة المرور';
+
+  @override
+  String get sendResetEmail => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get passwordResetEmailSent =>
+      'تم إرسال رسالة إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+
+  @override
+  String get passwordResetFailed => 'فشل إرسال رسالة إعادة التعيين';
+
+  @override
+  String get emailSent => 'تم الإرسال';
+
+  @override
+  String get backToLogin => 'العودة لتسجيل الدخول';
+
+  @override
+  String get forgotPasswordNote =>
+      'تأكد من التحقق من صندوق البريد الوارد ومجلد الرسائل غير المرغوب فيها';
 
   @override
   String get signupTitle => 'إنشاء حساب جديد';
@@ -356,6 +409,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String signupFailed(Object error) {
     return 'فشل إنشاء الحساب: $error';
   }
+
+  @override
+  String get signupSuccessCheckEmail =>
+      'تم إنشاء الحساب! يرجى التحقق من بريدك الإلكتروني للتحقق من حسابك.';
 
   @override
   String createCourseFailed(Object error) {
@@ -1116,4 +1173,114 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get alreadyMemberLabel => 'عضو بالفعل في هذا القسم';
+
+  @override
+  String get pleaseSelectRole => 'الرجاء اختيار الدور';
+
+  @override
+  String get authErrorWrongPassword =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+
+  @override
+  String get authErrorUserNotFound => 'البريد الإلكتروني غير مسجل';
+
+  @override
+  String get authErrorEmailInUse => 'البريد الإلكتروني مسجل بالفعل';
+
+  @override
+  String get authErrorInvalidEmail => 'البريد الإلكتروني غير صحيح';
+
+  @override
+  String get authErrorWeakPassword => 'كلمة المرور ضعيفة جداً';
+
+  @override
+  String get authErrorUserDisabled => 'هذا الحساب معطل. يرجى التواصل مع الدعم';
+
+  @override
+  String get authErrorTooManyRequests => 'محاولات كثيرة. يرجى المحاولة لاحقاً';
+
+  @override
+  String get authErrorNetworkFailed => 'خطأ في الاتصال بالإنترنت';
+
+  @override
+  String get authErrorOperationNotAllowed => 'العملية غير مسموح بها';
+
+  @override
+  String get authErrorDefault => 'حدث خطأ أثناء المصادقة';
+
+  @override
+  String get dialogConfirmTitle => 'تأكيد';
+
+  @override
+  String get dialogDeleteTitle => 'حذف';
+
+  @override
+  String get dialogCancelButton => 'إلغاء';
+
+  @override
+  String get dialogConfirmButton => 'تأكيد';
+
+  @override
+  String get dialogDeleteButton => 'حذف';
+
+  @override
+  String get dialogSaveButton => 'حفظ';
+
+  @override
+  String get dialogCloseButton => 'إغلاق';
+
+  @override
+  String get commentReply => 'رد';
+
+  @override
+  String get commentEdit => 'تعديل';
+
+  @override
+  String get commentDelete => 'حذف';
+
+  @override
+  String get commentDeleteConfirm => 'هل أنت متأكد؟';
+
+  @override
+  String get commentDeleteTitle => 'حذف التعليق';
+
+  @override
+  String get filterPostsTitle => 'تصفية المنشورات';
+
+  @override
+  String get sortPostsTitle => 'ترتيب المنشورات';
+
+  @override
+  String get filterClearDates => 'مسح التواريخ';
+
+  @override
+  String get filterReset => 'إعادة تعيين';
+
+  @override
+  String get filterApply => 'تطبيق';
+
+  @override
+  String get sortPinnedFirst => 'المثبتة أولاً';
+
+  @override
+  String get reactionsClose => 'إغلاق';
+
+  @override
+  String get emailVerificationTitle => 'التحقق من البريد الإلكتروني';
+
+  @override
+  String get privacyPolicyTitle => 'سياسة الخصوصية';
+
+  @override
+  String get termsOfServiceTitle => 'شروط الاستخدام';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get superAdminDashboard => 'لوحة الإدارة الرئيسية';
+
+  @override
+  String get superAdminDashboardSubtitle =>
+      'إدارة المؤسسات والشركات والإعدادات';
 }

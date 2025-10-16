@@ -26,7 +26,9 @@ _$HRISImportImpl _$$HRISImportImplFromJson(Map<String, dynamic> json) =>
       errorDetails: json['errorDetails'] as Map<String, dynamic>? ?? const {},
       uploadedBy: json['uploadedBy'] as String,
       uploaderName: json['uploaderName'] as String,
-      uploadedAt: DateTime.parse(json['uploadedAt'] as String),
+      uploadedAt: const RequiredTimestampConverter().fromJson(
+        json['uploadedAt'] as Object,
+      ),
       completedAt: const TimestampConverter().fromJson(json['completedAt']),
       fieldMapping: FieldMapping.fromJson(
         json['fieldMapping'] as Map<String, dynamic>,
@@ -37,30 +39,31 @@ _$HRISImportImpl _$$HRISImportImplFromJson(Map<String, dynamic> json) =>
       defaultPassword: json['defaultPassword'] as String?,
     );
 
-Map<String, dynamic> _$$HRISImportImplToJson(_$HRISImportImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'institutionId': instance.institutionId,
-      'companyId': instance.companyId,
-      'fileType': _$ImportFileTypeEnumMap[instance.fileType]!,
-      'fileName': instance.fileName,
-      'totalRows': instance.totalRows,
-      'status': _$ImportStatusEnumMap[instance.status]!,
-      'processedRows': instance.processedRows,
-      'successfulRows': instance.successfulRows,
-      'failedRows': instance.failedRows,
-      'errors': instance.errors,
-      'errorDetails': instance.errorDetails,
-      'uploadedBy': instance.uploadedBy,
-      'uploaderName': instance.uploaderName,
-      'uploadedAt': instance.uploadedAt.toIso8601String(),
-      'completedAt': const TimestampConverter().toJson(instance.completedAt),
-      'fieldMapping': instance.fieldMapping.toJson(),
-      'updateExistingUsers': instance.updateExistingUsers,
-      'skipInvalidRows': instance.skipInvalidRows,
-      'defaultRole': instance.defaultRole,
-      'defaultPassword': instance.defaultPassword,
-    };
+Map<String, dynamic> _$$HRISImportImplToJson(
+  _$HRISImportImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'institutionId': instance.institutionId,
+  'companyId': instance.companyId,
+  'fileType': _$ImportFileTypeEnumMap[instance.fileType]!,
+  'fileName': instance.fileName,
+  'totalRows': instance.totalRows,
+  'status': _$ImportStatusEnumMap[instance.status]!,
+  'processedRows': instance.processedRows,
+  'successfulRows': instance.successfulRows,
+  'failedRows': instance.failedRows,
+  'errors': instance.errors,
+  'errorDetails': instance.errorDetails,
+  'uploadedBy': instance.uploadedBy,
+  'uploaderName': instance.uploaderName,
+  'uploadedAt': const RequiredTimestampConverter().toJson(instance.uploadedAt),
+  'completedAt': const TimestampConverter().toJson(instance.completedAt),
+  'fieldMapping': instance.fieldMapping.toJson(),
+  'updateExistingUsers': instance.updateExistingUsers,
+  'skipInvalidRows': instance.skipInvalidRows,
+  'defaultRole': instance.defaultRole,
+  'defaultPassword': instance.defaultPassword,
+};
 
 const _$ImportFileTypeEnumMap = {
   ImportFileType.csv: 'csv',
@@ -161,7 +164,9 @@ _$ImportTemplateImpl _$$ImportTemplateImplFromJson(Map<String, dynamic> json) =>
       ),
       institutionId: json['institutionId'] as String,
       companyId: json['companyId'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: const RequiredTimestampConverter().fromJson(
+        json['createdAt'] as Object,
+      ),
       createdBy: json['createdBy'] as String,
     );
 
@@ -174,6 +179,6 @@ Map<String, dynamic> _$$ImportTemplateImplToJson(
   'fieldMapping': instance.fieldMapping.toJson(),
   'institutionId': instance.institutionId,
   'companyId': instance.companyId,
-  'createdAt': instance.createdAt.toIso8601String(),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
   'createdBy': instance.createdBy,
 };

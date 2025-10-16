@@ -243,7 +243,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           width: 100,
           height: height,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.3),
+            color: color.withValues(alpha: 0.3),
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(8),
             ),
@@ -262,7 +262,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 style: TextStyle(
                   fontSize: rank == 1 ? 24 : 20,
                   fontWeight: FontWeight.bold,
-                  color: color.withOpacity(0.8),
+                  color: color.withValues(alpha: 0.8),
                 ),
               ),
             ],

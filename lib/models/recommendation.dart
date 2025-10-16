@@ -104,7 +104,7 @@ class Recommendation with _$Recommendation {
     @Default(false) bool isCompleted,
     
     /// تاريخ الإنشاء
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     
     /// تاريخ انتهاء الصلاحية (optional)
     @TimestampConverter() DateTime? expiresAt,

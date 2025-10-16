@@ -579,7 +579,7 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           Text(widget.anomaly.description),
           const SizedBox(height: 20),
           DropdownButtonFormField<InvestigationStatus>(
-            value: _selectedStatus,
+            initialValue: _selectedStatus,
             decoration: const InputDecoration(
               labelText: 'الحالة',
               border: OutlineInputBorder(),

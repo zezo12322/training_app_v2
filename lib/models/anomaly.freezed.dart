@@ -59,7 +59,7 @@ mixin _$AnomalyScore {
   String? get action =>
       throw _privateConstructorUsedError; // warning, suspend, etc.
   /// التوقيت
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get detectedAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get resolvedAt => throw _privateConstructorUsedError;
@@ -105,7 +105,7 @@ abstract class $AnomalyScoreCopyWith<$Res> {
     String? reviewNotes,
     bool actionTaken,
     String? action,
-    @TimestampConverter() DateTime detectedAt,
+    @RequiredTimestampConverter() DateTime detectedAt,
     @TimestampConverter() DateTime? resolvedAt,
   });
 }
@@ -292,7 +292,7 @@ abstract class _$$AnomalyScoreImplCopyWith<$Res>
     String? reviewNotes,
     bool actionTaken,
     String? action,
-    @TimestampConverter() DateTime detectedAt,
+    @RequiredTimestampConverter() DateTime detectedAt,
     @TimestampConverter() DateTime? resolvedAt,
   });
 }
@@ -471,7 +471,7 @@ class _$AnomalyScoreImpl implements _AnomalyScore {
     this.reviewNotes,
     this.actionTaken = false,
     this.action,
-    @TimestampConverter() required this.detectedAt,
+    @RequiredTimestampConverter() required this.detectedAt,
     @TimestampConverter() this.resolvedAt,
   }) : _metadata = metadata,
        _evidencePoints = evidencePoints;
@@ -557,7 +557,7 @@ class _$AnomalyScoreImpl implements _AnomalyScore {
   // warning, suspend, etc.
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime detectedAt;
   @override
   @TimestampConverter()
@@ -689,7 +689,7 @@ abstract class _AnomalyScore implements AnomalyScore {
     final String? reviewNotes,
     final bool actionTaken,
     final String? action,
-    @TimestampConverter() required final DateTime detectedAt,
+    @RequiredTimestampConverter() required final DateTime detectedAt,
     @TimestampConverter() final DateTime? resolvedAt,
   }) = _$AnomalyScoreImpl;
 
@@ -753,7 +753,7 @@ abstract class _AnomalyScore implements AnomalyScore {
   String? get action; // warning, suspend, etc.
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get detectedAt;
   @override
   @TimestampConverter()
@@ -796,7 +796,7 @@ mixin _$AnomalyAlert {
   DateTime? get dismissedAt => throw _privateConstructorUsedError;
 
   /// التوقيت
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
@@ -832,7 +832,7 @@ abstract class $AnomalyAlertCopyWith<$Res> {
     bool isDismissed,
     String? dismissedBy,
     @TimestampConverter() DateTime? dismissedAt,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
   });
 }
@@ -959,7 +959,7 @@ abstract class _$$AnomalyAlertImplCopyWith<$Res>
     bool isDismissed,
     String? dismissedBy,
     @TimestampConverter() DateTime? dismissedAt,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
   });
 }
@@ -1078,7 +1078,7 @@ class _$AnomalyAlertImpl implements _AnomalyAlert {
     required this.isDismissed,
     this.dismissedBy,
     @TimestampConverter() this.dismissedAt,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
     @TimestampConverter() this.expiresAt,
   }) : _recipientIds = recipientIds,
        _readBy = readBy;
@@ -1137,7 +1137,7 @@ class _$AnomalyAlertImpl implements _AnomalyAlert {
 
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
@@ -1232,7 +1232,7 @@ abstract class _AnomalyAlert implements AnomalyAlert {
     required final bool isDismissed,
     final String? dismissedBy,
     @TimestampConverter() final DateTime? dismissedAt,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
     @TimestampConverter() final DateTime? expiresAt,
   }) = _$AnomalyAlertImpl;
 
@@ -1275,7 +1275,7 @@ abstract class _AnomalyAlert implements AnomalyAlert {
 
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
   @override
   @TimestampConverter()
@@ -1328,7 +1328,7 @@ mixin _$AnomalyDetectionSettings {
   bool get autoFlagCheating => throw _privateConstructorUsedError;
 
   /// التحديث
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String get updatedBy => throw _privateConstructorUsedError;
 
@@ -1365,7 +1365,7 @@ abstract class $AnomalyDetectionSettingsCopyWith<$Res> {
     AnomalySeverity minAlertSeverity,
     bool autoSuspendCritical,
     bool autoFlagCheating,
-    @TimestampConverter() DateTime updatedAt,
+    @RequiredTimestampConverter() DateTime updatedAt,
     String updatedBy,
   });
 }
@@ -1507,7 +1507,7 @@ abstract class _$$AnomalyDetectionSettingsImplCopyWith<$Res>
     AnomalySeverity minAlertSeverity,
     bool autoSuspendCritical,
     bool autoFlagCheating,
-    @TimestampConverter() DateTime updatedAt,
+    @RequiredTimestampConverter() DateTime updatedAt,
     String updatedBy,
   });
 }
@@ -1642,7 +1642,7 @@ class _$AnomalyDetectionSettingsImpl implements _AnomalyDetectionSettings {
     this.minAlertSeverity = AnomalySeverity.medium,
     required this.autoSuspendCritical,
     required this.autoFlagCheating,
-    @TimestampConverter() required this.updatedAt,
+    @RequiredTimestampConverter() required this.updatedAt,
     required this.updatedBy,
   }) : _enabledTypes = enabledTypes,
        _alertRecipients = alertRecipients;
@@ -1716,7 +1716,7 @@ class _$AnomalyDetectionSettingsImpl implements _AnomalyDetectionSettings {
 
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime updatedAt;
   @override
   final String updatedBy;
@@ -1833,7 +1833,7 @@ abstract class _AnomalyDetectionSettings implements AnomalyDetectionSettings {
     final AnomalySeverity minAlertSeverity,
     required final bool autoSuspendCritical,
     required final bool autoFlagCheating,
-    @TimestampConverter() required final DateTime updatedAt,
+    @RequiredTimestampConverter() required final DateTime updatedAt,
     required final String updatedBy,
   }) = _$AnomalyDetectionSettingsImpl;
 
@@ -1882,7 +1882,7 @@ abstract class _AnomalyDetectionSettings implements AnomalyDetectionSettings {
 
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get updatedAt;
   @override
   String get updatedBy;
@@ -1917,7 +1917,7 @@ mixin _$AnomalyDetectionModel {
 
   /// التدريب
   int get trainingDataSize => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get trainedAt => throw _privateConstructorUsedError;
   String? get trainedBy => throw _privateConstructorUsedError;
 
@@ -1956,7 +1956,7 @@ abstract class $AnomalyDetectionModelCopyWith<$Res> {
     double precision,
     double recall,
     int trainingDataSize,
-    @TimestampConverter() DateTime trainedAt,
+    @RequiredTimestampConverter() DateTime trainedAt,
     String? trainedBy,
     bool isActive,
     @TimestampConverter() DateTime? lastUsedAt,
@@ -2080,7 +2080,7 @@ abstract class _$$AnomalyDetectionModelImplCopyWith<$Res>
     double precision,
     double recall,
     int trainingDataSize,
-    @TimestampConverter() DateTime trainedAt,
+    @RequiredTimestampConverter() DateTime trainedAt,
     String? trainedBy,
     bool isActive,
     @TimestampConverter() DateTime? lastUsedAt,
@@ -2194,7 +2194,7 @@ class _$AnomalyDetectionModelImpl implements _AnomalyDetectionModel {
     this.precision = 0.0,
     this.recall = 0.0,
     required this.trainingDataSize,
-    @TimestampConverter() required this.trainedAt,
+    @RequiredTimestampConverter() required this.trainedAt,
     this.trainedBy,
     required this.isActive,
     @TimestampConverter() this.lastUsedAt,
@@ -2231,7 +2231,7 @@ class _$AnomalyDetectionModelImpl implements _AnomalyDetectionModel {
   @override
   final int trainingDataSize;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime trainedAt;
   @override
   final String? trainedBy;
@@ -2337,7 +2337,7 @@ abstract class _AnomalyDetectionModel implements AnomalyDetectionModel {
     final double precision,
     final double recall,
     required final int trainingDataSize,
-    @TimestampConverter() required final DateTime trainedAt,
+    @RequiredTimestampConverter() required final DateTime trainedAt,
     final String? trainedBy,
     required final bool isActive,
     @TimestampConverter() final DateTime? lastUsedAt,
@@ -2370,7 +2370,7 @@ abstract class _AnomalyDetectionModel implements AnomalyDetectionModel {
   @override
   int get trainingDataSize;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get trainedAt;
   @override
   String? get trainedBy;
@@ -2428,9 +2428,9 @@ mixin _$BehaviorPattern {
   List<String> get peakActivityHours => throw _privateConstructorUsedError;
 
   /// التحديث
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get lastUpdatedAt => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this BehaviorPattern to a JSON map.
@@ -2468,8 +2468,8 @@ abstract class $BehaviorPatternCopyWith<$Res> {
     int totalActivities,
     double avgSessionDuration,
     List<String> peakActivityHours,
-    @TimestampConverter() DateTime lastUpdatedAt,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime lastUpdatedAt,
+    @RequiredTimestampConverter() DateTime createdAt,
   });
 }
 
@@ -2619,8 +2619,8 @@ abstract class _$$BehaviorPatternImplCopyWith<$Res>
     int totalActivities,
     double avgSessionDuration,
     List<String> peakActivityHours,
-    @TimestampConverter() DateTime lastUpdatedAt,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime lastUpdatedAt,
+    @RequiredTimestampConverter() DateTime createdAt,
   });
 }
 
@@ -2762,8 +2762,8 @@ class _$BehaviorPatternImpl implements _BehaviorPattern {
     this.totalActivities = 0,
     this.avgSessionDuration = 0.0,
     final List<String> peakActivityHours = const [],
-    @TimestampConverter() required this.lastUpdatedAt,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.lastUpdatedAt,
+    @RequiredTimestampConverter() required this.createdAt,
   }) : _commonLoginTimes = commonLoginTimes,
        _commonDevices = commonDevices,
        _commonLocations = commonLocations,
@@ -2864,10 +2864,10 @@ class _$BehaviorPatternImpl implements _BehaviorPattern {
 
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime lastUpdatedAt;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
 
   @override
@@ -2988,8 +2988,8 @@ abstract class _BehaviorPattern implements BehaviorPattern {
     final int totalActivities,
     final double avgSessionDuration,
     final List<String> peakActivityHours,
-    @TimestampConverter() required final DateTime lastUpdatedAt,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime lastUpdatedAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
   }) = _$BehaviorPatternImpl;
 
   factory _BehaviorPattern.fromJson(Map<String, dynamic> json) =
@@ -3038,10 +3038,10 @@ abstract class _BehaviorPattern implements BehaviorPattern {
 
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get lastUpdatedAt;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
 
   /// Create a copy of BehaviorPattern
@@ -3076,7 +3076,7 @@ mixin _$ActivityEvent {
   String? get userAgent => throw _privateConstructorUsedError;
 
   /// التوقيت
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get timestamp => throw _privateConstructorUsedError;
 
   /// التحليل
@@ -3111,7 +3111,7 @@ abstract class $ActivityEventCopyWith<$Res> {
     String? ipAddress,
     String? location,
     String? userAgent,
-    @TimestampConverter() DateTime timestamp,
+    @RequiredTimestampConverter() DateTime timestamp,
     bool isFlagged,
     double? anomalyScore,
   });
@@ -3226,7 +3226,7 @@ abstract class _$$ActivityEventImplCopyWith<$Res>
     String? ipAddress,
     String? location,
     String? userAgent,
-    @TimestampConverter() DateTime timestamp,
+    @RequiredTimestampConverter() DateTime timestamp,
     bool isFlagged,
     double? anomalyScore,
   });
@@ -3333,7 +3333,7 @@ class _$ActivityEventImpl implements _ActivityEvent {
     this.ipAddress,
     this.location,
     this.userAgent,
-    @TimestampConverter() required this.timestamp,
+    @RequiredTimestampConverter() required this.timestamp,
     this.isFlagged = false,
     this.anomalyScore,
   }) : _eventData = eventData;
@@ -3377,7 +3377,7 @@ class _$ActivityEventImpl implements _ActivityEvent {
 
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime timestamp;
 
   /// التحليل
@@ -3470,7 +3470,7 @@ abstract class _ActivityEvent implements ActivityEvent {
     final String? ipAddress,
     final String? location,
     final String? userAgent,
-    @TimestampConverter() required final DateTime timestamp,
+    @RequiredTimestampConverter() required final DateTime timestamp,
     final bool isFlagged,
     final double? anomalyScore,
   }) = _$ActivityEventImpl;
@@ -3505,7 +3505,7 @@ abstract class _ActivityEvent implements ActivityEvent {
 
   /// التوقيت
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get timestamp;
 
   /// التحليل
@@ -3532,9 +3532,9 @@ mixin _$DetectionStatistics {
   String? get companyId => throw _privateConstructorUsedError;
 
   /// الفترة
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startDate => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get endDate => throw _privateConstructorUsedError;
 
   /// الأعداد
@@ -3558,7 +3558,7 @@ mixin _$DetectionStatistics {
   double get avgDetectionTime => throw _privateConstructorUsedError; // ثواني
   double get avgReviewTime => throw _privateConstructorUsedError; // ساعات
   /// التحديث
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get generatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this DetectionStatistics to a JSON map.
@@ -3581,8 +3581,8 @@ abstract class $DetectionStatisticsCopyWith<$Res> {
   $Res call({
     String institutionId,
     String? companyId,
-    @TimestampConverter() DateTime startDate,
-    @TimestampConverter() DateTime endDate,
+    @RequiredTimestampConverter() DateTime startDate,
+    @RequiredTimestampConverter() DateTime endDate,
     int totalAnomaliesDetected,
     int confirmedAnomalies,
     int falsePositives,
@@ -3594,7 +3594,7 @@ abstract class $DetectionStatisticsCopyWith<$Res> {
     double truePositiveRate,
     double avgDetectionTime,
     double avgReviewTime,
-    @TimestampConverter() DateTime generatedAt,
+    @RequiredTimestampConverter() DateTime generatedAt,
   });
 }
 
@@ -3714,8 +3714,8 @@ abstract class _$$DetectionStatisticsImplCopyWith<$Res>
   $Res call({
     String institutionId,
     String? companyId,
-    @TimestampConverter() DateTime startDate,
-    @TimestampConverter() DateTime endDate,
+    @RequiredTimestampConverter() DateTime startDate,
+    @RequiredTimestampConverter() DateTime endDate,
     int totalAnomaliesDetected,
     int confirmedAnomalies,
     int falsePositives,
@@ -3727,7 +3727,7 @@ abstract class _$$DetectionStatisticsImplCopyWith<$Res>
     double truePositiveRate,
     double avgDetectionTime,
     double avgReviewTime,
-    @TimestampConverter() DateTime generatedAt,
+    @RequiredTimestampConverter() DateTime generatedAt,
   });
 }
 
@@ -3839,8 +3839,8 @@ class _$DetectionStatisticsImpl implements _DetectionStatistics {
   const _$DetectionStatisticsImpl({
     required this.institutionId,
     this.companyId,
-    @TimestampConverter() required this.startDate,
-    @TimestampConverter() required this.endDate,
+    @RequiredTimestampConverter() required this.startDate,
+    @RequiredTimestampConverter() required this.endDate,
     required this.totalAnomaliesDetected,
     required this.confirmedAnomalies,
     required this.falsePositives,
@@ -3852,7 +3852,7 @@ class _$DetectionStatisticsImpl implements _DetectionStatistics {
     this.truePositiveRate = 0.0,
     this.avgDetectionTime = 0.0,
     this.avgReviewTime = 0.0,
-    @TimestampConverter() required this.generatedAt,
+    @RequiredTimestampConverter() required this.generatedAt,
   }) : _anomaliesByType = anomaliesByType,
        _anomaliesBySeverity = anomaliesBySeverity;
 
@@ -3866,10 +3866,10 @@ class _$DetectionStatisticsImpl implements _DetectionStatistics {
 
   /// الفترة
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime startDate;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime endDate;
 
   /// الأعداد
@@ -3924,7 +3924,7 @@ class _$DetectionStatisticsImpl implements _DetectionStatistics {
   // ساعات
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime generatedAt;
 
   @override
@@ -4017,8 +4017,8 @@ abstract class _DetectionStatistics implements DetectionStatistics {
   const factory _DetectionStatistics({
     required final String institutionId,
     final String? companyId,
-    @TimestampConverter() required final DateTime startDate,
-    @TimestampConverter() required final DateTime endDate,
+    @RequiredTimestampConverter() required final DateTime startDate,
+    @RequiredTimestampConverter() required final DateTime endDate,
     required final int totalAnomaliesDetected,
     required final int confirmedAnomalies,
     required final int falsePositives,
@@ -4030,7 +4030,7 @@ abstract class _DetectionStatistics implements DetectionStatistics {
     final double truePositiveRate,
     final double avgDetectionTime,
     final double avgReviewTime,
-    @TimestampConverter() required final DateTime generatedAt,
+    @RequiredTimestampConverter() required final DateTime generatedAt,
   }) = _$DetectionStatisticsImpl;
 
   factory _DetectionStatistics.fromJson(Map<String, dynamic> json) =
@@ -4043,10 +4043,10 @@ abstract class _DetectionStatistics implements DetectionStatistics {
 
   /// الفترة
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get startDate;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get endDate;
 
   /// الأعداد
@@ -4080,7 +4080,7 @@ abstract class _DetectionStatistics implements DetectionStatistics {
   double get avgReviewTime; // ساعات
   /// التحديث
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get generatedAt;
 
   /// Create a copy of DetectionStatistics

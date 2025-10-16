@@ -7,19 +7,28 @@
         {
             "name": "training_app_v2",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define=ONE_SIGNAL_APP_ID=c89cafa8-1e04-4b6a-bcf8-43ccae9c37cd"
+            ]
         },
         {
             "name": "training_app_v2 (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--dart-define=ONE_SIGNAL_APP_ID=c89cafa8-1e04-4b6a-bcf8-43ccae9c37cd"
+            ]
         },
         {
             "name": "training_app_v2 (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--dart-define=ONE_SIGNAL_APP_ID=c89cafa8-1e04-4b6a-bcf8-43ccae9c37cd"
+            ]
         }
     ]
 }

@@ -265,7 +265,7 @@ class AnalyticsRepository {
 
     final totalPoints = progressList.fold<int>(
       0,
-      (sum, p) => sum + p.totalPoints,
+      (total, p) => total + p.totalPoints,
     );
     
     return totalPoints / progressList.length;
@@ -276,7 +276,7 @@ class AnalyticsRepository {
 
     final totalLevel = progressList.fold<int>(
       0,
-      (sum, p) => sum + p.currentLevel,
+      (total, p) => total + p.currentLevel,
     );
     
     return totalLevel / progressList.length;
@@ -285,7 +285,7 @@ class AnalyticsRepository {
   int _calculateTotalPoints(List<UserCourseProgress> progressList) {
     return progressList.fold<int>(
       0,
-      (sum, p) => sum + p.totalPoints,
+      (total, p) => total + p.totalPoints,
     );
   }  Map<String, int> _calculateActivityBreakdown(
     List<UserCourseProgress> progressList,

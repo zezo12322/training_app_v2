@@ -76,7 +76,7 @@ mixin _$Certificate {
   String? get verificationUrl => throw _privateConstructorUsedError;
 
   /// تاريخ الإصدار
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get issuedAt => throw _privateConstructorUsedError;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -133,7 +133,7 @@ abstract class $CertificateCopyWith<$Res> {
     String? pdfUrl,
     String? qrCodeData,
     String? verificationUrl,
-    @TimestampConverter() DateTime issuedAt,
+    @RequiredTimestampConverter() DateTime issuedAt,
     @TimestampConverter() DateTime? expiresAt,
     @TimestampConverter() DateTime? revokedAt,
     String? revocationReason,
@@ -320,7 +320,7 @@ abstract class _$$CertificateImplCopyWith<$Res>
     String? pdfUrl,
     String? qrCodeData,
     String? verificationUrl,
-    @TimestampConverter() DateTime issuedAt,
+    @RequiredTimestampConverter() DateTime issuedAt,
     @TimestampConverter() DateTime? expiresAt,
     @TimestampConverter() DateTime? revokedAt,
     String? revocationReason,
@@ -499,7 +499,7 @@ class _$CertificateImpl implements _Certificate {
     this.pdfUrl,
     this.qrCodeData,
     this.verificationUrl,
-    @TimestampConverter() required this.issuedAt,
+    @RequiredTimestampConverter() required this.issuedAt,
     @TimestampConverter() this.expiresAt,
     @TimestampConverter() this.revokedAt,
     this.revocationReason,
@@ -587,7 +587,7 @@ class _$CertificateImpl implements _Certificate {
 
   /// تاريخ الإصدار
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime issuedAt;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -742,7 +742,7 @@ abstract class _Certificate implements Certificate {
     final String? pdfUrl,
     final String? qrCodeData,
     final String? verificationUrl,
-    @TimestampConverter() required final DateTime issuedAt,
+    @RequiredTimestampConverter() required final DateTime issuedAt,
     @TimestampConverter() final DateTime? expiresAt,
     @TimestampConverter() final DateTime? revokedAt,
     final String? revocationReason,
@@ -828,7 +828,7 @@ abstract class _Certificate implements Certificate {
 
   /// تاريخ الإصدار
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get issuedAt;
 
   /// تاريخ انتهاء الصلاحية (optional)
@@ -1867,7 +1867,7 @@ mixin _$CertificateVerification {
   String? get invalidReason => throw _privateConstructorUsedError;
 
   /// تاريخ التحقق
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get verifiedAt => throw _privateConstructorUsedError;
 
   /// Serializes this CertificateVerification to a JSON map.
@@ -1891,7 +1891,7 @@ abstract class $CertificateVerificationCopyWith<$Res> {
     bool isValid,
     Certificate? certificate,
     String? invalidReason,
-    @TimestampConverter() DateTime verifiedAt,
+    @RequiredTimestampConverter() DateTime verifiedAt,
   });
 
   $CertificateCopyWith<$Res>? get certificate;
@@ -1971,7 +1971,7 @@ abstract class _$$CertificateVerificationImplCopyWith<$Res>
     bool isValid,
     Certificate? certificate,
     String? invalidReason,
-    @TimestampConverter() DateTime verifiedAt,
+    @RequiredTimestampConverter() DateTime verifiedAt,
   });
 
   @override
@@ -2031,7 +2031,7 @@ class _$CertificateVerificationImpl implements _CertificateVerification {
     required this.isValid,
     this.certificate,
     this.invalidReason,
-    @TimestampConverter() required this.verifiedAt,
+    @RequiredTimestampConverter() required this.verifiedAt,
   });
 
   factory _$CertificateVerificationImpl.fromJson(Map<String, dynamic> json) =>
@@ -2051,7 +2051,7 @@ class _$CertificateVerificationImpl implements _CertificateVerification {
 
   /// تاريخ التحقق
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime verifiedAt;
 
   @override
@@ -2100,7 +2100,7 @@ abstract class _CertificateVerification implements CertificateVerification {
     required final bool isValid,
     final Certificate? certificate,
     final String? invalidReason,
-    @TimestampConverter() required final DateTime verifiedAt,
+    @RequiredTimestampConverter() required final DateTime verifiedAt,
   }) = _$CertificateVerificationImpl;
 
   factory _CertificateVerification.fromJson(Map<String, dynamic> json) =
@@ -2120,7 +2120,7 @@ abstract class _CertificateVerification implements CertificateVerification {
 
   /// تاريخ التحقق
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get verifiedAt;
 
   /// Create a copy of CertificateVerification

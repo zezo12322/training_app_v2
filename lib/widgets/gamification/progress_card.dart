@@ -155,7 +155,7 @@ class ProgressCard extends ConsumerWidget {
                       child: LinearProgressIndicator(
                         value: progressPercentage,
                         minHeight: 8,
-                        backgroundColor: theme.colorScheme.surfaceVariant,
+                        backgroundColor: theme.colorScheme.surfaceContainerHighest,
                         valueColor: AlwaysStoppedAnimation<Color>(
                           _getColorFromHex(levelInfo.color),
                         ),
@@ -175,10 +175,10 @@ class ProgressCard extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.amber.withOpacity(0.1),
+                    color: Colors.amber.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Colors.amber.withOpacity(0.3),
+                      color: Colors.amber.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -211,7 +211,7 @@ class ProgressCard extends ConsumerWidget {
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        color: _getColorFromHex(levelInfo.color).withOpacity(0.15),
+        color: _getColorFromHex(levelInfo.color).withValues(alpha: 0.15),
         shape: BoxShape.circle,
         border: Border.all(
           color: _getColorFromHex(levelInfo.color),
@@ -242,10 +242,10 @@ class ProgressCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.15),
+        color: Colors.orange.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.orange.withOpacity(0.3),
+          color: Colors.orange.withValues(alpha: 0.3),
           width: 1,
         ),
       ),

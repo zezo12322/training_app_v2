@@ -34,7 +34,11 @@ mixin _$AppUser {
   String? get imageUrl =>
       throw _privateConstructorUsedError; // Multi-tenancy (placeholders, may remain null for B2C phase)
   String? get institutionId => throw _privateConstructorUsedError;
-  String? get companyId => throw _privateConstructorUsedError;
+  String? get companyId =>
+      throw _privateConstructorUsedError; // Blocked users list
+  List<String> get blockedUsers =>
+      throw _privateConstructorUsedError; // FCM token for push notifications
+  String? get fcmToken => throw _privateConstructorUsedError;
 
   /// Serializes this AppUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,6 +64,8 @@ abstract class $AppUserCopyWith<$Res> {
     String? imageUrl,
     String? institutionId,
     String? companyId,
+    List<String> blockedUsers,
+    String? fcmToken,
   });
 }
 
@@ -87,6 +93,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? imageUrl = freezed,
     Object? institutionId = freezed,
     Object? companyId = freezed,
+    Object? blockedUsers = null,
+    Object? fcmToken = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -126,6 +134,14 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
                 ? _value.companyId
                 : companyId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            blockedUsers: null == blockedUsers
+                ? _value.blockedUsers
+                : blockedUsers // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            fcmToken: freezed == fcmToken
+                ? _value.fcmToken
+                : fcmToken // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -150,6 +166,8 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
     String? imageUrl,
     String? institutionId,
     String? companyId,
+    List<String> blockedUsers,
+    String? fcmToken,
   });
 }
 
@@ -176,6 +194,8 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? institutionId = freezed,
     Object? companyId = freezed,
+    Object? blockedUsers = null,
+    Object? fcmToken = freezed,
   }) {
     return _then(
       _$AppUserImpl(
@@ -215,6 +235,14 @@ class __$$AppUserImplCopyWithImpl<$Res>
             ? _value.companyId
             : companyId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        blockedUsers: null == blockedUsers
+            ? _value._blockedUsers
+            : blockedUsers // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        fcmToken: freezed == fcmToken
+            ? _value.fcmToken
+            : fcmToken // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -233,7 +261,10 @@ class _$AppUserImpl extends _AppUser {
     this.imageUrl,
     this.institutionId,
     this.companyId,
-  }) : super._();
+    final List<String> blockedUsers = const [],
+    this.fcmToken,
+  }) : _blockedUsers = blockedUsers,
+       super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppUserImplFromJson(json);
@@ -261,10 +292,24 @@ class _$AppUserImpl extends _AppUser {
   final String? institutionId;
   @override
   final String? companyId;
+  // Blocked users list
+  final List<String> _blockedUsers;
+  // Blocked users list
+  @override
+  @JsonKey()
+  List<String> get blockedUsers {
+    if (_blockedUsers is EqualUnmodifiableListView) return _blockedUsers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_blockedUsers);
+  }
+
+  // FCM token for push notifications
+  @override
+  final String? fcmToken;
 
   @override
   String toString() {
-    return 'AppUser(id: $id, name: $name, email: $email, role: $role, createdAt: $createdAt, oneSignalPlayerId: $oneSignalPlayerId, imageUrl: $imageUrl, institutionId: $institutionId, companyId: $companyId)';
+    return 'AppUser(id: $id, name: $name, email: $email, role: $role, createdAt: $createdAt, oneSignalPlayerId: $oneSignalPlayerId, imageUrl: $imageUrl, institutionId: $institutionId, companyId: $companyId, blockedUsers: $blockedUsers, fcmToken: $fcmToken)';
   }
 
   @override
@@ -285,7 +330,13 @@ class _$AppUserImpl extends _AppUser {
             (identical(other.institutionId, institutionId) ||
                 other.institutionId == institutionId) &&
             (identical(other.companyId, companyId) ||
-                other.companyId == companyId));
+                other.companyId == companyId) &&
+            const DeepCollectionEquality().equals(
+              other._blockedUsers,
+              _blockedUsers,
+            ) &&
+            (identical(other.fcmToken, fcmToken) ||
+                other.fcmToken == fcmToken));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -301,6 +352,8 @@ class _$AppUserImpl extends _AppUser {
     imageUrl,
     institutionId,
     companyId,
+    const DeepCollectionEquality().hash(_blockedUsers),
+    fcmToken,
   );
 
   /// Create a copy of AppUser
@@ -328,6 +381,8 @@ abstract class _AppUser extends AppUser {
     final String? imageUrl,
     final String? institutionId,
     final String? companyId,
+    final List<String> blockedUsers,
+    final String? fcmToken,
   }) = _$AppUserImpl;
   const _AppUser._() : super._();
 
@@ -351,7 +406,11 @@ abstract class _AppUser extends AppUser {
   @override
   String? get institutionId;
   @override
-  String? get companyId;
+  String? get companyId; // Blocked users list
+  @override
+  List<String> get blockedUsers; // FCM token for push notifications
+  @override
+  String? get fcmToken;
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.

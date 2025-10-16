@@ -13,7 +13,6 @@ import 'package:training_app/core/timeago_setup.dart';
 import 'package:training_app/providers/fcm_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/settings_providers.dart';
-import 'services/preferences_service.dart';
 
 /// Widget يسمح بعمل إعادة تشغيل منطقية للتطبيق (Rebuild شبيه بالـ restart)
 /// عن طريق تغيير مفتاح الجذر (Key) وإعادة بناء الشجرة كاملة.
@@ -49,19 +48,14 @@ class _AppRestartState extends State<AppRestart> {
 void main() async {
   final start = DateTime.now();
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // ⚡ العمليات الحرجة فقط - باقي الحاجات تتأجل
   initAppMonitoring();
-  setupTimeago(); // تهيئة timeago للعربية
+  setupTimeago(); // خفيفة - ممكن تفضل
+  
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Log storage backend configuration (R2 vs none)
-  logger.i(
-    '[Startup] Spaces enabled? ${AppConfig.useSpaces} | presignEndpoint="${AppConfig.spacesPresignEndpoint}"',
-  );
-  if (!AppConfig.useSpaces || AppConfig.spacesPresignEndpoint.isEmpty) {
-    logger.w(
-      '[Startup] DigitalOcean Spaces disabled (USE_SPACES=false أو SPACES_PRESIGN_ENDPOINT فارغ). سيتم تجاهل الصوت في التقييمات.',
-    );
-  }
-  // Enable local persistence & reasonable cache (only once).
+  
+  // ⚡ Firestore settings - Critical for performance
   try {
     FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true,
@@ -70,58 +64,58 @@ void main() async {
   } catch (_) {
     // ignore if already set or platform not supporting.
   }
-  // Load persisted settings before runApp
-  final prefsService = await PreferencesService.instance();
-  ThemeMode initialTheme = ThemeMode.system;
-  final rawTheme = prefsService.getString(SettingsKeys.themeMode);
-  if (rawTheme != null) {
-    initialTheme = ThemeMode.values.firstWhere(
-      (m) => m.name == rawTheme,
-      orElse: () => ThemeMode.system,
-    );
-  }
-  final notif = prefsService.getBool(SettingsKeys.notifications) ?? true;
-  final funAnim = prefsService.getBool(SettingsKeys.funAnimations) ?? true;
-  final autoplay = prefsService.getBool(SettingsKeys.autoplayAudio) ?? false;
-  // Locale persistence
-  Locale? initialLocale;
-  final storedLocale = prefsService.getString(SettingsKeys.locale);
-  if (storedLocale != null && storedLocale.isNotEmpty) {
-    initialLocale = Locale(storedLocale);
-  }
 
   final startupMs = DateTime.now().difference(start).inMilliseconds;
-  logger.i('[Startup] Finished init in ${startupMs}ms');
+  logger.i('[Startup] Finished critical init in ${startupMs}ms');
+  
+  // ⚡ تحميل الإعدادات بشكل async بعد بدء التطبيق
   runApp(
     ProviderScope(
-      overrides: [
-        themeModeProvider.overrideWith((ref) => initialTheme),
-        notificationsEnabledProvider.overrideWith((ref) => notif),
-        funAnimationsProvider.overrideWith((ref) => funAnim),
-        autoplayAudioProvider.overrideWith((ref) => autoplay),
-        appLocaleProvider.overrideWith((ref) => initialLocale),
-        prefsWriterProvider.overrideWithValue(
-          (key, value) => prefsService.set(key, value),
-        ),
-      ],
       child: const AppRestart(child: MyApp()),
     ),
   );
+  
+  // 🔥 تأجيل العمليات الثقيلة لبعد رسم أول frame
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    // Log storage backend configuration (non-critical)
+    logger.i(
+      '[Startup] Spaces enabled? ${AppConfig.useSpaces} | presignEndpoint="${AppConfig.spacesPresignEndpoint}"',
+    );
+    if (!AppConfig.useSpaces || AppConfig.spacesPresignEndpoint.isEmpty) {
+      logger.w(
+        '[Startup] DigitalOcean Spaces disabled (USE_SPACES=false أو SPACES_PRESIGN_ENDPOINT فارغ). سيتم تجاهل الصوت في التقييمات.',
+      );
+    }
+  });
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // 🔥 تأجيل FCM initialization لبعد بناء أول frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Initialize FCM lazily
+      ref.read(fcmInitializationProvider);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final mode = ref.watch(themeModeProvider);
     final locale = ref.watch(appLocaleProvider);
     
-    // Initialize FCM on app startup
+    // Listen to FCM initialization status (non-blocking)
     ref.listen(fcmInitializationProvider, (previous, next) {
-      next.when(
+      next.whenOrNull(
         data: (_) => logger.i('[App] FCM initialized successfully'),
-        loading: () => logger.i('[App] Initializing FCM...'),
         error: (error, stack) => logger.e('[App] FCM initialization failed', error: error, stackTrace: stack),
       );
     });

@@ -1,0 +1,719 @@
+﻿≡ا¤ Scanning for hard-coded strings...
+
+================================================================================
+
+≡اô lib\screens\add_question_screen.dart
+--------------------------------------------------------------------------------
+  Line   70 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪» ╪د┘╪ح╪ش╪د╪ذ╪ر ╪د┘╪╡╪ص┘è╪ص╪ر (╪د╪«╪ز┘è╪د╪▒ ┘à┘ ┘à╪ز╪╣╪»╪»)
+  Line  147 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $e
+  Line  161 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╢╪د┘╪ر ╪ث╪│╪خ┘╪ر ┘┘╪د╪«╪ز╪ذ╪د╪▒
+  Line  175 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪ح╪╢╪د┘╪ر ╪ث┘è ╪ث╪│╪خ┘╪ر ╪ذ╪╣╪».
+  Line  196 | ≡اç║≡اç╕ EN | Text widget          | ${index + 1}.
+  Line  220 | ≡اç╕≡اçخ AR | Text widget          | ┘┘ê╪╣ ╪د┘╪│╪ج╪د┘: 
+  Line  227 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز┘è╪د╪▒ ┘à┘ ┘à╪ز╪╣╪»╪»
+  Line  231 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪ش╪د╪ذ╪ر ┘é╪╡┘è╪▒╪ر
+  Line  235 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪ش╪د╪ذ╪ر ╪╖┘ê┘è┘╪ر
+  Line  239 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪╖╪د╪ذ┘é╪ر (╪ز┘ê╪╡┘è┘)
+  Line  309 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪«┘è╪د╪▒ 1
+  Line  315 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪«┘è╪د╪▒ 2
+  Line  321 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪«┘è╪د╪▒ 3
+  Line  327 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪«┘è╪د╪▒ 4
+  Line  337 | ≡اç╕≡اçخ AR | Text widget          | ╪ث╪▓┘ê╪د╪ش ╪د┘┘à╪╖╪د╪ذ┘é╪ر (┘è╪│╪د╪▒ ظç ┘è┘à┘è┘):
+  Line  398 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╢╪د┘╪ر ╪د┘╪│╪ج╪د┘
+  Line  261 | ≡اç╕≡اçخ AR | Label text           | ┘╪╡ ╪د┘╪│╪ج╪د┘
+  Line  373 | ≡اç╕≡اçخ AR | Label text           | ┘è╪│╪د╪▒ ${i + 1}
+  Line  382 | ≡اç╕≡اçخ AR | Label text           | ┘è┘à┘è┘ ${i + 1}
+
+≡اô lib\screens\anomaly_dashboard_screen.dart
+--------------------------------------------------------------------------------
+  Line   39 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   45 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘â╪┤┘ ╪╣┘ ╪د┘╪┤╪░┘ê╪░
+  Line   67 | ≡اç╕≡اçخ AR | Text widget          | ╪ش┘à┘è╪╣ ╪د┘╪ص╪د┘╪د╪ز
+  Line   71 | ≡اç╕≡اçخ AR | Text widget          | ┘é┘è╪» ╪د┘╪د┘╪ز╪╕╪د╪▒
+  Line   75 | ≡اç╕≡اçخ AR | Text widget          | ┘é┘è╪» ╪د┘╪ز╪ص┘é┘è┘é
+  Line   79 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪د┘╪ص┘
+  Line  123 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪┤╪░┘ê╪░╪د╪ز ┘à┘â╪ز╪┤┘╪ر
+  Line  148 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  172 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪┤╪░┘ê╪░╪د╪ز ╪╣╪د┘┘è╪ر ╪د┘╪«╪╖┘ê╪▒╪ر
+  Line  210 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪ز┘╪ذ┘è┘ç╪د╪ز
+  Line  256 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à╪ز ╪د┘┘à╪▒╪د╪ش╪╣╪ر ╪ذ┘╪ش╪د╪ص
+  Line  262 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘╪ز ╪د┘┘à╪▒╪د╪ش╪╣╪ر
+  Line  339 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪▒╪د╪ش╪╣╪ر
+  Line  574 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪▒╪د╪ش╪╣╪ر ╪د┘╪┤╪░┘ê╪░
+  Line  598 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘è╪ش╪د╪ذ┘è ╪«╪د╪╖╪خ
+  Line  602 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪ج┘â╪»
+  Line  625 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  636 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  584 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪ص╪د┘╪ر
+  Line  615 | ≡اç╕≡اçخ AR | Label text           | ┘à┘╪د╪ص╪╕╪د╪ز (╪د╪«╪ز┘è╪د╪▒┘è)
+
+≡اô lib\screens\anomaly_settings_screen.dart
+--------------------------------------------------------------------------------
+  Line   92 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز ╪ذ┘╪ش╪د╪ص
+  Line   97 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز
+  Line  105 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${e.toString()}
+  Line  119 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪»╪د╪»╪د╪ز ╪د┘┘â╪┤┘ ╪╣┘ ╪د┘╪┤╪░┘ê╪░
+  Line  142 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘╪╣┘è┘ ╪د┘┘â╪┤┘ ╪╣┘ ╪د┘╪┤╪░┘ê╪░
+  Line  143 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘â╪ز╪┤╪د┘ ╪د┘╪│┘┘ê┘â ╪║┘è╪▒ ╪د┘╪╖╪ذ┘è╪╣┘è ╪ز┘┘é╪د╪خ┘è╪د┘ï
+  Line  196 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘╪«┘╪╢╪ر
+  Line  209 | ≡اç╕≡اçخ AR | Text widget          | ╪╣╪د┘┘è╪ر
+  Line  224 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪▒╪│╪د┘ ╪ز┘╪ذ┘è┘ç╪د╪ز
+  Line  225 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪«╪╖╪د╪▒ ╪د┘┘à╪│╪ج┘ê┘┘è┘ ╪╣┘╪» ╪د┘â╪ز╪┤╪د┘ ╪┤╪░┘ê╪░
+  Line  240 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘╪«┘╪╢
+  Line  244 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪ز┘ê╪│╪╖
+  Line  248 | ≡اç╕≡اçخ AR | Text widget          | ╪╣╪د┘┘è
+  Line  252 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪▒╪ش
+  Line  269 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣┘┘è┘é ╪د┘╪ص╪│╪د╪ذ╪د╪ز ╪د┘╪ص╪▒╪ش╪ر
+  Line  270 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣┘┘è┘é ╪ز┘┘é╪د╪خ┘è ┘┘╪ص╪│╪د╪ذ╪د╪ز ╪░╪د╪ز ╪د┘╪┤╪░┘ê╪░ ╪د┘╪ص╪▒╪ش
+  Line  275 | ≡اç╕≡اçخ AR | Text widget          | ┘ê╪╢╪╣ ╪╣┘╪د┘à╪ر ╪╣┘┘ë ╪د┘╪║╪┤
+  Line  276 | ≡اç╕≡اçخ AR | Text widget          | ┘ê╪╢╪╣ ╪╣┘╪د┘à╪ر ╪ز┘┘é╪د╪خ┘è╪ر ╪╣┘┘ë ┘à╪ص╪د┘ê┘╪د╪ز ╪د┘╪║╪┤
+  Line  234 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪ص╪» ╪د┘╪ث╪»┘┘ë ┘┘╪ز┘╪ذ┘è┘ç
+
+≡اô lib\screens\auth_wrapper.dart
+--------------------------------------------------------------------------------
+  Line  119 | ≡اç║≡اç╕ EN | Text widget          | Error loading user data: $err
+  Line  126 | ≡اç║≡اç╕ EN | Text widget          | Auth error: $err
+
+≡اô lib\screens\badge_detail_screen.dart
+--------------------------------------------------------------------------------
+  Line   56 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\screens\badge_management_screen.dart
+--------------------------------------------------------------------------------
+  Line   42 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+  Line  227 | ≡اç║≡اç╕ EN | Label text           | points>=
+  Line  234 | ≡اç║≡اç╕ EN | Label text           | quizzes>=
+  Line  241 | ≡اç║≡اç╕ EN | Label text           | tasks>=
+  Line  248 | ≡اç║≡اç╕ EN | Label text           | lessons>=
+  Line  255 | ≡اç║≡اç╕ EN | Label text           | streak>=
+  Line  262 | ≡اç║≡اç╕ EN | Label text           | reviews>=
+
+≡اô lib\screens\bigquery_export_screen.dart
+--------------------------------------------------------------------------------
+  Line   31 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ح╪╣╪»╪د╪» BigQuery ╪ث┘ê┘╪د┘ï
+  Line   40 | ≡اç╕≡اçخ AR | Text widget          | BigQuery ╪║┘è╪▒ ┘à┘┘╪╣┘ّ┘
+  Line   62 | ≡اç╕≡اçخ AR | Text widget          | ╪ذ╪»╪ث ╪د┘╪ز╪╡╪»┘è╪▒ ╪ذ┘╪ش╪د╪ص
+  Line   69 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${e.toString()}
+  Line   85 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   93 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╡╪»┘è╪▒ BigQuery
+  Line  132 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪│╪ز╪«╪»┘à┘è┘
+  Line  136 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪»┘ê╪▒╪د╪ز
+  Line  140 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪│╪ش┘è┘╪د╪ز
+  Line  144 | ≡اç╕≡اçخ AR | Text widget          | ┘╪ز╪د╪خ╪ش ╪د┘╪د╪«╪ز╪ذ╪د╪▒╪د╪ز
+  Line  148 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪┤┘ç╪د╪»╪د╪ز
+  Line  152 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘┘é╪د╪╖ ┘ê╪د┘╪ح┘╪ش╪د╪▓╪د╪ز
+  Line  156 | ≡اç╕≡اçخ AR | Text widget          | ╪ش┘à┘è╪╣ ╪د┘╪ذ┘è╪د┘╪د╪ز
+  Line  199 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ص╪»┘è╪س
+  Line  216 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪╣┘à┘┘è╪د╪ز ╪ز╪╡╪»┘è╪▒
+  Line  233 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  126 | ≡اç╕≡اçخ AR | Label text           | ┘┘ê╪╣ ╪د┘╪ذ┘è╪د┘╪د╪ز
+
+≡اô lib\screens\bigquery_settings_screen.dart
+--------------------------------------------------------------------------------
+  Line  102 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز ╪ذ┘╪ش╪د╪ص
+  Line  108 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز
+  Line  116 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${e.toString()}
+  Line  130 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪»╪د╪»╪د╪ز BigQuery
+  Line  155 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘╪╣┘è┘ BigQuery Export
+  Line  156 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╡╪»┘è╪▒ ╪د┘╪ذ┘è╪د┘╪د╪ز ╪ح┘┘ë BigQuery
+  Line  275 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪»┘ê┘è
+  Line  279 | ≡اç╕≡اçخ AR | Text widget          | ┘è┘ê┘à┘è
+  Line  283 | ≡اç╕≡اçخ AR | Text widget          | ╪ث╪│╪ذ┘ê╪╣┘è
+  Line  287 | ≡اç╕≡اçخ AR | Text widget          | ╪┤┘ç╪▒┘è
+  Line  169 | ≡اç║≡اç╕ EN | Label text           | Project ID *
+  Line  185 | ≡اç║≡اç╕ EN | Label text           | Dataset ID *
+  Line  201 | ≡اç║≡اç╕ EN | Label text           | Service Account JSON *
+  Line  269 | ≡اç╕≡اçخ AR | Label text           | ╪ز┘â╪▒╪د╪▒ ╪د┘╪ز╪╡╪»┘è╪▒
+  Line  170 | ≡اç║≡اç╕ EN | Hint text            | my-project-id
+  Line  186 | ≡اç║≡اç╕ EN | Hint text            | training_data
+  Line  202 | ≡اç║≡اç╕ EN | Hint text            | {
+
+≡اô lib\screens\company_admin_dashboard.dart
+--------------------------------------------------------------------------------
+  Line   46 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+  Line  198 | ≡اç║≡اç╕ EN | Text widget          | ${e.activeUsers}
+
+≡اô lib\screens\course_chat_screen.dart
+--------------------------------------------------------------------------------
+  Line   47 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪ص╪د╪»╪س╪ر ╪د┘┘â┘ê╪▒╪│
+  Line   88 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪╣┘┘ê┘à╪د╪ز ╪د┘┘à╪ص╪د╪»╪س╪ر
+  Line  100 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line  120 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  185 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪ح╪▒╪│╪د┘ ╪د┘╪▒╪│╪د┘╪ر: $e
+  Line  203 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘
+  Line  211 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘
+  Line  220 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪ذ┘╪د╪║
+  Line  238 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  249 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  253 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  269 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ز╪╣╪»┘è┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  275 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪د┘╪ز╪╣╪»┘è┘: $e
+  Line  288 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  289 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ث┘╪ز ┘à╪ز╪ث┘â╪» ┘à┘ ╪ص╪░┘ ┘ç╪░┘ç ╪د┘╪▒╪│╪د┘╪ر╪ا
+  Line  316 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ص╪░┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  322 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪د┘╪ص╪░┘: $e
+  Line  340 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪د┘╪ح╪ذ┘╪د╪║ ╪╣┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  346 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪د┘╪ح╪ذ┘╪د╪║: $e
+  Line  384 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ز╪║┘è┘è╪▒ ╪ص╪د┘╪ر ╪د┘┘â╪ز┘à
+  Line  401 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘â┘ê╪▒╪│: ${_chatRoom!.courseName}
+  Line  402 | ≡اç╕≡اçخ AR | Text widget          | ╪╣╪»╪» ╪د┘┘à╪┤╪د╪▒┘â┘è┘: ${_chatRoom!.participantIds.length}
+  Line  403 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪د╪▒┘è╪« ╪د┘╪ح┘╪┤╪د╪ة: ${_chatRoom!.createdAt}
+  Line  409 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪║┘╪د┘é
+  Line  243 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘╪▒╪│╪د┘╪ر ╪د┘╪ش╪»┘è╪»╪ر
+
+≡اô lib\screens\course_details_screen.dart
+--------------------------------------------------------------------------------
+  Line  211 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪┤╪د╪▒╪د╪ز ┘ê╪د┘╪ح┘╪ش╪د╪▓╪د╪ز
+  Line  219 | ≡اç╕≡اçخ AR | Text widget          | ┘┘ê╪ص╪ر ╪د┘┘à╪ز╪╡╪»╪▒┘è┘
+  Line  227 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ح┘╪ش╪د╪▓╪د╪ز
+  Line  235 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘ê╪ص╪»╪د╪ز ╪د┘╪ز╪╣┘┘è┘à┘è╪ر
+  Line  243 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪د╪«╪ز╪ذ╪د╪▒╪د╪ز
+  Line  251 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘â╪ز╪ذ╪ر ╪د┘┘à┘ê╪د╪▒╪»
+  Line  260 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪ز╪»╪▒╪ذ┘è┘
+  Line  268 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ص┘┘è┘╪د╪ز ╪د┘┘â┘ê╪▒╪│
+  Line  276 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪»╪د╪»╪د╪ز ╪د┘┘┘é╪د╪╖
+  Line  286 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘é┘è┘è┘à╪د╪ز┘è
+  Line  313 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪╣┘┘ê┘à╪د╪ز ╪د┘┘â┘ê╪▒╪│
+  Line  314 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘╪د╪╡┘è┘ ╪د┘┘â┘ê╪▒╪│ ╪د┘┘â╪د┘à┘╪ر
+  Line  318 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪║┘╪د┘é
+  Line  345 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $e
+
+≡اô lib\screens\create_badge_screen.dart
+--------------------------------------------------------------------------------
+  Line   73 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ح┘╪┤╪د╪ة ╪د┘╪┤╪د╪▒╪ر
+  Line   80 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line   90 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪┤╪د╪ة ╪┤╪د╪▒╪ر ╪ش╪»┘è╪»╪ر
+  Line  128 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘╪╣┘╪ر
+  Line  133 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘╪ص ╪ز┘┘é╪د╪خ┘è
+  Line  210 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  100 | ≡اç╕≡اçخ AR | Label text           | ╪د┘┘à╪╣╪▒┘ (┘╪▒┘è╪»)
+  Line  108 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪د╪│┘à
+  Line  116 | ≡اç╕≡اçخ AR | Label text           | ╪د┘┘ê╪╡┘
+  Line  121 | ≡اç╕≡اçخ AR | Label text           | ╪▒╪د╪ذ╪╖ ╪د┘╪ث┘è┘é┘ê┘╪ر (╪د╪«╪ز┘è╪د╪▒┘è)
+  Line  149 | ≡اç╕≡اçخ AR | Label text           | ┘┘é╪د╪╖ ظëح
+  Line  158 | ≡اç╕≡اçخ AR | Label text           | ╪│┘╪│┘╪ر ╪ث┘è╪د┘à ظëح
+  Line  168 | ≡اç╕≡اçخ AR | Label text           | ╪د╪«╪ز╪ذ╪د╪▒╪د╪ز ┘à╪ش╪ز╪د╪▓╪ر ظëح
+  Line  178 | ≡اç╕≡اçخ AR | Label text           | ┘à┘ç╪د┘à ┘à┘╪ش╪▓╪ر ظëح
+  Line  188 | ≡اç╕≡اçخ AR | Label text           | ╪»╪▒┘ê╪│ ┘à┘â╪ز┘à┘╪ر ظëح
+  Line  198 | ≡اç╕≡اçخ AR | Label text           | ┘à╪▒╪د╪ش╪╣╪د╪ز ┘à┘â╪ز┘ê╪ذ╪ر ظëح
+
+≡اô lib\screens\create_quiz_screen.dart
+--------------------------------------------------------------------------------
+  Line   65 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ح┘╪┤╪د╪ة ╪د┘╪د╪«╪ز╪ذ╪د╪▒ - ╪ث╪╢┘ ╪د┘╪ث╪│╪خ┘╪ر ╪د┘╪ت┘
+  Line   79 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $e
+  Line   96 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪┤╪د╪ة ╪د╪«╪ز╪ذ╪د╪▒ ╪ش╪»┘è╪»
+  Line  123 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪د┘┘è: ╪ح╪╢╪د┘╪ر ╪د┘╪ث╪│╪خ┘╪ر
+  Line  107 | ≡اç╕≡اçخ AR | Label text           | ╪╣┘┘ê╪د┘ ╪د┘╪د╪«╪ز╪ذ╪د╪▒
+  Line  108 | ≡اç╕≡اçخ AR | Hint text            | ┘à╪س╪د┘: ╪د╪«╪ز╪ذ╪د╪▒ ╪ث╪│╪د╪│┘è╪د╪ز Flutter
+
+≡اô lib\screens\department_members_screen.dart
+--------------------------------------------------------------------------------
+  Line   26 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\screens\departments_screen.dart
+--------------------------------------------------------------------------------
+  Line   23 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\screens\direct_chat_screen.dart
+--------------------------------------------------------------------------------
+  Line  104 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ┘┘à ┘è╪ز┘à ╪د┘╪╣╪س┘ê╪▒ ╪╣┘┘ë ╪ذ┘è╪د┘╪د╪ز ╪د┘┘à╪│╪ز╪«╪»┘à
+  Line  149 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪ص╪د╪»╪س╪ر ┘à╪ذ╪د╪┤╪▒╪ر
+  Line  178 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪╕╪▒ ╪د┘┘à╪│╪ز╪«╪»┘à
+  Line  179 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ز╪▒┘è╪» ╪ص╪╕╪▒ ┘ç╪░╪د ╪د┘┘à╪│╪ز╪«╪»┘à╪ا ┘┘ ╪ز╪ز┘à┘â┘ ┘à┘ ╪د╪│╪ز┘é╪ذ╪د┘ ╪▒...
+  Line  183 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  190 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪╕╪▒
+  Line  236 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘ ╪د┘┘à╪ص╪د╪»╪س╪ر
+  Line  237 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ز╪▒┘è╪» ╪ص╪░┘ ┘ç╪░┘ç ╪د┘┘à╪ص╪د╪»╪س╪ر╪ا ╪│┘è╪ز┘à ╪ح╪«┘╪د╪ج┘ç╪د ┘à┘ ┘é╪د╪خ┘à╪ز...
+  Line  248 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘
+  Line  284 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪ذ┘╪د╪║
+  Line  302 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪ذ╪»╪ث ╪د┘┘à╪ص╪د╪»╪س╪ر...
+  Line  325 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: ${error.toString()}
+  Line  385 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪▒┘╪╣ ╪د┘┘à┘┘: $e
+  Line  429 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪▒┘╪╣ ╪د┘╪╡┘ê╪▒╪ر: $e
+  Line  598 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘
+  Line  633 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  669 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  680 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘ ╪د┘╪▒╪│╪د┘╪ر
+  Line  681 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ث┘╪ز ┘à╪ز╪ث┘â╪» ┘à┘ ╪ص╪░┘ ┘ç╪░┘ç ╪د┘╪▒╪│╪د┘╪ر╪ا
+  Line  440 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ╪▒╪│╪د┘╪ر...
+  Line  638 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘╪▒╪│╪د┘╪ر ╪د┘╪ش╪»┘è╪»╪ر
+
+≡اô lib\screens\direct_messages_screen.dart
+--------------------------------------------------------------------------------
+  Line   59 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪▒╪ش┘ë ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   83 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪ص╪د╪»╪س╪د╪ز
+  Line  159 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: ${error.toString()}
+  Line  223 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪د┘╪ث╪▒╪┤┘╪ر
+  Line   73 | ≡اç╕≡اçخ AR | Hint text            | ╪د╪ذ╪ص╪س ┘┘è ╪د┘┘à╪ص╪د╪»╪س╪د╪ز...
+
+≡اô lib\screens\email_verification_screen.dart
+--------------------------------------------------------------------------------
+  Line   88 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪ص┘é┘é ┘à┘ ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è
+
+≡اô lib\screens\forgot_password_screen.dart
+--------------------------------------------------------------------------------
+  Line  103 | ≡اç╕≡اçخ AR | Text widget          | ┘╪│┘è╪ز ┘â┘┘à╪ر ╪د┘┘à╪▒┘ê╪▒
+  Line  207 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪╣┘ê╪»╪ر ┘╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   61 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ╪║┘è╪▒ ┘à╪│╪ش┘
+  Line   64 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ╪║┘è╪▒ ╪╡╪ص┘è╪ص
+  Line   67 | ≡اç╕≡اçخ AR | Error message        | ┘à╪ص╪د┘ê┘╪د╪ز ┘â╪س┘è╪▒╪ر. ┘è╪▒╪ش┘ë ╪د┘┘à╪ص╪د┘ê┘╪ر ┘╪د╪ص┘é╪د┘ï
+  Line   70 | ≡اç╕≡اçخ AR | Error message        | ╪«╪╖╪ث ┘┘è ╪د┘╪د╪ز╪╡╪د┘ ╪ذ╪د┘╪ح┘╪ز╪▒┘╪ز
+  Line   73 | ≡اç╕≡اçخ AR | Error message        | ┘╪┤┘ ╪ح╪▒╪│╪د┘ ╪▒╪│╪د┘╪ر ╪ح╪╣╪د╪»╪ر ╪د┘╪ز╪╣┘è┘è┘
+  Line  148 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è
+  Line  149 | ≡اç║≡اç╕ EN | Hint text            | example@email.com
+
+≡اô lib\screens\gamification\achievements_screen.dart
+--------------------------------------------------------------------------------
+  Line   40 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ح┘╪ش╪د╪▓╪د╪ز
+  Line   41 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line  373 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘â┘
+  Line  492 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪║┘╪د┘é
+  Line  527 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ز╪ص┘à┘è┘ ╪د┘╪ح┘╪ش╪د╪▓╪د╪ز
+  Line  540 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+
+≡اô lib\screens\gamification\analytics_dashboard_screen.dart
+--------------------------------------------------------------------------------
+  Line   27 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪ص┘┘è┘╪د╪ز
+  Line  268 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪│╪ز┘ê┘ë ${student.level}
+  Line  390 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ز╪ص┘à┘è┘ ╪د┘╪ز╪ص┘┘è┘╪د╪ز
+  Line  403 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+
+≡اô lib\screens\gamification\gamification_settings_screen.dart
+--------------------------------------------------------------------------------
+  Line   92 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ز╪ص┘à┘è┘ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز
+  Line  162 | ≡اç╕≡اçخ AR | Text widget          | ظ£à ╪ز┘à ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز ╪ذ┘╪ش╪د╪ص
+  Line  169 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز: $e
+  Line  186 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪»╪د╪»╪د╪ز ╪د┘┘┘é╪د╪╖
+  Line  205 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  219 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪░╪د ╪ز┘à ╪د┘╪ز╪╣╪╖┘è┘╪î ┘┘ ┘è╪ز┘à ┘à┘╪ص ╪ث┘è ┘┘é╪د╪╖
+  Line  290 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à┘╪┤┘ê╪▒╪د╪ز ┘ê╪د┘╪ز╪╣┘┘è┘é╪د╪ز
+  Line  339 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪┤╪ش┘è╪╣ ╪د┘╪»╪«┘ê┘ ╪د┘┘à╪ز┘ê╪د╪╡┘
+  Line  377 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕ ╪د┘╪ح╪╣╪»╪د╪»╪د╪ز
+  Line  394 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ح╪╣╪د╪»╪ر ╪د┘┘é┘è┘à ╪د┘╪د┘╪ز╪▒╪د╪╢┘è╪ر
+  Line  398 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘é┘è┘à ╪د┘╪د┘╪ز╪▒╪د╪╢┘è╪ر
+
+≡اô lib\screens\gamification\leaderboard_screen.dart
+--------------------------------------------------------------------------------
+  Line   60 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪ز╪╡╪»╪▒┘è┘
+  Line  411 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+
+≡اô lib\screens\gamification\module_detail_screen.dart
+--------------------------------------------------------------------------------
+  Line   25 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘╪د╪╡┘è┘ ╪د┘┘ê╪ص╪»╪ر
+  Line   35 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $error
+  Line   39 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+  Line   53 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ┘┘è ╪ز╪ص┘à┘è┘ ╪د┘╪ز┘é╪»┘à: $error
+  Line  416 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $e
+
+≡اô lib\screens\hris_import_screen.dart
+--------------------------------------------------------------------------------
+  Line   38 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪│╪ز┘è╪▒╪د╪» ╪د┘┘à╪│╪ز╪«╪»┘à┘è┘
+  Line   66 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز┘è╪د╪▒ ┘à┘┘
+  Line   73 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ص┘à┘è┘ ┘é╪د┘╪ذ ┘à╪ص┘┘ê╪╕
+  Line  129 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${e.toString()}
+  Line  201 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕ ┘â┘é╪د┘╪ذ
+  Line  219 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪╣╪د┘è┘╪ر
+  Line  228 | ≡اç╕≡اçخ AR | Text widget          | ╪▒╪ش┘ê╪╣
+  Line  250 | ≡اç╕≡اçخ AR | Text widget          | -- ┘╪د ╪┤┘è╪ة --
+  Line  326 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ص╪»┘è╪س ╪د┘┘à╪│╪ز╪«╪»┘à┘è┘ ╪د┘┘à┘ê╪ش┘ê╪»┘è┘
+  Line  363 | ≡اç╕≡اçخ AR | Text widget          | ╪ذ╪»╪ة ╪د┘╪د╪│╪ز┘è╪▒╪د╪»
+  Line  381 | ≡اç║≡اç╕ EN | Text widget          | $label: $value
+  Line  447 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪د┘╪د╪│╪ز┘è╪▒╪د╪» ╪ذ┘╪ش╪د╪ص
+  Line  472 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ┘é┘ê╪د┘╪ذ ┘à╪ص┘┘ê╪╕╪ر
+  Line  482 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز╪▒ ┘é╪د┘╪ذ
+  Line  503 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  210 | ≡اç╕≡اçخ AR | Label text           | ╪د╪│┘à ╪د┘┘é╪د┘╪ذ
+
+≡اô lib\screens\import_history_screen.dart
+--------------------------------------------------------------------------------
+  Line   18 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   24 | ≡اç╕≡اçخ AR | Text widget          | ╪│╪ش┘ ╪د┘╪د╪│╪ز┘è╪▒╪د╪»╪د╪ز
+  Line   47 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${snapshot.error}
+  Line   65 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪╣┘à┘┘è╪د╪ز ╪د╪│╪ز┘è╪▒╪د╪»
+  Line   77 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪│╪ز┘è╪▒╪د╪» ╪ش╪»┘è╪»
+
+≡اô lib\screens\learning_paths_screen.dart
+--------------------------------------------------------------------------------
+  Line   46 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+  Line  190 | ≡اç║≡اç╕ EN | Text widget          | Active assignments: ${list.length}
+  Line  229 | ≡اç║≡اç╕ EN | Text widget          | ${(frac * 100).toStringAsFixed(0)}%
+  Line  283 | ≡اç║≡اç╕ EN | Text widget          | ${s.order}. ${s.title}
+  Line  346 | ≡اç║≡اç╕ EN | Text widget          | New Learning Path
+  Line  371 | ≡اç║≡اç╕ EN | Text widget          | Title required
+  Line  388 | ≡اç║≡اç╕ EN | Text widget          | Path created
+  Line  391 | ≡اç║≡اç╕ EN | Text widget          | Failed: $e
+  Line  418 | ≡اç║≡اç╕ EN | Text widget          | Manage Steps ظ¤ ${widget.title}
+  Line  431 | ≡اç║≡اç╕ EN | Text widget          | Add Step
+  Line  468 | ≡اç║≡اç╕ EN | Text widget          | Step added
+  Line  488 | ≡اç║≡اç╕ EN | Text widget          | No steps yet
+  Line  499 | ≡اç║≡اç╕ EN | Text widget          | Steps reordered
+  Line  512 | ≡اç║≡اç╕ EN | Text widget          | Step deleted
+  Line  535 | ≡اç║≡اç╕ EN | Text widget          | Edit Step
+  Line  571 | ≡اç║≡اç╕ EN | Text widget          | Step updated
+  Line  645 | ≡اç║≡اç╕ EN | Text widget          | Assign Trainer
+  Line  664 | ≡اç║≡اç╕ EN | Text widget          | ${u.name} ظت ${u.email}
+  Line  680 | ≡اç║≡اç╕ EN | Text widget          | ظ¤ None ظ¤
+  Line  733 | ≡اç║≡اç╕ EN | Text widget          | Please select trainer and dates
+  Line  738 | ≡اç║≡اç╕ EN | Text widget          | Start must be before End
+  Line  758 | ≡اç║≡اç╕ EN | Text widget          | Assignment created
+  Line  352 | ≡اç║≡اç╕ EN | Label text           | Title
+  Line  354 | ≡اç║≡اç╕ EN | Label text           | Description
+  Line  447 | ≡اç║≡اç╕ EN | Label text           | Type
+  Line  669 | ≡اç║≡اç╕ EN | Label text           | Trainer
+  Line  688 | ≡اç║≡اç╕ EN | Label text           | Department (optional)
+
+≡اô lib\screens\login_screen.dart
+--------------------------------------------------------------------------------
+  Line  163 | ≡اç╕≡اçخ AR | Text widget          | ┘╪│┘è╪ز ┘â┘┘à╪ر ╪د┘┘à╪▒┘ê╪▒╪ا
+  Line   51 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ╪║┘è╪▒ ┘à╪│╪ش┘
+  Line   56 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ╪ث┘ê ┘â┘┘à╪ر ╪د┘┘à╪▒┘ê╪▒ ╪║┘è╪▒ ╪╡╪ص┘è╪ص╪ر
+  Line   59 | ≡اç╕≡اçخ AR | Error message        | ┘ç╪░╪د ╪د┘╪ص╪│╪د╪ذ ┘à╪╣╪╖┘. ┘è╪▒╪ش┘ë ╪د┘╪ز┘ê╪د╪╡┘ ┘à╪╣ ╪د┘╪»╪╣┘à
+  Line   62 | ≡اç╕≡اçخ AR | Error message        | ┘à╪ص╪د┘ê┘╪د╪ز ┘â╪س┘è╪▒╪ر. ┘è╪▒╪ش┘ë ╪د┘┘à╪ص╪د┘ê┘╪ر ┘╪د╪ص┘é╪د┘ï
+  Line   65 | ≡اç╕≡اçخ AR | Error message        | ╪«╪╖╪ث ┘┘è ╪د┘╪د╪ز╪╡╪د┘ ╪ذ╪د┘╪ح┘╪ز╪▒┘╪ز
+  Line   68 | ≡اç╕≡اçخ AR | Error message        | ╪ص╪»╪س ╪«╪╖╪ث ╪ث╪س┘╪د╪ة ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+
+≡اô lib\screens\manager_dashboard.dart
+--------------------------------------------------------------------------------
+  Line   81 | ≡اç║≡اç╕ EN | Text widget          | Active Now
+  Line   82 | ≡اç║≡اç╕ EN | Text widget          | Upcoming 30d
+  Line   83 | ≡اç║≡اç╕ EN | Text widget          | Archive 30d
+  Line   91 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\screens\manual_grade_submission_screen.dart
+--------------------------------------------------------------------------------
+  Line  126 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╡╪ص┘è╪ص ┘è╪»┘ê┘è
+  Line  130 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪│┘┘è┘à ╪║┘è╪▒ ┘à┘ê╪ش┘ê╪»
+  Line  138 | ≡اç╕≡اçخ AR | Text widget          | ╪»╪▒╪ش╪ر ╪ت┘┘è╪ر: ${submission!.autoScore}
+  Line  179 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕ ╪د┘╪ز╪╡╪ص┘è╪ص
+  Line  167 | ≡اç╕≡اçخ AR | Label text           | ╪»╪▒╪ش╪ر ╪د┘╪│╪ج╪د┘ (╪╣╪»╪» ╪╡╪ص┘è╪ص)
+
+≡اô lib\screens\manual_grading_submissions_screen.dart
+--------------------------------------------------------------------------------
+  Line   16 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪▒╪د╪ش╪╣╪ر ╪ح╪ش╪د╪ذ╪د╪ز ┘╪╡┘è╪ر
+  Line   26 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪ز╪│┘┘è┘à╪د╪ز ╪ز╪ص╪ز╪د╪ش ╪ز╪╡╪ص┘è╪ص ┘è╪»┘ê┘è.
+
+≡اô lib\screens\message_search_screen.dart
+--------------------------------------------------------------------------------
+  Line   87 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ┘┘è ╪د┘╪ذ╪ص╪س: $e
+
+≡اô lib\screens\message_thread_screen.dart
+--------------------------------------------------------------------------------
+  Line   74 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪د┘╪╣╪س┘ê╪▒ ╪╣┘┘ë ╪د┘╪▒╪│╪د┘╪ر ╪د┘╪ث╪╡┘┘è╪ر
+  Line   84 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪د┘╪╣╪س┘ê╪▒ ╪╣┘┘ë ╪ذ┘è╪د┘╪د╪ز ╪د┘┘à╪│╪ز╪«╪»┘à
+  Line  120 | ≡اç╕≡اçخ AR | Text widget          | ┘╪┤┘ ╪ح╪▒╪│╪د┘ ╪د┘╪▒╪»
+  Line  133 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪▒╪»┘ê╪»
+  Line  143 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪د┘╪╣╪س┘ê╪▒ ╪╣┘┘ë ╪د┘╪▒╪│╪د┘╪ر
+  Line  151 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  163 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪▒╪»┘ê╪» ╪ذ╪╣╪»
+  Line  208 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ╪▒╪»┘â...
+
+≡اô lib\screens\moderation_queue_screen.dart
+--------------------------------------------------------------------------------
+  Line   96 | ≡اç╕≡اçخ AR | Text widget          | ┘é╪د╪خ┘à╪ر ╪د┘╪ح╪┤╪▒╪د┘
+  Line  104 | ≡اç║≡اç╕ EN | Text widget          | ${stats.pendingReports}
+  Line  121 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  156 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ┘┘è ╪ز╪ص┘à┘è┘ ╪د┘╪ز┘é╪د╪▒┘è╪▒: $error
+  Line  230 | ≡اç╕≡اçخ AR | Text widget          | ╪ذ┘┘ّ╪║ ╪╣┘┘ç: ${report.reporterName}
+  Line  402 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ث┘â┘è╪» ╪د┘╪ح╪ش╪▒╪د╪ة: $actionLabel
+  Line  403 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ث┘╪ز ┘à╪ز╪ث┘â╪» ┘à┘ $actionLabel╪ا
+  Line  407 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  412 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪ث┘â┘è╪»
+
+≡اô lib\screens\my_evaluations_screen.dart
+--------------------------------------------------------------------------------
+  Line  102 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز┘é┘è┘è┘à╪د╪ز ╪د┘╪«╪د╪╡╪ر ╪ذ┘è
+  Line  129 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘ ╪ث┘ê┘╪د┘ï
+  Line  141 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪ح╪╢╪د┘╪ر ╪ث┘è ╪ز┘é┘è┘è┘à╪د╪ز ┘┘â ╪ذ╪╣╪».
+  Line  191 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line  195 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ╪ذ╪د┘┘à╪╡╪د╪»┘é╪ر: $e
+
+≡اô lib\screens\org_admin_dashboard.dart
+--------------------------------------------------------------------------------
+  Line   24 | ≡اç║≡اç╕ EN | Text widget          | Org Admin Dashboard
+  Line   44 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+  Line  122 | ≡اç║≡اç╕ EN | Text widget          | Latest: ${latest.toStringAsFixed(fractionDigits...
+  Line  162 | ≡اç║≡اç╕ EN | Text widget          | AvgEv/Usr
+  Line  168 | ≡اç║≡اç╕ EN | Text widget          | ╬¤14d
+  Line  182 | ≡اç║≡اç╕ EN | Text widget          | ${e.activeUsers}
+
+≡اô lib\screens\personal_profile_screen.dart
+--------------------------------------------------------------------------------
+  Line  153 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ╪ذ╪د┘┘à╪╡╪د╪»┘é╪ر: $e
+  Line  156 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line  167 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à┘┘ ╪د┘╪┤╪«╪╡┘è
+  Line  181 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line  232 | ≡اç╕≡اçخ AR | Text widget          | ┘┘é╪د╪╖: ${up.points}
+  Line  320 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕ ╪د┘╪ز╪╣╪»┘è┘╪د╪ز
+  Line  582 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ╪ز╪ص┘à┘è┘ ╪د┘┘╪┤╪د╪╖: $e
+  Line  248 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪د╪│┘à
+  Line  263 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è
+
+≡اô lib\screens\privacy_policy_screen.dart
+--------------------------------------------------------------------------------
+  Line   58 | ≡اç╕≡اçخ AR | Text widget          | ╪│┘è╪د╪│╪ر ╪د┘╪«╪╡┘ê╪╡┘è╪ر
+
+≡اô lib\screens\quiz_hub_screen.dart
+--------------------------------------------------------------------------------
+  Line  229 | ≡اç╕≡اçخ AR | Text widget          | ... ╪ش╪د╪▒┘è ╪ح┘╪┤╪د╪ة ╪د┘┘à┘ç┘à╪ر
+  Line  353 | ≡اç║≡اç╕ EN | Text widget          | ${i + 1}
+
+≡اô lib\screens\quiz_list_screen.dart
+--------------------------------------------------------------------------------
+  Line   21 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪د╪«╪ز╪ذ╪د╪▒╪د╪ز
+  Line   49 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪ح┘╪┤╪د╪ة ╪ث┘è ╪د╪«╪ز╪ذ╪د╪▒╪د╪ز ╪ذ╪╣╪».
+  Line  122 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪┤╪د╪ة ╪د╪«╪ز╪ذ╪د╪▒
+
+≡اô lib\screens\quiz_results_screen.dart
+--------------------------------------------------------------------------------
+  Line   22 | ≡اç╕≡اçخ AR | Text widget          | ┘╪ز┘è╪ش╪ر ╪د┘╪د╪«╪ز╪ذ╪د╪▒
+  Line   63 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪╣┘ê╪»╪ر ╪ح┘┘ë ┘é╪د╪خ┘à╪ر ╪د┘╪د╪«╪ز╪ذ╪د╪▒╪د╪ز
+
+≡اô lib\screens\quiz_submissions_screen.dart
+--------------------------------------------------------------------------------
+  Line   18 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪│┘┘è┘à╪د╪ز: $quizTitle
+  Line   46 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è┘é┘à ╪ث┘è ┘à╪ز╪»╪▒╪ذ ╪ذ╪ز╪│┘┘è┘à ┘ç╪░╪د ╪د┘╪د╪«╪ز╪ذ╪د╪▒ ╪ذ╪╣╪».
+  Line   81 | ≡اç║≡اç╕ EN | Text widget          | $score
+
+≡اô lib\screens\resource_library_screen.dart
+--------------------------------------------------------------------------------
+  Line   89 | ≡اç╕≡اçخ AR | Text widget          | ┘à┘â╪ز╪ذ╪ر ╪د┘┘à┘ê╪د╪▒╪»
+  Line  116 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ┘à┘┘╪د╪ز ┘┘è ╪د┘┘à┘â╪ز╪ذ╪ر ╪ذ╪╣╪».
+  Line  158 | ≡اç╕≡اçخ AR | Text widget          | ╪ش╪د╪▒ ╪د┘╪▒┘╪╣...
+  Line  159 | ≡اç╕≡اçخ AR | Text widget          | ╪▒┘╪╣ ┘à┘┘
+
+≡اô lib\screens\settings_screen.dart
+--------------------------------------------------------------------------------
+  Line  125 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪╣╪▒╪ذ┘è╪ر
+  Line  159 | ≡اç║≡اç╕ EN | Text widget          | Super Admin Dashboard
+  Line  160 | ≡اç║≡اç╕ EN | Text widget          | Open global admin & tenants tools
+  Line  280 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\screens\signup_screen.dart
+--------------------------------------------------------------------------------
+  Line   71 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ┘à╪│╪ش┘ ╪ذ╪د┘┘╪╣┘
+  Line   74 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ذ╪▒┘è╪» ╪د┘╪ح┘┘â╪ز╪▒┘ê┘┘è ╪║┘è╪▒ ╪╡╪ص┘è╪ص
+  Line   77 | ≡اç╕≡اçخ AR | Error message        | ╪د┘╪ز╪│╪ش┘è┘ ┘à╪╣╪╖┘ ╪ص╪د┘┘è╪د┘ï
+  Line   80 | ≡اç╕≡اçخ AR | Error message        | ┘â┘┘à╪ر ╪د┘┘à╪▒┘ê╪▒ ╪╢╪╣┘è┘╪ر ╪ش╪»╪د┘ï
+  Line   83 | ≡اç╕≡اçخ AR | Error message        | ╪«╪╖╪ث ┘┘è ╪د┘╪د╪ز╪╡╪د┘ ╪ذ╪د┘╪ح┘╪ز╪▒┘╪ز
+  Line   86 | ≡اç╕≡اçخ AR | Error message        | ╪ص╪»╪س ╪«╪╖╪ث ╪ث╪س┘╪د╪ة ╪ح┘╪┤╪د╪ة ╪د┘╪ص╪│╪د╪ذ
+
+≡اô lib\screens\super_admin_dashboard.dart
+--------------------------------------------------------------------------------
+  Line   27 | ≡اç║≡اç╕ EN | Text widget          | Unauthorized (Super Admin only)
+  Line   37 | ≡اç║≡اç╕ EN | Text widget          | Super Admin
+  Line  114 | ≡اç║≡اç╕ EN | Text widget          | Error loading users: $e
+  Line  149 | ≡اç║≡اç╕ EN | Text widget          | Create Institution
+  Line  160 | ≡اç║≡اç╕ EN | Text widget          | Create Company
+  Line  242 | ≡اç║≡اç╕ EN | Text widget          | System Settings
+  Line  246 | ≡اç║≡اç╕ EN | Text widget          | Flags: ${s?.featureFlags.length ?? 0}
+  Line  247 | ≡اç║≡اç╕ EN | Text widget          | Thresholds: ${s?.thresholds.length ?? 0}
+  Line  264 | ≡اç║≡اç╕ EN | Text widget          | Settings error: $e
+  Line  296 | ≡اç║≡اç╕ EN | Text widget          | $title error: ${snap.error}
+  Line  303 | ≡اç║≡اç╕ EN | Text widget          | No $title
+  Line  365 | ≡اç║≡اç╕ EN | Text widget          | ${severity.toUpperCase()} ظت $status
+  Line  388 | ≡اç║≡اç╕ EN | Text widget          | No institutions
+  Line  402 | ≡اç║≡اç╕ EN | Text widget          | Institutions error: $e
+  Line  408 | ≡اç║≡اç╕ EN | Text widget          | No companies
+  Line  422 | ≡اç║≡اç╕ EN | Text widget          | Companies error: $e
+  Line  438 | ≡اç║≡اç╕ EN | Text widget          | No settings loaded
+  Line  527 | ≡اç║≡اç╕ EN | Text widget          | Institution created
+  Line  531 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+  Line  598 | ≡اç║≡اç╕ EN | Text widget          | Company created
+  Line  503 | ≡اç║≡اç╕ EN | Label text           | Name
+  Line  508 | ≡اç║≡اç╕ EN | Label text           | Plan Tier
+
+≡اô lib\screens\take_quiz_screen.dart
+--------------------------------------------------------------------------------
+  Line  140 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ╪ز┘ê╪ش╪» ╪ث╪│╪خ┘╪ر ┘┘è ┘ç╪░╪د ╪د┘╪د╪«╪ز╪ذ╪د╪▒ ╪ذ╪╣╪».
+  Line  220 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز╪▒
+  Line  244 | ≡اç╕≡اçخ AR | Text widget          | ┘┘ê╪╣ ╪│╪ج╪د┘ ╪║┘è╪▒ ┘à╪»╪╣┘ê┘à ╪ذ╪╣╪»
+  Line  256 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪│╪د╪ذ┘é
+  Line  263 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز╪د┘┘è
+  Line  270 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪│┘┘è┘à ╪د┘╪ح╪ش╪د╪ذ╪د╪ز
+  Line  184 | ≡اç╕≡اçخ AR | Label text           | ╪ح╪ش╪د╪ذ╪ز┘â ╪د┘┘é╪╡┘è╪▒╪ر
+  Line  194 | ≡اç╕≡اçخ AR | Label text           | ╪ح╪ش╪د╪ذ╪ز┘â ╪د┘┘à┘é╪د┘┘è╪ر
+
+≡اô lib\screens\terms_of_service_screen.dart
+--------------------------------------------------------------------------------
+  Line   58 | ≡اç╕≡اçخ AR | Text widget          | ╪┤╪▒┘ê╪╖ ╪د┘╪د╪│╪ز╪«╪»╪د┘à
+
+≡اô lib\screens\trainee_list_screen.dart
+--------------------------------------------------------------------------------
+  Line   22 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪ز╪»╪▒╪ذ┘ê┘
+  Line   32 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ┘è┘ê╪ش╪» ┘à╪ز╪»╪▒╪ذ┘ê┘ ┘┘è ┘ç╪░╪د ╪د┘┘â┘ê╪▒╪│ ╪ذ╪╣╪».
+  Line   44 | ≡اç╕≡اçخ AR | Text widget          | ╪ش╪د╪▒ ╪د┘╪ز╪ص┘à┘è┘...
+  Line   49 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪ز╪»╪▒╪ذ ╪║┘è╪▒ ┘à┘ê╪ش┘ê╪»: $traineeId
+
+≡اô lib\screens\user_picker_screen.dart
+--------------------------------------------------------------------------------
+  Line   73 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ┘┘è ╪ح┘╪┤╪د╪ة ╪د┘┘à╪ص╪د╪»╪س╪ر
+  Line   84 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪▒╪ش┘ë ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘
+  Line   94 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ┘è┘à┘â┘ ╪ز╪ص┘à┘è┘ ╪ذ┘è╪د┘╪د╪ز ╪د┘┘à╪│╪ز╪«╪»┘à
+  Line  105 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز╪▒ ┘à╪│╪ز╪«╪»┘à ┘┘┘à╪ص╪د╪»╪س╪ر
+  Line  202 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: ${error.toString()}
+  Line  208 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+  Line  113 | ≡اç╕≡اçخ AR | Hint text            | ╪د╪ذ╪ص╪س ╪╣┘ ┘à╪│╪ز╪«╪»┘à...
+
+≡اô lib\widgets\add_post_dialog.dart
+--------------------------------------------------------------------------------
+  Line   66 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪▒╪ش┘ë ┘â╪ز╪د╪ذ╪ر ┘à╪ص╪ز┘ê┘ë ╪ث┘ê ╪ح╪╢╪د┘╪ر ╪╡┘ê╪▒╪ر
+  Line  114 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث ┘┘è ╪▒┘╪╣ ╪د┘╪╡┘ê╪▒: ${error.message}
+  Line  138 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ┘╪┤╪▒ ╪د┘┘à┘╪┤┘ê╪▒ ╪ذ┘╪ش╪د╪ص
+  Line  145 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${error.message}
+  Line  238 | ≡اç╕≡اçخ AR | Text widget          | ╪د╪«╪ز┘è╪د╪▒ ╪╡┘ê╪▒
+  Line  246 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ز┘é╪د╪╖ ╪╡┘ê╪▒╪ر
+  Line  342 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  212 | ≡اç╕≡اçخ AR | Hint text            | ┘à╪د╪░╪د ╪ز╪▒┘è╪» ╪ث┘ ╪ز╪┤╪د╪▒┘â╪ا
+
+≡اô lib\widgets\badge_timeline.dart
+--------------------------------------------------------------------------------
+  Line   42 | ≡اç║≡اç╕ EN | Text widget          | Err: $e
+
+≡اô lib\widgets\chat\chat_input.dart
+--------------------------------------------------------------------------------
+  Line   85 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ╪▒╪│╪د┘╪ر...
+
+≡اô lib\widgets\comment_reaction_button.dart
+--------------------------------------------------------------------------------
+  Line   89 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘ ┘┘╪ز┘╪د╪╣┘
+
+≡اô lib\widgets\create_poll_dialog.dart
+--------------------------------------------------------------------------------
+  Line   51 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ص╪» ╪د┘╪ث┘é╪╡┘ë 10 ╪«┘è╪د╪▒╪د╪ز
+  Line   63 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ث┘ ┘è┘â┘ê┘ ┘ç┘╪د┘â ╪╣┘┘ë ╪د┘╪ث┘é┘ ╪«┘è╪د╪▒┘è┘
+  Line  112 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ح╪╢╪د┘╪ر ╪«┘è╪د╪▒┘è┘ ╪╣┘┘ë ╪د┘╪ث┘é┘
+  Line  151 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ح┘╪┤╪د╪ة ╪د┘╪د╪│╪ز╪╖┘╪د╪╣ ╪ذ┘╪ش╪د╪ص
+  Line  157 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line  277 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╢╪د┘╪ر ╪«┘è╪د╪▒
+  Line  289 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪│┘à╪د╪ص ╪ذ╪د╪«╪ز┘è╪د╪▒ ╪ث┘â╪س╪▒ ┘à┘ ╪«┘è╪د╪▒
+  Line  297 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╕┘ç╪د╪▒ ╪د┘┘╪ز╪د╪خ╪ش ┘é╪ذ┘ ╪د┘╪ز╪╡┘ê┘è╪ز
+  Line  306 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪د╪▒┘è╪« ╪د┘╪ز┘ç╪د╪ة ╪د┘╪د╪│╪ز╪╖┘╪د╪╣
+  Line  311 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ┘è┘ê╪ش╪» (┘à┘╪ز┘ê╪ص ╪»╪د╪خ┘à╪د┘ï)
+  Line  348 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  217 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪│╪ج╪د┘
+  Line  250 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪«┘è╪د╪▒ ${index + 1}
+  Line  218 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ╪│╪ج╪د┘ ╪د┘╪د╪│╪ز╪╖┘╪د╪╣...
+
+≡اô lib\widgets\edit_post_dialog.dart
+--------------------------------------------------------------------------------
+  Line   57 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ز╪ص╪»┘è╪س ╪د┘┘à┘╪┤┘ê╪▒
+  Line   66 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${error.message}
+  Line   79 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘ ╪د┘┘à┘╪┤┘ê╪▒
+  Line  109 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  126 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line   90 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ┘à╪ص╪ز┘ê┘ë ╪د┘┘à┘╪┤┘ê╪▒...
+
+≡اô lib\widgets\image_grid_widget.dart
+--------------------------------------------------------------------------------
+  Line  278 | ≡اç║≡اç╕ EN | Text widget          | ${_currentIndex + 1} / ${widget.imageUrls.length}
+  Line  350 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ┘╪ز╪ص ╪د┘╪╡┘ê╪▒╪ر ┘┘è ╪د┘┘à╪ز╪╡┘╪ص ┘┘╪ز╪ص┘à┘è┘
+  Line  358 | ≡اç╕≡اçخ AR | Text widget          | ┘╪د ┘è┘à┘â┘ ┘╪ز╪ص ╪د┘╪▒╪د╪ذ╪╖
+  Line  365 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث: $e
+
+≡اô lib\widgets\network_status.dart
+--------------------------------------------------------------------------------
+  Line   95 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪د┘┘à╪ص╪د┘ê┘╪ر
+
+≡اô lib\widgets\points_events_timeline.dart
+--------------------------------------------------------------------------------
+  Line   83 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\widgets\points_level_card.dart
+--------------------------------------------------------------------------------
+  Line  106 | ≡اç║≡اç╕ EN | Text widget          | ${nextBadge(next)} | -$remaining
+  Line  109 | ≡اç║≡اç╕ EN | Text widget          | $badgesLabel: ${(up?.badges.length ?? 0)}
+  Line  114 | ≡اç║≡اç╕ EN | Text widget          | Err: $e
+
+≡اô lib\widgets\poll_widget.dart
+--------------------------------------------------------------------------------
+  Line   27 | ≡اç╕≡اçخ AR | Text widget          | ┘┘à ┘è╪ز┘à ╪د┘╪╣╪س┘ê╪▒ ╪╣┘┘ë ╪د┘╪د╪│╪ز╪╖┘╪د╪╣
+  Line   42 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line   92 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+
+≡اô lib\widgets\reaction_button.dart
+--------------------------------------------------------------------------------
+  Line   75 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${error.message}
+
+≡اô lib\widgets\reaction_row.dart
+--------------------------------------------------------------------------------
+  Line  166 | ≡اç║≡اç╕ EN | Text widget          | ${names.length}
+  Line  184 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪║┘╪د┘é
+
+≡اô lib\widgets\recommendation_card.dart
+--------------------------------------------------------------------------------
+  Line  325 | ≡اç╕≡اçخ AR | Text widget          | ┘╪ز╪ص: ${rec.contentTitle}
+  Line  333 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪▒┘╪╢ ╪د┘╪ز┘ê╪╡┘è╪ر
+
+≡اô lib\widgets\report_dialog.dart
+--------------------------------------------------------------------------------
+  Line   42 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪▒╪ش┘ë ╪ح╪»╪«╪د┘ ╪│╪ذ╪ذ ╪د┘╪ح╪ذ┘╪د╪║
+  Line   51 | ≡اç╕≡اçخ AR | Text widget          | ┘è╪ش╪ذ ╪ز╪│╪ش┘è┘ ╪د┘╪»╪«┘ê┘ ╪ث┘ê┘╪د┘ï
+  Line   80 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ح╪▒╪│╪د┘ ╪د┘╪ذ┘╪د╪║ ╪ذ┘╪ش╪د╪ص. ╪│┘è╪ز┘à ┘à╪▒╪د╪ش╪╣╪ز┘ç ┘à┘ ┘é╪ذ┘ ╪د┘┘à╪┤...
+  Line   88 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪»╪س ╪«╪╖╪ث ╪ث╪س┘╪د╪ة ╪ح╪▒╪│╪د┘ ╪د┘╪ذ┘╪د╪║
+  Line   97 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line  136 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ح╪ذ┘╪د╪║ ╪╣┘ ┘à╪ص╪ز┘ê┘ë
+  Line  204 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  217 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪▒╪│╪د┘ ╪د┘╪ذ┘╪د╪║
+  Line  243 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘╪ح╪ذ┘╪د╪║
+  Line  148 | ≡اç╕≡اçخ AR | Label text           | ┘┘ê╪╣ ╪د┘╪ذ┘╪د╪║
+  Line  170 | ≡اç╕≡اçخ AR | Label text           | ╪د┘╪│╪ذ╪ذ *
+  Line  183 | ≡اç╕≡اçخ AR | Label text           | ╪ز┘╪د╪╡┘è┘ ╪ح╪╢╪د┘┘è╪ر (╪د╪«╪ز┘è╪د╪▒┘è)
+  Line  171 | ≡اç╕≡اçخ AR | Hint text            | ╪ث╪»╪«┘ ╪│╪ذ╪ذ ╪د┘╪ح╪ذ┘╪د╪║
+  Line  184 | ≡اç╕≡اçخ AR | Hint text            | ╪ث╪╢┘ ╪ث┘è ╪ز┘╪د╪╡┘è┘ ╪ح╪╢╪د┘┘è╪ر ╪ز╪│╪د╪╣╪» ┘┘è ╪د┘┘à╪▒╪د╪ش╪╣╪ر
+
+≡اô lib\widgets\user_search_dialog.dart
+--------------------------------------------------------------------------------
+  Line   55 | ≡اç║≡اç╕ EN | Text widget          | Error: $e
+
+≡اô lib\widgets\wall_comments_sheet.dart
+--------------------------------------------------------------------------------
+  Line   90 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $e
+  Line  157 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: $error
+  Line  402 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ز╪╣╪»┘è┘ ╪د┘╪ز╪╣┘┘è┘é
+  Line  593 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  598 | ≡اç╕≡اçخ AR | Text widget          | ╪ص┘╪╕
+  Line  640 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘ ╪د┘╪ز╪╣┘┘è┘é
+  Line  641 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ث┘╪ز ┘à╪ز╪ث┘â╪»╪ا
+  Line  676 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘
+  Line  582 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘â╪ز╪ذ ╪ز╪╣┘┘è┘é┘â...
+
+≡اô lib\widgets\wall_post_card.dart
+--------------------------------------------------------------------------------
+  Line   75 | ≡اç╕≡اçخ AR | Text widget          | ╪«╪╖╪ث: ${error.message}
+  Line   86 | ≡اç╕≡اçخ AR | Text widget          | ╪ص╪░┘ ╪د┘┘à┘╪┤┘ê╪▒
+  Line   87 | ≡اç╕≡اçخ AR | Text widget          | ┘ç┘ ╪ث┘╪ز ┘à╪ز╪ث┘â╪» ┘à┘ ╪ص╪░┘ ┘ç╪░╪د ╪د┘┘à┘╪┤┘ê╪▒╪ا
+  Line   91 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  108 | ≡اç╕≡اçخ AR | Text widget          | ╪ز┘à ╪ص╪░┘ ╪د┘┘à┘╪┤┘ê╪▒
+  Line  261 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣╪»┘è┘
+  Line  405 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╣┘┘è┘é
+
+≡اô lib\widgets\wall_search_bar.dart
+--------------------------------------------------------------------------------
+  Line   89 | ≡اç║≡اç╕ EN | Text widget          | ${filter.activeFilterCount}
+  Line  150 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╡┘┘è╪ر ╪د┘┘à┘╪┤┘ê╪▒╪د╪ز
+  Line  233 | ≡اç╕≡اçخ AR | Text widget          | ┘à╪│╪ص ╪د┘╪ز┘ê╪د╪▒┘è╪«
+  Line  253 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪╣╪د╪»╪ر ╪ز╪╣┘è┘è┘
+  Line  257 | ≡اç╕≡اçخ AR | Text widget          | ╪ح┘╪║╪د╪ة
+  Line  270 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪╖╪ذ┘è┘é
+  Line  290 | ≡اç╕≡اçخ AR | Text widget          | ╪ز╪▒╪ز┘è╪ذ ╪د┘┘à┘╪┤┘ê╪▒╪د╪ز
+  Line  314 | ≡اç╕≡اçخ AR | Text widget          | ╪د┘┘à╪س╪ذ╪ز╪ر ╪ث┘ê┘╪د┘ï
+  Line  326 | ≡اç╕≡اçخ AR | Text widget          | ╪ح╪║┘╪د┘é
+  Line   67 | ≡اç╕≡اçخ AR | Hint text            | ╪د┘╪ذ╪ص╪س ┘┘è ╪د┘┘à┘╪┤┘ê╪▒╪د╪ز...
+
+================================================================================
+
+≡اôè SUMMARY
+--------------------------------------------------------------------------------
+Files with hard-coded strings: 69
+Total hard-coded strings:      491
+  ≡اç╕≡اçخ Arabic strings:           394
+  ≡اç║≡اç╕ English strings:          97
+--------------------------------------------------------------------------------
+
+ظأبي╕  Found 491 hard-coded strings that need localization!
+   Next steps:
+   1. Add missing keys to app_ar.arb and app_en.arb
+   2. Run: flutter gen-l10n
+   3. Replace hard-coded strings with l.keyName
+
+================================================================================

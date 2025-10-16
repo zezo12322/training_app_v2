@@ -23,6 +23,10 @@ class AppUser with _$AppUser {
     // Multi-tenancy (placeholders, may remain null for B2C phase)
     String? institutionId,
     String? companyId,
+    // Blocked users list
+    @Default([]) List<String> blockedUsers,
+    // FCM token for push notifications
+    String? fcmToken,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
@@ -33,11 +37,17 @@ class AppUser with _$AppUser {
     // Fallback: if 'name' is missing/null in Firestore, derive a displayable name from email prefix.
     final derivedName = (data['name'] as String?) ??
         ((data['email'] as String?)?.split('@').first ?? '');
-    // Ensure required fields like 'id' and a non-null 'name' are present for JSON parsing.
+    // Fallback: if 'role' is missing/null, use empty string (will trigger role selection)
+    final safeRole = (data['role'] as String?) ?? '';
+    // Fallback: if 'email' is missing/null, use empty string
+    final safeEmail = (data['email'] as String?) ?? '';
+    // Ensure required fields like 'id', 'name', 'role', and 'email' are present for JSON parsing.
     return AppUser.fromJson({
       ...data,
       'id': doc.id,
       'name': derivedName,
+      'role': safeRole,
+      'email': safeEmail,
     });
   }
 }

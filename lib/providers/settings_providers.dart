@@ -66,3 +66,10 @@ class SettingsKeys {
   static const autoplayAudio = _kAutoplayAudioKey;
   static const locale = _kLocaleKey;
 }
+
+// 🔥 Async settings loader - يتحمل بعد بدء التطبيق
+final settingsLoaderProvider = FutureProvider<void>((ref) async {
+  // سيتم تحميل الإعدادات هنا لاحقاً إذا احتجنا
+  // حالياً الإعدادات محملة من الـ StateProviders
+  return;
+});

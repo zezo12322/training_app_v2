@@ -61,6 +61,7 @@ class DirectMessageService {
     required String institutionId,
     required String companyId,
     String? imageUrl,
+    String? fileUrl,
   }) async {
     try {
       final messageId = _generateId();
@@ -76,7 +77,7 @@ class DirectMessageService {
         authorName: senderName,
         authorRole: senderRole,
         content: content,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl ?? fileUrl, // استخدام fileUrl كـ imageUrl إذا لم يكن هناك صورة
         createdAt: now,
         readBy: [senderId], // المرسل قرأها تلقائياً
       );
@@ -428,6 +429,61 @@ class DirectMessageService {
       });
     } catch (e) {
       logger.e('Error updating room after message', error: e);
+    }
+  }
+
+  /// حظر مستخدم
+  Future<bool> blockUser({
+    required String userId,
+    required String blockedUserId,
+  }) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'blockedUsers': FieldValue.arrayUnion([blockedUserId]),
+      });
+      
+      logger.i('User $userId blocked $blockedUserId');
+      return true;
+    } catch (e, stackTrace) {
+      logger.e('Error blocking user', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+  /// إلغاء حظر مستخدم
+  Future<bool> unblockUser({
+    required String userId,
+    required String blockedUserId,
+  }) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'blockedUsers': FieldValue.arrayRemove([blockedUserId]),
+      });
+      
+      logger.i('User $userId unblocked $blockedUserId');
+      return true;
+    } catch (e, stackTrace) {
+      logger.e('Error unblocking user', error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+  /// حذف محادثة (للمستخدم الحالي فقط)
+  Future<bool> deleteConversation({
+    required String roomId,
+    required String userId,
+  }) async {
+    try {
+      // إضافة المستخدم لقائمة من حذفوا المحادثة
+      await _firestore.collection('chat_rooms').doc(roomId).update({
+        'deletedBy': FieldValue.arrayUnion([userId]),
+      });
+      
+      logger.i('User $userId deleted conversation $roomId');
+      return true;
+    } catch (e, stackTrace) {
+      logger.e('Error deleting conversation', error: e, stackTrace: stackTrace);
+      return false;
     }
   }
 

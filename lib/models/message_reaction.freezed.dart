@@ -24,7 +24,7 @@ mixin _$MessageReaction {
   String get emoji => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this MessageReaction to a JSON map.
@@ -48,7 +48,7 @@ abstract class $MessageReactionCopyWith<$Res> {
     String emoji,
     String userId,
     String userName,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
   });
 }
 
@@ -109,7 +109,7 @@ abstract class _$$MessageReactionImplCopyWith<$Res>
     String emoji,
     String userId,
     String userName,
-    @TimestampConverter() DateTime createdAt,
+    @RequiredTimestampConverter() DateTime createdAt,
   });
 }
 
@@ -162,7 +162,7 @@ class _$MessageReactionImpl implements _MessageReaction {
     required this.emoji,
     required this.userId,
     required this.userName,
-    @TimestampConverter() required this.createdAt,
+    @RequiredTimestampConverter() required this.createdAt,
   });
 
   factory _$MessageReactionImpl.fromJson(Map<String, dynamic> json) =>
@@ -175,7 +175,7 @@ class _$MessageReactionImpl implements _MessageReaction {
   @override
   final String userName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   final DateTime createdAt;
 
   @override
@@ -223,7 +223,7 @@ abstract class _MessageReaction implements MessageReaction {
     required final String emoji,
     required final String userId,
     required final String userName,
-    @TimestampConverter() required final DateTime createdAt,
+    @RequiredTimestampConverter() required final DateTime createdAt,
   }) = _$MessageReactionImpl;
 
   factory _MessageReaction.fromJson(Map<String, dynamic> json) =
@@ -236,7 +236,7 @@ abstract class _MessageReaction implements MessageReaction {
   @override
   String get userName;
   @override
-  @TimestampConverter()
+  @RequiredTimestampConverter()
   DateTime get createdAt;
 
   /// Create a copy of MessageReaction

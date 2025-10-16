@@ -223,7 +223,7 @@ final courseTotalModulePointsProvider = FutureProvider.autoDispose
   final modules = await ref.watch(courseModulesProvider(courseId).future);
   return modules.fold<int>(
     0,
-    (sum, module) => sum + module.completionPoints,
+    (total, module) => total + module.completionPoints,
   );
 });
 

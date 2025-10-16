@@ -27,7 +27,9 @@ _$BigQueryExportImpl _$$BigQueryExportImplFromJson(Map<String, dynamic> json) =>
           const [],
       triggeredBy: json['triggeredBy'] as String,
       triggeredByName: json['triggeredByName'] as String,
-      startedAt: DateTime.parse(json['startedAt'] as String),
+      startedAt: const RequiredTimestampConverter().fromJson(
+        json['startedAt'] as Object,
+      ),
       completedAt: const TimestampConverter().fromJson(json['completedAt']),
       cronExpression: json['cronExpression'] as String?,
       nextRunAt: const TimestampConverter().fromJson(json['nextRunAt']),
@@ -52,7 +54,7 @@ Map<String, dynamic> _$$BigQueryExportImplToJson(
   'errors': instance.errors,
   'triggeredBy': instance.triggeredBy,
   'triggeredByName': instance.triggeredByName,
-  'startedAt': instance.startedAt.toIso8601String(),
+  'startedAt': const RequiredTimestampConverter().toJson(instance.startedAt),
   'completedAt': const TimestampConverter().toJson(instance.completedAt),
   'cronExpression': instance.cronExpression,
   'nextRunAt': const TimestampConverter().toJson(instance.nextRunAt),
@@ -105,7 +107,9 @@ _$BigQueryConfigImpl _$$BigQueryConfigImplFromJson(Map<String, dynamic> json) =>
         json['defaultFrequency'],
       ),
       defaultCronExpression: json['defaultCronExpression'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: const RequiredTimestampConverter().fromJson(
+        json['createdAt'] as Object,
+      ),
       createdBy: json['createdBy'] as String,
       updatedAt: const TimestampConverter().fromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
@@ -126,7 +130,7 @@ Map<String, dynamic> _$$BigQueryConfigImplToJson(
       .toList(),
   'defaultFrequency': _$ExportFrequencyEnumMap[instance.defaultFrequency],
   'defaultCronExpression': instance.defaultCronExpression,
-  'createdAt': instance.createdAt.toIso8601String(),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
   'createdBy': instance.createdBy,
   'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
   'updatedBy': instance.updatedBy,
@@ -172,18 +176,21 @@ _$ExportRecordImpl _$$ExportRecordImplFromJson(Map<String, dynamic> json) =>
       recordId: json['recordId'] as String,
       exportType: $enumDecode(_$ExportTypeEnumMap, json['exportType']),
       data: json['data'] as Map<String, dynamic>,
-      exportedAt: DateTime.parse(json['exportedAt'] as String),
+      exportedAt: const RequiredTimestampConverter().fromJson(
+        json['exportedAt'] as Object,
+      ),
       isSuccess: json['isSuccess'] as bool?,
       errorMessage: json['errorMessage'] as String?,
     );
 
-Map<String, dynamic> _$$ExportRecordImplToJson(_$ExportRecordImpl instance) =>
-    <String, dynamic>{
-      'exportId': instance.exportId,
-      'recordId': instance.recordId,
-      'exportType': _$ExportTypeEnumMap[instance.exportType]!,
-      'data': instance.data,
-      'exportedAt': instance.exportedAt.toIso8601String(),
-      'isSuccess': instance.isSuccess,
-      'errorMessage': instance.errorMessage,
-    };
+Map<String, dynamic> _$$ExportRecordImplToJson(
+  _$ExportRecordImpl instance,
+) => <String, dynamic>{
+  'exportId': instance.exportId,
+  'recordId': instance.recordId,
+  'exportType': _$ExportTypeEnumMap[instance.exportType]!,
+  'data': instance.data,
+  'exportedAt': const RequiredTimestampConverter().toJson(instance.exportedAt),
+  'isSuccess': instance.isSuccess,
+  'errorMessage': instance.errorMessage,
+};

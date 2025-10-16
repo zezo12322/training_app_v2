@@ -71,7 +71,7 @@ class AnomalyScore with _$AnomalyScore {
     String? action,                  // warning, suspend, etc.
     
     /// التوقيت
-    @TimestampConverter() required DateTime detectedAt,
+    @RequiredTimestampConverter() required DateTime detectedAt,
     @TimestampConverter() DateTime? resolvedAt,
   }) = _AnomalyScore;
 
@@ -104,7 +104,7 @@ class AnomalyAlert with _$AnomalyAlert {
     @TimestampConverter() DateTime? dismissedAt,
     
     /// التوقيت
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
     @TimestampConverter() DateTime? expiresAt,
   }) = _AnomalyAlert;
 
@@ -143,7 +143,7 @@ class AnomalyDetectionSettings with _$AnomalyDetectionSettings {
     required bool autoFlagCheating,
     
     /// التحديث
-    @TimestampConverter() required DateTime updatedAt,
+    @RequiredTimestampConverter() required DateTime updatedAt,
     required String updatedBy,
   }) = _AnomalyDetectionSettings;
 
@@ -168,7 +168,7 @@ class AnomalyDetectionModel with _$AnomalyDetectionModel {
     
     /// التدريب
     required int trainingDataSize,
-    @TimestampConverter() required DateTime trainedAt,
+    @RequiredTimestampConverter() required DateTime trainedAt,
     String? trainedBy,
     
     /// الحالة
@@ -214,8 +214,8 @@ class BehaviorPattern with _$BehaviorPattern {
     @Default([]) List<String> peakActivityHours,
     
     /// التحديث
-    @TimestampConverter() required DateTime lastUpdatedAt,
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime lastUpdatedAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
   }) = _BehaviorPattern;
 
   factory BehaviorPattern.fromJson(Map<String, dynamic> json) =>
@@ -242,7 +242,7 @@ class ActivityEvent with _$ActivityEvent {
     String? userAgent,
     
     /// التوقيت
-    @TimestampConverter() required DateTime timestamp,
+    @RequiredTimestampConverter() required DateTime timestamp,
     
     /// التحليل
     @Default(false) bool isFlagged,
@@ -261,8 +261,8 @@ class DetectionStatistics with _$DetectionStatistics {
     String? companyId,
     
     /// الفترة
-    @TimestampConverter() required DateTime startDate,
-    @TimestampConverter() required DateTime endDate,
+    @RequiredTimestampConverter() required DateTime startDate,
+    @RequiredTimestampConverter() required DateTime endDate,
     
     /// الأعداد
     required int totalAnomaliesDetected,
@@ -284,7 +284,7 @@ class DetectionStatistics with _$DetectionStatistics {
     @Default(0.0) double avgReviewTime,     // ساعات
     
     /// التحديث
-    @TimestampConverter() required DateTime generatedAt,
+    @RequiredTimestampConverter() required DateTime generatedAt,
   }) = _DetectionStatistics;
 
   factory DetectionStatistics.fromJson(Map<String, dynamic> json) =>

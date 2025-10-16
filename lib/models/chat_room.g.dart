@@ -6,41 +6,45 @@ part of 'chat_room.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatRoomImpl _$$ChatRoomImplFromJson(Map<String, dynamic> json) =>
-    _$ChatRoomImpl(
-      id: json['id'] as String,
-      type: $enumDecode(_$ChatRoomTypeEnumMap, json['type']),
-      courseId: json['courseId'] as String?,
-      courseName: json['courseName'] as String?,
-      institutionId: json['institutionId'] as String,
-      companyId: json['companyId'] as String,
-      participantIds: (json['participantIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: const TimestampConverter().fromJson(json['updatedAt']),
-      lastMessageContent: json['lastMessageContent'] as String?,
-      lastMessageAuthor: json['lastMessageAuthor'] as String?,
-      lastMessageAt: const TimestampConverter().fromJson(json['lastMessageAt']),
-      unreadCounts:
-          (json['unreadCounts'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, (e as num).toInt()),
-          ) ??
-          const {},
-      isActive: json['isActive'] as bool? ?? true,
-      isArchived: json['isArchived'] as bool? ?? false,
-      isMuted: json['isMuted'] as bool? ?? false,
-      mutedBy:
-          (json['mutedBy'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      blockedUsers:
-          (json['blockedUsers'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-    );
+_$ChatRoomImpl _$$ChatRoomImplFromJson(
+  Map<String, dynamic> json,
+) => _$ChatRoomImpl(
+  id: json['id'] as String,
+  type: $enumDecode(_$ChatRoomTypeEnumMap, json['type']),
+  courseId: json['courseId'] as String?,
+  courseName: json['courseName'] as String?,
+  institutionId: json['institutionId'] as String,
+  companyId: json['companyId'] as String,
+  participantIds: (json['participantIds'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
+  createdAt: const RequiredTimestampConverter().fromJson(
+    json['createdAt'] as Object,
+  ),
+  updatedAt: const TimestampConverter().fromJson(json['updatedAt']),
+  lastMessageContent: json['lastMessageContent'] as String?,
+  lastMessageAuthor: json['lastMessageAuthor'] as String?,
+  lastMessageAt: const TimestampConverter().fromJson(json['lastMessageAt']),
+  unreadCounts:
+      (json['unreadCounts'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, (e as num).toInt()),
+      ) ??
+      const {},
+  isActive: json['isActive'] as bool? ?? true,
+  isArchived: json['isArchived'] as bool? ?? false,
+  isMuted: json['isMuted'] as bool? ?? false,
+  mutedBy:
+      (json['mutedBy'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  blockedUsers:
+      (json['blockedUsers'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  deletedBy:
+      (json['deletedBy'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+);
 
 Map<String, dynamic> _$$ChatRoomImplToJson(
   _$ChatRoomImpl instance,
@@ -52,7 +56,7 @@ Map<String, dynamic> _$$ChatRoomImplToJson(
   'institutionId': instance.institutionId,
   'companyId': instance.companyId,
   'participantIds': instance.participantIds,
-  'createdAt': instance.createdAt.toIso8601String(),
+  'createdAt': const RequiredTimestampConverter().toJson(instance.createdAt),
   'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
   'lastMessageContent': instance.lastMessageContent,
   'lastMessageAuthor': instance.lastMessageAuthor,
@@ -63,6 +67,7 @@ Map<String, dynamic> _$$ChatRoomImplToJson(
   'isMuted': instance.isMuted,
   'mutedBy': instance.mutedBy,
   'blockedUsers': instance.blockedUsers,
+  'deletedBy': instance.deletedBy,
 };
 
 const _$ChatRoomTypeEnumMap = {

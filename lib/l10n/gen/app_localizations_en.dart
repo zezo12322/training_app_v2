@@ -255,6 +255,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dumpSettingsToast => 'Settings state logged';
 
   @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get aboutSection => 'About';
+
+  @override
   String get languagePickerTitle => 'Language';
 
   @override
@@ -294,7 +303,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginAction => 'Login';
 
   @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get signInWithApple => 'Sign in with Apple';
+
+  @override
+  String ssoLoginFailed(Object error) {
+    return 'SSO login failed: $error';
+  }
+
+  @override
   String get signupNavigate => 'Don\'t have an account? Create one';
+
+  @override
+  String get forgotPasswordNavigate => 'Forgot Password?';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Enter your email and we\'ll send you a link to reset your password';
+
+  @override
+  String get sendResetEmail => 'Send Reset Link';
+
+  @override
+  String get passwordResetEmailSent =>
+      'Password reset email has been sent to your inbox';
+
+  @override
+  String get passwordResetFailed => 'Failed to send reset email';
+
+  @override
+  String get emailSent => 'Email Sent';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get forgotPasswordNote =>
+      'Make sure to check your inbox and spam folder';
 
   @override
   String get signupTitle => 'Create Account';
@@ -364,6 +417,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String signupFailed(Object error) {
     return 'Signup failed: $error';
   }
+
+  @override
+  String get signupSuccessCheckEmail =>
+      'Account created! Please check your email to verify your account.';
 
   @override
   String createCourseFailed(Object error) {
@@ -1127,4 +1184,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alreadyMemberLabel => 'Already in this department';
+
+  @override
+  String get pleaseSelectRole => 'Please select a role';
+
+  @override
+  String get authErrorWrongPassword => 'Email or password is incorrect';
+
+  @override
+  String get authErrorUserNotFound => 'Email is not registered';
+
+  @override
+  String get authErrorEmailInUse => 'Email is already registered';
+
+  @override
+  String get authErrorInvalidEmail => 'Invalid email address';
+
+  @override
+  String get authErrorWeakPassword => 'Password is too weak';
+
+  @override
+  String get authErrorUserDisabled =>
+      'This account is disabled. Contact support';
+
+  @override
+  String get authErrorTooManyRequests => 'Too many attempts. Try again later';
+
+  @override
+  String get authErrorNetworkFailed => 'Network connection error';
+
+  @override
+  String get authErrorOperationNotAllowed => 'Operation not allowed';
+
+  @override
+  String get authErrorDefault => 'An error occurred during authentication';
+
+  @override
+  String get dialogConfirmTitle => 'Confirm';
+
+  @override
+  String get dialogDeleteTitle => 'Delete';
+
+  @override
+  String get dialogCancelButton => 'Cancel';
+
+  @override
+  String get dialogConfirmButton => 'Confirm';
+
+  @override
+  String get dialogDeleteButton => 'Delete';
+
+  @override
+  String get dialogSaveButton => 'Save';
+
+  @override
+  String get dialogCloseButton => 'Close';
+
+  @override
+  String get commentReply => 'Reply';
+
+  @override
+  String get commentEdit => 'Edit';
+
+  @override
+  String get commentDelete => 'Delete';
+
+  @override
+  String get commentDeleteConfirm => 'Are you sure?';
+
+  @override
+  String get commentDeleteTitle => 'Delete Comment';
+
+  @override
+  String get filterPostsTitle => 'Filter Posts';
+
+  @override
+  String get sortPostsTitle => 'Sort Posts';
+
+  @override
+  String get filterClearDates => 'Clear Dates';
+
+  @override
+  String get filterReset => 'Reset';
+
+  @override
+  String get filterApply => 'Apply';
+
+  @override
+  String get sortPinnedFirst => 'Pinned First';
+
+  @override
+  String get reactionsClose => 'Close';
+
+  @override
+  String get emailVerificationTitle => 'Email Verification';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get termsOfServiceTitle => 'Terms of Service';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get superAdminDashboard => 'Super Admin Dashboard';
+
+  @override
+  String get superAdminDashboardSubtitle =>
+      'Manage institutions, companies, and settings';
 }

@@ -11,7 +11,7 @@ class MessageReaction with _$MessageReaction {
     required String emoji,
     required String userId,
     required String userName,
-    @TimestampConverter() required DateTime createdAt,
+    @RequiredTimestampConverter() required DateTime createdAt,
   }) = _MessageReaction;
 
   factory MessageReaction.fromJson(Map<String, dynamic> json) =>

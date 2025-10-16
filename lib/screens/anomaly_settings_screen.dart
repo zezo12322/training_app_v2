@@ -229,7 +229,7 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                   if (_sendAlerts) ...[
                     const SizedBox(height: 12),
                     DropdownButtonFormField<AnomalySeverity>(
-                      value: _minAlertSeverity,
+                      initialValue: _minAlertSeverity,
                       decoration: const InputDecoration(
                         labelText: 'الحد الأدنى للتنبيه',
                         border: OutlineInputBorder(),

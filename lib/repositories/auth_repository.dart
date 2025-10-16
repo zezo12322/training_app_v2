@@ -104,13 +104,41 @@ class AuthRepository {
       password: password,
     );
     final uid = credential.user!.uid;
+    
+    // Send email verification
+    await credential.user!.sendEmailVerification();
+    
     await _firestore.collection('users').doc(uid).set({
       'name': name,
       'email': email,
       'role': role,
+      'emailVerified': false,
       'createdAt': FieldValue.serverTimestamp(),
     });
     return fetchCurrentUser();
+  }
+
+  /// Update email verified status in Firestore
+  Future<void> updateEmailVerified(String uid) async {
+    await _firestore.collection('users').doc(uid).update({
+      'emailVerified': true,
+    });
+    // Invalidate cache to force refresh
+    _cachedUser = null;
+    _cacheTime = null;
+  }
+
+  /// Resend email verification
+  Future<void> sendVerificationEmail() async {
+    final user = _auth.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+  }
+
+  /// Send password reset email
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email.trim());
   }
 
   Future<void> signOut() async => _auth.signOut();
