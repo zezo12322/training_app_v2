@@ -1294,4 +1294,119 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get superAdminDashboardSubtitle =>
       'Manage institutions, companies, and settings';
+
+  @override
+  String get searchPostsPlaceholder => 'Search in posts...';
+
+  @override
+  String get filterButtonTooltip => 'Filter';
+
+  @override
+  String get sortButtonTooltip => 'Sort';
+
+  @override
+  String get postTypeFilter => 'Post Type';
+
+  @override
+  String get dateRangeFilter => 'Date Range';
+
+  @override
+  String get dateFromLabel => 'From Date';
+
+  @override
+  String get dateToLabel => 'To Date';
+
+  @override
+  String get postDeleteTitle => 'Delete Post';
+
+  @override
+  String get postDeleteConfirm => 'Are you sure you want to delete this post?';
+
+  @override
+  String get postDeleted => 'Post deleted';
+
+  @override
+  String get postPinned => 'Post pinned';
+
+  @override
+  String get postUnpinned => 'Post unpinned';
+
+  @override
+  String get postEditButton => 'Edit';
+
+  @override
+  String get postPinButton => 'Pin';
+
+  @override
+  String get postUnpinButton => 'Unpin';
+
+  @override
+  String get postDeleteButton => 'Delete';
+
+  @override
+  String get postEditedLabel => 'edited';
+
+  @override
+  String get postAuthorFallback => 'User';
+
+  @override
+  String postCommentCount(Object count) {
+    return '$count comment';
+  }
+
+  @override
+  String get postCommentButton => 'Comment';
+
+  @override
+  String get reactionPickerTitle => 'Choose your reaction';
+
+  @override
+  String get reactionAddTooltip => 'Add reaction';
+
+  @override
+  String get addPostTitle => 'New Post';
+
+  @override
+  String get addPostContentPlaceholder => 'What do you want to share?';
+
+  @override
+  String get addPostContentRequired => 'Please write content or add an image';
+
+  @override
+  String get addPostPickImages => 'Choose Images';
+
+  @override
+  String get addPostTakePhoto => 'Take Photo';
+
+  @override
+  String addPostSelectedImages(Object count) {
+    return 'Selected images ($count/5):';
+  }
+
+  @override
+  String addPostUploadingImages(Object percent) {
+    return 'Uploading images... $percent%';
+  }
+
+  @override
+  String get addPostPublishing => 'Publishing post...';
+
+  @override
+  String get addPostPublishButton => 'Publish';
+
+  @override
+  String get addPostPublishingButton => 'Publishing...';
+
+  @override
+  String get addPostSuccess => 'Post published successfully';
+
+  @override
+  String addPostUploadError(Object error) {
+    return 'Error uploading images: $error';
+  }
+
+  @override
+  String addPostCharacterCount(Object current, Object max) {
+    return '$current/$max';
+  }
 }

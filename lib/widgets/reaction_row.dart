@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/message_reaction.dart';
 import '../services/message_reaction_service.dart';
+import '../core/l10n_ext.dart';
 
 /// مزود خدمة التفاعلات
 final messageReactionServiceProvider = Provider<MessageReactionService>((ref) {
@@ -158,33 +159,36 @@ class ReactionRow extends ConsumerWidget {
   void _showReactors(BuildContext context, String emoji, List<String> names) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 32)),
-            const SizedBox(width: 8),
-            Text('${names.length}'),
+      builder: (ctx) {
+        final l = ctx.l;
+        return AlertDialog(
+          title: Row(
+            children: [
+              Text(emoji, style: const TextStyle(fontSize: 32)),
+              const SizedBox(width: 8),
+              Text('${names.length}'),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: names.map((name) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(name),
+                );
+              }).toList(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l.reactionsClose),
+            ),
           ],
-        ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: names.map((name) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Text(name),
-              );
-            }).toList(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('إغلاق'),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -200,14 +204,16 @@ class EmojiPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'اختر تفاعلك',
-            style: TextStyle(
+          Text(
+            l.reactionPickerTitle,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -263,6 +269,8 @@ class AddReactionButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
+    
     return IconButton(
       icon: const Icon(Icons.add_reaction_outlined),
       onPressed: () {
@@ -282,7 +290,7 @@ class AddReactionButton extends ConsumerWidget {
           ),
         );
       },
-      tooltip: 'إضافة تفاعل',
+      tooltip: l.reactionAddTooltip,
     );
   }
 }

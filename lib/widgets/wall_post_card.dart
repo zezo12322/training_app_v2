@@ -9,6 +9,7 @@ import 'wall_comments_sheet.dart';
 import 'edit_post_dialog.dart';
 import 'image_grid_widget.dart';
 import 'poll_widget.dart';
+import '../core/l10n_ext.dart';
 
 class WallPostCard extends ConsumerStatefulWidget {
   final WallPost post;
@@ -52,6 +53,7 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
   }
 
   Future<void> _togglePin() async {
+    final l = context.l;
     final result = await ref.read(togglePinProvider)(
       widget.post.id,
       !widget.post.isPinned,
@@ -62,7 +64,7 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                widget.post.isPinned ? 'تم إلغاء التثبيت' : 'تم التثبيت',
+                widget.post.isPinned ? l.postUnpinned : l.postPinned,
               ),
               duration: const Duration(seconds: 1),
             ),
@@ -72,7 +74,7 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
       failure: (error) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('خطأ: ${error.message}')),
+            SnackBar(content: Text('${l.errorGeneric}: ${error.message}')),
           );
         }
       },
@@ -80,22 +82,26 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
   }
 
   Future<void> _deletePost() async {
+    final l = context.l;
     final confirm = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('حذف المنشور'),
-        content: const Text('هل أنت متأكد من حذف هذا المنشور؟'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('إلغاء'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('حذف', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final l = ctx.l;
+        return AlertDialog(
+          title: Text(l.postDeleteTitle),
+          content: Text(l.postDeleteConfirm),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(l.dialogCancelButton),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l.postDeleteButton, style: const TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
 
     if (confirm == true) {
@@ -105,14 +111,14 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
           widget.onDeleted?.call();
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم حذف المنشور')),
+              SnackBar(content: Text(l.postDeleted)),
             );
           }
         },
         failure: (error) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('خطأ: ${error.message}')),
+              SnackBar(content: Text('${l.errorGeneric}: ${error.message}')),
             );
           }
         },
@@ -187,15 +193,20 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                         Row(
                           children: [
                             Flexible(
-                              child: Text(
-                                widget.post.authorName ??
-                                    widget.post.authorEmail ??
-                                    'مستخدم',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                                overflow: TextOverflow.ellipsis,
+                              child: Builder(
+                                builder: (ctx) {
+                                  final l = ctx.l;
+                                  return Text(
+                                    widget.post.authorName ??
+                                        widget.post.authorEmail ??
+                                        l.postAuthorFallback,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  );
+                                },
                               ),
                             ),
                             if (widget.post.isPinned) ...[
@@ -208,12 +219,17 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                             ],
                             if (widget.post.isEdited) ...[
                               const SizedBox(width: 6),
-                              Text(
-                                '(معدّل)',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey.shade600,
-                                ),
+                              Builder(
+                                builder: (ctx) {
+                                  final l = ctx.l;
+                                  return Text(
+                                    '(${l.postEditedLabel})',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ],
@@ -235,65 +251,70 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                   
                   // Menu button (for author or trainer)
                   if (isAuthor || widget.isTrainer)
-                    PopupMenuButton<String>(
-                      icon: Icon(Icons.more_vert, color: Colors.grey.shade600),
-                      onSelected: (value) {
-                        switch (value) {
-                          case 'edit':
-                            _editPost();
-                            break;
-                          case 'pin':
-                            _togglePin();
-                            break;
-                          case 'delete':
-                            _deletePost();
-                            break;
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        if (isAuthor)
-                          const PopupMenuItem(
-                            value: 'edit',
-                            child: Row(
-                              children: [
-                                Icon(Icons.edit_outlined, size: 20),
-                                SizedBox(width: 12),
-                                Text('تعديل'),
-                              ],
-                            ),
-                          ),
-                        if (widget.isTrainer)
-                          PopupMenuItem(
-                            value: 'pin',
-                            child: Row(
-                              children: [
-                                Icon(
-                                  widget.post.isPinned
-                                      ? Icons.push_pin_outlined
-                                      : Icons.push_pin,
-                                  size: 20,
+                    Builder(
+                      builder: (ctx) {
+                        final l = ctx.l;
+                        return PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert, color: Colors.grey.shade600),
+                          onSelected: (value) {
+                            switch (value) {
+                              case 'edit':
+                                _editPost();
+                                break;
+                              case 'pin':
+                                _togglePin();
+                                break;
+                              case 'delete':
+                                _deletePost();
+                                break;
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            if (isAuthor)
+                              PopupMenuItem(
+                                value: 'edit',
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.edit_outlined, size: 20),
+                                    const SizedBox(width: 12),
+                                    Text(l.postEditButton),
+                                  ],
                                 ),
-                                const SizedBox(width: 12),
-                                Text(widget.post.isPinned
-                                    ? 'إلغاء التثبيت'
-                                    : 'تثبيت'),
-                              ],
-                            ),
-                          ),
-                        if (isAuthor || widget.isTrainer)
-                          const PopupMenuItem(
-                            value: 'delete',
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete_outline,
-                                    size: 20, color: Colors.red),
-                                SizedBox(width: 12),
-                                Text('حذف',
-                                    style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
-                      ],
+                              ),
+                            if (widget.isTrainer)
+                              PopupMenuItem(
+                                value: 'pin',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      widget.post.isPinned
+                                          ? Icons.push_pin_outlined
+                                          : Icons.push_pin,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(widget.post.isPinned
+                                        ? l.postUnpinButton
+                                        : l.postPinButton),
+                                  ],
+                                ),
+                              ),
+                            if (isAuthor || widget.isTrainer)
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.delete_outline,
+                                        size: 20, color: Colors.red),
+                                    const SizedBox(width: 12),
+                                    Text(l.postDeleteButton,
+                                        style: const TextStyle(color: Colors.red)),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                 ],
               ),
@@ -365,18 +386,23 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                   
                   // Comment count
                   if (widget.post.commentCount > 0)
-                    TextButton.icon(
-                      onPressed: _showCommentsSheet,
-                      icon: const Icon(Icons.comment_outlined, size: 16),
-                      label: Text(
-                        '${widget.post.commentCount} تعليق',
-                        style: const TextStyle(fontSize: 13),
-                      ),
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
+                    Builder(
+                      builder: (ctx) {
+                        final l = ctx.l;
+                        return TextButton.icon(
+                          onPressed: _showCommentsSheet,
+                          icon: const Icon(Icons.comment_outlined, size: 16),
+                          label: Text(
+                            l.postCommentCount.replaceAll('{count}', '${widget.post.commentCount}'),
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        );
+                      },
                     ),
                 ],
               ),
@@ -399,13 +425,18 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                   
                   // Comment button
                   Expanded(
-                    child: TextButton.icon(
-                      onPressed: _showCommentsSheet,
-                      icon: const Icon(Icons.comment_outlined, size: 20),
-                      label: const Text('تعليق'),
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.grey.shade700,
-                      ),
+                    child: Builder(
+                      builder: (ctx) {
+                        final l = ctx.l;
+                        return TextButton.icon(
+                          onPressed: _showCommentsSheet,
+                          icon: const Icon(Icons.comment_outlined, size: 20),
+                          label: Text(l.postCommentButton),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.grey.shade700,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],

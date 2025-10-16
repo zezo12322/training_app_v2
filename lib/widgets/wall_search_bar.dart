@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/wall_filter.dart';
 import '../providers/wall_filter_providers.dart';
+import '../core/l10n_ext.dart';
 
 class WallSearchBar extends ConsumerStatefulWidget {
   final String courseId;
@@ -50,6 +51,7 @@ class _WallSearchBarState extends ConsumerState<WallSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final filter = ref.watch(wallFilterProvider(widget.courseId));
     final hasActiveFilters = filter.hasActiveFilters;
 
@@ -64,7 +66,7 @@ class _WallSearchBarState extends ConsumerState<WallSearchBar> {
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'البحث في المنشورات...',
+                  hintText: l.searchPostsPlaceholder,
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
@@ -95,7 +97,7 @@ class _WallSearchBarState extends ConsumerState<WallSearchBar> {
                     : null,
               ),
               onPressed: _showFilterDialog,
-              tooltip: 'تصفية',
+              tooltip: l.filterButtonTooltip,
             ),
           ),
 
@@ -103,7 +105,7 @@ class _WallSearchBarState extends ConsumerState<WallSearchBar> {
           IconButton(
             icon: const Icon(Icons.sort),
             onPressed: () => _showSortDialog(),
-            tooltip: 'ترتيب',
+            tooltip: l.sortButtonTooltip,
           ),
         ],
       ),
@@ -146,8 +148,10 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return AlertDialog(
-      title: const Text('تصفية المنشورات'),
+      title: Text(l.filterPostsTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -155,7 +159,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
           children: [
             // Post type filter
             Text(
-              'نوع المنشور',
+              l.postTypeFilter,
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 8),
@@ -178,7 +182,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
 
             // Date range filter
             Text(
-              'نطاق التاريخ',
+              l.dateRangeFilter,
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 8),
@@ -189,7 +193,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
                     icon: const Icon(Icons.calendar_today),
                     label: Text(_startDate != null 
                         ? '${_startDate!.year}/${_startDate!.month}/${_startDate!.day}'
-                        : 'من تاريخ'),
+                        : l.dateFromLabel),
                     onPressed: () async {
                       final date = await showDatePicker(
                         context: context,
@@ -209,7 +213,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
                     icon: const Icon(Icons.calendar_today),
                     label: Text(_endDate != null 
                         ? '${_endDate!.year}/${_endDate!.month}/${_endDate!.day}'
-                        : 'إلى تاريخ'),
+                        : l.dateToLabel),
                     onPressed: () async {
                       final date = await showDatePicker(
                         context: context,
@@ -230,7 +234,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
                 padding: const EdgeInsets.only(top: 8),
                 child: TextButton.icon(
                   icon: const Icon(Icons.clear),
-                  label: const Text('مسح التواريخ'),
+                  label: Text(l.filterClearDates),
                   onPressed: () {
                     setState(() {
                       _startDate = null;
@@ -250,11 +254,11 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
                 const WallFilter();
             Navigator.of(context).pop();
           },
-          child: const Text('إعادة تعيين'),
+          child: Text(l.filterReset),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('إلغاء'),
+          child: Text(l.dialogCancelButton),
         ),
         FilledButton(
           onPressed: () {
@@ -267,7 +271,7 @@ class _WallFilterDialogState extends ConsumerState<WallFilterDialog> {
                 );
             Navigator.of(context).pop();
           },
-          child: const Text('تطبيق'),
+          child: Text(l.filterApply),
         ),
       ],
     );
@@ -284,10 +288,11 @@ class WallSortDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     final filter = ref.watch(wallFilterProvider(courseId));
 
     return AlertDialog(
-      title: const Text('ترتيب المنشورات'),
+      title: Text(l.sortPostsTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -311,7 +316,7 @@ class WallSortDialog extends ConsumerWidget {
           
           // Pinned first toggle
           SwitchListTile(
-            title: const Text('المثبتة أولاً'),
+            title: Text(l.sortPinnedFirst),
             value: filter.pinnedFirst,
             onChanged: (value) {
               ref.read(wallFilterProvider(courseId).notifier).state = 
@@ -323,7 +328,7 @@ class WallSortDialog extends ConsumerWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('إغلاق'),
+          child: Text(l.reactionsClose),
         ),
       ],
     );

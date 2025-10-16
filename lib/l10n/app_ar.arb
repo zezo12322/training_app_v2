@@ -442,4 +442,48 @@
   ,"settingsTitle": "الإعدادات"
   ,"superAdminDashboard": "لوحة الإدارة الرئيسية"
   ,"superAdminDashboardSubtitle": "إدارة المؤسسات والشركات والإعدادات"
+  
+  ,"searchPostsPlaceholder": "البحث في المنشورات..."
+  ,"filterButtonTooltip": "تصفية"
+  ,"sortButtonTooltip": "ترتيب"
+  ,"postTypeFilter": "نوع المنشور"
+  ,"dateRangeFilter": "نطاق التاريخ"
+  ,"dateFromLabel": "من تاريخ"
+  ,"dateToLabel": "إلى تاريخ"
+  
+  ,"postDeleteTitle": "حذف المنشور"
+  ,"postDeleteConfirm": "هل أنت متأكد من حذف هذا المنشور؟"
+  ,"postDeleted": "تم حذف المنشور"
+  ,"postPinned": "تم التثبيت"
+  ,"postUnpinned": "تم إلغاء التثبيت"
+  ,"postEditButton": "تعديل"
+  ,"postPinButton": "تثبيت"
+  ,"postUnpinButton": "إلغاء التثبيت"
+  ,"postDeleteButton": "حذف"
+  ,"postEditedLabel": "معدّل"
+  ,"postAuthorFallback": "مستخدم"
+  ,"postCommentCount": "{count} تعليق"
+  ,"@postCommentCount": {"placeholders": {"count": {}}}
+  ,"postCommentButton": "تعليق"
+  
+  ,"reactionPickerTitle": "اختر تفاعلك"
+  ,"reactionAddTooltip": "إضافة تفاعل"
+  
+  ,"addPostTitle": "منشور جديد"
+  ,"addPostContentPlaceholder": "ماذا تريد أن تشارك؟"
+  ,"addPostContentRequired": "يرجى كتابة محتوى أو إضافة صورة"
+  ,"addPostPickImages": "اختيار صور"
+  ,"addPostTakePhoto": "التقاط صورة"
+  ,"addPostSelectedImages": "الصور المحددة ({count}/5):"
+  ,"@addPostSelectedImages": {"placeholders": {"count": {}}}
+  ,"addPostUploadingImages": "جاري رفع الصور... {percent}%"
+  ,"@addPostUploadingImages": {"placeholders": {"percent": {}}}
+  ,"addPostPublishing": "جاري نشر المنشور..."
+  ,"addPostPublishButton": "نشر"
+  ,"addPostPublishingButton": "جاري النشر..."
+  ,"addPostSuccess": "تم نشر المنشور بنجاح"
+  ,"addPostUploadError": "خطأ في رفع الصور: {error}"
+  ,"@addPostUploadError": {"placeholders": {"error": {}}}
+  ,"addPostCharacterCount": "{current}/{max}"
+  ,"@addPostCharacterCount": {"placeholders": {"current": {}, "max": {}}}
 }

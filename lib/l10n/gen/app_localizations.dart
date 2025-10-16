@@ -2443,6 +2443,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage institutions, companies, and settings'**
   String get superAdminDashboardSubtitle;
+
+  /// No description provided for @searchPostsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in posts...'**
+  String get searchPostsPlaceholder;
+
+  /// No description provided for @filterButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filterButtonTooltip;
+
+  /// No description provided for @sortButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortButtonTooltip;
+
+  /// No description provided for @postTypeFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Type'**
+  String get postTypeFilter;
+
+  /// No description provided for @dateRangeFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Range'**
+  String get dateRangeFilter;
+
+  /// No description provided for @dateFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From Date'**
+  String get dateFromLabel;
+
+  /// No description provided for @dateToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To Date'**
+  String get dateToLabel;
+
+  /// No description provided for @postDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Post'**
+  String get postDeleteTitle;
+
+  /// No description provided for @postDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this post?'**
+  String get postDeleteConfirm;
+
+  /// No description provided for @postDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Post deleted'**
+  String get postDeleted;
+
+  /// No description provided for @postPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Post pinned'**
+  String get postPinned;
+
+  /// No description provided for @postUnpinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Post unpinned'**
+  String get postUnpinned;
+
+  /// No description provided for @postEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get postEditButton;
+
+  /// No description provided for @postPinButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get postPinButton;
+
+  /// No description provided for @postUnpinButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get postUnpinButton;
+
+  /// No description provided for @postDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get postDeleteButton;
+
+  /// No description provided for @postEditedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get postEditedLabel;
+
+  /// No description provided for @postAuthorFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get postAuthorFallback;
+
+  /// No description provided for @postCommentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} comment'**
+  String postCommentCount(Object count);
+
+  /// No description provided for @postCommentButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get postCommentButton;
+
+  /// No description provided for @reactionPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your reaction'**
+  String get reactionPickerTitle;
+
+  /// No description provided for @reactionAddTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reaction'**
+  String get reactionAddTooltip;
+
+  /// No description provided for @addPostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Post'**
+  String get addPostTitle;
+
+  /// No description provided for @addPostContentPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to share?'**
+  String get addPostContentPlaceholder;
+
+  /// No description provided for @addPostContentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write content or add an image'**
+  String get addPostContentRequired;
+
+  /// No description provided for @addPostPickImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Images'**
+  String get addPostPickImages;
+
+  /// No description provided for @addPostTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get addPostTakePhoto;
+
+  /// No description provided for @addPostSelectedImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected images ({count}/5):'**
+  String addPostSelectedImages(Object count);
+
+  /// No description provided for @addPostUploadingImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading images... {percent}%'**
+  String addPostUploadingImages(Object percent);
+
+  /// No description provided for @addPostPublishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Publishing post...'**
+  String get addPostPublishing;
+
+  /// No description provided for @addPostPublishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get addPostPublishButton;
+
+  /// No description provided for @addPostPublishingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Publishing...'**
+  String get addPostPublishingButton;
+
+  /// No description provided for @addPostSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Post published successfully'**
+  String get addPostSuccess;
+
+  /// No description provided for @addPostUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error uploading images: {error}'**
+  String addPostUploadError(Object error);
+
+  /// No description provided for @addPostCharacterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{current}/{max}'**
+  String addPostCharacterCount(Object current, Object max);
 }
 
 class _AppLocalizationsDelegate

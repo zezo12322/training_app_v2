@@ -1283,4 +1283,119 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get superAdminDashboardSubtitle =>
       'إدارة المؤسسات والشركات والإعدادات';
+
+  @override
+  String get searchPostsPlaceholder => 'البحث في المنشورات...';
+
+  @override
+  String get filterButtonTooltip => 'تصفية';
+
+  @override
+  String get sortButtonTooltip => 'ترتيب';
+
+  @override
+  String get postTypeFilter => 'نوع المنشور';
+
+  @override
+  String get dateRangeFilter => 'نطاق التاريخ';
+
+  @override
+  String get dateFromLabel => 'من تاريخ';
+
+  @override
+  String get dateToLabel => 'إلى تاريخ';
+
+  @override
+  String get postDeleteTitle => 'حذف المنشور';
+
+  @override
+  String get postDeleteConfirm => 'هل أنت متأكد من حذف هذا المنشور؟';
+
+  @override
+  String get postDeleted => 'تم حذف المنشور';
+
+  @override
+  String get postPinned => 'تم التثبيت';
+
+  @override
+  String get postUnpinned => 'تم إلغاء التثبيت';
+
+  @override
+  String get postEditButton => 'تعديل';
+
+  @override
+  String get postPinButton => 'تثبيت';
+
+  @override
+  String get postUnpinButton => 'إلغاء التثبيت';
+
+  @override
+  String get postDeleteButton => 'حذف';
+
+  @override
+  String get postEditedLabel => 'معدّل';
+
+  @override
+  String get postAuthorFallback => 'مستخدم';
+
+  @override
+  String postCommentCount(Object count) {
+    return '$count تعليق';
+  }
+
+  @override
+  String get postCommentButton => 'تعليق';
+
+  @override
+  String get reactionPickerTitle => 'اختر تفاعلك';
+
+  @override
+  String get reactionAddTooltip => 'إضافة تفاعل';
+
+  @override
+  String get addPostTitle => 'منشور جديد';
+
+  @override
+  String get addPostContentPlaceholder => 'ماذا تريد أن تشارك؟';
+
+  @override
+  String get addPostContentRequired => 'يرجى كتابة محتوى أو إضافة صورة';
+
+  @override
+  String get addPostPickImages => 'اختيار صور';
+
+  @override
+  String get addPostTakePhoto => 'التقاط صورة';
+
+  @override
+  String addPostSelectedImages(Object count) {
+    return 'الصور المحددة ($count/5):';
+  }
+
+  @override
+  String addPostUploadingImages(Object percent) {
+    return 'جاري رفع الصور... $percent%';
+  }
+
+  @override
+  String get addPostPublishing => 'جاري نشر المنشور...';
+
+  @override
+  String get addPostPublishButton => 'نشر';
+
+  @override
+  String get addPostPublishingButton => 'جاري النشر...';
+
+  @override
+  String get addPostSuccess => 'تم نشر المنشور بنجاح';
+
+  @override
+  String addPostUploadError(Object error) {
+    return 'خطأ في رفع الصور: $error';
+  }
+
+  @override
+  String addPostCharacterCount(Object current, Object max) {
+    return '$current/$max';
+  }
 }

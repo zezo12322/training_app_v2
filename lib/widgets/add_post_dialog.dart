@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../services/media_upload_service.dart';
 import '../providers/wall_post_providers.dart';
 import '../providers/auth_provider.dart';
+import '../core/l10n_ext.dart';
 
 class AddPostDialog extends ConsumerStatefulWidget {
   final String courseId;
@@ -60,10 +61,11 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
   }
 
   Future<void> _submitPost() async {
+    final l = context.l;
     final content = _contentController.text.trim();
     if (content.isEmpty && _selectedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يرجى كتابة محتوى أو إضافة صورة')),
+        SnackBar(content: Text(l.addPostContentRequired)),
       );
       return;
     }
@@ -111,7 +113,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
           failure: (error) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('خطأ في رفع الصور: ${error.message}')),
+                SnackBar(content: Text(l.addPostUploadError.replaceAll('{error}', error.message))),
               );
             }
             setState(() => _isUploading = false);
@@ -135,14 +137,14 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
           if (mounted) {
             Navigator.pop(context, true);
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم نشر المنشور بنجاح')),
+              SnackBar(content: Text(l.addPostSuccess)),
             );
           }
         },
         failure: (error) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('خطأ: ${error.message}')),
+              SnackBar(content: Text('${l.errorGeneric}: ${error.message}')),
             );
           }
         },
@@ -156,6 +158,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final theme = Theme.of(context);
 
     return Dialog(
@@ -181,7 +184,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'منشور جديد',
+                      l.addPostTitle,
                       style: theme.textTheme.titleLarge?.copyWith(
                         color: theme.colorScheme.onPrimaryContainer,
                         fontWeight: FontWeight.bold,
@@ -208,9 +211,9 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                       controller: _contentController,
                       maxLines: 6,
                       maxLength: 5000,
-                      decoration: const InputDecoration(
-                        hintText: 'ماذا تريد أن تشارك؟',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        hintText: l.addPostContentPlaceholder,
+                        border: const OutlineInputBorder(),
                         counterText: '',
                       ),
                       enabled: !_isUploading,
@@ -219,7 +222,9 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                     
                     // Character counter
                     Text(
-                      '${_contentController.text.length}/5000',
+                      l.addPostCharacterCount
+                          .replaceAll('{current}', '${_contentController.text.length}')
+                          .replaceAll('{max}', '5000'),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,
@@ -235,7 +240,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                             child: OutlinedButton.icon(
                               onPressed: _pickImages,
                               icon: const Icon(Icons.photo_library),
-                              label: const Text('اختيار صور'),
+                              label: Text(l.addPostPickImages),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -243,7 +248,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                             child: OutlinedButton.icon(
                               onPressed: _pickImageFromCamera,
                               icon: const Icon(Icons.camera_alt),
-                              label: const Text('التقاط صورة'),
+                              label: Text(l.addPostTakePhoto),
                             ),
                           ),
                         ],
@@ -254,7 +259,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                     // Selected images preview
                     if (_selectedImages.isNotEmpty) ...[
                       Text(
-                        'الصور المحددة (${_selectedImages.length}/5):',
+                        l.addPostSelectedImages.replaceAll('{count}', '${_selectedImages.length}'),
                         style: theme.textTheme.titleSmall,
                       ),
                       const SizedBox(height: 8),
@@ -313,8 +318,8 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                       Center(
                         child: Text(
                           _uploadProgress < 1
-                              ? 'جاري رفع الصور... ${(_uploadProgress * 100).toInt()}%'
-                              : 'جاري نشر المنشور...',
+                              ? l.addPostUploadingImages.replaceAll('{percent}', '${(_uploadProgress * 100).toInt()}')
+                              : l.addPostPublishing,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey.shade600,
@@ -339,7 +344,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                 children: [
                   TextButton(
                     onPressed: _isUploading ? null : () => Navigator.pop(context),
-                    child: const Text('إلغاء'),
+                    child: Text(l.dialogCancelButton),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton.icon(
@@ -351,7 +356,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.send),
-                    label: Text(_isUploading ? 'جاري النشر...' : 'نشر'),
+                    label: Text(_isUploading ? l.addPostPublishingButton : l.addPostPublishButton),
                   ),
                 ],
               ),

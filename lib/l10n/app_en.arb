@@ -442,4 +442,48 @@
   ,"settingsTitle": "Settings"
   ,"superAdminDashboard": "Super Admin Dashboard"
   ,"superAdminDashboardSubtitle": "Manage institutions, companies, and settings"
+  
+  ,"searchPostsPlaceholder": "Search in posts..."
+  ,"filterButtonTooltip": "Filter"
+  ,"sortButtonTooltip": "Sort"
+  ,"postTypeFilter": "Post Type"
+  ,"dateRangeFilter": "Date Range"
+  ,"dateFromLabel": "From Date"
+  ,"dateToLabel": "To Date"
+  
+  ,"postDeleteTitle": "Delete Post"
+  ,"postDeleteConfirm": "Are you sure you want to delete this post?"
+  ,"postDeleted": "Post deleted"
+  ,"postPinned": "Post pinned"
+  ,"postUnpinned": "Post unpinned"
+  ,"postEditButton": "Edit"
+  ,"postPinButton": "Pin"
+  ,"postUnpinButton": "Unpin"
+  ,"postDeleteButton": "Delete"
+  ,"postEditedLabel": "edited"
+  ,"postAuthorFallback": "User"
+  ,"postCommentCount": "{count} comment"
+  ,"@postCommentCount": {"placeholders": {"count": {}}}
+  ,"postCommentButton": "Comment"
+  
+  ,"reactionPickerTitle": "Choose your reaction"
+  ,"reactionAddTooltip": "Add reaction"
+  
+  ,"addPostTitle": "New Post"
+  ,"addPostContentPlaceholder": "What do you want to share?"
+  ,"addPostContentRequired": "Please write content or add an image"
+  ,"addPostPickImages": "Choose Images"
+  ,"addPostTakePhoto": "Take Photo"
+  ,"addPostSelectedImages": "Selected images ({count}/5):"
+  ,"@addPostSelectedImages": {"placeholders": {"count": {}}}
+  ,"addPostUploadingImages": "Uploading images... {percent}%"
+  ,"@addPostUploadingImages": {"placeholders": {"percent": {}}}
+  ,"addPostPublishing": "Publishing post..."
+  ,"addPostPublishButton": "Publish"
+  ,"addPostPublishingButton": "Publishing..."
+  ,"addPostSuccess": "Post published successfully"
+  ,"addPostUploadError": "Error uploading images: {error}"
+  ,"@addPostUploadError": {"placeholders": {"error": {}}}
+  ,"addPostCharacterCount": "{current}/{max}"
+  ,"@addPostCharacterCount": {"placeholders": {"current": {}, "max": {}}}
 }
