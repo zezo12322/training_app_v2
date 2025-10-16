@@ -3055,6 +3055,456 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Like'**
   String get reactionLike;
+
+  /// No description provided for @courseChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Chat'**
+  String get courseChatTitle;
+
+  /// No description provided for @courseChatLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Login required'**
+  String get courseChatLoginRequired;
+
+  /// No description provided for @courseChatLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String courseChatLoadError(Object error);
+
+  /// No description provided for @courseChatMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute notifications'**
+  String get courseChatMute;
+
+  /// No description provided for @courseChatUnmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute notifications'**
+  String get courseChatUnmute;
+
+  /// No description provided for @courseChatInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat info'**
+  String get courseChatInfo;
+
+  /// No description provided for @courseChatMessageSendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send message: {error}'**
+  String courseChatMessageSendError(Object error);
+
+  /// No description provided for @courseChatEditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get courseChatEditMessage;
+
+  /// No description provided for @courseChatDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get courseChatDeleteMessage;
+
+  /// No description provided for @courseChatFlagMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get courseChatFlagMessage;
+
+  /// No description provided for @courseChatEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Message'**
+  String get courseChatEditTitle;
+
+  /// No description provided for @courseChatEditPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get courseChatEditPlaceholder;
+
+  /// No description provided for @courseChatEditSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message edited'**
+  String get courseChatEditSuccess;
+
+  /// No description provided for @courseChatEditError.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit failed: {error}'**
+  String courseChatEditError(Object error);
+
+  /// No description provided for @courseChatDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Message'**
+  String get courseChatDeleteTitle;
+
+  /// No description provided for @courseChatDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this message?'**
+  String get courseChatDeleteConfirm;
+
+  /// No description provided for @courseChatDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted'**
+  String get courseChatDeleteSuccess;
+
+  /// No description provided for @courseChatDeleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete failed: {error}'**
+  String courseChatDeleteError(Object error);
+
+  /// No description provided for @courseChatFlagSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message reported'**
+  String get courseChatFlagSuccess;
+
+  /// No description provided for @courseChatFlagError.
+  ///
+  /// In en, this message translates to:
+  /// **'Report failed: {error}'**
+  String courseChatFlagError(Object error);
+
+  /// No description provided for @courseChatMuteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications muted'**
+  String get courseChatMuteSuccess;
+
+  /// No description provided for @courseChatUnmuteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications unmuted'**
+  String get courseChatUnmuteSuccess;
+
+  /// No description provided for @courseChatMuteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error changing mute status'**
+  String get courseChatMuteError;
+
+  /// No description provided for @courseChatInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Info'**
+  String get courseChatInfoTitle;
+
+  /// No description provided for @courseChatInfoCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Course: {name}'**
+  String courseChatInfoCourse(Object name);
+
+  /// No description provided for @courseChatInfoParticipants.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants: {count}'**
+  String courseChatInfoParticipants(Object count);
+
+  /// No description provided for @courseChatInfoCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created: {date}'**
+  String courseChatInfoCreated(Object date);
+
+  /// No description provided for @courseChatInfoClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get courseChatInfoClose;
+
+  /// No description provided for @directChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Chat'**
+  String get directChatTitle;
+
+  /// No description provided for @directChatTyping.
+  ///
+  /// In en, this message translates to:
+  /// **'typing...'**
+  String get directChatTyping;
+
+  /// No description provided for @directChatLoginError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: User data not found'**
+  String get directChatLoginError;
+
+  /// No description provided for @directChatBlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User'**
+  String get directChatBlockTitle;
+
+  /// No description provided for @directChatBlockConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to block this user? You won\'t be able to receive their messages.'**
+  String get directChatBlockConfirm;
+
+  /// No description provided for @directChatBlockSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User blocked'**
+  String get directChatBlockSuccess;
+
+  /// No description provided for @directChatBlockError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to block user'**
+  String get directChatBlockError;
+
+  /// No description provided for @directChatBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get directChatBlock;
+
+  /// No description provided for @directChatReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get directChatReport;
+
+  /// No description provided for @directChatDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Conversation'**
+  String get directChatDeleteTitle;
+
+  /// No description provided for @directChatDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to delete this conversation? It will be hidden from your list only.'**
+  String get directChatDeleteConfirm;
+
+  /// No description provided for @directChatDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation deleted'**
+  String get directChatDeleteSuccess;
+
+  /// No description provided for @directChatDeleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete conversation'**
+  String get directChatDeleteError;
+
+  /// No description provided for @directChatEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the conversation...'**
+  String get directChatEmptyMessage;
+
+  /// No description provided for @directChatError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred: {error}'**
+  String directChatError(Object error);
+
+  /// No description provided for @directChatAttachFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get directChatAttachFile;
+
+  /// No description provided for @directChatFileUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload file: {error}'**
+  String directChatFileUploadError(Object error);
+
+  /// No description provided for @directChatAttachImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get directChatAttachImage;
+
+  /// No description provided for @directChatImageUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload image: {error}'**
+  String directChatImageUploadError(Object error);
+
+  /// No description provided for @directChatImageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get directChatImageLabel;
+
+  /// No description provided for @directChatMessagePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get directChatMessagePlaceholder;
+
+  /// No description provided for @directChatMessageDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This message was deleted'**
+  String get directChatMessageDeleted;
+
+  /// No description provided for @directChatMessageEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get directChatMessageEdited;
+
+  /// No description provided for @directChatEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Message'**
+  String get directChatEditTitle;
+
+  /// No description provided for @directChatEditPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get directChatEditPlaceholder;
+
+  /// No description provided for @directChatEditSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get directChatEditSuccess;
+
+  /// No description provided for @directChatEditError.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit failed'**
+  String get directChatEditError;
+
+  /// No description provided for @directChatDeleteMessageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Message'**
+  String get directChatDeleteMessageTitle;
+
+  /// No description provided for @directChatDeleteMessageConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this message?'**
+  String get directChatDeleteMessageConfirm;
+
+  /// No description provided for @directChatDeleteMessageSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get directChatDeleteMessageSuccess;
+
+  /// No description provided for @directChatDeleteMessageError.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete failed'**
+  String get directChatDeleteMessageError;
+
+  /// No description provided for @directMessagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get directMessagesTitle;
+
+  /// No description provided for @directMessagesLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please login'**
+  String get directMessagesLoginRequired;
+
+  /// No description provided for @directMessagesSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in messages...'**
+  String get directMessagesSearchPlaceholder;
+
+  /// No description provided for @directMessagesSearchCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel search'**
+  String get directMessagesSearchCancel;
+
+  /// No description provided for @directMessagesSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get directMessagesSearchTooltip;
+
+  /// No description provided for @directMessagesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations yet'**
+  String get directMessagesEmpty;
+
+  /// No description provided for @directMessagesNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get directMessagesNoResults;
+
+  /// No description provided for @directMessagesNoResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different search terms'**
+  String get directMessagesNoResultsHint;
+
+  /// No description provided for @directMessagesEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new conversation from members list'**
+  String get directMessagesEmptyHint;
+
+  /// No description provided for @directMessagesArchiveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get directMessagesArchiveSuccess;
+
+  /// No description provided for @directMessagesMuteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications muted'**
+  String get directMessagesMuteSuccess;
+
+  /// No description provided for @directMessagesUnmuteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmuted'**
+  String get directMessagesUnmuteSuccess;
+
+  /// No description provided for @directMessagesNewChatTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'New conversation'**
+  String get directMessagesNewChatTooltip;
+
+  /// No description provided for @directMessagesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred: {error}'**
+  String directMessagesError(Object error);
+
+  /// No description provided for @directMessagesUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get directMessagesUser;
+
+  /// No description provided for @directMessagesNoMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages'**
+  String get directMessagesNoMessages;
 }
 
 class _AppLocalizationsDelegate

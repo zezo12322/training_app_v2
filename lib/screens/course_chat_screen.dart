@@ -8,6 +8,7 @@ import '../widgets/chat/chat_input.dart';
 import '../widgets/chat/message_list.dart';
 import '../widgets/network_status.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 
 /// Course chat screen for real-time messaging
 class CourseChatScreen extends ConsumerStatefulWidget {
@@ -38,13 +39,14 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
         ),
       ),
     );
+    final l = context.l;
 
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('محادثة الكورس'),
+            Text(l.courseChatTitle),
             Text(
               widget.courseName,
               style: Theme.of(context).textTheme.bodySmall,
@@ -68,6 +70,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
                   ? _chatRoom!.isMutedBy(user.id) 
                   : false;
 
+              final l = context.l;
               return [
                 PopupMenuItem(
                   value: 'mute',
@@ -75,17 +78,17 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
                     children: [
                       Icon(isMuted ? Icons.notifications_active : Icons.notifications_off),
                       const SizedBox(width: 8),
-                      Text(isMuted ? 'إلغاء كتم الإشعارات' : 'كتم الإشعارات'),
+                      Text(isMuted ? l.courseChatUnmute : l.courseChatMute),
                     ],
                   ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'info',
                   child: Row(
                     children: [
-                      Icon(Icons.info_outline),
-                      SizedBox(width: 8),
-                      Text('معلومات المحادثة'),
+                      const Icon(Icons.info_outline),
+                      const SizedBox(width: 8),
+                      Text(l.courseChatInfo),
                     ],
                   ),
                 ),
@@ -97,7 +100,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
       body: userAsync.when(
         data: (user) {
           if (user == null) {
-            return const Center(child: Text('يجب تسجيل الدخول'));
+            return Center(child: Text(l.courseChatLoginRequired));
           }
 
           return roomAsync.when(
@@ -117,7 +120,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('خطأ: $error')),
+        error: (error, stack) => Center(child: Text(l.courseChatLoadError.replaceAll('{error}', error.toString()))),
       ),
     );
   }
@@ -181,8 +184,9 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
     } catch (e, stack) {
       logger.e('Error sending message', error: e, stackTrace: stack);
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('فشل إرسال الرسالة: $e')),
+          SnackBar(content: Text(l.courseChatMessageSendError.replaceAll('{error}', e.toString()))),
         );
       }
     }
@@ -190,6 +194,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
 
   void _showMessageOptions(ChatMessage message, String userId) {
     final isMyMessage = message.authorId == userId;
+    final l = context.l;
 
     showModalBottomSheet(
       context: context,
@@ -200,7 +205,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
             if (isMyMessage) ...[
               ListTile(
                 leading: const Icon(Icons.edit),
-                title: const Text('تعديل'),
+                title: Text(l.courseChatEditMessage),
                 onTap: () {
                   Navigator.pop(context);
                   _editMessage(message);
@@ -208,7 +213,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.delete),
-                title: const Text('حذف'),
+                title: Text(l.courseChatDeleteMessage),
                 onTap: () {
                   Navigator.pop(context);
                   _deleteMessage(message);
@@ -217,7 +222,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
             ],
             ListTile(
               leading: const Icon(Icons.flag),
-              title: const Text('إبلاغ'),
+              title: Text(l.courseChatFlagMessage),
               onTap: () {
                 Navigator.pop(context);
                 _flagMessage(message);
@@ -231,26 +236,27 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
 
   Future<void> _editMessage(ChatMessage message) async {
     final controller = TextEditingController(text: message.content);
+    final l = context.l;
 
     final newContent = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('تعديل الرسالة'),
+        title: Text(l.courseChatEditTitle),
         content: TextField(
           controller: controller,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'الرسالة الجديدة',
+          decoration: InputDecoration(
+            hintText: l.courseChatEditPlaceholder,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
+            child: Text(l.dialogCancelButton),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('حفظ'),
+            child: Text(l.dialogSaveButton),
           ),
         ],
       ),
@@ -265,14 +271,16 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
           newContent: newContent.trim(),
         );
         if (mounted) {
+          final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم تعديل الرسالة')),
+            SnackBar(content: Text(l.courseChatEditSuccess)),
           );
         }
       } catch (e) {
         if (mounted) {
+          final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('فشل التعديل: $e')),
+            SnackBar(content: Text(l.courseChatEditError.replaceAll('{error}', e.toString()))),
           );
         }
       }
@@ -282,15 +290,16 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
   Future<void> _deleteMessage(ChatMessage message) async {
     if (_chatRoom == null) return;
 
+    final l = context.l;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('حذف الرسالة'),
-        content: const Text('هل أنت متأكد من حذف هذه الرسالة؟'),
+        title: Text(l.courseChatDeleteTitle),
+        content: Text(l.courseChatDeleteConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('إلغاء'),
+            child: Text(l.dialogCancelButton),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -298,7 +307,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Text('حذف'),
+            child: Text(l.dialogDeleteButton),
           ),
         ],
       ),
@@ -312,14 +321,16 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
           messageId: message.id,
         );
         if (mounted) {
+          final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم حذف الرسالة')),
+            SnackBar(content: Text(l.courseChatDeleteSuccess)),
           );
         }
       } catch (e) {
         if (mounted) {
+          final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('فشل الحذف: $e')),
+            SnackBar(content: Text(l.courseChatDeleteError.replaceAll('{error}', e.toString()))),
           );
         }
       }
@@ -336,14 +347,16 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
         messageId: message.id,
       );
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم الإبلاغ عن الرسالة')),
+          SnackBar(content: Text(l.courseChatFlagSuccess)),
         );
       }
     } catch (e) {
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('فشل الإبلاغ: $e')),
+          SnackBar(content: Text(l.courseChatFlagError.replaceAll('{error}', e.toString()))),
         );
       }
     }
@@ -367,9 +380,10 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
       );
 
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(isMuted ? 'تم إلغاء كتم الإشعارات' : 'تم كتم الإشعارات'),
+            content: Text(isMuted ? l.courseChatUnmuteSuccess : l.courseChatMuteSuccess),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -380,8 +394,9 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
     } catch (e) {
       logger.e('Error toggling mute', error: e);
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('حدث خطأ في تغيير حالة الكتم')),
+          SnackBar(content: Text(l.courseChatMuteError)),
         );
       }
     }
@@ -390,23 +405,24 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
   void _showRoomInfo() {
     if (_chatRoom == null) return;
 
+    final l = context.l;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('معلومات المحادثة'),
+        title: Text(l.courseChatInfoTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('الكورس: ${_chatRoom!.courseName}'),
-            Text('عدد المشاركين: ${_chatRoom!.participantIds.length}'),
-            Text('تاريخ الإنشاء: ${_chatRoom!.createdAt}'),
+            Text(l.courseChatInfoCourse.replaceAll('{name}', _chatRoom!.courseName)),
+            Text(l.courseChatInfoParticipants.replaceAll('{count}', '${_chatRoom!.participantIds.length}')),
+            Text(l.courseChatInfoCreated.replaceAll('{date}', '${_chatRoom!.createdAt}')),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('إغلاق'),
+            child: Text(l.courseChatInfoClose),
           ),
         ],
       ),

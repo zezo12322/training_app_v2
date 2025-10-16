@@ -1636,4 +1636,258 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reactionLike => 'Like';
+
+  @override
+  String get courseChatTitle => 'Course Chat';
+
+  @override
+  String get courseChatLoginRequired => 'Login required';
+
+  @override
+  String courseChatLoadError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get courseChatMute => 'Mute notifications';
+
+  @override
+  String get courseChatUnmute => 'Unmute notifications';
+
+  @override
+  String get courseChatInfo => 'Chat info';
+
+  @override
+  String courseChatMessageSendError(Object error) {
+    return 'Failed to send message: $error';
+  }
+
+  @override
+  String get courseChatEditMessage => 'Edit';
+
+  @override
+  String get courseChatDeleteMessage => 'Delete';
+
+  @override
+  String get courseChatFlagMessage => 'Report';
+
+  @override
+  String get courseChatEditTitle => 'Edit Message';
+
+  @override
+  String get courseChatEditPlaceholder => 'New message';
+
+  @override
+  String get courseChatEditSuccess => 'Message edited';
+
+  @override
+  String courseChatEditError(Object error) {
+    return 'Edit failed: $error';
+  }
+
+  @override
+  String get courseChatDeleteTitle => 'Delete Message';
+
+  @override
+  String get courseChatDeleteConfirm =>
+      'Are you sure you want to delete this message?';
+
+  @override
+  String get courseChatDeleteSuccess => 'Message deleted';
+
+  @override
+  String courseChatDeleteError(Object error) {
+    return 'Delete failed: $error';
+  }
+
+  @override
+  String get courseChatFlagSuccess => 'Message reported';
+
+  @override
+  String courseChatFlagError(Object error) {
+    return 'Report failed: $error';
+  }
+
+  @override
+  String get courseChatMuteSuccess => 'Notifications muted';
+
+  @override
+  String get courseChatUnmuteSuccess => 'Notifications unmuted';
+
+  @override
+  String get courseChatMuteError => 'Error changing mute status';
+
+  @override
+  String get courseChatInfoTitle => 'Chat Info';
+
+  @override
+  String courseChatInfoCourse(Object name) {
+    return 'Course: $name';
+  }
+
+  @override
+  String courseChatInfoParticipants(Object count) {
+    return 'Participants: $count';
+  }
+
+  @override
+  String courseChatInfoCreated(Object date) {
+    return 'Created: $date';
+  }
+
+  @override
+  String get courseChatInfoClose => 'Close';
+
+  @override
+  String get directChatTitle => 'Direct Chat';
+
+  @override
+  String get directChatTyping => 'typing...';
+
+  @override
+  String get directChatLoginError => 'Error: User data not found';
+
+  @override
+  String get directChatBlockTitle => 'Block User';
+
+  @override
+  String get directChatBlockConfirm =>
+      'Do you want to block this user? You won\'t be able to receive their messages.';
+
+  @override
+  String get directChatBlockSuccess => 'User blocked';
+
+  @override
+  String get directChatBlockError => 'Failed to block user';
+
+  @override
+  String get directChatBlock => 'Block';
+
+  @override
+  String get directChatReport => 'Report';
+
+  @override
+  String get directChatDeleteTitle => 'Delete Conversation';
+
+  @override
+  String get directChatDeleteConfirm =>
+      'Do you want to delete this conversation? It will be hidden from your list only.';
+
+  @override
+  String get directChatDeleteSuccess => 'Conversation deleted';
+
+  @override
+  String get directChatDeleteError => 'Failed to delete conversation';
+
+  @override
+  String get directChatEmptyMessage => 'Start the conversation...';
+
+  @override
+  String directChatError(Object error) {
+    return 'Error occurred: $error';
+  }
+
+  @override
+  String get directChatAttachFile => 'Attach';
+
+  @override
+  String directChatFileUploadError(Object error) {
+    return 'Failed to upload file: $error';
+  }
+
+  @override
+  String get directChatAttachImage => 'Image';
+
+  @override
+  String directChatImageUploadError(Object error) {
+    return 'Failed to upload image: $error';
+  }
+
+  @override
+  String get directChatImageLabel => 'Image';
+
+  @override
+  String get directChatMessagePlaceholder => 'Type a message...';
+
+  @override
+  String get directChatMessageDeleted => 'This message was deleted';
+
+  @override
+  String get directChatMessageEdited => 'edited';
+
+  @override
+  String get directChatEditTitle => 'Edit Message';
+
+  @override
+  String get directChatEditPlaceholder => 'New message';
+
+  @override
+  String get directChatEditSuccess => 'Edited';
+
+  @override
+  String get directChatEditError => 'Edit failed';
+
+  @override
+  String get directChatDeleteMessageTitle => 'Delete Message';
+
+  @override
+  String get directChatDeleteMessageConfirm =>
+      'Are you sure you want to delete this message?';
+
+  @override
+  String get directChatDeleteMessageSuccess => 'Deleted';
+
+  @override
+  String get directChatDeleteMessageError => 'Delete failed';
+
+  @override
+  String get directMessagesTitle => 'Messages';
+
+  @override
+  String get directMessagesLoginRequired => 'Please login';
+
+  @override
+  String get directMessagesSearchPlaceholder => 'Search in messages...';
+
+  @override
+  String get directMessagesSearchCancel => 'Cancel search';
+
+  @override
+  String get directMessagesSearchTooltip => 'Search';
+
+  @override
+  String get directMessagesEmpty => 'No conversations yet';
+
+  @override
+  String get directMessagesNoResults => 'No results';
+
+  @override
+  String get directMessagesNoResultsHint => 'Try different search terms';
+
+  @override
+  String get directMessagesEmptyHint =>
+      'Start a new conversation from members list';
+
+  @override
+  String get directMessagesArchiveSuccess => 'Archived';
+
+  @override
+  String get directMessagesMuteSuccess => 'Notifications muted';
+
+  @override
+  String get directMessagesUnmuteSuccess => 'Unmuted';
+
+  @override
+  String get directMessagesNewChatTooltip => 'New conversation';
+
+  @override
+  String directMessagesError(Object error) {
+    return 'Error occurred: $error';
+  }
+
+  @override
+  String get directMessagesUser => 'User';
+
+  @override
+  String get directMessagesNoMessages => 'No messages';
 }

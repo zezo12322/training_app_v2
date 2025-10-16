@@ -1624,4 +1624,256 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reactionLike => 'إعجاب';
+
+  @override
+  String get courseChatTitle => 'محادثة الكورس';
+
+  @override
+  String get courseChatLoginRequired => 'يجب تسجيل الدخول';
+
+  @override
+  String courseChatLoadError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get courseChatMute => 'كتم الإشعارات';
+
+  @override
+  String get courseChatUnmute => 'إلغاء كتم الإشعارات';
+
+  @override
+  String get courseChatInfo => 'معلومات المحادثة';
+
+  @override
+  String courseChatMessageSendError(Object error) {
+    return 'فشل إرسال الرسالة: $error';
+  }
+
+  @override
+  String get courseChatEditMessage => 'تعديل';
+
+  @override
+  String get courseChatDeleteMessage => 'حذف';
+
+  @override
+  String get courseChatFlagMessage => 'إبلاغ';
+
+  @override
+  String get courseChatEditTitle => 'تعديل الرسالة';
+
+  @override
+  String get courseChatEditPlaceholder => 'الرسالة الجديدة';
+
+  @override
+  String get courseChatEditSuccess => 'تم تعديل الرسالة';
+
+  @override
+  String courseChatEditError(Object error) {
+    return 'فشل التعديل: $error';
+  }
+
+  @override
+  String get courseChatDeleteTitle => 'حذف الرسالة';
+
+  @override
+  String get courseChatDeleteConfirm => 'هل أنت متأكد من حذف هذه الرسالة؟';
+
+  @override
+  String get courseChatDeleteSuccess => 'تم حذف الرسالة';
+
+  @override
+  String courseChatDeleteError(Object error) {
+    return 'فشل الحذف: $error';
+  }
+
+  @override
+  String get courseChatFlagSuccess => 'تم الإبلاغ عن الرسالة';
+
+  @override
+  String courseChatFlagError(Object error) {
+    return 'فشل الإبلاغ: $error';
+  }
+
+  @override
+  String get courseChatMuteSuccess => 'تم كتم الإشعارات';
+
+  @override
+  String get courseChatUnmuteSuccess => 'تم إلغاء كتم الإشعارات';
+
+  @override
+  String get courseChatMuteError => 'حدث خطأ في تغيير حالة الكتم';
+
+  @override
+  String get courseChatInfoTitle => 'معلومات المحادثة';
+
+  @override
+  String courseChatInfoCourse(Object name) {
+    return 'الكورس: $name';
+  }
+
+  @override
+  String courseChatInfoParticipants(Object count) {
+    return 'عدد المشاركين: $count';
+  }
+
+  @override
+  String courseChatInfoCreated(Object date) {
+    return 'تاريخ الإنشاء: $date';
+  }
+
+  @override
+  String get courseChatInfoClose => 'إغلاق';
+
+  @override
+  String get directChatTitle => 'محادثة مباشرة';
+
+  @override
+  String get directChatTyping => 'يكتب...';
+
+  @override
+  String get directChatLoginError => 'خطأ: لم يتم العثور على بيانات المستخدم';
+
+  @override
+  String get directChatBlockTitle => 'حظر المستخدم';
+
+  @override
+  String get directChatBlockConfirm =>
+      'هل تريد حظر هذا المستخدم؟ لن تتمكن من استقبال رسائله.';
+
+  @override
+  String get directChatBlockSuccess => 'تم حظر المستخدم';
+
+  @override
+  String get directChatBlockError => 'فشل حظر المستخدم';
+
+  @override
+  String get directChatBlock => 'حظر';
+
+  @override
+  String get directChatReport => 'إبلاغ';
+
+  @override
+  String get directChatDeleteTitle => 'حذف المحادثة';
+
+  @override
+  String get directChatDeleteConfirm =>
+      'هل تريد حذف هذه المحادثة؟ سيتم إخفاؤها من قائمتك فقط.';
+
+  @override
+  String get directChatDeleteSuccess => 'تم حذف المحادثة';
+
+  @override
+  String get directChatDeleteError => 'فشل حذف المحادثة';
+
+  @override
+  String get directChatEmptyMessage => 'ابدأ المحادثة...';
+
+  @override
+  String directChatError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get directChatAttachFile => 'إرفاق';
+
+  @override
+  String directChatFileUploadError(Object error) {
+    return 'فشل رفع الملف: $error';
+  }
+
+  @override
+  String get directChatAttachImage => 'صورة';
+
+  @override
+  String directChatImageUploadError(Object error) {
+    return 'فشل رفع الصورة: $error';
+  }
+
+  @override
+  String get directChatImageLabel => 'صورة';
+
+  @override
+  String get directChatMessagePlaceholder => 'اكتب رسالة...';
+
+  @override
+  String get directChatMessageDeleted => 'تم حذف هذه الرسالة';
+
+  @override
+  String get directChatMessageEdited => 'معدلة';
+
+  @override
+  String get directChatEditTitle => 'تعديل الرسالة';
+
+  @override
+  String get directChatEditPlaceholder => 'الرسالة الجديدة';
+
+  @override
+  String get directChatEditSuccess => 'تم التعديل';
+
+  @override
+  String get directChatEditError => 'فشل التعديل';
+
+  @override
+  String get directChatDeleteMessageTitle => 'حذف الرسالة';
+
+  @override
+  String get directChatDeleteMessageConfirm =>
+      'هل أنت متأكد من حذف هذه الرسالة؟';
+
+  @override
+  String get directChatDeleteMessageSuccess => 'تم الحذف';
+
+  @override
+  String get directChatDeleteMessageError => 'فشل الحذف';
+
+  @override
+  String get directMessagesTitle => 'المحادثات';
+
+  @override
+  String get directMessagesLoginRequired => 'يرجى تسجيل الدخول';
+
+  @override
+  String get directMessagesSearchPlaceholder => 'ابحث في المحادثات...';
+
+  @override
+  String get directMessagesSearchCancel => 'إلغاء البحث';
+
+  @override
+  String get directMessagesSearchTooltip => 'بحث';
+
+  @override
+  String get directMessagesEmpty => 'لا توجد محادثات بعد';
+
+  @override
+  String get directMessagesNoResults => 'لا توجد نتائج';
+
+  @override
+  String get directMessagesNoResultsHint => 'جرب كلمات بحث مختلفة';
+
+  @override
+  String get directMessagesEmptyHint => 'ابدأ محادثة جديدة من قائمة الأعضاء';
+
+  @override
+  String get directMessagesArchiveSuccess => 'تم الأرشفة';
+
+  @override
+  String get directMessagesMuteSuccess => 'تم كتم الإشعارات';
+
+  @override
+  String get directMessagesUnmuteSuccess => 'تم إلغاء الكتم';
+
+  @override
+  String get directMessagesNewChatTooltip => 'محادثة جديدة';
+
+  @override
+  String directMessagesError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get directMessagesUser => 'مستخدم';
+
+  @override
+  String get directMessagesNoMessages => 'لا توجد رسائل';
 }

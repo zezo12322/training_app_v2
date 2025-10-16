@@ -9,6 +9,7 @@ import '../providers/direct_message_providers.dart';
 import '../providers/user_providers.dart';
 import '../services/hybrid_storage_service.dart';
 import '../widgets/report_dialog.dart';
+import '../core/l10n_ext.dart';
 import 'dart:async';
 
 /// شاشة المحادثة المباشرة

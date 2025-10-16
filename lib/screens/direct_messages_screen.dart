@@ -6,6 +6,7 @@ import '../providers/direct_message_providers.dart';
 import '../providers/auth_provider.dart';
 import 'direct_chat_screen.dart';
 import 'user_picker_screen.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة قائمة المحادثات المباشرة
 class DirectMessagesScreen extends ConsumerStatefulWidget {
@@ -53,10 +54,11 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
   @override
   Widget build(BuildContext context) {
     final authUser = ref.watch(authStateProvider).value;
+    final l = context.l;
     
     if (authUser == null) {
-      return const Scaffold(
-        body: Center(child: Text('يرجى تسجيل الدخول')),
+      return Scaffold(
+        body: Center(child: Text(l.directMessagesLoginRequired)),
       );
     }
 
@@ -69,9 +71,9 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
                 controller: _searchController,
                 autofocus: true,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'ابحث في المحادثات...',
-                  hintStyle: TextStyle(color: Colors.white70),
+                decoration: InputDecoration(
+                  hintText: l.directMessagesSearchPlaceholder,
+                  hintStyle: const TextStyle(color: Colors.white70),
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
@@ -80,12 +82,12 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
                   });
                 },
               )
-            : const Text('المحادثات'),
+            : Text(l.directMessagesTitle),
         actions: [
           IconButton(
             icon: Icon(_isSearching ? Icons.close : Icons.search),
             onPressed: _toggleSearch,
-            tooltip: _isSearching ? 'إلغاء البحث' : 'بحث',
+            tooltip: _isSearching ? l.directMessagesSearchCancel : l.directMessagesSearchTooltip,
           ),
         ],
       ),
@@ -106,8 +108,8 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
                   const SizedBox(height: 16),
                   Text(
                     _searchQuery.isNotEmpty 
-                        ? 'لا توجد نتائج'
-                        : 'لا توجد محادثات بعد',
+                        ? l.directMessagesNoResults
+                        : l.directMessagesEmpty,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -116,8 +118,8 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
                   const SizedBox(height: 8),
                   Text(
                     _searchQuery.isNotEmpty
-                        ? 'جرب كلمات بحث مختلفة'
-                        : 'ابدأ محادثة جديدة من قائمة الأعضاء',
+                        ? l.directMessagesNoResultsHint
+                        : l.directMessagesEmptyHint,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[500],
@@ -156,7 +158,7 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('حدث خطأ: ${error.toString()}'),
+              Text(l.directMessagesError.replaceAll('{error}', error.toString())),
             ],
           ),
         ),
@@ -169,7 +171,7 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
             ),
           );
         },
-        tooltip: 'محادثة جديدة',
+        tooltip: l.directMessagesNewChatTooltip,
         child: const Icon(Icons.add_comment),
       ),
     );
@@ -219,8 +221,9 @@ class _DirectMessageTile extends ConsumerWidget {
           final archive = ref.read(archiveRoomProvider);
           await archive(roomId: room.id, archive: true);
           if (context.mounted) {
+            final l = context.l;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم الأرشفة')),
+              SnackBar(content: Text(l.directMessagesArchiveSuccess)),
             );
           }
           return true;
@@ -233,9 +236,10 @@ class _DirectMessageTile extends ConsumerWidget {
             mute: !isMuted,
           );
           if (context.mounted) {
+            final l = context.l;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(isMuted ? 'تم إلغاء الكتم' : 'تم كتم الإشعارات'),
+                content: Text(isMuted ? l.directMessagesUnmuteSuccess : l.directMessagesMuteSuccess),
               ),
             );
           }
@@ -243,56 +247,71 @@ class _DirectMessageTile extends ConsumerWidget {
         }
       },
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue,
-          child: Text(
-            _getInitials(room.lastMessageAuthor ?? 'User'),
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-        title: Row(
-          children: [
-            Expanded(
+        leading: Builder(
+          builder: (ctx) {
+            final l = ctx.l;
+            return CircleAvatar(
+              backgroundColor: Colors.blue,
               child: Text(
-                room.lastMessageAuthor ?? 'مستخدم',
-                style: TextStyle(
-                  fontWeight: unreadCount > 0
-                      ? FontWeight.bold
-                      : FontWeight.normal,
-                ),
+                _getInitials(room.lastMessageAuthor ?? l.directMessagesUser),
+                style: const TextStyle(color: Colors.white),
               ),
-            ),
-            if (room.lastMessageAt != null)
-              Text(
-                timeago.format(room.lastMessageAt!, locale: 'ar'),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
-              ),
-          ],
+            );
+          },
         ),
-        subtitle: Row(
-          children: [
-            if (isMuted)
-              const Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: Icon(Icons.notifications_off, size: 14, color: Colors.grey),
-              ),
-            Expanded(
-              child: Text(
-                room.lastMessageContent ?? 'لا توجد رسائل',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: unreadCount > 0
-                      ? FontWeight.w600
-                      : FontWeight.normal,
-                  color: unreadCount > 0 ? Colors.black87 : Colors.grey[600],
+        title: Builder(
+          builder: (ctx) {
+            final l = ctx.l;
+            return Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    room.lastMessageAuthor ?? l.directMessagesUser,
+                    style: TextStyle(
+                      fontWeight: unreadCount > 0
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+                if (room.lastMessageAt != null)
+                  Text(
+                    timeago.format(room.lastMessageAt!, locale: 'ar'),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+        subtitle: Builder(
+          builder: (ctx) {
+            final l = ctx.l;
+            return Row(
+              children: [
+                if (isMuted)
+                  const Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(Icons.notifications_off, size: 14, color: Colors.grey),
+                  ),
+                Expanded(
+                  child: Text(
+                    room.lastMessageContent ?? l.directMessagesNoMessages,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: unreadCount > 0
+                          ? FontWeight.w600
+                          : FontWeight.normal,
+                      color: unreadCount > 0 ? Colors.black87 : Colors.grey[600],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         trailing: unreadCount > 0
             ? Container(
