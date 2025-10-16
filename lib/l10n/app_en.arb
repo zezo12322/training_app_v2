@@ -797,4 +797,24 @@
   ,"wallCommentsHideReplies": "Hide replies"
   ,"wallCommentsShowReplies": "{count} {count, plural, =1{reply} other{replies}}"
   ,"@wallCommentsShowReplies": {"placeholders": {"count": {}}}
+  
+  ,"recommendationDismissTooltip": "Dismiss recommendation"
+  ,"recommendationHighPriority": "High priority"
+  ,"recommendationConfidence": "{percent}% confidence"
+  ,"@recommendationConfidence": {"placeholders": {"percent": {}}}
+  ,"recommendationMinutes": "{minutes} minutes"
+  ,"@recommendationMinutes": {"placeholders": {"minutes": {}}}
+  ,"recommendationReasonWeakPerformance": "To improve performance"
+  ,"recommendationReasonInterests": "Based on your interests"
+  ,"recommendationReasonNextStep": "Next step"
+  ,"recommendationReasonSkillGap": "To fill a skill gap"
+  ,"recommendationReasonPopularWithPeers": "Popular among your peers"
+  ,"recommendationReasonPathCompletion": "To complete the path"
+  ,"recommendationReasonStrengthenSkill": "To strengthen your skills"
+  ,"recommendationsEmpty": "No recommendations currently"
+  ,"recommendationsEmptyHint": "We will create personalized recommendations for you soon"
+  ,"recommendationsOpenSnackbar": "Opened: {title}"
+  ,"@recommendationsOpenSnackbar": {"placeholders": {"title": {}}}
+  ,"recommendationsDismissedSnackbar": "Recommendation dismissed"
+  ,"recommendationsError": "An error occurred loading recommendations"
 }

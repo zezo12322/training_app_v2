@@ -2243,4 +2243,58 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$count $_temp0';
   }
+
+  @override
+  String get recommendationDismissTooltip => 'رفض التوصية';
+
+  @override
+  String get recommendationHighPriority => 'أولوية عالية';
+
+  @override
+  String recommendationConfidence(Object percent) {
+    return '$percent% ثقة';
+  }
+
+  @override
+  String recommendationMinutes(Object minutes) {
+    return '$minutes دقيقة';
+  }
+
+  @override
+  String get recommendationReasonWeakPerformance => 'لتحسين الأداء';
+
+  @override
+  String get recommendationReasonInterests => 'بناءً على اهتماماتك';
+
+  @override
+  String get recommendationReasonNextStep => 'الخطوة التالية';
+
+  @override
+  String get recommendationReasonSkillGap => 'لسد فجوة مهارية';
+
+  @override
+  String get recommendationReasonPopularWithPeers => 'شائع بين زملائك';
+
+  @override
+  String get recommendationReasonPathCompletion => 'لإكمال المسار';
+
+  @override
+  String get recommendationReasonStrengthenSkill => 'لتعزيز مهاراتك';
+
+  @override
+  String get recommendationsEmpty => 'لا توجد توصيات حالياً';
+
+  @override
+  String get recommendationsEmptyHint => 'سنقوم بإنشاء توصيات مخصصة لك قريباً';
+
+  @override
+  String recommendationsOpenSnackbar(Object title) {
+    return 'فتح: $title';
+  }
+
+  @override
+  String get recommendationsDismissedSnackbar => 'تم رفض التوصية';
+
+  @override
+  String get recommendationsError => 'حدث خطأ في تحميل التوصيات';
 }

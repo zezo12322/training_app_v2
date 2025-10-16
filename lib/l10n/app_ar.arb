@@ -797,4 +797,24 @@
   ,"wallCommentsHideReplies": "إخفاء الردود"
   ,"wallCommentsShowReplies": "{count} {count, plural, =1{رد} other{ردود}}"
   ,"@wallCommentsShowReplies": {"placeholders": {"count": {}}}
+  
+  ,"recommendationDismissTooltip": "رفض التوصية"
+  ,"recommendationHighPriority": "أولوية عالية"
+  ,"recommendationConfidence": "{percent}% ثقة"
+  ,"@recommendationConfidence": {"placeholders": {"percent": {}}}
+  ,"recommendationMinutes": "{minutes} دقيقة"
+  ,"@recommendationMinutes": {"placeholders": {"minutes": {}}}
+  ,"recommendationReasonWeakPerformance": "لتحسين الأداء"
+  ,"recommendationReasonInterests": "بناءً على اهتماماتك"
+  ,"recommendationReasonNextStep": "الخطوة التالية"
+  ,"recommendationReasonSkillGap": "لسد فجوة مهارية"
+  ,"recommendationReasonPopularWithPeers": "شائع بين زملائك"
+  ,"recommendationReasonPathCompletion": "لإكمال المسار"
+  ,"recommendationReasonStrengthenSkill": "لتعزيز مهاراتك"
+  ,"recommendationsEmpty": "لا توجد توصيات حالياً"
+  ,"recommendationsEmptyHint": "سنقوم بإنشاء توصيات مخصصة لك قريباً"
+  ,"recommendationsOpenSnackbar": "فتح: {title}"
+  ,"@recommendationsOpenSnackbar": {"placeholders": {"title": {}}}
+  ,"recommendationsDismissedSnackbar": "تم رفض التوصية"
+  ,"recommendationsError": "حدث خطأ في تحميل التوصيات"
 }

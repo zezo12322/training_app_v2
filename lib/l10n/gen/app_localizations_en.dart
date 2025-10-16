@@ -2258,4 +2258,60 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$count $_temp0';
   }
+
+  @override
+  String get recommendationDismissTooltip => 'Dismiss recommendation';
+
+  @override
+  String get recommendationHighPriority => 'High priority';
+
+  @override
+  String recommendationConfidence(Object percent) {
+    return '$percent% confidence';
+  }
+
+  @override
+  String recommendationMinutes(Object minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String get recommendationReasonWeakPerformance => 'To improve performance';
+
+  @override
+  String get recommendationReasonInterests => 'Based on your interests';
+
+  @override
+  String get recommendationReasonNextStep => 'Next step';
+
+  @override
+  String get recommendationReasonSkillGap => 'To fill a skill gap';
+
+  @override
+  String get recommendationReasonPopularWithPeers => 'Popular among your peers';
+
+  @override
+  String get recommendationReasonPathCompletion => 'To complete the path';
+
+  @override
+  String get recommendationReasonStrengthenSkill => 'To strengthen your skills';
+
+  @override
+  String get recommendationsEmpty => 'No recommendations currently';
+
+  @override
+  String get recommendationsEmptyHint =>
+      'We will create personalized recommendations for you soon';
+
+  @override
+  String recommendationsOpenSnackbar(Object title) {
+    return 'Opened: $title';
+  }
+
+  @override
+  String get recommendationsDismissedSnackbar => 'Recommendation dismissed';
+
+  @override
+  String get recommendationsError =>
+      'An error occurred loading recommendations';
 }

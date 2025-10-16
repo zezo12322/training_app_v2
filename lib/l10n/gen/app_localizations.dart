@@ -4129,6 +4129,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} {count, plural, =1{reply} other{replies}}'**
   String wallCommentsShowReplies(num count);
+
+  /// No description provided for @recommendationDismissTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss recommendation'**
+  String get recommendationDismissTooltip;
+
+  /// No description provided for @recommendationHighPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'High priority'**
+  String get recommendationHighPriority;
+
+  /// No description provided for @recommendationConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% confidence'**
+  String recommendationConfidence(Object percent);
+
+  /// No description provided for @recommendationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
+  String recommendationMinutes(Object minutes);
+
+  /// No description provided for @recommendationReasonWeakPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'To improve performance'**
+  String get recommendationReasonWeakPerformance;
+
+  /// No description provided for @recommendationReasonInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your interests'**
+  String get recommendationReasonInterests;
+
+  /// No description provided for @recommendationReasonNextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Next step'**
+  String get recommendationReasonNextStep;
+
+  /// No description provided for @recommendationReasonSkillGap.
+  ///
+  /// In en, this message translates to:
+  /// **'To fill a skill gap'**
+  String get recommendationReasonSkillGap;
+
+  /// No description provided for @recommendationReasonPopularWithPeers.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular among your peers'**
+  String get recommendationReasonPopularWithPeers;
+
+  /// No description provided for @recommendationReasonPathCompletion.
+  ///
+  /// In en, this message translates to:
+  /// **'To complete the path'**
+  String get recommendationReasonPathCompletion;
+
+  /// No description provided for @recommendationReasonStrengthenSkill.
+  ///
+  /// In en, this message translates to:
+  /// **'To strengthen your skills'**
+  String get recommendationReasonStrengthenSkill;
+
+  /// No description provided for @recommendationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recommendations currently'**
+  String get recommendationsEmpty;
+
+  /// No description provided for @recommendationsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'We will create personalized recommendations for you soon'**
+  String get recommendationsEmptyHint;
+
+  /// No description provided for @recommendationsOpenSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Opened: {title}'**
+  String recommendationsOpenSnackbar(Object title);
+
+  /// No description provided for @recommendationsDismissedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation dismissed'**
+  String get recommendationsDismissedSnackbar;
+
+  /// No description provided for @recommendationsError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred loading recommendations'**
+  String get recommendationsError;
 }
 
 class _AppLocalizationsDelegate

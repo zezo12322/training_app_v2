@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/recommendation.dart';
 import '../providers/recommendation_providers.dart';
+import '../core/l10n_ext.dart';
 
 /// ويدجت بطاقة التوصية
 class RecommendationCard extends ConsumerWidget {
@@ -18,6 +19,7 @@ class RecommendationCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 2,
@@ -80,12 +82,43 @@ class RecommendationCard extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          _getReasonText(recommendation.reason),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
+                        Builder(
+                          builder: (ctx) {
+                            final reasonKey = _getReasonText(recommendation.reason);
+                            String reasonText;
+                            switch (reasonKey) {
+                              case 'recommendationReasonWeakPerformance':
+                                reasonText = ctx.l.recommendationReasonWeakPerformance;
+                                break;
+                              case 'recommendationReasonInterests':
+                                reasonText = ctx.l.recommendationReasonInterests;
+                                break;
+                              case 'recommendationReasonNextStep':
+                                reasonText = ctx.l.recommendationReasonNextStep;
+                                break;
+                              case 'recommendationReasonSkillGap':
+                                reasonText = ctx.l.recommendationReasonSkillGap;
+                                break;
+                              case 'recommendationReasonPopularWithPeers':
+                                reasonText = ctx.l.recommendationReasonPopularWithPeers;
+                                break;
+                              case 'recommendationReasonPathCompletion':
+                                reasonText = ctx.l.recommendationReasonPathCompletion;
+                                break;
+                              case 'recommendationReasonStrengthenSkill':
+                                reasonText = ctx.l.recommendationReasonStrengthenSkill;
+                                break;
+                              default:
+                                reasonText = reasonKey;
+                            }
+                            return Text(
+                              reasonText,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -103,7 +136,7 @@ class RecommendationCard extends ConsumerWidget {
                         );
                         onDismiss?.call();
                       },
-                      tooltip: 'رفض التوصية',
+                      tooltip: l.recommendationDismissTooltip,
                     ),
                 ],
               ),
@@ -140,7 +173,7 @@ class RecommendationCard extends ConsumerWidget {
                   if (recommendation.estimatedMinutes != null)
                     _buildInfoChip(
                       icon: Icons.access_time,
-                      label: '${recommendation.estimatedMinutes} دقيقة',
+                      label: l.recommendationMinutes.replaceAll('{minutes}', recommendation.estimatedMinutes.toString()),
                       color: Colors.orange,
                     ),
                   
@@ -148,14 +181,14 @@ class RecommendationCard extends ConsumerWidget {
                   if (recommendation.priority > 70)
                     _buildInfoChip(
                       icon: Icons.priority_high,
-                      label: 'أولوية عالية',
+                      label: l.recommendationHighPriority,
                       color: Colors.red,
                     ),
                   
                   // درجة الثقة
                   _buildInfoChip(
                     icon: Icons.verified,
-                    label: '${(recommendation.confidence * 100).toInt()}% ثقة',
+                    label: l.recommendationConfidence.replaceAll('{percent}', (recommendation.confidence * 100).toInt().toString()),
                     color: Colors.green,
                   ),
                 ],
@@ -239,19 +272,19 @@ class RecommendationCard extends ConsumerWidget {
   String _getReasonText(RecommendationReason reason) {
     switch (reason) {
       case RecommendationReason.weakPerformance:
-        return 'لتحسين الأداء';
+        return 'recommendationReasonWeakPerformance';
       case RecommendationReason.interests:
-        return 'بناءً على اهتماماتك';
+        return 'recommendationReasonInterests';
       case RecommendationReason.nextStep:
-        return 'الخطوة التالية';
+        return 'recommendationReasonNextStep';
       case RecommendationReason.skillGap:
-        return 'لسد فجوة مهارية';
+        return 'recommendationReasonSkillGap';
       case RecommendationReason.popularWithPeers:
-        return 'شائع بين زملائك';
+        return 'recommendationReasonPopularWithPeers';
       case RecommendationReason.pathCompletion:
-        return 'لإكمال المسار';
+        return 'recommendationReasonPathCompletion';
       case RecommendationReason.strengthenSkill:
-        return 'لتعزيز مهاراتك';
+        return 'recommendationReasonStrengthenSkill';
     }
   }
 }
@@ -269,6 +302,7 @@ class RecommendationsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     final recommendationsAsync = ref.watch(
       activeRecommendationsProvider((userId: userId, courseId: courseId)),
     );
@@ -289,7 +323,7 @@ class RecommendationsList extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'لا توجد توصيات حالياً',
+                    l.recommendationsEmpty,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -298,7 +332,7 @@ class RecommendationsList extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'سنقوم بإنشاء توصيات مخصصة لك قريباً',
+                    l.recommendationsEmptyHint,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[500],
@@ -322,16 +356,16 @@ class RecommendationsList extends ConsumerWidget {
                 // يمكن التنقل للمحتوى هنا
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('فتح: ${rec.contentTitle}'),
+                    content: Text(l.recommendationsOpenSnackbar.replaceAll('{title}', rec.contentTitle)),
                     duration: const Duration(seconds: 2),
                   ),
                 );
               },
               onDismiss: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('تم رفض التوصية'),
-                    duration: Duration(seconds: 2),
+                  SnackBar(
+                    content: Text(l.recommendationsDismissedSnackbar),
+                    duration: const Duration(seconds: 2),
                   ),
                 );
               },
@@ -358,7 +392,7 @@ class RecommendationsList extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'حدث خطأ في تحميل التوصيات',
+                l.recommendationsError,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[700],
