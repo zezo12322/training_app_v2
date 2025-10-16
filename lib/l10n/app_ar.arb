@@ -724,4 +724,33 @@
   ,"orgAdminHome": "الرئيسية"
   ,"orgAdminError": "خطأ: {error}"
   ,"@orgAdminError": {"placeholders": {"error": {}}}
+  
+  ,"takeQuizNoQuestions": "لا توجد أسئلة في هذا الاختبار بعد."
+  ,"takeQuizQuestionProgress": "السؤال {current} من {total}"
+  ,"@takeQuizQuestionProgress": {"placeholders": {"current": {}, "total": {}}}
+  ,"takeQuizShortAnswerLabel": "إجابتك القصيرة"
+  ,"takeQuizEssayAnswerLabel": "إجابتك المقالية"
+  ,"takeQuizMatchingSelect": "اختر"
+  ,"takeQuizUnsupportedType": "نوع سؤال غير مدعوم بعد"
+  ,"takeQuizPreviousButton": "السابق"
+  ,"takeQuizNextButton": "التالي"
+  ,"takeQuizSubmitButton": "تسليم الإجابات"
+  ,"takeQuizSubmissionFailed": "فشل التسليم: {message}"
+  ,"@takeQuizSubmissionFailed": {"placeholders": {"message": {}}}
+  
+  ,"quizResultsTitle": "نتيجة الاختبار"
+  ,"quizResultsCompleted": "لقد أكملت الاختبار!"
+  ,"quizResultsYourScore": "نتيجتك هي:"
+  ,"quizResultsScoreDisplay": "{score} / {total}"
+  ,"@quizResultsScoreDisplay": {"placeholders": {"score": {}, "total": {}}}
+  ,"quizResultsBackButton": "العودة إلى قائمة الاختبارات"
+  
+  ,"createQuizTitle": "إنشاء اختبار جديد"
+  ,"createQuizTitleLabel": "عنوان الاختبار"
+  ,"createQuizTitleHint": "مثال: اختبار أساسيات Flutter"
+  ,"createQuizTitleRequired": "يرجى إدخال عنوان للاختبار"
+  ,"createQuizNextButton": "التالي: إضافة الأسئلة"
+  ,"createQuizSuccess": "تم إنشاء الاختبار - أضف الأسئلة الآن"
+  ,"createQuizError": "حدث خطأ: {error}"
+  ,"@createQuizError": {"placeholders": {"error": {}}}
 }

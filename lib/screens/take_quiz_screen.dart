@@ -6,7 +6,8 @@ import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/logging.dart';
 import 'package:training_app/models/quiz_question.dart';
 import 'package:training_app/providers/quiz_providers.dart';
-import 'quiz_results_screen.dart'; // استيراد شاشة النتائج
+import 'quiz_results_screen.dart';
+import '../core/l10n_ext.dart';
 
 class TakeQuizScreen extends ConsumerStatefulWidget {
   final String quizId;
@@ -101,7 +102,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
         },
         failure: (f) {
           if (mounted) {
-            AppSnackBar.show(context, 'فشل التسليم: ${f.message}');
+            AppSnackBar.show(context, context.l.takeQuizSubmissionFailed.replaceAll('{message}', f.message));
           }
         },
       );
@@ -137,14 +138,16 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _questions.isEmpty
-          ? const Center(child: Text('لا توجد أسئلة في هذا الاختبار بعد.'))
+          ? Center(child: Text(context.l.takeQuizNoQuestions))
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'السؤال ${_currentQuestionIndex + 1} من ${_questions.length}',
+                    context.l.takeQuizQuestionProgress
+                        .replaceAll('{current}', (_currentQuestionIndex + 1).toString())
+                        .replaceAll('{total}', _questions.length.toString()),
                     style: Theme.of(
                       context,
                     ).textTheme.titleMedium?.copyWith(color: Colors.grey),
@@ -180,9 +183,9 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                       } else if (type == QuizQuestionType.shortText) {
                         return TextFormField(
                           initialValue: _userAnswers[q.id] as String?,
-                          decoration: const InputDecoration(
-                            labelText: 'إجابتك القصيرة',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: context.l.takeQuizShortAnswerLabel,
+                            border: const OutlineInputBorder(),
                           ),
                           onChanged: (val) => _userAnswers[q.id] = val,
                         );
@@ -190,9 +193,9 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                         return TextFormField(
                           initialValue: _userAnswers[q.id] as String?,
                           maxLines: 6,
-                          decoration: const InputDecoration(
-                            labelText: 'إجابتك المقالية',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: context.l.takeQuizEssayAnswerLabel,
+                            border: const OutlineInputBorder(),
                           ),
                           onChanged: (val) => _userAnswers[q.id] = val,
                         );
@@ -217,7 +220,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                                   const SizedBox(width: 12),
                                   DropdownButton<int>(
                                     value: currentMap[leftIndex.toString()],
-                                    hint: const Text('اختر'),
+                                    hint: Text(context.l.takeQuizMatchingSelect),
                                     items: right
                                         .asMap()
                                         .entries
@@ -241,7 +244,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                           }).toList(),
                         );
                       }
-                      return const Text('نوع سؤال غير مدعوم بعد');
+                      return Text(context.l.takeQuizUnsupportedType);
                     },
                   ),
 
@@ -253,21 +256,21 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                       if (_currentQuestionIndex > 0)
                         TextButton.icon(
                           icon: const Icon(Icons.arrow_back),
-                          label: const Text('السابق'),
+                          label: Text(context.l.takeQuizPreviousButton),
                           onPressed: _previousQuestion,
                         ),
-                      const Spacer(), // Spacer to push next/submit to the right
+                      const Spacer(),
                       if (_currentQuestionIndex < _questions.length - 1)
                         ElevatedButton.icon(
                           icon: const Icon(Icons.arrow_forward),
-                          label: const Text('التالي'),
+                          label: Text(context.l.takeQuizNextButton),
                           onPressed: _nextQuestion,
                         ),
 
                       if (_currentQuestionIndex == _questions.length - 1)
                         ElevatedButton.icon(
                           icon: const Icon(Icons.check_circle),
-                          label: const Text('تسليم الإجابات'),
+                          label: Text(context.l.takeQuizSubmitButton),
                           onPressed: _submitQuiz,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(

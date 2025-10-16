@@ -3787,6 +3787,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {error}'**
   String orgAdminError(Object error);
+
+  /// No description provided for @takeQuizNoQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'No questions in this quiz yet.'**
+  String get takeQuizNoQuestions;
+
+  /// No description provided for @takeQuizQuestionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} of {total}'**
+  String takeQuizQuestionProgress(Object current, Object total);
+
+  /// No description provided for @takeQuizShortAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your short answer'**
+  String get takeQuizShortAnswerLabel;
+
+  /// No description provided for @takeQuizEssayAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your essay answer'**
+  String get takeQuizEssayAnswerLabel;
+
+  /// No description provided for @takeQuizMatchingSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get takeQuizMatchingSelect;
+
+  /// No description provided for @takeQuizUnsupportedType.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported question type yet'**
+  String get takeQuizUnsupportedType;
+
+  /// No description provided for @takeQuizPreviousButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get takeQuizPreviousButton;
+
+  /// No description provided for @takeQuizNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get takeQuizNextButton;
+
+  /// No description provided for @takeQuizSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Answers'**
+  String get takeQuizSubmitButton;
+
+  /// No description provided for @takeQuizSubmissionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Submission failed: {message}'**
+  String takeQuizSubmissionFailed(Object message);
+
+  /// No description provided for @quizResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Result'**
+  String get quizResultsTitle;
+
+  /// No description provided for @quizResultsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed the quiz!'**
+  String get quizResultsCompleted;
+
+  /// No description provided for @quizResultsYourScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Your score is:'**
+  String get quizResultsYourScore;
+
+  /// No description provided for @quizResultsScoreDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'{score} / {total}'**
+  String quizResultsScoreDisplay(Object score, Object total);
+
+  /// No description provided for @quizResultsBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Quiz List'**
+  String get quizResultsBackButton;
+
+  /// No description provided for @createQuizTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Quiz'**
+  String get createQuizTitle;
+
+  /// No description provided for @createQuizTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Title'**
+  String get createQuizTitleLabel;
+
+  /// No description provided for @createQuizTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Flutter Basics Quiz'**
+  String get createQuizTitleHint;
+
+  /// No description provided for @createQuizTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a title for the quiz'**
+  String get createQuizTitleRequired;
+
+  /// No description provided for @createQuizNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: Add Questions'**
+  String get createQuizNextButton;
+
+  /// No description provided for @createQuizSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz created - Add questions now'**
+  String get createQuizSuccess;
+
+  /// No description provided for @createQuizError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String createQuizError(Object error);
 }
 
 class _AppLocalizationsDelegate

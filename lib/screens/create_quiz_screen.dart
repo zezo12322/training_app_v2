@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'add_question_screen.dart'; // سنقوم بإنشاء هذه الشاشة لاحقًا
+import 'add_question_screen.dart';
+import '../core/l10n_ext.dart';
 
 class CreateQuizScreen extends StatefulWidget {
   final String courseId;
@@ -58,11 +59,10 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
             'rewardPoints': 15,
           });
 
-      // 2. الانتقال إلى شاشة إضافة الأسئلة (عدم الإغلاق فوراً)
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم إنشاء الاختبار - أضف الأسئلة الآن'),
+          SnackBar(
+            content: Text(context.l.createQuizSuccess),
             backgroundColor: Colors.green,
           ),
         );
@@ -76,12 +76,12 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('حدث خطأ: $e'),
+            content: Text(context.l.createQuizError.replaceAll('{error}', e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
       }
-    } finally {
+    } finally{
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -93,7 +93,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('إنشاء اختبار جديد')),
+      appBar: AppBar(title: Text(context.l.createQuizTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -103,14 +103,14 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'عنوان الاختبار',
-                  hintText: 'مثال: اختبار أساسيات Flutter',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l.createQuizTitleLabel,
+                  hintText: context.l.createQuizTitleHint,
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'يرجى إدخال عنوان للاختبار';
+                    return context.l.createQuizTitleRequired;
                   }
                   return null;
                 },
@@ -120,7 +120,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton.icon(
                       icon: const Icon(Icons.arrow_forward),
-                      label: const Text('التالي: إضافة الأسئلة'),
+                      label: Text(context.l.createQuizNextButton),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),

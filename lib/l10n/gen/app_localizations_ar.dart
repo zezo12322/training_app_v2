@@ -2042,4 +2042,78 @@ class AppLocalizationsAr extends AppLocalizations {
   String orgAdminError(Object error) {
     return 'خطأ: $error';
   }
+
+  @override
+  String get takeQuizNoQuestions => 'لا توجد أسئلة في هذا الاختبار بعد.';
+
+  @override
+  String takeQuizQuestionProgress(Object current, Object total) {
+    return 'السؤال $current من $total';
+  }
+
+  @override
+  String get takeQuizShortAnswerLabel => 'إجابتك القصيرة';
+
+  @override
+  String get takeQuizEssayAnswerLabel => 'إجابتك المقالية';
+
+  @override
+  String get takeQuizMatchingSelect => 'اختر';
+
+  @override
+  String get takeQuizUnsupportedType => 'نوع سؤال غير مدعوم بعد';
+
+  @override
+  String get takeQuizPreviousButton => 'السابق';
+
+  @override
+  String get takeQuizNextButton => 'التالي';
+
+  @override
+  String get takeQuizSubmitButton => 'تسليم الإجابات';
+
+  @override
+  String takeQuizSubmissionFailed(Object message) {
+    return 'فشل التسليم: $message';
+  }
+
+  @override
+  String get quizResultsTitle => 'نتيجة الاختبار';
+
+  @override
+  String get quizResultsCompleted => 'لقد أكملت الاختبار!';
+
+  @override
+  String get quizResultsYourScore => 'نتيجتك هي:';
+
+  @override
+  String quizResultsScoreDisplay(Object score, Object total) {
+    return '$score / $total';
+  }
+
+  @override
+  String get quizResultsBackButton => 'العودة إلى قائمة الاختبارات';
+
+  @override
+  String get createQuizTitle => 'إنشاء اختبار جديد';
+
+  @override
+  String get createQuizTitleLabel => 'عنوان الاختبار';
+
+  @override
+  String get createQuizTitleHint => 'مثال: اختبار أساسيات Flutter';
+
+  @override
+  String get createQuizTitleRequired => 'يرجى إدخال عنوان للاختبار';
+
+  @override
+  String get createQuizNextButton => 'التالي: إضافة الأسئلة';
+
+  @override
+  String get createQuizSuccess => 'تم إنشاء الاختبار - أضف الأسئلة الآن';
+
+  @override
+  String createQuizError(Object error) {
+    return 'حدث خطأ: $error';
+  }
 }

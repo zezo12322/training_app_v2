@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/l10n_ext.dart';
 
 class QuizResultsScreen extends StatelessWidget {
   final int score;
@@ -12,15 +13,13 @@ class QuizResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // حساب النسبة المئوية
     final double percentage = totalQuestions > 0
         ? (score / totalQuestions) * 100
         : 0;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('نتيجة الاختبار'),
-        // منع المستخدم من الرجوع إلى شاشة الاختبار مرة أخرى
+        title: Text(context.l.quizResultsTitle),
         automaticallyImplyLeading: false,
       ),
       body: Center(
@@ -31,19 +30,21 @@ class QuizResultsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'لقد أكملت الاختبار!',
+                context.l.quizResultsCompleted,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 32),
               Text(
-                'نتيجتك هي:',
+                context.l.quizResultsYourScore,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
               Text(
-                '$score / $totalQuestions',
+                context.l.quizResultsScoreDisplay
+                    .replaceAll('{score}', score.toString())
+                    .replaceAll('{total}', totalQuestions.toString()),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -60,9 +61,8 @@ class QuizResultsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               ElevatedButton(
-                child: const Text('العودة إلى قائمة الاختبارات'),
+                child: Text(context.l.quizResultsBackButton),
                 onPressed: () {
-                  // إغلاق شاشة النتائج وشاشة أداء الاختبار للعودة إلى القائمة
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
               ),

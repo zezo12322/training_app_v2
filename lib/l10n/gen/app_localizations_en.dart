@@ -2057,4 +2057,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String orgAdminError(Object error) {
     return 'Error: $error';
   }
+
+  @override
+  String get takeQuizNoQuestions => 'No questions in this quiz yet.';
+
+  @override
+  String takeQuizQuestionProgress(Object current, Object total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get takeQuizShortAnswerLabel => 'Your short answer';
+
+  @override
+  String get takeQuizEssayAnswerLabel => 'Your essay answer';
+
+  @override
+  String get takeQuizMatchingSelect => 'Choose';
+
+  @override
+  String get takeQuizUnsupportedType => 'Unsupported question type yet';
+
+  @override
+  String get takeQuizPreviousButton => 'Previous';
+
+  @override
+  String get takeQuizNextButton => 'Next';
+
+  @override
+  String get takeQuizSubmitButton => 'Submit Answers';
+
+  @override
+  String takeQuizSubmissionFailed(Object message) {
+    return 'Submission failed: $message';
+  }
+
+  @override
+  String get quizResultsTitle => 'Quiz Result';
+
+  @override
+  String get quizResultsCompleted => 'You\'ve completed the quiz!';
+
+  @override
+  String get quizResultsYourScore => 'Your score is:';
+
+  @override
+  String quizResultsScoreDisplay(Object score, Object total) {
+    return '$score / $total';
+  }
+
+  @override
+  String get quizResultsBackButton => 'Back to Quiz List';
+
+  @override
+  String get createQuizTitle => 'Create New Quiz';
+
+  @override
+  String get createQuizTitleLabel => 'Quiz Title';
+
+  @override
+  String get createQuizTitleHint => 'Example: Flutter Basics Quiz';
+
+  @override
+  String get createQuizTitleRequired => 'Please enter a title for the quiz';
+
+  @override
+  String get createQuizNextButton => 'Next: Add Questions';
+
+  @override
+  String get createQuizSuccess => 'Quiz created - Add questions now';
+
+  @override
+  String createQuizError(Object error) {
+    return 'An error occurred: $error';
+  }
 }

@@ -724,4 +724,33 @@
   ,"orgAdminHome": "Home"
   ,"orgAdminError": "Error: {error}"
   ,"@orgAdminError": {"placeholders": {"error": {}}}
+  
+  ,"takeQuizNoQuestions": "No questions in this quiz yet."
+  ,"takeQuizQuestionProgress": "Question {current} of {total}"
+  ,"@takeQuizQuestionProgress": {"placeholders": {"current": {}, "total": {}}}
+  ,"takeQuizShortAnswerLabel": "Your short answer"
+  ,"takeQuizEssayAnswerLabel": "Your essay answer"
+  ,"takeQuizMatchingSelect": "Choose"
+  ,"takeQuizUnsupportedType": "Unsupported question type yet"
+  ,"takeQuizPreviousButton": "Previous"
+  ,"takeQuizNextButton": "Next"
+  ,"takeQuizSubmitButton": "Submit Answers"
+  ,"takeQuizSubmissionFailed": "Submission failed: {message}"
+  ,"@takeQuizSubmissionFailed": {"placeholders": {"message": {}}}
+  
+  ,"quizResultsTitle": "Quiz Result"
+  ,"quizResultsCompleted": "You've completed the quiz!"
+  ,"quizResultsYourScore": "Your score is:"
+  ,"quizResultsScoreDisplay": "{score} / {total}"
+  ,"@quizResultsScoreDisplay": {"placeholders": {"score": {}, "total": {}}}
+  ,"quizResultsBackButton": "Back to Quiz List"
+  
+  ,"createQuizTitle": "Create New Quiz"
+  ,"createQuizTitleLabel": "Quiz Title"
+  ,"createQuizTitleHint": "Example: Flutter Basics Quiz"
+  ,"createQuizTitleRequired": "Please enter a title for the quiz"
+  ,"createQuizNextButton": "Next: Add Questions"
+  ,"createQuizSuccess": "Quiz created - Add questions now"
+  ,"createQuizError": "An error occurred: {error}"
+  ,"@createQuizError": {"placeholders": {"error": {}}}
 }
