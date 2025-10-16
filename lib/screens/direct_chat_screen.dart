@@ -100,14 +100,13 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
     final currentUserAsync = ref.read(currentUserProvider);
     final currentUser = currentUserAsync.value;
     
-    if (currentUser == null) {
+      if (currentUser == null) {
+      final l = context.l;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('خطأ: لم يتم العثور على بيانات المستخدم')),
+        SnackBar(content: Text(l.directChatLoginError)),
       );
       return;
-    }
-
-    final sendMessage = ref.read(sendDirectMessageProvider);
+    }    final sendMessage = ref.read(sendDirectMessageProvider);
     await sendMessage(
       roomId: widget.roomId,
       senderId: widget.currentUserId,
@@ -147,14 +146,14 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('محادثة مباشرة'),
+            Text(context.l.directChatTitle),
             typingUsersAsync.when(
               data: (typingUsers) {
                 if (typingUsers.isEmpty) {
                   return const SizedBox.shrink();
                 }
                 return Text(
-                  'يكتب...',
+                  context.l.directChatTyping,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[300],
@@ -299,8 +298,8 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
             child: messagesAsync.when(
               data: (messages) {
                 if (messages.isEmpty) {
-                  return const Center(
-                    child: Text('ابدأ المحادثة...'),
+                  return Center(
+                    child: Text(context.l.directChatEmptyMessage),
                   );
                 }
 
@@ -323,7 +322,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
-                child: Text('حدث خطأ: ${error.toString()}'),
+                child: Text(context.l.directChatError.replaceAll('{error}', error.toString())),
               ),
             ),
           ),
@@ -345,6 +344,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.attach_file),
+                  tooltip: context.l.directChatAttachFile,
                   onPressed: () async {
                     // إرفاق ملف
                     final result = await FilePicker.platform.pickFiles(
@@ -382,16 +382,17 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                         }
                       } catch (e) {
                         if (!mounted) return;
+                        final l = context.l;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('فشل رفع الملف: $e')),
+                          SnackBar(content: Text(l.directChatFileUploadError.replaceAll('{error}', e.toString()))),
                         );
                       }
                     }
                   },
-                  tooltip: 'إرفاق',
                 ),
                 IconButton(
                   icon: const Icon(Icons.image),
+                  tooltip: context.l.directChatAttachImage,
                   onPressed: () async {
                     // إرفاق صورة
                     final picker = ImagePicker();
@@ -418,7 +419,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                             senderName: currentUser.name,
                             senderRole: currentUser.role,
                             recipientId: widget.otherUserId,
-                            content: 'صورة',
+                            content: context.l.directChatImageLabel,
                             imageUrl: uploadResult.url,
                             institutionId: currentUser.institutionId ?? '',
                             companyId: currentUser.companyId ?? '',
@@ -426,19 +427,19 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                         }
                       } catch (e) {
                         if (!mounted) return;
+                        final l = context.l;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('فشل رفع الصورة: $e')),
+                          SnackBar(content: Text(l.directChatImageUploadError.replaceAll('{error}', e.toString()))),
                         );
                       }
                     }
                   },
-                  tooltip: 'صورة',
                 ),
                 Expanded(
                   child: TextField(
                     controller: _messageController,
                     decoration: InputDecoration(
-                      hintText: 'اكتب رسالة...',
+                      hintText: context.l.directChatMessagePlaceholder,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -505,9 +506,9 @@ class _MessageBubble extends ConsumerWidget {
             children: [
               // المحتوى
               if (message.isDeleted)
-                const Text(
-                  'تم حذف هذه الرسالة',
-                  style: TextStyle(
+                Text(
+                  context.l.directChatMessageDeleted,
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
                   ),
@@ -548,13 +549,18 @@ class _MessageBubble extends ConsumerWidget {
                   ),
                   if (message.isEdited) ...[
                     const SizedBox(width: 4),
-                    Text(
-                      'معدلة',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey[600],
-                        fontStyle: FontStyle.italic,
-                      ),
+                    Builder(
+                      builder: (ctx) {
+                        final l = ctx.l;
+                        return Text(
+                          l.directChatMessageEdited,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey[600],
+                            fontStyle: FontStyle.italic,
+                          ),
+                        );
+                      },
                     ),
                   ],
                   if (isMe) ...[
@@ -596,7 +602,7 @@ class _MessageBubble extends ConsumerWidget {
             if (_canEditOrDelete()) ...[
               ListTile(
                 leading: const Icon(Icons.edit),
-                title: const Text('تعديل'),
+                title: Text(context.l.courseChatEditMessage),
                 onTap: () {
                   Navigator.pop(context);
                   _editMessage(context, ref);
@@ -604,7 +610,7 @@ class _MessageBubble extends ConsumerWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.delete),
-                title: const Text('حذف'),
+                title: Text(context.l.courseChatDeleteMessage),
                 onTap: () {
                   Navigator.pop(context);
                   _deleteMessage(context, ref);
@@ -627,22 +633,23 @@ class _MessageBubble extends ConsumerWidget {
 
   void _editMessage(BuildContext context, WidgetRef ref) {
     final controller = TextEditingController(text: message.content);
+    final l = context.l;
     
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('تعديل الرسالة'),
+        title: Text(l.directChatEditTitle),
         content: TextField(
           controller: controller,
           maxLines: null,
-          decoration: const InputDecoration(
-            hintText: 'الرسالة الجديدة',
+          decoration: InputDecoration(
+            hintText: l.directChatEditPlaceholder,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
+            child: Text(l.dialogCancelButton),
           ),
           TextButton(
             onPressed: () async {
@@ -657,17 +664,18 @@ class _MessageBubble extends ConsumerWidget {
                 
                 if (context.mounted) {
                   Navigator.pop(context);
+                  final l = context.l;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        success ? 'تم التعديل' : 'فشل التعديل',
+                        success ? l.directChatEditSuccess : l.directChatEditError,
                       ),
                     ),
                   );
                 }
               }
             },
-            child: const Text('حفظ'),
+            child: Text(l.dialogSaveButton),
           ),
         ],
       ),
@@ -675,15 +683,16 @@ class _MessageBubble extends ConsumerWidget {
   }
 
   void _deleteMessage(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('حذف الرسالة'),
-        content: const Text('هل أنت متأكد من حذف هذه الرسالة؟'),
+        title: Text(l.directChatDeleteMessageTitle),
+        content: Text(l.directChatDeleteMessageConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
+            child: Text(l.dialogCancelButton),
           ),
           TextButton(
             onPressed: () async {
@@ -695,16 +704,17 @@ class _MessageBubble extends ConsumerWidget {
               
               if (context.mounted) {
                 Navigator.pop(context);
+                final l = context.l;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      success ? 'تم الحذف' : 'فشل الحذف',
+                      success ? l.directChatDeleteMessageSuccess : l.directChatDeleteMessageError,
                     ),
                   ),
                 );
               }
             },
-            child: const Text('حذف', style: TextStyle(color: Colors.red)),
+            child: Text(l.dialogDeleteButton, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
