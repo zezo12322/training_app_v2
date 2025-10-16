@@ -2336,4 +2336,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get networkStatusRetryButton => 'Retry';
+
+  @override
+  String get commentReactionLoginRequired => 'You must log in to react';
+
+  @override
+  String get commentReactionPickerTitle => 'Choose your reaction';
 }

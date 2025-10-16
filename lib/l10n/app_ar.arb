@@ -824,4 +824,7 @@
   ,"networkStatusNotFound": "البيانات المطلوبة غير موجودة"
   ,"networkStatusUnknownError": "حدث خطأ غير متوقع. حاول مرة أخرى."
   ,"networkStatusRetryButton": "إعادة المحاولة"
+  
+  ,"commentReactionLoginRequired": "يجب تسجيل الدخول للتفاعل"
+  ,"commentReactionPickerTitle": "اختر تفاعلك"
 }

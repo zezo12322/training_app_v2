@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/wall_comment.dart';
 import '../providers/auth_provider.dart';
 import '../providers/wall_comment_providers.dart';
+import '../core/l10n_ext.dart';
 
 /// Comment reaction button with emoji picker
 /// Similar to ReactionButton but for comments
@@ -86,7 +87,7 @@ class CommentReactionButton extends ConsumerWidget {
   void _showReactionPicker(BuildContext context, WidgetRef ref, String userId) {
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('يجب تسجيل الدخول للتفاعل')),
+        SnackBar(content: Text(context.l.commentReactionLoginRequired)),
       );
       return;
     }
@@ -166,6 +167,7 @@ class _ReactionPickerSheetState extends State<_ReactionPickerSheet>
   Widget build(BuildContext context) {
     final userReaction = _getUserReaction();
     final theme = Theme.of(context);
+    final l = context.l;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -190,7 +192,7 @@ class _ReactionPickerSheetState extends State<_ReactionPickerSheet>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'اختر تفاعلك',
+                  l.commentReactionPickerTitle,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

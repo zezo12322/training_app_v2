@@ -824,4 +824,7 @@
   ,"networkStatusNotFound": "The requested data was not found"
   ,"networkStatusUnknownError": "An unexpected error occurred. Try again."
   ,"networkStatusRetryButton": "Retry"
+  
+  ,"commentReactionLoginRequired": "You must log in to react"
+  ,"commentReactionPickerTitle": "Choose your reaction"
 }

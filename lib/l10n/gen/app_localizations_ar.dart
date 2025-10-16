@@ -2318,4 +2318,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get networkStatusRetryButton => 'إعادة المحاولة';
+
+  @override
+  String get commentReactionLoginRequired => 'يجب تسجيل الدخول للتفاعل';
+
+  @override
+  String get commentReactionPickerTitle => 'اختر تفاعلك';
 }

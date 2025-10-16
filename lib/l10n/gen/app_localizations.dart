@@ -4261,6 +4261,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get networkStatusRetryButton;
+
+  /// No description provided for @commentReactionLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in to react'**
+  String get commentReactionLoginRequired;
+
+  /// No description provided for @commentReactionPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your reaction'**
+  String get commentReactionPickerTitle;
 }
 
 class _AppLocalizationsDelegate
