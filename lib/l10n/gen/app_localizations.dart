@@ -4225,6 +4225,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred loading recommendations'**
   String get recommendationsError;
+
+  /// No description provided for @networkStatusOfflineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection - Working offline'**
+  String get networkStatusOfflineBanner;
+
+  /// No description provided for @networkStatusOfflineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Check your connection and try again.'**
+  String get networkStatusOfflineMessage;
+
+  /// No description provided for @networkStatusPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to access this data'**
+  String get networkStatusPermissionDenied;
+
+  /// No description provided for @networkStatusNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'The requested data was not found'**
+  String get networkStatusNotFound;
+
+  /// No description provided for @networkStatusUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Try again.'**
+  String get networkStatusUnknownError;
+
+  /// No description provided for @networkStatusRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get networkStatusRetryButton;
 }
 
 class _AppLocalizationsDelegate

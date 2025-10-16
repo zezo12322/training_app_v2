@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/l10n_ext.dart';
 
 /// Helper widget to show network status
 class NetworkStatusBanner extends StatelessWidget {
@@ -13,6 +14,7 @@ class NetworkStatusBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isOnline) return const SizedBox.shrink();
     
+    final l = context.l;
     return MaterialBanner(
       backgroundColor: Theme.of(context).colorScheme.errorContainer,
       content: Row(
@@ -24,7 +26,7 @@ class NetworkStatusBanner extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'لا يوجد اتصال بالإنترنت - العمل في وضع عدم الاتصال',
+              l.networkStatusOfflineBanner,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onErrorContainer,
               ),
@@ -46,21 +48,22 @@ class FirebaseErrorHandler {
            errorStr.contains('network');
   }
   
-  static String getUserFriendlyMessage(dynamic error) {
+  static String getUserFriendlyMessage(BuildContext context, dynamic error) {
+    final l = context.l;
     if (isUnavailableError(error)) {
-      return 'لا يوجد اتصال بالإنترنت. تحقق من الاتصال وحاول مرة أخرى.';
+      return l.networkStatusOfflineMessage;
     }
     
     final errorStr = error.toString();
     if (errorStr.contains('permission-denied')) {
-      return 'ليس لديك صلاحية للوصول لهذه البيانات';
+      return l.networkStatusPermissionDenied;
     }
     
     if (errorStr.contains('not-found')) {
-      return 'البيانات المطلوبة غير موجودة';
+      return l.networkStatusNotFound;
     }
     
-    return 'حدث خطأ غير متوقع. حاول مرة أخرى.';
+    return l.networkStatusUnknownError;
   }
   
   static Widget buildErrorWidget(
@@ -69,6 +72,7 @@ class FirebaseErrorHandler {
     VoidCallback? onRetry,
   }) {
     final isOffline = isUnavailableError(error);
+    final l = context.l;
     
     return Center(
       child: Padding(
@@ -83,7 +87,7 @@ class FirebaseErrorHandler {
             ),
             const SizedBox(height: 16),
             Text(
-              getUserFriendlyMessage(error),
+              getUserFriendlyMessage(context, error),
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -92,7 +96,7 @@ class FirebaseErrorHandler {
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('إعادة المحاولة'),
+                label: Text(l.networkStatusRetryButton),
               ),
             ],
           ],

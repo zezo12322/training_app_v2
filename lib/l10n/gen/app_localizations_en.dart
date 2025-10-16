@@ -2314,4 +2314,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get recommendationsError =>
       'An error occurred loading recommendations';
+
+  @override
+  String get networkStatusOfflineBanner =>
+      'No internet connection - Working offline';
+
+  @override
+  String get networkStatusOfflineMessage =>
+      'No internet connection. Check your connection and try again.';
+
+  @override
+  String get networkStatusPermissionDenied =>
+      'You don\'t have permission to access this data';
+
+  @override
+  String get networkStatusNotFound => 'The requested data was not found';
+
+  @override
+  String get networkStatusUnknownError =>
+      'An unexpected error occurred. Try again.';
+
+  @override
+  String get networkStatusRetryButton => 'Retry';
 }

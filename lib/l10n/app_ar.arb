@@ -817,4 +817,11 @@
   ,"@recommendationsOpenSnackbar": {"placeholders": {"title": {}}}
   ,"recommendationsDismissedSnackbar": "تم رفض التوصية"
   ,"recommendationsError": "حدث خطأ في تحميل التوصيات"
+  
+  ,"networkStatusOfflineBanner": "لا يوجد اتصال بالإنترنت - العمل في وضع عدم الاتصال"
+  ,"networkStatusOfflineMessage": "لا يوجد اتصال بالإنترنت. تحقق من الاتصال وحاول مرة أخرى."
+  ,"networkStatusPermissionDenied": "ليس لديك صلاحية للوصول لهذه البيانات"
+  ,"networkStatusNotFound": "البيانات المطلوبة غير موجودة"
+  ,"networkStatusUnknownError": "حدث خطأ غير متوقع. حاول مرة أخرى."
+  ,"networkStatusRetryButton": "إعادة المحاولة"
 }

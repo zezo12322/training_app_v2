@@ -817,4 +817,11 @@
   ,"@recommendationsOpenSnackbar": {"placeholders": {"title": {}}}
   ,"recommendationsDismissedSnackbar": "Recommendation dismissed"
   ,"recommendationsError": "An error occurred loading recommendations"
+  
+  ,"networkStatusOfflineBanner": "No internet connection - Working offline"
+  ,"networkStatusOfflineMessage": "No internet connection. Check your connection and try again."
+  ,"networkStatusPermissionDenied": "You don't have permission to access this data"
+  ,"networkStatusNotFound": "The requested data was not found"
+  ,"networkStatusUnknownError": "An unexpected error occurred. Try again."
+  ,"networkStatusRetryButton": "Retry"
 }

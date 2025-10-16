@@ -2297,4 +2297,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recommendationsError => 'حدث خطأ في تحميل التوصيات';
+
+  @override
+  String get networkStatusOfflineBanner =>
+      'لا يوجد اتصال بالإنترنت - العمل في وضع عدم الاتصال';
+
+  @override
+  String get networkStatusOfflineMessage =>
+      'لا يوجد اتصال بالإنترنت. تحقق من الاتصال وحاول مرة أخرى.';
+
+  @override
+  String get networkStatusPermissionDenied =>
+      'ليس لديك صلاحية للوصول لهذه البيانات';
+
+  @override
+  String get networkStatusNotFound => 'البيانات المطلوبة غير موجودة';
+
+  @override
+  String get networkStatusUnknownError => 'حدث خطأ غير متوقع. حاول مرة أخرى.';
+
+  @override
+  String get networkStatusRetryButton => 'إعادة المحاولة';
 }
