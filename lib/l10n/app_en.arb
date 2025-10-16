@@ -753,4 +753,32 @@
   ,"createQuizSuccess": "Quiz created - Add questions now"
   ,"createQuizError": "An error occurred: {error}"
   ,"@createQuizError": {"placeholders": {"error": {}}}
+  
+  ,"addQuestionTitle": "Add Questions to Quiz"
+  ,"addQuestionNoQuestionsYet": "No questions added yet."
+  ,"addQuestionQuestionsAdded": "Questions added: {count}"
+  ,"@addQuestionQuestionsAdded": {"placeholders": {"count": {}}}
+  ,"addQuestionNewQuestion": "Add new question:"
+  ,"addQuestionTypeLabel": "Question type: "
+  ,"addQuestionTypeMultipleChoice": "Multiple Choice"
+  ,"addQuestionTypeShortAnswer": "Short Answer"
+  ,"addQuestionTypeLongAnswer": "Long Answer"
+  ,"addQuestionTypeMatching": "Matching"
+  ,"addQuestionTextLabel": "Question text"
+  ,"addQuestionFieldRequired": "Field required"
+  ,"addQuestionOption1": "Option 1"
+  ,"addQuestionOption2": "Option 2"
+  ,"addQuestionOption3": "Option 3"
+  ,"addQuestionOption4": "Option 4"
+  ,"addQuestionSelectCorrect": "Select the correct answer:"
+  ,"addQuestionMatchingPairs": "Matching pairs (left ⇄ right):"
+  ,"addQuestionLeft": "Left {n}"
+  ,"@addQuestionLeft": {"placeholders": {"n": {}}}
+  ,"addQuestionRight": "Right {n}"
+  ,"@addQuestionRight": {"placeholders": {"n": {}}}
+  ,"addQuestionAddButton": "Add Question"
+  ,"addQuestionSelectCorrectSnackbar": "Select the correct answer (Multiple Choice)"
+  ,"addQuestionValidPairsError": "Enter valid matching pairs (at least 2 pairs with equal counts)"
+  ,"addQuestionError": "An error occurred: {error}"
+  ,"@addQuestionError": {"placeholders": {"error": {}}}
 }

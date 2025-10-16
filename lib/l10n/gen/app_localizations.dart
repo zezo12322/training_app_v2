@@ -3919,6 +3919,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred: {error}'**
   String createQuizError(Object error);
+
+  /// No description provided for @addQuestionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Questions to Quiz'**
+  String get addQuestionTitle;
+
+  /// No description provided for @addQuestionNoQuestionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No questions added yet.'**
+  String get addQuestionNoQuestionsYet;
+
+  /// No description provided for @addQuestionQuestionsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions added: {count}'**
+  String addQuestionQuestionsAdded(Object count);
+
+  /// No description provided for @addQuestionNewQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new question:'**
+  String get addQuestionNewQuestion;
+
+  /// No description provided for @addQuestionTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question type: '**
+  String get addQuestionTypeLabel;
+
+  /// No description provided for @addQuestionTypeMultipleChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple Choice'**
+  String get addQuestionTypeMultipleChoice;
+
+  /// No description provided for @addQuestionTypeShortAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Answer'**
+  String get addQuestionTypeShortAnswer;
+
+  /// No description provided for @addQuestionTypeLongAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Answer'**
+  String get addQuestionTypeLongAnswer;
+
+  /// No description provided for @addQuestionTypeMatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching'**
+  String get addQuestionTypeMatching;
+
+  /// No description provided for @addQuestionTextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question text'**
+  String get addQuestionTextLabel;
+
+  /// No description provided for @addQuestionFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Field required'**
+  String get addQuestionFieldRequired;
+
+  /// No description provided for @addQuestionOption1.
+  ///
+  /// In en, this message translates to:
+  /// **'Option 1'**
+  String get addQuestionOption1;
+
+  /// No description provided for @addQuestionOption2.
+  ///
+  /// In en, this message translates to:
+  /// **'Option 2'**
+  String get addQuestionOption2;
+
+  /// No description provided for @addQuestionOption3.
+  ///
+  /// In en, this message translates to:
+  /// **'Option 3'**
+  String get addQuestionOption3;
+
+  /// No description provided for @addQuestionOption4.
+  ///
+  /// In en, this message translates to:
+  /// **'Option 4'**
+  String get addQuestionOption4;
+
+  /// No description provided for @addQuestionSelectCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the correct answer:'**
+  String get addQuestionSelectCorrect;
+
+  /// No description provided for @addQuestionMatchingPairs.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching pairs (left ⇄ right):'**
+  String get addQuestionMatchingPairs;
+
+  /// No description provided for @addQuestionLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left {n}'**
+  String addQuestionLeft(Object n);
+
+  /// No description provided for @addQuestionRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right {n}'**
+  String addQuestionRight(Object n);
+
+  /// No description provided for @addQuestionAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Question'**
+  String get addQuestionAddButton;
+
+  /// No description provided for @addQuestionSelectCorrectSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the correct answer (Multiple Choice)'**
+  String get addQuestionSelectCorrectSnackbar;
+
+  /// No description provided for @addQuestionValidPairsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid matching pairs (at least 2 pairs with equal counts)'**
+  String get addQuestionValidPairsError;
+
+  /// No description provided for @addQuestionError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String addQuestionError(Object error);
 }
 
 class _AppLocalizationsDelegate

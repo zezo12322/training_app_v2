@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:training_app/providers/quiz_providers.dart';
 import 'package:training_app/models/quiz_question.dart';
+import '../core/l10n_ext.dart';
 
 class AddQuestionScreen extends ConsumerStatefulWidget {
   final String quizId;
@@ -64,10 +65,9 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    // تحقق خاص بأسئلة الاختيار من متعدد فقط
     if (_questionType == 'multiple_choice' && _correctAnswerIndex == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('حدد الإجابة الصحيحة (اختيار من متعدد)')),
+        SnackBar(content: Text(context.l.addQuestionSelectCorrectSnackbar)),
       );
       return;
     }
@@ -113,10 +113,8 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
             left.length != right.length) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'أدخل أزواج مطابقة صالحة (على الأقل زوجان وبعدد متساوٍ',
-                ),
+              SnackBar(
+                content: Text(context.l.addQuestionValidPairsError),
               ),
             );
           }
@@ -130,7 +128,6 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
         }
       }
 
-      // مسح الحقول بعد الإضافة بنجاح
       _formKey.currentState!.reset();
       _questionController.clear();
       _option1Controller.clear();
@@ -144,7 +141,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+        ).showSnackBar(SnackBar(content: Text(context.l.addQuestionError.replaceAll('{error}', e.toString()))));
       }
     } finally {
       if (mounted) {
@@ -158,7 +155,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('إضافة أسئلة للاختبار')),
+      appBar: AppBar(title: Text(context.l.addQuestionTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -172,14 +169,14 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Text('لم يتم إضافة أي أسئلة بعد.');
+                  return Text(context.l.addQuestionNoQuestionsYet);
                 }
                 final questions = snapshot.data!.docs;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'الأسئلة المضافة: ${questions.length}',
+                      context.l.addQuestionQuestionsAdded.replaceAll('{count}', questions.length.toString()),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -210,33 +207,33 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'إضافة سؤال جديد:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    context.l.addQuestionNewQuestion,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      const Text('نوع السؤال: '),
+                      Text(context.l.addQuestionTypeLabel),
                       const SizedBox(width: 12),
                       DropdownButton<String>(
                         value: _questionType,
-                        items: const [
+                        items: [
                           DropdownMenuItem(
                             value: QuizQuestionType.multipleChoice,
-                            child: Text('اختيار من متعدد'),
+                            child: Text(context.l.addQuestionMultipleChoice),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.shortText,
-                            child: Text('إجابة قصيرة'),
+                            child: Text(context.l.addQuestionShortAnswer),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.longText,
-                            child: Text('إجابة طويلة'),
+                            child: Text(context.l.addQuestionLongAnswer),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.matching,
-                            child: Text('مطابقة (توصيل)'),
+                            child: Text(context.l.addQuestionMatching),
                           ),
                         ],
                         onChanged: (val) {
@@ -257,74 +254,74 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _questionController,
-                    decoration: const InputDecoration(
-                      labelText: 'نص السؤال',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: context.l.addQuestionTextLabel,
+                      border: const OutlineInputBorder(),
                     ),
-                    validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null,
+                    validator: (v) => v!.isEmpty ? context.l.addQuestionFieldRequired : null,
                   ),
                   const SizedBox(height: 12),
                   if (_questionType == QuizQuestionType.multipleChoice) ...[
                     TextFormField(
                       controller: _option1Controller,
-                      decoration: const InputDecoration(
-                        labelText: 'الخيار 1',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l.addQuestionOption1,
+                        border: const OutlineInputBorder(),
                       ),
-                      validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null,
+                      validator: (v) => v!.isEmpty ? context.l.addQuestionFieldRequired : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _option2Controller,
-                      decoration: const InputDecoration(
-                        labelText: 'الخيار 2',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l.addQuestionOption2,
+                        border: const OutlineInputBorder(),
                       ),
-                      validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null,
+                      validator: (v) => v!.isEmpty ? context.l.addQuestionFieldRequired : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _option3Controller,
-                      decoration: const InputDecoration(
-                        labelText: 'الخيار 3',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l.addQuestionOption3,
+                        border: const OutlineInputBorder(),
                       ),
-                      validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null,
+                      validator: (v) => v!.isEmpty ? context.l.addQuestionFieldRequired : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _option4Controller,
-                      decoration: const InputDecoration(
-                        labelText: 'الخيار 4',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l.addQuestionOption4,
+                        border: const OutlineInputBorder(),
                       ),
-                      validator: (v) => v!.isEmpty ? 'الحقل مطلوب' : null,
+                      validator: (v) => v!.isEmpty ? context.l.addQuestionFieldRequired : null,
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'حدد الإجابة الصحيحة:',
-                      style: TextStyle(fontSize: 16),
+                    Text(
+                      context.l.addQuestionSelectCorrect,
+                      style: const TextStyle(fontSize: 16),
                     ),
                     RadioListTile<int>(
-                      title: const Text('الخيار 1'),
+                      title: Text(context.l.addQuestionOption1),
                       value: 0,
                       groupValue: _correctAnswerIndex,
                       onChanged: (v) => setState(() => _correctAnswerIndex = v),
                     ),
                     RadioListTile<int>(
-                      title: const Text('الخيار 2'),
+                      title: Text(context.l.addQuestionOption2),
                       value: 1,
                       groupValue: _correctAnswerIndex,
                       onChanged: (v) => setState(() => _correctAnswerIndex = v),
                     ),
                     RadioListTile<int>(
-                      title: const Text('الخيار 3'),
+                      title: Text(context.l.addQuestionOption3),
                       value: 2,
                       groupValue: _correctAnswerIndex,
                       onChanged: (v) => setState(() => _correctAnswerIndex = v),
                     ),
                     RadioListTile<int>(
-                      title: const Text('الخيار 4'),
+                      title: Text(context.l.addQuestionOption4),
                       value: 3,
                       groupValue: _correctAnswerIndex,
                       onChanged: (v) => setState(() => _correctAnswerIndex = v),
@@ -334,7 +331,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Text('أزواج المطابقة (يسار ⇄ يمين):'),
+                        Text(context.l.addQuestionMatchingPairs),
                         const Spacer(),
                         IconButton(
                           onPressed: () {
@@ -370,7 +367,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                                 child: TextField(
                                   controller: _leftCtrls[i],
                                   decoration: InputDecoration(
-                                    labelText: 'يسار ${i + 1}',
+                                    labelText: context.l.addQuestionLeft.replaceAll('{n}', (i + 1).toString()),
                                   ),
                                 ),
                               ),
@@ -379,7 +376,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                                 child: TextField(
                                   controller: _rightCtrls[i],
                                   decoration: InputDecoration(
-                                    labelText: 'يمين ${i + 1}',
+                                    labelText: context.l.addQuestionRight.replaceAll('{n}', (i + 1).toString()),
                                   ),
                                 ),
                               ),
@@ -395,7 +392,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                       ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton.icon(
                           icon: const Icon(Icons.add),
-                          label: const Text('إضافة السؤال'),
+                          label: Text(context.l.addQuestionAddButton),
                           onPressed: _addQuestion,
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),

@@ -2131,4 +2131,83 @@ class AppLocalizationsEn extends AppLocalizations {
   String createQuizError(Object error) {
     return 'An error occurred: $error';
   }
+
+  @override
+  String get addQuestionTitle => 'Add Questions to Quiz';
+
+  @override
+  String get addQuestionNoQuestionsYet => 'No questions added yet.';
+
+  @override
+  String addQuestionQuestionsAdded(Object count) {
+    return 'Questions added: $count';
+  }
+
+  @override
+  String get addQuestionNewQuestion => 'Add new question:';
+
+  @override
+  String get addQuestionTypeLabel => 'Question type: ';
+
+  @override
+  String get addQuestionTypeMultipleChoice => 'Multiple Choice';
+
+  @override
+  String get addQuestionTypeShortAnswer => 'Short Answer';
+
+  @override
+  String get addQuestionTypeLongAnswer => 'Long Answer';
+
+  @override
+  String get addQuestionTypeMatching => 'Matching';
+
+  @override
+  String get addQuestionTextLabel => 'Question text';
+
+  @override
+  String get addQuestionFieldRequired => 'Field required';
+
+  @override
+  String get addQuestionOption1 => 'Option 1';
+
+  @override
+  String get addQuestionOption2 => 'Option 2';
+
+  @override
+  String get addQuestionOption3 => 'Option 3';
+
+  @override
+  String get addQuestionOption4 => 'Option 4';
+
+  @override
+  String get addQuestionSelectCorrect => 'Select the correct answer:';
+
+  @override
+  String get addQuestionMatchingPairs => 'Matching pairs (left ⇄ right):';
+
+  @override
+  String addQuestionLeft(Object n) {
+    return 'Left $n';
+  }
+
+  @override
+  String addQuestionRight(Object n) {
+    return 'Right $n';
+  }
+
+  @override
+  String get addQuestionAddButton => 'Add Question';
+
+  @override
+  String get addQuestionSelectCorrectSnackbar =>
+      'Select the correct answer (Multiple Choice)';
+
+  @override
+  String get addQuestionValidPairsError =>
+      'Enter valid matching pairs (at least 2 pairs with equal counts)';
+
+  @override
+  String addQuestionError(Object error) {
+    return 'An error occurred: $error';
+  }
 }

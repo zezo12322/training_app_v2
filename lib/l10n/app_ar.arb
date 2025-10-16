@@ -753,4 +753,32 @@
   ,"createQuizSuccess": "تم إنشاء الاختبار - أضف الأسئلة الآن"
   ,"createQuizError": "حدث خطأ: {error}"
   ,"@createQuizError": {"placeholders": {"error": {}}}
+  
+  ,"addQuestionTitle": "إضافة أسئلة للاختبار"
+  ,"addQuestionNoQuestionsYet": "لم يتم إضافة أي أسئلة بعد."
+  ,"addQuestionQuestionsAdded": "الأسئلة المضافة: {count}"
+  ,"@addQuestionQuestionsAdded": {"placeholders": {"count": {}}}
+  ,"addQuestionNewQuestion": "إضافة سؤال جديد:"
+  ,"addQuestionTypeLabel": "نوع السؤال: "
+  ,"addQuestionTypeMultipleChoice": "اختيار من متعدد"
+  ,"addQuestionTypeShortAnswer": "إجابة قصيرة"
+  ,"addQuestionTypeLongAnswer": "إجابة طويلة"
+  ,"addQuestionTypeMatching": "مطابقة (توصيل)"
+  ,"addQuestionTextLabel": "نص السؤال"
+  ,"addQuestionFieldRequired": "الحقل مطلوب"
+  ,"addQuestionOption1": "الخيار 1"
+  ,"addQuestionOption2": "الخيار 2"
+  ,"addQuestionOption3": "الخيار 3"
+  ,"addQuestionOption4": "الخيار 4"
+  ,"addQuestionSelectCorrect": "حدد الإجابة الصحيحة:"
+  ,"addQuestionMatchingPairs": "أزواج المطابقة (يسار ⇄ يمين):"
+  ,"addQuestionLeft": "يسار {n}"
+  ,"@addQuestionLeft": {"placeholders": {"n": {}}}
+  ,"addQuestionRight": "يمين {n}"
+  ,"@addQuestionRight": {"placeholders": {"n": {}}}
+  ,"addQuestionAddButton": "إضافة السؤال"
+  ,"addQuestionSelectCorrectSnackbar": "حدد الإجابة الصحيحة (اختيار من متعدد)"
+  ,"addQuestionValidPairsError": "أدخل أزواج مطابقة صالحة (على الأقل زوجان وبعدد متساوٍ)"
+  ,"addQuestionError": "حدث خطأ: {error}"
+  ,"@addQuestionError": {"placeholders": {"error": {}}}
 }

@@ -2116,4 +2116,83 @@ class AppLocalizationsAr extends AppLocalizations {
   String createQuizError(Object error) {
     return 'حدث خطأ: $error';
   }
+
+  @override
+  String get addQuestionTitle => 'إضافة أسئلة للاختبار';
+
+  @override
+  String get addQuestionNoQuestionsYet => 'لم يتم إضافة أي أسئلة بعد.';
+
+  @override
+  String addQuestionQuestionsAdded(Object count) {
+    return 'الأسئلة المضافة: $count';
+  }
+
+  @override
+  String get addQuestionNewQuestion => 'إضافة سؤال جديد:';
+
+  @override
+  String get addQuestionTypeLabel => 'نوع السؤال: ';
+
+  @override
+  String get addQuestionTypeMultipleChoice => 'اختيار من متعدد';
+
+  @override
+  String get addQuestionTypeShortAnswer => 'إجابة قصيرة';
+
+  @override
+  String get addQuestionTypeLongAnswer => 'إجابة طويلة';
+
+  @override
+  String get addQuestionTypeMatching => 'مطابقة (توصيل)';
+
+  @override
+  String get addQuestionTextLabel => 'نص السؤال';
+
+  @override
+  String get addQuestionFieldRequired => 'الحقل مطلوب';
+
+  @override
+  String get addQuestionOption1 => 'الخيار 1';
+
+  @override
+  String get addQuestionOption2 => 'الخيار 2';
+
+  @override
+  String get addQuestionOption3 => 'الخيار 3';
+
+  @override
+  String get addQuestionOption4 => 'الخيار 4';
+
+  @override
+  String get addQuestionSelectCorrect => 'حدد الإجابة الصحيحة:';
+
+  @override
+  String get addQuestionMatchingPairs => 'أزواج المطابقة (يسار ⇄ يمين):';
+
+  @override
+  String addQuestionLeft(Object n) {
+    return 'يسار $n';
+  }
+
+  @override
+  String addQuestionRight(Object n) {
+    return 'يمين $n';
+  }
+
+  @override
+  String get addQuestionAddButton => 'إضافة السؤال';
+
+  @override
+  String get addQuestionSelectCorrectSnackbar =>
+      'حدد الإجابة الصحيحة (اختيار من متعدد)';
+
+  @override
+  String get addQuestionValidPairsError =>
+      'أدخل أزواج مطابقة صالحة (على الأقل زوجان وبعدد متساوٍ)';
+
+  @override
+  String addQuestionError(Object error) {
+    return 'حدث خطأ: $error';
+  }
 }
