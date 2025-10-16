@@ -2923,6 +2923,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Write your comment...'**
   String get commentPlaceholder;
+
+  /// No description provided for @pollNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll not found'**
+  String get pollNotFound;
+
+  /// No description provided for @pollError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String pollError(Object error);
+
+  /// No description provided for @pollHeaderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll'**
+  String get pollHeaderLabel;
+
+  /// No description provided for @pollEndedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get pollEndedLabel;
+
+  /// No description provided for @pollVotesSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'vote'**
+  String get pollVotesSingular;
+
+  /// No description provided for @pollVotesPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'votes'**
+  String get pollVotesPlural;
+
+  /// No description provided for @pollVotesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} {votes}'**
+  String pollVotesCount(Object count, Object votes);
+
+  /// No description provided for @pollEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends {time}'**
+  String pollEndsIn(Object time);
+
+  /// No description provided for @pollEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended {time}'**
+  String pollEnded(Object time);
+
+  /// No description provided for @pollVoteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String pollVoteError(Object error);
+
+  /// No description provided for @pollOptionVotesSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} vote'**
+  String pollOptionVotesSingular(Object count);
+
+  /// No description provided for @pollOptionVotesPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} votes'**
+  String pollOptionVotesPlural(Object count);
+
+  /// No description provided for @imageViewerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} / {total}'**
+  String imageViewerTitle(Object current, Object total);
+
+  /// No description provided for @imageDownloadTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get imageDownloadTooltip;
+
+  /// No description provided for @imageDownloadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Image opened in browser for download'**
+  String get imageDownloadSuccess;
+
+  /// No description provided for @imageDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open link'**
+  String get imageDownloadError;
+
+  /// No description provided for @imageLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load image'**
+  String get imageLoadError;
+
+  /// No description provided for @imageErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred: {error}'**
+  String imageErrorGeneric(Object error);
+
+  /// No description provided for @reactionPickerTitleAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your reaction'**
+  String get reactionPickerTitleAlt;
+
+  /// No description provided for @reactionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String reactionError(Object error);
+
+  /// No description provided for @reactionLiked.
+  ///
+  /// In en, this message translates to:
+  /// **'Liked'**
+  String get reactionLiked;
+
+  /// No description provided for @reactionLike.
+  ///
+  /// In en, this message translates to:
+  /// **'Like'**
+  String get reactionLike;
 }
 
 class _AppLocalizationsDelegate

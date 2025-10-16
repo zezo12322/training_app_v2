@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/poll.dart';
 import '../providers/poll_providers.dart';
+import '../core/l10n_ext.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PollWidget extends ConsumerWidget {
@@ -17,14 +18,15 @@ class PollWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pollAsync = ref.watch(pollProvider(pollId));
+    final l = context.l;
 
     return pollAsync.when(
       data: (poll) {
         if (poll == null) {
-          return const Card(
+          return Card(
             child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('لم يتم العثور على الاستطلاع'),
+              padding: const EdgeInsets.all(16),
+              child: Text(l.pollNotFound),
             ),
           );
         }
@@ -39,7 +41,7 @@ class PollWidget extends ConsumerWidget {
       error: (error, stack) => Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text('خطأ: $error'),
+          child: Text(l.pollError.replaceAll('{error}', error.toString())),
         ),
       ),
     );
@@ -88,8 +90,9 @@ class _PollContentState extends ConsumerState<_PollContent> {
       }
     } catch (e) {
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: $e')),
+          SnackBar(content: Text(l.pollVoteError.replaceAll('{error}', e.toString()))),
         );
       }
     } finally {
@@ -104,6 +107,7 @@ class _PollContentState extends ConsumerState<_PollContent> {
     final hasVoted = widget.poll.hasUserVoted(widget.userId);
     final userVotes = widget.poll.getUserVotes(widget.userId);
     final showResults = hasVoted || widget.poll.showResultsBeforeVoting || !widget.poll.isActive;
+    final l = context.l;
 
     return Card(
       elevation: 0,
@@ -123,7 +127,7 @@ class _PollContentState extends ConsumerState<_PollContent> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'استطلاع رأي',
+                  l.pollHeaderLabel,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -137,7 +141,7 @@ class _PollContentState extends ConsumerState<_PollContent> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      'منتهي',
+                      l.pollEndedLabel,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: Theme.of(context).colorScheme.onErrorContainer,
                           ),
@@ -200,7 +204,9 @@ class _PollContentState extends ConsumerState<_PollContent> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${widget.poll.totalVotes} ${widget.poll.totalVotes == 1 ? 'صوت' : 'أصوات'}',
+                  l.pollVotesCount
+                      .replaceAll('{count}', '${widget.poll.totalVotes}')
+                      .replaceAll('{votes}', widget.poll.totalVotes == 1 ? l.pollVotesSingular : l.pollVotesPlural),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -215,8 +221,8 @@ class _PollContentState extends ConsumerState<_PollContent> {
                   const SizedBox(width: 4),
                   Text(
                     widget.poll.isActive
-                        ? 'ينتهي ${timeago.format(widget.poll.endsAt!, locale: 'ar')}'
-                        : 'انتهى ${timeago.format(widget.poll.endsAt!, locale: 'ar')}',
+                        ? l.pollEndsIn.replaceAll('{time}', timeago.format(widget.poll.endsAt!, locale: 'ar'))
+                        : l.pollEnded.replaceAll('{time}', timeago.format(widget.poll.endsAt!, locale: 'ar')),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
@@ -356,11 +362,18 @@ class _ResultOption extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 4),
-        Text(
-          '${option.voteCount} ${option.voteCount == 1 ? 'صوت' : 'أصوات'}',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+        Builder(
+          builder: (ctx) {
+            final l = ctx.l;
+            return Text(
+              option.voteCount == 1
+                  ? l.pollOptionVotesSingular.replaceAll('{count}', '${option.voteCount}')
+                  : l.pollOptionVotesPlural.replaceAll('{count}', '${option.voteCount}'),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            );
+          },
         ),
       ],
     );

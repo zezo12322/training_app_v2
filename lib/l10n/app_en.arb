@@ -537,4 +537,39 @@
   ,"reportButtonLabel": "Report"
   
   ,"commentPlaceholder": "Write your comment..."
+  
+  ,"pollNotFound": "Poll not found"
+  ,"pollError": "Error: {error}"
+  ,"@pollError": {"placeholders": {"error": {}}}
+  ,"pollHeaderLabel": "Poll"
+  ,"pollEndedLabel": "Ended"
+  ,"pollVotesSingular": "vote"
+  ,"pollVotesPlural": "votes"
+  ,"pollVotesCount": "{count} {votes}"
+  ,"@pollVotesCount": {"placeholders": {"count": {}, "votes": {}}}
+  ,"pollEndsIn": "Ends {time}"
+  ,"@pollEndsIn": {"placeholders": {"time": {}}}
+  ,"pollEnded": "Ended {time}"
+  ,"@pollEnded": {"placeholders": {"time": {}}}
+  ,"pollVoteError": "Error: {error}"
+  ,"@pollVoteError": {"placeholders": {"error": {}}}
+  ,"pollOptionVotesSingular": "{count} vote"
+  ,"@pollOptionVotesSingular": {"placeholders": {"count": {}}}
+  ,"pollOptionVotesPlural": "{count} votes"
+  ,"@pollOptionVotesPlural": {"placeholders": {"count": {}}}
+  
+  ,"imageViewerTitle": "{current} / {total}"
+  ,"@imageViewerTitle": {"placeholders": {"current": {}, "total": {}}}
+  ,"imageDownloadTooltip": "Download"
+  ,"imageDownloadSuccess": "Image opened in browser for download"
+  ,"imageDownloadError": "Cannot open link"
+  ,"imageLoadError": "Failed to load image"
+  ,"imageErrorGeneric": "Error occurred: {error}"
+  ,"@imageErrorGeneric": {"placeholders": {"error": {}}}
+  
+  ,"reactionPickerTitleAlt": "Choose your reaction"
+  ,"reactionError": "Error: {error}"
+  ,"@reactionError": {"placeholders": {"error": {}}}
+  ,"reactionLiked": "Liked"
+  ,"reactionLike": "Like"
 }

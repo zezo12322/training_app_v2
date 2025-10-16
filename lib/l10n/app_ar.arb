@@ -537,4 +537,39 @@
   ,"reportButtonLabel": "الإبلاغ"
   
   ,"commentPlaceholder": "اكتب تعليقك..."
+  
+  ,"pollNotFound": "لم يتم العثور على الاستطلاع"
+  ,"pollError": "خطأ: {error}"
+  ,"@pollError": {"placeholders": {"error": {}}}
+  ,"pollHeaderLabel": "استطلاع رأي"
+  ,"pollEndedLabel": "منتهي"
+  ,"pollVotesSingular": "صوت"
+  ,"pollVotesPlural": "أصوات"
+  ,"pollVotesCount": "{count} {votes}"
+  ,"@pollVotesCount": {"placeholders": {"count": {}, "votes": {}}}
+  ,"pollEndsIn": "ينتهي {time}"
+  ,"@pollEndsIn": {"placeholders": {"time": {}}}
+  ,"pollEnded": "انتهى {time}"
+  ,"@pollEnded": {"placeholders": {"time": {}}}
+  ,"pollVoteError": "خطأ: {error}"
+  ,"@pollVoteError": {"placeholders": {"error": {}}}
+  ,"pollOptionVotesSingular": "{count} صوت"
+  ,"@pollOptionVotesSingular": {"placeholders": {"count": {}}}
+  ,"pollOptionVotesPlural": "{count} أصوات"
+  ,"@pollOptionVotesPlural": {"placeholders": {"count": {}}}
+  
+  ,"imageViewerTitle": "{current} / {total}"
+  ,"@imageViewerTitle": {"placeholders": {"current": {}, "total": {}}}
+  ,"imageDownloadTooltip": "تحميل"
+  ,"imageDownloadSuccess": "تم فتح الصورة في المتصفح للتحميل"
+  ,"imageDownloadError": "لا يمكن فتح الرابط"
+  ,"imageLoadError": "فشل تحميل الصورة"
+  ,"imageErrorGeneric": "حدث خطأ: {error}"
+  ,"@imageErrorGeneric": {"placeholders": {"error": {}}}
+  
+  ,"reactionPickerTitleAlt": "اختر تفاعلك"
+  ,"reactionError": "خطأ: {error}"
+  ,"@reactionError": {"placeholders": {"error": {}}}
+  ,"reactionLiked": "أعجبني"
+  ,"reactionLike": "إعجاب"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/wall_post.dart';
 import '../providers/wall_post_providers.dart';
+import '../core/l10n_ext.dart';
 
 class ReactionButton extends ConsumerStatefulWidget {
   final WallPost post;
@@ -70,9 +71,10 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
           // Success - UI will update via stream
         },
         failure: (error) {
+          final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('خطأ: ${error.message}'),
+              content: Text(l.reactionError.replaceAll('{error}', error.message)),
               duration: const Duration(seconds: 2),
             ),
           );
@@ -82,6 +84,7 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
   }
 
   void _showReactionPicker() {
+    final l = context.l;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -106,9 +109,9 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
             const SizedBox(height: 20),
             
             // Title
-            const Text(
-              'اختر تفاعلك',
-              style: TextStyle(
+            Text(
+              l.reactionPickerTitleAlt,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -181,6 +184,7 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
   Widget build(BuildContext context) {
     final userReaction = _userReaction;
     final theme = Theme.of(context);
+    final l = context.l;
 
     return ScaleTransition(
       scale: Tween<double>(begin: 1.0, end: 1.2).animate(
@@ -198,7 +202,7 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
               )
             : const Icon(Icons.thumb_up_outlined, size: 20),
         label: Text(
-          userReaction != null ? 'أعجبني' : 'إعجاب',
+          userReaction != null ? l.reactionLiked : l.reactionLike,
           style: TextStyle(
             color: userReaction != null
                 ? theme.colorScheme.primary

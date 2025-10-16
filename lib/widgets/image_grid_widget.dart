@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../core/l10n_ext.dart';
 
 /// Widget to display a grid of images for wall posts
 class ImageGridWidget extends StatelessWidget {
@@ -270,15 +271,21 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text('${_currentIndex + 1} / ${widget.imageUrls.length}'),
+        title: Text(
+          l.imageViewerTitle
+              .replaceAll('{current}', '${_currentIndex + 1}')
+              .replaceAll('{total}', '${widget.imageUrls.length}'),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.download),
+            tooltip: l.imageDownloadTooltip,
             onPressed: () async {
               final currentUrl = widget.imageUrls[_currentIndex];
               await _downloadImage(context, currentUrl);
@@ -312,15 +319,15 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
                   );
                 },
                 errorBuilder: (context, error, stackTrace) {
-                  return const Center(
+                  return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.broken_image, size: 64, color: Colors.white54),
-                        SizedBox(height: 16),
+                        const Icon(Icons.broken_image, size: 64, color: Colors.white54),
+                        const SizedBox(height: 16),
                         Text(
-                          'Failed to load image',
-                          style: TextStyle(color: Colors.white54),
+                          context.l.imageLoadError,
+                          style: const TextStyle(color: Colors.white54),
                         ),
                       ],
                     ),
@@ -336,6 +343,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
 
   Future<void> _downloadImage(BuildContext context, String imageUrl) async {
     try {
+      final l = context.l;
       // Open URL in browser to download
       final uri = Uri.parse(imageUrl);
       if (await canLaunchUrl(uri)) {
@@ -346,23 +354,24 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
         
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('تم فتح الصورة في المتصفح للتحميل'),
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: Text(l.imageDownloadSuccess),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
       } else {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('لا يمكن فتح الرابط')),
+            SnackBar(content: Text(l.imageDownloadError)),
           );
         }
       }
     } catch (e) {
       if (context.mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('حدث خطأ: $e')),
+          SnackBar(content: Text(l.imageErrorGeneric.replaceAll('{error}', e.toString()))),
         );
       }
     }

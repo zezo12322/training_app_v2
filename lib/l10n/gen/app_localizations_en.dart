@@ -1550,4 +1550,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commentPlaceholder => 'Write your comment...';
+
+  @override
+  String get pollNotFound => 'Poll not found';
+
+  @override
+  String pollError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get pollHeaderLabel => 'Poll';
+
+  @override
+  String get pollEndedLabel => 'Ended';
+
+  @override
+  String get pollVotesSingular => 'vote';
+
+  @override
+  String get pollVotesPlural => 'votes';
+
+  @override
+  String pollVotesCount(Object count, Object votes) {
+    return '$count $votes';
+  }
+
+  @override
+  String pollEndsIn(Object time) {
+    return 'Ends $time';
+  }
+
+  @override
+  String pollEnded(Object time) {
+    return 'Ended $time';
+  }
+
+  @override
+  String pollVoteError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String pollOptionVotesSingular(Object count) {
+    return '$count vote';
+  }
+
+  @override
+  String pollOptionVotesPlural(Object count) {
+    return '$count votes';
+  }
+
+  @override
+  String imageViewerTitle(Object current, Object total) {
+    return '$current / $total';
+  }
+
+  @override
+  String get imageDownloadTooltip => 'Download';
+
+  @override
+  String get imageDownloadSuccess => 'Image opened in browser for download';
+
+  @override
+  String get imageDownloadError => 'Cannot open link';
+
+  @override
+  String get imageLoadError => 'Failed to load image';
+
+  @override
+  String imageErrorGeneric(Object error) {
+    return 'Error occurred: $error';
+  }
+
+  @override
+  String get reactionPickerTitleAlt => 'Choose your reaction';
+
+  @override
+  String reactionError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get reactionLiked => 'Liked';
+
+  @override
+  String get reactionLike => 'Like';
 }

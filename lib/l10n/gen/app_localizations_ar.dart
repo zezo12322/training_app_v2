@@ -1538,4 +1538,90 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get commentPlaceholder => 'اكتب تعليقك...';
+
+  @override
+  String get pollNotFound => 'لم يتم العثور على الاستطلاع';
+
+  @override
+  String pollError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get pollHeaderLabel => 'استطلاع رأي';
+
+  @override
+  String get pollEndedLabel => 'منتهي';
+
+  @override
+  String get pollVotesSingular => 'صوت';
+
+  @override
+  String get pollVotesPlural => 'أصوات';
+
+  @override
+  String pollVotesCount(Object count, Object votes) {
+    return '$count $votes';
+  }
+
+  @override
+  String pollEndsIn(Object time) {
+    return 'ينتهي $time';
+  }
+
+  @override
+  String pollEnded(Object time) {
+    return 'انتهى $time';
+  }
+
+  @override
+  String pollVoteError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String pollOptionVotesSingular(Object count) {
+    return '$count صوت';
+  }
+
+  @override
+  String pollOptionVotesPlural(Object count) {
+    return '$count أصوات';
+  }
+
+  @override
+  String imageViewerTitle(Object current, Object total) {
+    return '$current / $total';
+  }
+
+  @override
+  String get imageDownloadTooltip => 'تحميل';
+
+  @override
+  String get imageDownloadSuccess => 'تم فتح الصورة في المتصفح للتحميل';
+
+  @override
+  String get imageDownloadError => 'لا يمكن فتح الرابط';
+
+  @override
+  String get imageLoadError => 'فشل تحميل الصورة';
+
+  @override
+  String imageErrorGeneric(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get reactionPickerTitleAlt => 'اختر تفاعلك';
+
+  @override
+  String reactionError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get reactionLiked => 'أعجبني';
+
+  @override
+  String get reactionLike => 'إعجاب';
 }
