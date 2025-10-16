@@ -4,6 +4,7 @@ import '../providers/tenant_metrics_providers.dart';
 import '../widgets/sparkline.dart';
 import '../providers/auth_provider.dart';
 import 'bottom_nav_shell.dart';
+import '../core/l10n_ext.dart';
 
 class OrgAdminDashboard extends ConsumerWidget {
   final String institutionId;
@@ -21,10 +22,10 @@ class OrgAdminDashboard extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Org Admin Dashboard'),
+        title: Text(context.l.orgAdminDashboardTitle),
         actions: [
           IconButton(
-            tooltip: 'Home',
+            tooltip: context.l.orgAdminHome,
             icon: const Icon(Icons.home_outlined),
             onPressed: () async {
               final appUser = await ref.read(currentUserModelProvider.future);
@@ -41,7 +42,7 @@ class OrgAdminDashboard extends ConsumerWidget {
       ),
       body: metricsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Error: $e')),
+        error: (e, st) => Center(child: Text(context.l.orgAdminError.replaceAll('{error}', e.toString()))),
         data: (list) {
           // reverse chronological by date desc; for sparkline make ascending time
           final dataAsc = list.reversed.toList();
@@ -65,34 +66,34 @@ class OrgAdminDashboard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _metricCard(
-                  'Active Users',
+                  context.l.orgAdminActiveUsers,
                   activeUsers,
                   Colors.blue,
                   suffix: '',
                 ),
                 const SizedBox(height: 12),
                 _metricCard(
-                  'Avg Events/User (7d)',
+                  context.l.orgAdminAvgEventsPerUser7d,
                   avgEvents,
                   Colors.teal,
                   fractionDigits: 2,
                 ),
                 const SizedBox(height: 12),
                 _metricCard(
-                  'Avg Mastery',
+                  context.l.orgAdminAvgMastery,
                   avgMastery,
                   Colors.purple,
                   fractionDigits: 3,
                 ),
                 const SizedBox(height: 12),
                 _metricCard(
-                  'Avg Mastery Δ14d',
+                  context.l.orgAdminAvgMasteryDelta14d,
                   avgDelta,
                   Colors.orange,
                   fractionDigits: 3,
                 ),
                 const SizedBox(height: 24),
-                _latestTable(dataAsc),
+                _latestTable(dataAsc, context),
               ],
             ),
           );
@@ -107,67 +108,75 @@ class OrgAdminDashboard extends ConsumerWidget {
     Color color, {
     int fractionDigits = 0,
     String suffix = '',
-  }) {
+  }, BuildContext? buildCtx) {
     final latest = values.isNotEmpty ? values.last : 0.0;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Sparkline(values: values, color: color),
-            const SizedBox(height: 8),
-            Text('Latest: ${latest.toStringAsFixed(fractionDigits)}$suffix'),
-          ],
+        child: Builder(
+          builder: (context) {
+            final l = context.l;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                Sparkline(values: values, color: color),
+                const SizedBox(height: 8),
+                Text(l.orgAdminLatest.replaceAll('{value}', '${latest.toStringAsFixed(fractionDigits)}$suffix')),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _latestTable(List dataAsc) {
+  Widget _latestTable(List dataAsc, BuildContext buildCtx) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Latest 7 days',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Table(
-              columnWidths: const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(),
-                2: FlexColumnWidth(),
-                3: FlexColumnWidth(),
-                4: FlexColumnWidth(),
-              },
+        child: Builder(
+          builder: (context) {
+            final l = context.l;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TableRow(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Text(
-                        'Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(4), child: Text('Active')),
-                    Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Text('AvgEv/Usr'),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Text('AvgMastery'),
-                    ),
-                    Padding(padding: EdgeInsets.all(4), child: Text('Δ14d')),
-                  ],
+                Text(
+                  l.orgAdminLatest7Days,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 8),
+                Table(
+                  columnWidths: const {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(),
+                    2: FlexColumnWidth(),
+                    3: FlexColumnWidth(),
+                    4: FlexColumnWidth(),
+                  },
+                  children: [
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Text(
+                            l.orgAdminDate,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(padding: const EdgeInsets.all(4), child: Text(l.orgAdminActive)),
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Text(l.orgAdminAvgEvPerUsr),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Text(l.orgAdminAvgMasteryShort),
+                        ),
+                        Padding(padding: const EdgeInsets.all(4), child: Text(l.orgAdminDelta14d)),
+                      ],
+                    ),
                 ...dataAsc
                     .take(7)
                     .map<TableRow>(
@@ -200,9 +209,11 @@ class OrgAdminDashboard extends ConsumerWidget {
                         ],
                       ),
                     ),
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

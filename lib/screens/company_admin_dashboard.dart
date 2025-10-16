@@ -26,7 +26,7 @@ class CompanyAdminDashboard extends ConsumerWidget {
         title: Text(context.companyAdminDashboardTitle),
         actions: [
           IconButton(
-            tooltip: 'Home',
+            tooltip: context.l.companyAdminHome,
             icon: const Icon(Icons.home_outlined),
             onPressed: () async {
               final appUser = await ref.read(currentUserModelProvider.future);
@@ -43,7 +43,7 @@ class CompanyAdminDashboard extends ConsumerWidget {
       ),
       body: metricsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Error: $e')),
+        error: (e, st) => Center(child: Text(context.l.companyAdminError.replaceAll('{error}', e.toString()))),
         data: (list) {
           final dataAsc = list.reversed.toList();
           List<double> toDoubles(List<num> src) =>

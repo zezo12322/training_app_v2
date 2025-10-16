@@ -1876,4 +1876,170 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get directMessagesNoMessages => 'لا توجد رسائل';
+
+  @override
+  String get superAdminDashboardTitle => 'المدير الأعلى';
+
+  @override
+  String get superAdminDashboardHome => 'الرئيسية';
+
+  @override
+  String get superAdminDashboardUnauthorized => 'غير مصرح (المدير الأعلى فقط)';
+
+  @override
+  String get superAdminTotalUsers => 'إجمالي المستخدمين';
+
+  @override
+  String get superAdminTrainers => 'المدربون';
+
+  @override
+  String get superAdminTrainees => 'المتدربون';
+
+  @override
+  String get superAdminSystemSettings => 'إعدادات النظام';
+
+  @override
+  String superAdminFlags(Object count) {
+    return 'الأعلام: $count';
+  }
+
+  @override
+  String superAdminThresholds(Object count) {
+    return 'العتبات: $count';
+  }
+
+  @override
+  String get superAdminNoSettings => 'لم يتم تحميل الإعدادات';
+
+  @override
+  String get superAdminTenantReads => 'قراءات المستأجر';
+
+  @override
+  String get superAdminTenantWrites => 'كتابات المستأجر';
+
+  @override
+  String get superAdminFlagRecommendation =>
+      'توصية: فعّل القراءات أولاً، ثم الكتابات بعد التحقق من عدم وجود تسرب بين المستأجرين.';
+
+  @override
+  String superAdminSettingsError(Object error) {
+    return 'خطأ في الإعدادات: $error';
+  }
+
+  @override
+  String get superAdminUsersFirst50 => 'المستخدمون (أول 50)';
+
+  @override
+  String superAdminUsersLoadError(Object error) {
+    return 'خطأ في تحميل المستخدمين: $error';
+  }
+
+  @override
+  String get superAdminAlerts => 'التنبيهات';
+
+  @override
+  String get superAdminIntrusionAlerts => 'تنبيهات الاختراق';
+
+  @override
+  String get superAdminPredictiveAlerts => 'التنبيهات التنبؤية';
+
+  @override
+  String get superAdminIntegrityFlags => 'أعلام التكامل';
+
+  @override
+  String superAdminAlertError(Object title, Object error) {
+    return '$title خطأ: $error';
+  }
+
+  @override
+  String superAdminNoAlerts(Object title) {
+    return 'لا توجد $title';
+  }
+
+  @override
+  String superAdminMoreAlerts(Object count) {
+    return '+$count أكثر…';
+  }
+
+  @override
+  String get superAdminTenants => 'المستأجرون';
+
+  @override
+  String get superAdminInstitutions => 'المؤسسات';
+
+  @override
+  String get superAdminNoInstitutions => 'لا توجد مؤسسات';
+
+  @override
+  String superAdminInstitutionsError(Object error) {
+    return 'خطأ في المؤسسات: $error';
+  }
+
+  @override
+  String get superAdminCompanies => 'الشركات';
+
+  @override
+  String get superAdminNoCompanies => 'لا توجد شركات';
+
+  @override
+  String superAdminCompaniesError(Object error) {
+    return 'خطأ في الشركات: $error';
+  }
+
+  @override
+  String get superAdminCreateInstitution => 'إنشاء مؤسسة';
+
+  @override
+  String get superAdminCreateCompany => 'إنشاء شركة';
+
+  @override
+  String get superAdminInstitutionDialogTitle => 'إنشاء مؤسسة';
+
+  @override
+  String get superAdminCompanyDialogTitle => 'إنشاء شركة';
+
+  @override
+  String get superAdminNameLabel => 'الاسم';
+
+  @override
+  String get superAdminNameRequired => 'مطلوب';
+
+  @override
+  String get superAdminPlanTierLabel => 'مستوى الخطة';
+
+  @override
+  String get superAdminPlanTierRequired => 'مطلوب';
+
+  @override
+  String get superAdminDialogCancel => 'إلغاء';
+
+  @override
+  String get superAdminDialogCreate => 'إنشاء';
+
+  @override
+  String get superAdminInstitutionCreated => 'تم إنشاء المؤسسة';
+
+  @override
+  String get superAdminCompanyCreated => 'تم إنشاء الشركة';
+
+  @override
+  String superAdminCreateError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get companyAdminHome => 'الرئيسية';
+
+  @override
+  String companyAdminError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get orgAdminHome => 'الرئيسية';
+
+  @override
+  String orgAdminError(Object error) {
+    return 'خطأ: $error';
+  }
 }

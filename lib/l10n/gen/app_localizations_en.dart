@@ -1890,4 +1890,171 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get directMessagesNoMessages => 'No messages';
+
+  @override
+  String get superAdminDashboardTitle => 'Super Admin';
+
+  @override
+  String get superAdminDashboardHome => 'Home';
+
+  @override
+  String get superAdminDashboardUnauthorized =>
+      'Unauthorized (Super Admin only)';
+
+  @override
+  String get superAdminTotalUsers => 'Total Users';
+
+  @override
+  String get superAdminTrainers => 'Trainers';
+
+  @override
+  String get superAdminTrainees => 'Trainees';
+
+  @override
+  String get superAdminSystemSettings => 'System Settings';
+
+  @override
+  String superAdminFlags(Object count) {
+    return 'Flags: $count';
+  }
+
+  @override
+  String superAdminThresholds(Object count) {
+    return 'Thresholds: $count';
+  }
+
+  @override
+  String get superAdminNoSettings => 'No settings loaded';
+
+  @override
+  String get superAdminTenantReads => 'Tenant Reads';
+
+  @override
+  String get superAdminTenantWrites => 'Tenant Writes';
+
+  @override
+  String get superAdminFlagRecommendation =>
+      'Recommendation: Enable reads first, then writes after validating cross-tenant leakage is zero.';
+
+  @override
+  String superAdminSettingsError(Object error) {
+    return 'Settings error: $error';
+  }
+
+  @override
+  String get superAdminUsersFirst50 => 'Users (first 50)';
+
+  @override
+  String superAdminUsersLoadError(Object error) {
+    return 'Error loading users: $error';
+  }
+
+  @override
+  String get superAdminAlerts => 'Alerts';
+
+  @override
+  String get superAdminIntrusionAlerts => 'Intrusion Alerts';
+
+  @override
+  String get superAdminPredictiveAlerts => 'Predictive Alerts';
+
+  @override
+  String get superAdminIntegrityFlags => 'Integrity Flags';
+
+  @override
+  String superAdminAlertError(Object title, Object error) {
+    return '$title error: $error';
+  }
+
+  @override
+  String superAdminNoAlerts(Object title) {
+    return 'No $title';
+  }
+
+  @override
+  String superAdminMoreAlerts(Object count) {
+    return '+$count more…';
+  }
+
+  @override
+  String get superAdminTenants => 'Tenants';
+
+  @override
+  String get superAdminInstitutions => 'Institutions';
+
+  @override
+  String get superAdminNoInstitutions => 'No institutions';
+
+  @override
+  String superAdminInstitutionsError(Object error) {
+    return 'Institutions error: $error';
+  }
+
+  @override
+  String get superAdminCompanies => 'Companies';
+
+  @override
+  String get superAdminNoCompanies => 'No companies';
+
+  @override
+  String superAdminCompaniesError(Object error) {
+    return 'Companies error: $error';
+  }
+
+  @override
+  String get superAdminCreateInstitution => 'Create Institution';
+
+  @override
+  String get superAdminCreateCompany => 'Create Company';
+
+  @override
+  String get superAdminInstitutionDialogTitle => 'Create Institution';
+
+  @override
+  String get superAdminCompanyDialogTitle => 'Create Company';
+
+  @override
+  String get superAdminNameLabel => 'Name';
+
+  @override
+  String get superAdminNameRequired => 'Required';
+
+  @override
+  String get superAdminPlanTierLabel => 'Plan Tier';
+
+  @override
+  String get superAdminPlanTierRequired => 'Required';
+
+  @override
+  String get superAdminDialogCancel => 'Cancel';
+
+  @override
+  String get superAdminDialogCreate => 'Create';
+
+  @override
+  String get superAdminInstitutionCreated => 'Institution created';
+
+  @override
+  String get superAdminCompanyCreated => 'Company created';
+
+  @override
+  String superAdminCreateError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get companyAdminHome => 'Home';
+
+  @override
+  String companyAdminError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get orgAdminHome => 'Home';
+
+  @override
+  String orgAdminError(Object error) {
+    return 'Error: $error';
+  }
 }

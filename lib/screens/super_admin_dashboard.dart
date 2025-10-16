@@ -6,6 +6,7 @@ import '../models/system_settings.dart';
 import 'package:flutter/services.dart';
 import '../providers/auth_provider.dart';
 import 'bottom_nav_shell.dart';
+import '../core/l10n_ext.dart';
 
 class SuperAdminDashboard extends ConsumerWidget {
   const SuperAdminDashboard({super.key});
@@ -23,8 +24,8 @@ class SuperAdminDashboard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final allowed = ref.watch(ensureSuperAdminProvider);
     if (!allowed) {
-      return const Scaffold(
-        body: Center(child: Text('Unauthorized (Super Admin only)')),
+      return Scaffold(
+        body: Center(child: Text(context.l.superAdminDashboardUnauthorized)),
       );
     }
 
@@ -34,10 +35,10 @@ class SuperAdminDashboard extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Super Admin'),
+        title: Text(context.l.superAdminDashboardTitle),
         actions: [
           IconButton(
-            tooltip: 'Home',
+            tooltip: context.l.superAdminDashboardHome,
             icon: const Icon(Icons.home_outlined),
             onPressed: () async {
               final appUser = await ref.read(currentUserModelProvider.future);
@@ -65,17 +66,17 @@ class SuperAdminDashboard extends ConsumerWidget {
               runSpacing: 12,
               children: [
                 _StatCard(
-                  title: 'Total Users',
+                  title: context.l.superAdminTotalUsers,
                   value: stats?.totalUsers.toString() ?? '…',
                   icon: Icons.people_outline,
                 ),
                 _StatCard(
-                  title: 'Trainers',
+                  title: context.l.superAdminTrainers,
                   value: stats?.trainers.toString() ?? '…',
                   icon: Icons.school_outlined,
                 ),
                 _StatCard(
-                  title: 'Trainees',
+                  title: context.l.superAdminTrainees,
                   value: stats?.trainees.toString() ?? '…',
                   icon: Icons.person_outline,
                 ),
@@ -84,7 +85,7 @@ class SuperAdminDashboard extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Users (first 50)',
+              context.l.superAdminUsersFirst50,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -111,28 +112,28 @@ class SuperAdminDashboard extends ConsumerWidget {
                   child: CircularProgressIndicator(),
                 ),
               ),
-              error: (e, st) => Text('Error loading users: $e'),
+              error: (e, st) => Text(context.l.superAdminUsersLoadError.replaceAll('{error}', e.toString())),
             ),
             const SizedBox(height: 32),
-            Text('Alerts', style: Theme.of(context).textTheme.titleMedium),
+            Text(context.l.superAdminAlerts, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             _AlertsSection(
               stream: _col('intrusion_alerts', limit: 10),
-              title: 'Intrusion Alerts',
+              title: context.l.superAdminIntrusionAlerts,
               type: 'intrusion',
             ),
             _AlertsSection(
               stream: _col('predictive_alerts', limit: 10),
-              title: 'Predictive Alerts',
+              title: context.l.superAdminPredictiveAlerts,
               type: 'predictive',
             ),
             _AlertsSection(
               stream: _col('integrity_flags', limit: 10),
-              title: 'Integrity Flags',
+              title: context.l.superAdminIntegrityFlags,
               type: 'integrity',
             ),
             const SizedBox(height: 32),
-            Text('Tenants', style: Theme.of(context).textTheme.titleMedium),
+            Text(context.l.superAdminTenants, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             _TenantsSection(),
             const SizedBox(height: 12),
@@ -146,7 +147,7 @@ class SuperAdminDashboard extends ConsumerWidget {
                     );
                   },
                   icon: const Icon(Icons.apartment_outlined),
-                  label: const Text('Create Institution'),
+                  label: Text(context.l.superAdminCreateInstitution),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton.icon(
@@ -157,17 +158,11 @@ class SuperAdminDashboard extends ConsumerWidget {
                     );
                   },
                   icon: const Icon(Icons.business_outlined),
-                  label: const Text('Create Company'),
+                  label: Text(context.l.superAdminCreateCompany),
                 ),
               ],
             ),
             const SizedBox(height: 48),
-            Text(
-              'Next: Predictive & Intrusion widgets (Phase 0.2+)',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
-            ),
           ],
         ),
       ),
@@ -223,6 +218,7 @@ class _SystemSettingsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     return SizedBox(
       width: 250,
       child: settingsAsync.when(
@@ -239,12 +235,12 @@ class _SystemSettingsCard extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     const SizedBox(width: 6),
-                    const Text('System Settings'),
+                    Text(l.superAdminSystemSettings),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text('Flags: ${s?.featureFlags.length ?? 0}'),
-                Text('Thresholds: ${s?.thresholds.length ?? 0}'),
+                Text(l.superAdminFlags.replaceAll('{count}', (s?.featureFlags.length ?? 0).toString())),
+                Text(l.superAdminThresholds.replaceAll('{count}', (s?.thresholds.length ?? 0).toString())),
                 const Divider(height: 16),
                 _FlagsStatus(s: s),
               ],
@@ -261,7 +257,7 @@ class _SystemSettingsCard extends ConsumerWidget {
         error: (e, st) => Card(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Text('Settings error: $e'),
+            child: Text(l.superAdminSettingsError.replaceAll('{error}', e.toString())),
           ),
         ),
       ),
@@ -280,6 +276,7 @@ class _AlertsSection extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Card(
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: stream,
@@ -293,14 +290,14 @@ class _AlertsSection extends StatelessWidget {
           if (snap.hasError) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Text('$title error: ${snap.error}'),
+              child: Text(l.superAdminAlertError.replaceAll('{title}', title).replaceAll('{error}', snap.error.toString())),
             );
           }
           final docs = snap.data?.docs ?? [];
           if (docs.isEmpty) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Text('No $title'),
+              child: Text(l.superAdminNoAlerts.replaceAll('{title}', title)),
             );
           }
           return Column(
@@ -323,7 +320,7 @@ class _AlertsSection extends StatelessWidget {
                     right: 12,
                   ),
                   child: Text(
-                    '+${docs.length - 5} more…',
+                    l.superAdminMoreAlerts.replaceAll('{count}', (docs.length - 5).toString()),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ),
@@ -374,6 +371,7 @@ class _AlertTile extends StatelessWidget {
 class _TenantsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     final instAsync = ref.watch(institutionsProvider);
     final compAsync = ref.watch(companiesProvider);
     return Card(
@@ -382,10 +380,10 @@ class _TenantsSection extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Institutions', style: Theme.of(context).textTheme.titleSmall),
+            Text(l.superAdminInstitutions, style: Theme.of(context).textTheme.titleSmall),
             instAsync.when(
               data: (list) => list.isEmpty
-                  ? const Text('No institutions')
+                  ? Text(l.superAdminNoInstitutions)
                   : Column(
                       children: list
                           .take(5)
@@ -399,13 +397,13 @@ class _TenantsSection extends ConsumerWidget {
                           .toList(),
                     ),
               loading: () => const LinearProgressIndicator(),
-              error: (e, st) => Text('Institutions error: $e'),
+              error: (e, st) => Text(l.superAdminInstitutionsError.replaceAll('{error}', e.toString())),
             ),
             const SizedBox(height: 12),
-            Text('Companies', style: Theme.of(context).textTheme.titleSmall),
+            Text(l.superAdminCompanies, style: Theme.of(context).textTheme.titleSmall),
             compAsync.when(
               data: (list) => list.isEmpty
-                  ? const Text('No companies')
+                  ? Text(l.superAdminNoCompanies)
                   : Column(
                       children: list
                           .take(5)
@@ -419,7 +417,7 @@ class _TenantsSection extends ConsumerWidget {
                           .toList(),
                     ),
               loading: () => const LinearProgressIndicator(),
-              error: (e, st) => Text('Companies error: $e'),
+              error: (e, st) => Text(l.superAdminCompaniesError.replaceAll('{error}', e.toString())),
             ),
           ],
         ),
@@ -434,8 +432,9 @@ class _FlagsStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     if (s == null) {
-      return const Text('No settings loaded');
+      return Text(l.superAdminNoSettings);
     }
     final reads = s!.enforceTenantReads;
     final writes = s!.enforceTenantWrites;
@@ -447,13 +446,13 @@ class _FlagsStatus extends StatelessWidget {
         Row(
           children: [
             _FlagBadge(
-              label: 'Tenant Reads',
+              label: l.superAdminTenantReads,
               active: reads,
               color: badgeColor(reads),
             ),
             const SizedBox(width: 8),
             _FlagBadge(
-              label: 'Tenant Writes',
+              label: l.superAdminTenantWrites,
               active: writes,
               color: badgeColor(writes),
             ),
@@ -462,7 +461,7 @@ class _FlagsStatus extends StatelessWidget {
         const SizedBox(height: 8),
         if (!reads || !writes)
           Text(
-            'Recommendation: Enable reads first, then writes after validating cross-tenant leakage is zero.',
+            l.superAdminFlagRecommendation,
             style: Theme.of(context).textTheme.bodySmall,
           ),
       ],
@@ -491,8 +490,9 @@ class _CreateInstitutionDialogState extends ConsumerState<_CreateInstitutionDial
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return AlertDialog(
-      title: const Text('Create Institution'),
+      title: Text(l.superAdminInstitutionDialogTitle),
       content: Form(
         key: _formKey,
         child: Column(
@@ -500,20 +500,20 @@ class _CreateInstitutionDialogState extends ConsumerState<_CreateInstitutionDial
           children: [
             TextFormField(
               controller: _nameCtrl,
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              decoration: InputDecoration(labelText: l.superAdminNameLabel),
+              validator: (v) => (v == null || v.trim().isEmpty) ? l.superAdminNameRequired : null,
             ),
             TextFormField(
               controller: _planCtrl,
-              decoration: const InputDecoration(labelText: 'Plan Tier'),
+              decoration: InputDecoration(labelText: l.superAdminPlanTierLabel),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-z_]+'))],
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              validator: (v) => (v == null || v.trim().isEmpty) ? l.superAdminPlanTierRequired : null,
             ),
           ],
         ),
       ),
       actions: [
-        TextButton(onPressed: _saving ? null : () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        TextButton(onPressed: _saving ? null : () => Navigator.of(context).pop(), child: Text(l.superAdminDialogCancel)),
         ElevatedButton(
           onPressed: _saving
               ? null
@@ -524,17 +524,17 @@ class _CreateInstitutionDialogState extends ConsumerState<_CreateInstitutionDial
                     await ref.read(createInstitutionProvider((name: _nameCtrl.text.trim(), planTier: _planCtrl.text.trim())).future);
                     if (context.mounted) {
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Institution created')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminInstitutionCreated)));
                     }
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError.replaceAll('{error}', e.toString()))));
                     }
                   } finally {
                     if (mounted) setState(() => _saving = false);
                   }
                 },
-          child: const Text('Create'),
+          child: Text(l.superAdminDialogCreate),
         ),
       ],
     );
@@ -562,8 +562,9 @@ class _CreateCompanyDialogState extends ConsumerState<_CreateCompanyDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return AlertDialog(
-      title: const Text('Create Company'),
+      title: Text(l.superAdminCompanyDialogTitle),
       content: Form(
         key: _formKey,
         child: Column(
@@ -571,20 +572,20 @@ class _CreateCompanyDialogState extends ConsumerState<_CreateCompanyDialog> {
           children: [
             TextFormField(
               controller: _nameCtrl,
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              decoration: InputDecoration(labelText: l.superAdminNameLabel),
+              validator: (v) => (v == null || v.trim().isEmpty) ? l.superAdminNameRequired : null,
             ),
             TextFormField(
               controller: _planCtrl,
-              decoration: const InputDecoration(labelText: 'Plan Tier'),
+              decoration: InputDecoration(labelText: l.superAdminPlanTierLabel),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-z_]+'))],
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              validator: (v) => (v == null || v.trim().isEmpty) ? l.superAdminPlanTierRequired : null,
             ),
           ],
         ),
       ),
       actions: [
-        TextButton(onPressed: _saving ? null : () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        TextButton(onPressed: _saving ? null : () => Navigator.of(context).pop(), child: Text(l.superAdminDialogCancel)),
         ElevatedButton(
           onPressed: _saving
               ? null
@@ -595,17 +596,17 @@ class _CreateCompanyDialogState extends ConsumerState<_CreateCompanyDialog> {
                     await ref.read(createCompanyProvider((name: _nameCtrl.text.trim(), planTier: _planCtrl.text.trim())).future);
                     if (context.mounted) {
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Company created')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCompanyCreated)));
                     }
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError.replaceAll('{error}', e.toString()))));
                     }
                   } finally {
                     if (mounted) setState(() => _saving = false);
                   }
                 },
-          child: const Text('Create'),
+          child: Text(l.superAdminDialogCreate),
         ),
       ],
     );

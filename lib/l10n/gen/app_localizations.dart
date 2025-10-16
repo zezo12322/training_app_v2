@@ -3505,6 +3505,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No messages'**
   String get directMessagesNoMessages;
+
+  /// No description provided for @superAdminDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Super Admin'**
+  String get superAdminDashboardTitle;
+
+  /// No description provided for @superAdminDashboardHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get superAdminDashboardHome;
+
+  /// No description provided for @superAdminDashboardUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Unauthorized (Super Admin only)'**
+  String get superAdminDashboardUnauthorized;
+
+  /// No description provided for @superAdminTotalUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Users'**
+  String get superAdminTotalUsers;
+
+  /// No description provided for @superAdminTrainers.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainers'**
+  String get superAdminTrainers;
+
+  /// No description provided for @superAdminTrainees.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainees'**
+  String get superAdminTrainees;
+
+  /// No description provided for @superAdminSystemSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'System Settings'**
+  String get superAdminSystemSettings;
+
+  /// No description provided for @superAdminFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Flags: {count}'**
+  String superAdminFlags(Object count);
+
+  /// No description provided for @superAdminThresholds.
+  ///
+  /// In en, this message translates to:
+  /// **'Thresholds: {count}'**
+  String superAdminThresholds(Object count);
+
+  /// No description provided for @superAdminNoSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'No settings loaded'**
+  String get superAdminNoSettings;
+
+  /// No description provided for @superAdminTenantReads.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant Reads'**
+  String get superAdminTenantReads;
+
+  /// No description provided for @superAdminTenantWrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant Writes'**
+  String get superAdminTenantWrites;
+
+  /// No description provided for @superAdminFlagRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation: Enable reads first, then writes after validating cross-tenant leakage is zero.'**
+  String get superAdminFlagRecommendation;
+
+  /// No description provided for @superAdminSettingsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings error: {error}'**
+  String superAdminSettingsError(Object error);
+
+  /// No description provided for @superAdminUsersFirst50.
+  ///
+  /// In en, this message translates to:
+  /// **'Users (first 50)'**
+  String get superAdminUsersFirst50;
+
+  /// No description provided for @superAdminUsersLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading users: {error}'**
+  String superAdminUsersLoadError(Object error);
+
+  /// No description provided for @superAdminAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get superAdminAlerts;
+
+  /// No description provided for @superAdminIntrusionAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Intrusion Alerts'**
+  String get superAdminIntrusionAlerts;
+
+  /// No description provided for @superAdminPredictiveAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictive Alerts'**
+  String get superAdminPredictiveAlerts;
+
+  /// No description provided for @superAdminIntegrityFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrity Flags'**
+  String get superAdminIntegrityFlags;
+
+  /// No description provided for @superAdminAlertError.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} error: {error}'**
+  String superAdminAlertError(Object title, Object error);
+
+  /// No description provided for @superAdminNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No {title}'**
+  String superAdminNoAlerts(Object title);
+
+  /// No description provided for @superAdminMoreAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more…'**
+  String superAdminMoreAlerts(Object count);
+
+  /// No description provided for @superAdminTenants.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenants'**
+  String get superAdminTenants;
+
+  /// No description provided for @superAdminInstitutions.
+  ///
+  /// In en, this message translates to:
+  /// **'Institutions'**
+  String get superAdminInstitutions;
+
+  /// No description provided for @superAdminNoInstitutions.
+  ///
+  /// In en, this message translates to:
+  /// **'No institutions'**
+  String get superAdminNoInstitutions;
+
+  /// No description provided for @superAdminInstitutionsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Institutions error: {error}'**
+  String superAdminInstitutionsError(Object error);
+
+  /// No description provided for @superAdminCompanies.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies'**
+  String get superAdminCompanies;
+
+  /// No description provided for @superAdminNoCompanies.
+  ///
+  /// In en, this message translates to:
+  /// **'No companies'**
+  String get superAdminNoCompanies;
+
+  /// No description provided for @superAdminCompaniesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies error: {error}'**
+  String superAdminCompaniesError(Object error);
+
+  /// No description provided for @superAdminCreateInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Institution'**
+  String get superAdminCreateInstitution;
+
+  /// No description provided for @superAdminCreateCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Company'**
+  String get superAdminCreateCompany;
+
+  /// No description provided for @superAdminInstitutionDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Institution'**
+  String get superAdminInstitutionDialogTitle;
+
+  /// No description provided for @superAdminCompanyDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Company'**
+  String get superAdminCompanyDialogTitle;
+
+  /// No description provided for @superAdminNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get superAdminNameLabel;
+
+  /// No description provided for @superAdminNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get superAdminNameRequired;
+
+  /// No description provided for @superAdminPlanTierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan Tier'**
+  String get superAdminPlanTierLabel;
+
+  /// No description provided for @superAdminPlanTierRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get superAdminPlanTierRequired;
+
+  /// No description provided for @superAdminDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get superAdminDialogCancel;
+
+  /// No description provided for @superAdminDialogCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get superAdminDialogCreate;
+
+  /// No description provided for @superAdminInstitutionCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Institution created'**
+  String get superAdminInstitutionCreated;
+
+  /// No description provided for @superAdminCompanyCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Company created'**
+  String get superAdminCompanyCreated;
+
+  /// No description provided for @superAdminCreateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String superAdminCreateError(Object error);
+
+  /// No description provided for @companyAdminHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get companyAdminHome;
+
+  /// No description provided for @companyAdminError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String companyAdminError(Object error);
+
+  /// No description provided for @orgAdminHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get orgAdminHome;
+
+  /// No description provided for @orgAdminError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String orgAdminError(Object error);
 }
 
 class _AppLocalizationsDelegate

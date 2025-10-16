@@ -662,4 +662,66 @@
   ,"@directMessagesError": {"placeholders": {"error": {}}}
   ,"directMessagesUser": "User"
   ,"directMessagesNoMessages": "No messages"
+  
+  ,"superAdminDashboardTitle": "Super Admin"
+  ,"superAdminDashboardHome": "Home"
+  ,"superAdminDashboardUnauthorized": "Unauthorized (Super Admin only)"
+  ,"superAdminTotalUsers": "Total Users"
+  ,"superAdminTrainers": "Trainers"
+  ,"superAdminTrainees": "Trainees"
+  ,"superAdminSystemSettings": "System Settings"
+  ,"superAdminFlags": "Flags: {count}"
+  ,"@superAdminFlags": {"placeholders": {"count": {}}}
+  ,"superAdminThresholds": "Thresholds: {count}"
+  ,"@superAdminThresholds": {"placeholders": {"count": {}}}
+  ,"superAdminNoSettings": "No settings loaded"
+  ,"superAdminTenantReads": "Tenant Reads"
+  ,"superAdminTenantWrites": "Tenant Writes"
+  ,"superAdminFlagRecommendation": "Recommendation: Enable reads first, then writes after validating cross-tenant leakage is zero."
+  ,"superAdminSettingsError": "Settings error: {error}"
+  ,"@superAdminSettingsError": {"placeholders": {"error": {}}}
+  ,"superAdminUsersFirst50": "Users (first 50)"
+  ,"superAdminUsersLoadError": "Error loading users: {error}"
+  ,"@superAdminUsersLoadError": {"placeholders": {"error": {}}}
+  ,"superAdminAlerts": "Alerts"
+  ,"superAdminIntrusionAlerts": "Intrusion Alerts"
+  ,"superAdminPredictiveAlerts": "Predictive Alerts"
+  ,"superAdminIntegrityFlags": "Integrity Flags"
+  ,"superAdminAlertError": "{title} error: {error}"
+  ,"@superAdminAlertError": {"placeholders": {"title": {}, "error": {}}}
+  ,"superAdminNoAlerts": "No {title}"
+  ,"@superAdminNoAlerts": {"placeholders": {"title": {}}}
+  ,"superAdminMoreAlerts": "+{count} more…"
+  ,"@superAdminMoreAlerts": {"placeholders": {"count": {}}}
+  ,"superAdminTenants": "Tenants"
+  ,"superAdminInstitutions": "Institutions"
+  ,"superAdminNoInstitutions": "No institutions"
+  ,"superAdminInstitutionsError": "Institutions error: {error}"
+  ,"@superAdminInstitutionsError": {"placeholders": {"error": {}}}
+  ,"superAdminCompanies": "Companies"
+  ,"superAdminNoCompanies": "No companies"
+  ,"superAdminCompaniesError": "Companies error: {error}"
+  ,"@superAdminCompaniesError": {"placeholders": {"error": {}}}
+  ,"superAdminCreateInstitution": "Create Institution"
+  ,"superAdminCreateCompany": "Create Company"
+  ,"superAdminInstitutionDialogTitle": "Create Institution"
+  ,"superAdminCompanyDialogTitle": "Create Company"
+  ,"superAdminNameLabel": "Name"
+  ,"superAdminNameRequired": "Required"
+  ,"superAdminPlanTierLabel": "Plan Tier"
+  ,"superAdminPlanTierRequired": "Required"
+  ,"superAdminDialogCancel": "Cancel"
+  ,"superAdminDialogCreate": "Create"
+  ,"superAdminInstitutionCreated": "Institution created"
+  ,"superAdminCompanyCreated": "Company created"
+  ,"superAdminCreateError": "Error: {error}"
+  ,"@superAdminCreateError": {"placeholders": {"error": {}}}
+  
+  ,"companyAdminHome": "Home"
+  ,"companyAdminError": "Error: {error}"
+  ,"@companyAdminError": {"placeholders": {"error": {}}}
+  
+  ,"orgAdminHome": "Home"
+  ,"orgAdminError": "Error: {error}"
+  ,"@orgAdminError": {"placeholders": {"error": {}}}
 }
