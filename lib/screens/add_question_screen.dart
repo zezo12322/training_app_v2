@@ -141,7 +141,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(context.l.addQuestionError.replaceAll('{error}', e.toString()))));
+        ).showSnackBar(SnackBar(content: Text(context.l.addQuestionError(e.toString()))));
       }
     } finally {
       if (mounted) {
@@ -176,7 +176,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l.addQuestionQuestionsAdded.replaceAll('{count}', questions.length.toString()),
+                      context.l.addQuestionQuestionsAdded(questions.length.toString()),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -221,19 +221,19 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                         items: [
                           DropdownMenuItem(
                             value: QuizQuestionType.multipleChoice,
-                            child: Text(context.l.addQuestionMultipleChoice),
+                            child: Text(context.l.addQuestionTypeMultipleChoice),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.shortText,
-                            child: Text(context.l.addQuestionShortAnswer),
+                            child: Text(context.l.addQuestionTypeShortAnswer),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.longText,
-                            child: Text(context.l.addQuestionLongAnswer),
+                            child: Text(context.l.addQuestionTypeLongAnswer),
                           ),
                           DropdownMenuItem(
                             value: QuizQuestionType.matching,
-                            child: Text(context.l.addQuestionMatching),
+                            child: Text(context.l.addQuestionTypeMatching),
                           ),
                         ],
                         onChanged: (val) {
@@ -367,7 +367,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                                 child: TextField(
                                   controller: _leftCtrls[i],
                                   decoration: InputDecoration(
-                                    labelText: context.l.addQuestionLeft.replaceAll('{n}', (i + 1).toString()),
+                                    labelText: context.l.addQuestionLeft((i + 1).toString()),
                                   ),
                                 ),
                               ),
@@ -376,7 +376,7 @@ class _AddQuestionScreenState extends ConsumerState<AddQuestionScreen> {
                                 child: TextField(
                                   controller: _rightCtrls[i],
                                   decoration: InputDecoration(
-                                    labelText: context.l.addQuestionRight.replaceAll('{n}', (i + 1).toString()),
+                                    labelText: context.l.addQuestionRight((i + 1).toString()),
                                   ),
                                 ),
                               ),

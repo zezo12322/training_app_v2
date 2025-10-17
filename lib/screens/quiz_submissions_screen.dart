@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // حزمة لتنسيق التاريخ
 
+import '../core/l10n_ext.dart';
+
 class QuizSubmissionsScreen extends StatelessWidget {
   final String quizId;
   final String quizTitle;
@@ -14,8 +16,9 @@ class QuizSubmissionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: Text('تسليمات: $quizTitle')),
+      appBar: AppBar(title: Text(l.quizSubmissionsTitle(quizTitle))),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 150));
@@ -33,17 +36,17 @@ class QuizSubmissionsScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\n\n${snapshot.error}',
+                  l.quizSubmissionsError(snapshot.error.toString()),
                 ),
               );
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 120),
+                children: [
+                  const SizedBox(height: 120),
                   Center(
-                    child: Text('لم يقم أي متدرب بتسليم هذا الاختبار بعد.'),
+                    child: Text(l.quizSubmissionsEmpty),
                   ),
                 ],
               );
@@ -84,7 +87,11 @@ class QuizSubmissionsScreen extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      'النتيجة: $score من $totalQuestions\nتم التسليم في: $formattedDate',
+                      l.quizSubmissionsResultFormat(
+                        score.toString(),
+                        totalQuestions.toString(),
+                        formattedDate,
+                      ),
                     ),
                     isThreeLine: true,
                   ),

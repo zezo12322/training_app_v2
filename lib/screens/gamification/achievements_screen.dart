@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n_ext.dart';
 import '../../models/gamification/achievement.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/gamification/achievement_providers.dart';
@@ -37,8 +38,8 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
 
     if (userId == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('الإنجازات')),
-        body: const Center(child: Text('يجب تسجيل الدخول')),
+        appBar: AppBar(title: Text(context.l.achievementsTitle)),
+        body: Center(child: Text(context.l.achievementsMustLogin)),
       );
     }
 
@@ -51,7 +52,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('الإنجازات'),
+        title: Text(context.l.achievementsTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -102,7 +103,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildErrorState(error),
+        error: (error, stack) => _buildErrorState(context, error),
       ),
     );
   }
@@ -123,17 +124,17 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
                 _buildStatItem(
                   '🏆',
                   '$unlockedCount',
-                  'مفتوحة',
+                  context.l.achievementsStatUnlocked,
                 ),
                 _buildStatItem(
                   '📊',
                   '$percentage%',
-                  'النسبة',
+                  context.l.achievementsStatPercentage,
                 ),
                 _buildStatItem(
                   '🎯',
                   '${totalCount - unlockedCount}',
-                  'متبقية',
+                  context.l.achievementsStatRemaining,
                 ),
               ],
             ),
@@ -220,6 +221,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
     final achievement = details.achievement;
     final isUnlocked = details.isUnlocked;
     final isSecret = achievement.isSecret && !isUnlocked;
+    final l = context.l;
 
     return GestureDetector(
       onTap: () => _showAchievementDetails(details),
@@ -267,7 +269,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
               // Description or Lock Status
               if (isSecret)
                 Text(
-                  'إنجاز سري 🔒',
+                  l.achievementsSecretLocked,
                   style: TextStyle(
                     fontSize: 11,
                     color: Colors.grey.shade500,
@@ -280,7 +282,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
                     const Icon(Icons.check_circle, size: 14, color: Colors.green),
                     const SizedBox(width: 4),
                     Text(
-                      'مفتوح ✓',
+                      l.achievementsUnlocked,
                       style: TextStyle(
                         fontSize: 11,
                         color: Colors.green.shade700,
@@ -291,7 +293,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
                 )
               else
                 Text(
-                  'مقفل 🔒',
+                  l.achievementsLocked,
                   style: TextStyle(
                     fontSize: 11,
                     color: Colors.grey.shade500,
@@ -360,9 +362,9 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
           shrinkWrap: true,
           padding: const EdgeInsets.all(16),
           children: [
-            const Text(
-              'تصفية حسب الفئة',
-              style: TextStyle(
+            Text(
+              context.l.achievementsFilterByCategory,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -370,7 +372,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
             const SizedBox(height: 16),
             ListTile(
               leading: const Text('🌟', style: TextStyle(fontSize: 24)),
-              title: const Text('الكل'),
+              title: Text(context.l.achievementsAll),
               onTap: () {
                 setState(() {
                   _selectedCategory = null;
@@ -400,10 +402,11 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
     final achievement = details.achievement;
     final isUnlocked = details.isUnlocked;
     final isSecret = achievement.isSecret && !isUnlocked;
+    final l = context.l;
 
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (dialogContext) {
         return AlertDialog(
           title: Row(
             children: [
@@ -414,7 +417,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  isSecret ? 'إنجاز سري' : achievement.title,
+                  isSecret ? l.achievementsSecretAchievement : achievement.title,
                   style: const TextStyle(fontSize: 18),
                 ),
               ),
@@ -435,7 +438,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
                     const Icon(Icons.star, color: Colors.amber),
                     const SizedBox(width: 8),
                     Text(
-                      '${achievement.pointsReward} نقطة',
+                      l.achievementsPoints(achievement.pointsReward.toString()),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -443,41 +446,43 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Icon(
-                      isUnlocked ? Icons.check_circle : Icons.lock,
-                      color: isUnlocked ? Colors.green : Colors.grey,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      isUnlocked ? 'مفتوح ✓' : 'مقفل 🔒',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: isUnlocked ? Colors.green : Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                if (isUnlocked && details.userAchievement != null) ...[
-                  const SizedBox(height: 12),
+              ],
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(
+                    isUnlocked ? Icons.check_circle : Icons.lock,
+                    color: isUnlocked ? Colors.green : Colors.grey,
+                  ),
+                  const SizedBox(width: 8),
                   Text(
-                    'تم الفتح: ${_formatDate(details.userAchievement!.unlockedAt)}',
+                    isUnlocked ? l.achievementsUnlocked : l.achievementsLocked,
                     style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
+                      fontSize: 14,
+                      color: isUnlocked ? Colors.green : Colors.grey,
                     ),
                   ),
                 ],
-              ] else ...[
-                const Text(
-                  'هذا إنجاز سري! 🤫',
-                  style: TextStyle(fontSize: 14),
+              ),
+              if (isUnlocked && details.userAchievement != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  l.achievementsUnlockedOn(_formatDate(details.userAchievement!.unlockedAt)),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
+              if (!isUnlocked || isSecret) ...[
+                const SizedBox(height: 12),
+                Text(
+                  l.achievementsThisIsSecret,
+                  style: const TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'ستكتشفه عندما تفتحه',
+                  l.achievementsWillDiscoverWhenUnlock,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey.shade600,
@@ -486,10 +491,12 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
               ],
             ],
           ),
+          
+      
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('إغلاق'),
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l.achievementsClose),
             ),
           ],
         );
@@ -502,29 +509,35 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
   }
 
   Widget _buildEmptyState() {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('🏆', style: TextStyle(fontSize: 64)),
-          SizedBox(height: 16),
-          Text(
-            'لا توجد إنجازات بعد',
-            style: TextStyle(fontSize: 18),
+    return Builder(
+      builder: (ctx) {
+        final l = ctx.l;
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('🏆', style: TextStyle(fontSize: 64)),
+              const SizedBox(height: 16),
+              Text(
+                l.achievementsNoAchievementsYet,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildErrorState(Object error) {
+  Widget _buildErrorState(BuildContext context, Object error) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           const SizedBox(height: 16),
-          const Text('حدث خطأ في تحميل الإنجازات'),
+          Text(l.achievementsLoadError),
           const SizedBox(height: 8),
           Text(
             error.toString(),
@@ -537,7 +550,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> {
               ref.invalidate(achievementsWithDetailsProvider);
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            label: Text(l.achievementsRetry),
           ),
         ],
       ),

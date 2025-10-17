@@ -16,6 +16,7 @@ import '../providers/points_events_providers.dart';
 import '../providers/course_providers.dart';
 import '../models/user_model.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 import '../config/app_config.dart';
 import '../services/cloudinary_service.dart';
 import '../core/ui/snackbar_helper.dart';
@@ -112,7 +113,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       if (mounted) setState(() => _user = _user!.copyWith(imageUrl: url));
     } catch (e, st) {
       logger.e('Avatar upload failed', error: e, stackTrace: st);
-      if (mounted) AppSnackBar.show(context, 'فشل رفع الصورة: $e');
+      if (mounted) AppSnackBar.show(context, context.l.personalProfileUploadFailed(e.toString()));
     } finally {
       if (mounted) setState(() => _uploadingAvatar = false);
     }
@@ -132,10 +133,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
         ref.invalidate(currentUserModelProvider);
         _user = _user!.copyWith(name: newName);
       }
-      if (mounted) AppSnackBar.show(context, 'تم الحفظ', isError: false);
+      if (mounted) AppSnackBar.show(context, context.l.personalProfileSaved, isError: false);
     } catch (e, st) {
       logger.e('Save profile failed', error: e, stackTrace: st);
-      if (mounted) AppSnackBar.show(context, 'فشل الحفظ: $e');
+      if (mounted) AppSnackBar.show(context, context.l.personalProfileSaveFailed(e.toString()));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -150,10 +151,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     return Scaffold(
       body: authAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('خطأ بالمصادقة: $e')),
+        error: (e, _) => Center(child: Text(context.l.personalProfileAuthError(e.toString()))),
         data: (fbUser) {
           if (fbUser == null) {
-            return const Center(child: Text('يجب تسجيل الدخول'));
+            return Center(child: Text(context.l.personalProfileLoginRequired));
           }
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(currentUserModelProvider),
@@ -164,7 +165,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                   pinned: true,
                   expandedHeight: 80,
                   stretch: true,
-                  title: const Text('الملف الشخصي'),
+                  title: Text(context.l.personalProfileTitle),
                   flexibleSpace: FlexibleSpaceBar(
                     background: _buildHeader(context),
                     stretchModes: const [
@@ -178,7 +179,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
                     child: userAsync.when(
                       loading: () => const _ProfileLoadingSkeleton(),
-                      error: (e, _) => Text('خطأ: $e'),
+                      error: (e, _) => Text(context.l.personalProfileDataLoadError(e.toString())),
                       data: (model) {
                         final user = model ?? _user;
                         if (user == null) {
@@ -202,7 +203,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                   runSpacing: 8,
                                   children: [
                                     Chip(
-                                      label: Text(isTrainee ? 'متدرب' : 'مدرب'),
+                                      label: Text(isTrainee ? context.l.personalProfileRoleTrainee : context.l.personalProfileRoleTrainer),
                                       avatar: Icon(
                                         isTrainee ? Icons.person : Icons.school,
                                         size: 18,
@@ -229,7 +230,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                               Icons.stars,
                                               size: 18,
                                             ),
-                                            label: Text('نقاط: ${up.points}'),
+                                            label: Text(context.l.personalProfilePointsLabelShort(up.points.toString())),
                                           );
                                         },
                                       ),
@@ -238,20 +239,20 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                               ),
                               const SizedBox(height: 28),
                               Text(
-                                'البيانات',
+                                context.l.personalProfileSectionData,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               const SizedBox(height: 12),
                               TextFormField(
                                 controller: _nameController,
-                                decoration: const InputDecoration(
-                                  labelText: 'الاسم',
-                                  prefixIcon: Icon(Icons.badge),
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  labelText: context.l.personalProfileNameLabel,
+                                  prefixIcon: const Icon(Icons.badge),
+                                  border: const OutlineInputBorder(),
                                 ),
                                 validator: (v) =>
                                     (v == null || v.trim().isEmpty)
-                                    ? 'الاسم مطلوب'
+                                    ? context.l.personalProfileNameRequired
                                     : null,
                                 textInputAction: TextInputAction.next,
                               ),
@@ -259,15 +260,15 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                               TextFormField(
                                 enabled: false,
                                 initialValue: user.email,
-                                decoration: const InputDecoration(
-                                  labelText: 'البريد الإلكتروني',
-                                  prefixIcon: Icon(Icons.email_outlined),
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  labelText: context.l.personalProfileEmailLabel,
+                                  prefixIcon: const Icon(Icons.email_outlined),
+                                  border: const OutlineInputBorder(),
                                 ),
                               ),
                               const SizedBox(height: 24),
                               Text(
-                                'الإحصائيات',
+                                context.l.personalProfileStatsTitle,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               const SizedBox(height: 12),
@@ -275,7 +276,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                               const SizedBox(height: 32),
                               if (isTrainee) ...[
                                 Text(
-                                  'الإنجازات',
+                                  context.l.personalProfileAchievementsTitle,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleMedium,
@@ -284,7 +285,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                 _AchievementsPreview(userId: fbUser.uid),
                                 const SizedBox(height: 32),
                                 Text(
-                                  'النشاط الأخير',
+                                  context.l.personalProfileRecentActivityTitle,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleMedium,
@@ -294,7 +295,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                 const SizedBox(height: 32),
                               ] else ...[
                                 Text(
-                                  'إحصائيات التدريب',
+                                  context.l.personalProfileTrainerStatsTitle,
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleMedium,
@@ -317,7 +318,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                         )
                                       : const Icon(Icons.save),
                                   onPressed: _saving ? null : _save,
-                                  label: const Text('حفظ التعديلات'),
+                                  label: Text(context.l.personalProfileSaveButton),
                                 ),
                               ),
                             ],
@@ -435,32 +436,32 @@ class _StatRow extends ConsumerWidget {
     final stats = <_ProfileStat>[
       _ProfileStat(
         icon: Icons.assignment_turned_in,
-        label: 'الأنشطة',
+        label: context.l.personalProfileActivitiesLabel,
         value: activities.toString(),
       ),
       if (user.role == 'trainee')
         _ProfileStat(
           icon: Icons.graphic_eq,
-          label: 'تقييمات',
+          label: context.l.personalProfileEvaluationsLabel,
           value: evals.toString(),
         )
       else
         _ProfileStat(
           icon: Icons.people_alt,
-          label: 'تقييمات قمت بها',
+          label: context.l.personalProfileEvaluationsGivenLabel,
           value: evals.toString(),
         ),
-      _ProfileStat(
-        icon: Icons.calendar_today,
-        label: 'منذ',
-        value: user.createdAt != null
-            ? '${user.createdAt!.year}/${user.createdAt!.month}'
-            : '—',
-      ),
+  _ProfileStat(
+    icon: Icons.calendar_today,
+    label: context.l.personalProfileSinceLabel,
+    value: user.createdAt != null
+    ? '${user.createdAt!.year}/${user.createdAt!.month}'
+    : '—',
+  ),
       if (up != null && user.role == 'trainee')
         _ProfileStat(
           icon: Icons.stars,
-          label: 'نقاط',
+          label: context.l.personalProfilePointsLabel,
           value: up.points.toString(),
         ),
     ];
@@ -523,7 +524,7 @@ class _AchievementsPreview extends ConsumerWidget {
     final cs = Theme.of(context).colorScheme;
     if (badges.isEmpty) {
       return Text(
-        'لا توجد شارات بعد',
+        context.l.personalProfileNoBadges,
         style: Theme.of(context).textTheme.bodySmall,
       );
     }
@@ -579,11 +580,11 @@ class _RecentActivity extends ConsumerWidget {
           child: CircularProgressIndicator(strokeWidth: 2),
         ),
       ),
-      error: (e, _) => Text('خطأ تحميل النشاط: $e'),
+      error: (e, _) => Text(context.l.personalProfileActivityLoadError(e.toString())),
       data: (events) {
         if (events.isEmpty) {
           return Text(
-            'لا يوجد نشاط حديث بعد',
+            context.l.personalProfileNoRecentActivity,
             style: Theme.of(context).textTheme.bodySmall,
           );
         }
@@ -611,12 +612,26 @@ class _RecentActivity extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _labelForEvent(e.type),
+                          (() {
+                            final key = _labelForEvent(e.type);
+                            switch (key) {
+                              case 'quiz_pass':
+                                return context.l.personalProfileEventTestPassed;
+                              case 'task_completed':
+                                return context.l.personalProfileEventTaskCompleted;
+                              case 'lesson_completed':
+                                return context.l.personalProfileEventLessonCompleted;
+                              case 'daily_streak':
+                                return context.l.personalProfileEventDailyStreak;
+                              default:
+                                return context.l.personalProfileEventDefault;
+                            }
+                          })(),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${e.points} نقطة',
+                          context.l.personalProfilePointsCountFormat(e.points.toString()),
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(color: cs.outline),
@@ -649,17 +664,20 @@ class _RecentActivity extends ConsumerWidget {
   }
 
   String _labelForEvent(String type) {
+    // Use localization via context; this helper is used from widget build where context is available,
+    // so we'll return keys and let callers map to localized strings. However, to keep changes minimal
+    // we will map to English fallback here and replace its callers to use localized getters.
     switch (type) {
       case 'quiz_pass':
-        return 'اجتياز اختبار';
+        return 'quiz_pass';
       case 'task_completed':
-        return 'إكمال مهمة';
+        return 'task_completed';
       case 'lesson_completed':
-        return 'إنهاء درس';
+        return 'lesson_completed';
       case 'daily_streak':
-        return 'سلسلة يومية';
+        return 'daily_streak';
       default:
-        return 'حدث نقاط';
+        return 'points_event';
     }
   }
 }
@@ -681,7 +699,7 @@ class _TrainerStats extends ConsumerWidget {
         Expanded(
           child: _TrainerStatCard(
             icon: Icons.school,
-            label: 'الدورات',
+            label: context.l.trainerStatsCoursesLabel,
             value: courses.toString(),
             color: cs.primaryContainer,
             onColor: cs.onPrimaryContainer,
@@ -691,7 +709,7 @@ class _TrainerStats extends ConsumerWidget {
         Expanded(
           child: _TrainerStatCard(
             icon: Icons.graphic_eq,
-            label: 'التقييمات',
+            label: context.l.trainerStatsEvaluationsLabel,
             value: evals.toString(),
             color: cs.secondaryContainer,
             onColor: cs.onSecondaryContainer,

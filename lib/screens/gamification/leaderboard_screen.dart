@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n_ext.dart';
 import '../../models/gamification/leaderboard_entry.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/gamification/leaderboard_providers.dart';
@@ -57,13 +58,13 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('المتصدرين'),
+        title: Text(context.l.leaderboardTitle),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'أسبوعي'),
-            Tab(text: 'شهري'),
-            Tab(text: 'كل الأوقات'),
+          tabs: [
+            Tab(text: context.l.leaderboardWeekly),
+            Tab(text: context.l.leaderboardMonthly),
+            Tab(text: context.l.leaderboardAllTime),
           ],
         ),
       ),
@@ -102,7 +103,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     return leaderboardAsync.when(
       data: (entries) {
         if (entries.isEmpty) {
-          return _buildEmptyState();
+          return _buildEmptyState(context);
         }
 
         final topThree = entries.take(3).toList();
@@ -122,13 +123,14 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
               ...rest.map((entry) => _buildLeaderboardTile(
                     entry,
                     userId == entry.userId,
+                    context,
                   )),
             ],
           ),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => _buildErrorState(error),
+      error: (error, stack) => _buildErrorState(error, context),
     );
   }
 
@@ -148,6 +150,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 2,
                 Colors.grey.shade400,
                 150,
+                context,
               ),
             ),
 
@@ -160,6 +163,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 1,
                 Colors.amber,
                 180,
+                context,
               ),
             ),
 
@@ -173,6 +177,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 3,
                 Colors.brown.shade300,
                 120,
+                context,
               ),
             ),
         ],
@@ -185,7 +190,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     int rank,
     Color color,
     double height,
+    BuildContext context,
   ) {
+    final l = context.l;
     final medals = ['🥇', '🥈', '🥉'];
 
     return Column(
@@ -229,7 +236,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
 
         // Points
         Text(
-          '${entry.totalPoints} نقطة',
+          l.leaderboardPointsWithLabel(entry.totalPoints.toString()),
           style: TextStyle(
             fontSize: rank == 1 ? 14 : 12,
             color: Colors.grey.shade600,
@@ -272,7 +279,8 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     );
   }
 
-  Widget _buildLeaderboardTile(LeaderboardEntry entry, bool isCurrentUser) {
+  Widget _buildLeaderboardTile(LeaderboardEntry entry, bool isCurrentUser, BuildContext context) {
+    final l = context.l;
     return Card(
       color: isCurrentUser ? Colors.blue.shade50 : null,
       margin: const EdgeInsets.only(bottom: 8),
@@ -307,9 +315,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  'أنت',
-                  style: TextStyle(
+                child: Text(
+                  l.leaderboardYou,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -319,8 +327,8 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           ],
         ),
         subtitle: Text(
-          'المستوى ${entry.currentLevel} • ${entry.levelName}',
-          style: TextStyle(fontSize: 12),
+          l.leaderboardLevelFormat(entry.currentLevel.toString(), entry.levelName),
+          style: const TextStyle(fontSize: 12),
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -333,9 +341,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Text(
-              'نقطة',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+            Text(
+              l.leaderboardPointsShort,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -350,7 +358,8 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     return Colors.grey;
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -362,7 +371,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           ),
           const SizedBox(height: 16),
           Text(
-            'لا يوجد متصدرون بعد',
+            l.leaderboardEmptyTitle,
             style: TextStyle(
               fontSize: 18,
               color: Colors.grey.shade600,
@@ -370,7 +379,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            'كن أول من يحصل على نقاط!',
+            l.leaderboardEmptySubtitle,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey.shade500,
@@ -381,7 +390,8 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
     );
   }
 
-  Widget _buildErrorState(Object error) {
+  Widget _buildErrorState(Object error, BuildContext context) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -392,9 +402,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
             color: Colors.red,
           ),
           const SizedBox(height: 16),
-          const Text(
-            'حدث خطأ في تحميل المتصدرين',
-            style: TextStyle(fontSize: 18),
+          Text(
+            l.leaderboardErrorLoad,
+            style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 8),
           Text(
@@ -408,7 +418,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen>
               ref.invalidate(leaderboardProvider);
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            label: Text(context.l.leaderboardRetry),
           ),
         ],
       ),

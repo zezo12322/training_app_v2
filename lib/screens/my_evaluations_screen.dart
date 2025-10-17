@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:http/http.dart' as http;
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 import '../providers/auth_provider.dart';
 import '../providers/evaluation_providers.dart';
 import '../models/evaluation.dart';
@@ -46,6 +47,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
   }
 
   Future<void> _toggleAudio(String url) async {
+    final l = context.l;
     if (_isPlaying && _currentlyPlayingUrl == url) {
       await _audioPlayer.pause();
       setState(() {
@@ -64,7 +66,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
           if (mounted) {
             AppSnackBar.show(
               context,
-              'تعذر تشغيل التقييم الصوتي (رابط غير متاح حالياً)',
+              l.myEvaluationsAudioUnavailable,
             );
           }
           return;
@@ -72,7 +74,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
       } catch (e, st) {
         logger.e('Audio preflight failed $url', error: e, stackTrace: st);
         if (mounted) {
-          AppSnackBar.show(context, 'تعذر الوصول لملف الصوت. تحقق من الاتصال.');
+          AppSnackBar.show(context, l.myEvaluationsAudioAccessError);
         }
         return;
       }
@@ -88,7 +90,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
       } catch (e, st) {
         logger.e('Failed to start playback', error: e, stackTrace: st);
         if (mounted) {
-          AppSnackBar.show(context, 'فشل تشغيل الصوت: $e');
+          AppSnackBar.show(context, l.myEvaluationsAudioPlayError(e.toString()));
         }
       }
     }
@@ -96,10 +98,11 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final authAsync = ref.watch(authStateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('التقييمات الخاصة بي'),
+        title: Text(l.myEvaluationsTitle),
         actions: [
           // Theme toggle button
           Consumer(
@@ -111,7 +114,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
                       MediaQuery.of(context).platformBrightness ==
                           Brightness.dark);
               return IconButton(
-                tooltip: 'تبديل المظهر',
+                tooltip: l.myEvaluationsToggleView,
                 icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
                 onPressed: () {
                   ref.read(themeModeProvider.notifier).state = isDark
@@ -126,7 +129,7 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
       body: authAsync.when(
         data: (user) {
           if (user == null) {
-            return const Center(child: Text('يجب تسجيل الدخول أولاً'));
+            return Center(child: Text(l.myEvaluationsMustLogin));
           }
           final evalsStream = ref.watch(
             userEvaluationsProvider((
@@ -137,8 +140,8 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
           return evalsStream.when(
             data: (list) {
               if (list.isEmpty) {
-                return const Center(
-                  child: Text('لم يتم إضافة أي تقييمات لك بعد.'),
+                return Center(
+                  child: Text(l.myEvaluationsNoEvaluations),
                 );
               }
               // Autoplay logic (first evaluation with audio) if enabled
@@ -188,11 +191,11 @@ class _MyEvaluationsScreenState extends ConsumerState<MyEvaluationsScreen> {
                 child: Skeleton(height: 110),
               ),
             ),
-            error: (e, st) => Center(child: Text('خطأ: $e')),
+            error: (e, st) => Center(child: Text(l.myEvaluationsError(e.toString()))),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('خطأ بالمصادقة: $e')),
+        error: (e, st) => Center(child: Text(l.myEvaluationsAuthError(e.toString()))),
       ),
     );
   }

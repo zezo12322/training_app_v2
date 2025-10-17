@@ -253,7 +253,7 @@ class _CreatePollDialogState extends ConsumerState<CreatePollDialog> {
                               child: TextFormField(
                                 controller: controller,
                                 decoration: InputDecoration(
-                                  labelText: l.createPollOptionLabel.replaceAll('{number}', '${index + 1}'),
+                                  labelText: l.createPollOptionLabel((index + 1).toString()),
                                   border: const OutlineInputBorder(),
                                   prefixIcon: const Icon(Icons.check_box_outline_blank),
                                 ),

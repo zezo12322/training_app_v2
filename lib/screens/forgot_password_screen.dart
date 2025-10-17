@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
+import 'package:training_app/core/design/tokens.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -43,7 +44,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       });
       
       _showSnackBar(
-        'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك',
+        context.l.forgotPasswordSuccess,
         isError: false,
       );
       
@@ -103,148 +104,205 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final l = context.l;
     
     return Scaffold(
+      backgroundColor: DesignTokens.background(context),
       appBar: AppBar(
-        title: Text(l.forgotPasswordTitle),
+        backgroundColor: DesignTokens.surface(context),
+        elevation: 0,
+        title: Text(
+          l.forgotPasswordTitle,
+          style: DesignTokens.h6(context),
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // Icon
-                Icon(
-                  Icons.lock_reset,
-                  size: 80,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(height: 24),
-                
-                // Title
-                Text(
-                  l.forgotPasswordTitle,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+          padding: EdgeInsets.all(DesignTokens.spacingLg),
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 450),
+            padding: EdgeInsets.all(DesignTokens.spacingXl),
+            decoration: BoxDecoration(
+              color: DesignTokens.surface(context),
+              borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+              boxShadow: DesignTokens.shadowMd(context),
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  // Icon
+                  Icon(
+                    Icons.lock_reset,
+                    size: 80,
+                    color: theme.colorScheme.primary,
                   ),
-                ),
-                const SizedBox(height: 12),
-                
-                // Description
-                Text(
-                  l.forgotPasswordDescription,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey[600],
+                  SizedBox(height: DesignTokens.spacingLg),
+                  
+                  // Title
+                  Text(
+                    l.forgotPasswordTitle,
+                    textAlign: TextAlign.center,
+                    style: DesignTokens.h4(context),
                   ),
-                ),
-                const SizedBox(height: 32),
-                
-                // Email Field
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  enabled: !_emailSent,
-                  decoration: InputDecoration(
-                    labelText: l.emailLabel,
-                    hintText: 'example@email.com',
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.email),
+                  SizedBox(height: DesignTokens.spacingMd),
+                  
+                  // Description
+                  Text(
+                    l.forgotPasswordDescription,
+                    textAlign: TextAlign.center,
+                    style: DesignTokens.body1(context).copyWith(
+                      color: DesignTokens.textSecondary(context),
+                    ),
                   ),
-                  validator: (v) {
-                    if (v == null || v.trim().isEmpty) {
-                      return l.fieldRequired;
-                    }
-                    if (!v.contains('@')) {
-                      return l.invalidEmail;
-                    }
-                    return null;
-                  },
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _sendResetEmail(),
-                ),
-                const SizedBox(height: 24),
+                  SizedBox(height: DesignTokens.spacingXl),
                 
-                // Send Button
-                FilledButton.icon(
-                  onPressed: (_isLoading || _emailSent) ? null : _sendResetEmail,
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  // Email Field
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    enabled: !_emailSent,
+                    style: DesignTokens.body1(context),
+                    decoration: InputDecoration(
+                      labelText: l.emailLabel,
+                      labelStyle: DesignTokens.body1(context),
+                      hintText: 'example@email.com',
+                      hintStyle: DesignTokens.body1(context).copyWith(
+                        color: DesignTokens.textSecondary(context),
+                      ),
+                      filled: true,
+                      fillColor: DesignTokens.fillColor(context),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                        borderSide: BorderSide(
+                          color: DesignTokens.borderColor(context),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                        borderSide: BorderSide(
+                          color: DesignTokens.borderColor(context),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                        borderSide: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 2,
+                        ),
+                      ),
+                      prefixIcon: const Icon(Icons.email),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: DesignTokens.spacingLg,
+                        vertical: DesignTokens.spacingLg,
+                      ),
+                    ),
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return l.fieldRequired;
+                      }
+                      if (!v.contains('@')) {
+                        return l.invalidEmail;
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _sendResetEmail(),
                   ),
-                  icon: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: _isLoading
-                        ? const SizedBox(
-                            key: ValueKey('prog'),
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
+                  SizedBox(height: DesignTokens.spacingLg),
+                
+                  // Send Button
+                  FilledButton.icon(
+                    onPressed: (_isLoading || _emailSent) ? null : _sendResetEmail,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: DesignTokens.textOnColor(context),
+                      padding: EdgeInsets.symmetric(
+                        vertical: DesignTokens.spacingLg,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                      ),
+                    ),
+                    icon: AnimatedSwitcher(
+                      duration: DesignTokens.durationMedium,
+                      child: _isLoading
+                          ? SizedBox(
+                              key: const ValueKey('prog'),
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: DesignTokens.textOnColor(context),
+                              ),
+                            )
+                          : Icon(
+                              key: const ValueKey('icon'),
+                              _emailSent ? Icons.check_circle : Icons.send,
                             ),
-                          )
-                        : Icon(
-                            key: const ValueKey('icon'),
-                            _emailSent ? Icons.check_circle : Icons.send,
-                          ),
+                    ),
+                    label: Text(
+                      _emailSent 
+                          ? l.emailSent
+                          : l.sendResetEmail,
+                      style: DesignTokens.button(context),
+                    ),
                   ),
-                  label: Text(
-                    _emailSent 
-                        ? l.emailSent
-                        : l.sendResetEmail,
-                  ),
-                ),
-                const SizedBox(height: 16),
+                  SizedBox(height: DesignTokens.spacingMd),
                 
-                // Back to Login Button
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.arrow_back, size: 18),
-                      const SizedBox(width: 6),
-                      Text(l.backToLogin),
-                    ],
-                  ),
-                ),
-                
-                // Info Box
-                if (!_emailSent) ...[
-                  const SizedBox(height: 24),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blue.shade200),
+                  // Back to Login Button
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: TextButton.styleFrom(
+                      foregroundColor: DesignTokens.textSecondary(context),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: Colors.blue.shade700,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            l.forgotPasswordNote,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.blue.shade900,
-                            ),
-                          ),
+                        const Icon(Icons.arrow_back, size: 18),
+                        SizedBox(width: DesignTokens.spacingXs),
+                        Text(
+                          l.backToLogin,
+                          style: DesignTokens.body1(context),
                         ),
                       ],
                     ),
                   ),
+                  
+                  // Info Box
+                  if (!_emailSent) ...[
+                    SizedBox(height: DesignTokens.spacingLg),
+                    Container(
+                      padding: EdgeInsets.all(DesignTokens.spacingMd),
+                      decoration: BoxDecoration(
+                        color: DesignTokens.info.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                        border: Border.all(
+                          color: DesignTokens.info.withOpacity(0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            color: DesignTokens.info,
+                            size: 24,
+                          ),
+                          SizedBox(width: DesignTokens.spacingMd),
+                          Expanded(
+                            child: Text(
+                              l.forgotPasswordNote,
+                              style: DesignTokens.caption(context).copyWith(
+                                color: DesignTokens.textPrimary(context),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

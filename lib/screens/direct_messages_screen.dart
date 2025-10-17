@@ -158,7 +158,7 @@ class _DirectMessagesScreenState extends ConsumerState<DirectMessagesScreen> {
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text(l.directMessagesError.replaceAll('{error}', error.toString())),
+              Text(l.directMessagesError(error.toString())),
             ],
           ),
         ),

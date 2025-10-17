@@ -28,8 +28,28 @@ class TraineeHomeScreen extends ConsumerStatefulWidget {
   ConsumerState<TraineeHomeScreen> createState() => _TraineeHomeScreenState();
 }
 
-class _TraineeHomeScreenState extends ConsumerState<TraineeHomeScreen> {
+class _TraineeHomeScreenState extends ConsumerState<TraineeHomeScreen> 
+    with WidgetsBindingObserver {
   bool _requested = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshData();
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -43,6 +63,18 @@ class _TraineeHomeScreenState extends ConsumerState<TraineeHomeScreen> {
     }
   }
 
+  void _refreshData() {
+    ref.invalidate(currentUserModelProvider);
+    ref.invalidate(traineeCoursesProvider);
+    requestCurrentUserLoad(ref);
+    requestTraineeCoursesLoad(ref);
+  }
+
+  Future<void> _onRefresh() async {
+    _refreshData();
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
   @override
   Widget build(BuildContext context) {
     final authUser = ref.watch(authStateProvider).value;
@@ -53,65 +85,68 @@ class _TraineeHomeScreenState extends ConsumerState<TraineeHomeScreen> {
       return Scaffold(body: Center(child: Text(context.l.userMissing)));
     }
 
-    final content = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const PersonalProfileScreen(),
-                    ),
-                  );
-                },
-                child: Hero(
-                  tag: 'userAvatarHero',
-                  child: CircleAvatar(
-                    radius: 26,
-                    backgroundImage: (userModel?.imageUrl != null)
-                        ? NetworkImage(userModel!.imageUrl!)
-                        : null,
-                    child: userModel?.imageUrl == null
-                        ? const Icon(Icons.person)
-                        : null,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Builder(
-                  builder: (ctx) {
-                    final l = ctx.l;
-                    final text = userModel?.name != null
-                        ? l.greetingTrainee(userModel!.name)
-                        : l.greetingTraineeFallback;
-                    return Text(
-                      text,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+    final content = RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const PersonalProfileScreen(),
                       ),
                     );
                   },
+                  child: Hero(
+                    tag: 'userAvatarHero',
+                    child: CircleAvatar(
+                      radius: 26,
+                      backgroundImage: (userModel?.imageUrl != null)
+                          ? NetworkImage(userModel!.imageUrl!)
+                          : null,
+                      child: userModel?.imageUrl == null
+                          ? const Icon(Icons.person)
+                          : null,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Builder(
+                    builder: (ctx) {
+                      final l = ctx.l;
+                      final text = userModel?.name != null
+                          ? l.greetingTrainee(userModel!.name)
+                          : l.greetingTraineeFallback;
+                      return Text(
+                        text,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            context.l.traineeCoursesSubtitle,
-            style: const TextStyle(fontSize: 18, color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              context.l.traineeCoursesSubtitle,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+            ),
           ),
-        ),
-        const Divider(indent: 16, endIndent: 16, height: 16),
-        Expanded(child: _CoursesTraineeList(coursesAsync: coursesAsync)),
-      ],
+          const Divider(indent: 16, endIndent: 16, height: 16),
+          Expanded(child: _CoursesTraineeList(coursesAsync: coursesAsync)),
+        ],
+      ),
     );
     if (widget.embed) return SafeArea(child: content);
     return Scaffold(

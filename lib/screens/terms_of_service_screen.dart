@@ -38,7 +38,7 @@ class _TermsOfServiceScreenState extends State<TermsOfServiceScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _termsOfService = 'فشل تحميل شروط الاستخدام: $e';
+          _termsOfService = context.l.termsOfServiceLoadFailed(e.toString());
           _isLoading = false;
         });
       }

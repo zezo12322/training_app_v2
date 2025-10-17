@@ -37,7 +37,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
         if (!mounted) return;
         AppSnackBar.show(
           context,
-          'تم التحقق من بريدك بنجاح! 🎉',
+          context.l.emailVerificationSuccess,
           isError: false,
         );
         
@@ -47,12 +47,12 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
         if (!mounted) return;
         AppSnackBar.show(
           context,
-          'البريد لم يتم التحقق منه بعد. الرجاء فتح البريد والضغط على رابط التحقق.',
+          context.l.emailVerificationPending,
         );
       }
     } catch (e) {
       if (!mounted) return;
-      AppSnackBar.show(context, 'حدث خطأ: $e');
+      AppSnackBar.show(context, context.l.emailVerificationError(e.toString()));
     } finally {
       if (mounted) setState(() => _isChecking = false);
     }
@@ -68,13 +68,13 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
         if (!mounted) return;
         AppSnackBar.show(
           context,
-          'تم إرسال رابط التحقق إلى ${user.email}',
+          context.l.emailVerificationLinkSent(user.email ?? ''),
           isError: false,
         );
       }
     } catch (e) {
       if (!mounted) return;
-      AppSnackBar.show(context, 'خطأ في إرسال البريد: $e');
+      AppSnackBar.show(context, context.l.emailVerificationSendError(e.toString()));
     } finally {
       if (mounted) setState(() => _isResending = false);
     }
@@ -91,7 +91,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            tooltip: 'تسجيل خروج',
+            tooltip: l.emailVerificationLogout,
             onPressed: () async {
               await ref.read(authRepositoryProvider).signOut();
             },
@@ -111,7 +111,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
               ),
               const SizedBox(height: 24),
               Text(
-                'تحقق من بريدك الإلكتروني',
+                l.emailVerificationTitle,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -119,7 +119,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
               ),
               const SizedBox(height: 16),
               Text(
-                'أرسلنا رابط التحقق إلى:',
+                l.emailVerificationSentTo,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
@@ -140,16 +140,16 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'الرجاء فتح بريدك الإلكتروني والضغط على رابط التحقق',
+              Text(
+                l.emailVerificationInstructions,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 8),
-              const Text(
-                '(تحقق من مجلد Spam إذا لم تجد الرسالة)',
+              Text(
+                l.emailVerificationSpamNote,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
               const SizedBox(height: 32),
               FilledButton.icon(
@@ -167,7 +167,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                         ),
                       )
                     : const Icon(Icons.check_circle_outline),
-                label: Text(_isChecking ? 'جاري التحقق...' : 'لقد تحققت من البريد'),
+                label: Text(_isChecking ? l.emailVerificationChecking : l.emailVerificationChecked),
               ),
               const SizedBox(height: 16),
               TextButton.icon(
@@ -179,7 +179,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.email_outlined, size: 20),
-                label: Text(_isResending ? 'جاري الإرسال...' : 'إعادة إرسال البريد'),
+                label: Text(_isResending ? l.emailVerificationResending : l.emailVerificationResend),
               ),
               const SizedBox(height: 32),
               Container(
@@ -195,7 +195,7 @@ class _EmailVerificationScreenState extends ConsumerState<EmailVerificationScree
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'لماذا نحتاج التحقق؟\nللتأكد من أن البريد الإلكتروني صحيح وتتمكن من استعادة حسابك لاحقاً.',
+                        l.emailVerificationWhy,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.blue.shade700,

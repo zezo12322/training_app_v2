@@ -42,7 +42,7 @@ class OrgAdminDashboard extends ConsumerWidget {
       ),
       body: metricsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text(context.l.orgAdminError.replaceAll('{error}', e.toString()))),
+        error: (e, st) => Center(child: Text(context.l.orgAdminError(e.toString()))),
         data: (list) {
           // reverse chronological by date desc; for sparkline make ascending time
           final dataAsc = list.reversed.toList();
@@ -69,6 +69,7 @@ class OrgAdminDashboard extends ConsumerWidget {
                   context.l.orgAdminActiveUsers,
                   activeUsers,
                   Colors.blue,
+                  context,
                   suffix: '',
                 ),
                 const SizedBox(height: 12),
@@ -76,6 +77,7 @@ class OrgAdminDashboard extends ConsumerWidget {
                   context.l.orgAdminAvgEventsPerUser7d,
                   avgEvents,
                   Colors.teal,
+                  context,
                   fractionDigits: 2,
                 ),
                 const SizedBox(height: 12),
@@ -83,6 +85,7 @@ class OrgAdminDashboard extends ConsumerWidget {
                   context.l.orgAdminAvgMastery,
                   avgMastery,
                   Colors.purple,
+                  context,
                   fractionDigits: 3,
                 ),
                 const SizedBox(height: 12),
@@ -90,6 +93,7 @@ class OrgAdminDashboard extends ConsumerWidget {
                   context.l.orgAdminAvgMasteryDelta14d,
                   avgDelta,
                   Colors.orange,
+                  context,
                   fractionDigits: 3,
                 ),
                 const SizedBox(height: 24),
@@ -105,10 +109,11 @@ class OrgAdminDashboard extends ConsumerWidget {
   Widget _metricCard(
     String title,
     List<double> values,
-    Color color, {
+    Color color,
+    BuildContext? buildCtx, {
     int fractionDigits = 0,
     String suffix = '',
-  }, BuildContext? buildCtx) {
+  }) {
     final latest = values.isNotEmpty ? values.last : 0.0;
     return Card(
       child: Padding(
@@ -123,7 +128,7 @@ class OrgAdminDashboard extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Sparkline(values: values, color: color),
                 const SizedBox(height: 8),
-                Text(l.orgAdminLatest.replaceAll('{value}', '${latest.toStringAsFixed(fractionDigits)}$suffix')),
+                Text(l.orgAdminLatest('${latest.toStringAsFixed(fractionDigits)}$suffix')),
               ],
             );
           },

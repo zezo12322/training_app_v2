@@ -700,6 +700,52 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get leaderboardWeekly => 'أسبوعي';
+
+  @override
+  String get leaderboardMonthly => 'شهري';
+
+  @override
+  String get leaderboardAllTime => 'كل الأوقات';
+
+  @override
+  String get leaderboardRetry => 'إعادة المحاولة';
+
+  @override
+  String get leaderboardLoadError => 'حدث خطأ في تحميل لوحة الصدارة';
+
+  @override
+  String get leaderboardNoEntries => 'لا توجد بيانات بعد';
+
+  @override
+  String get leaderboardYou => 'أنت';
+
+  @override
+  String get leaderboardRank => 'المرتبة';
+
+  @override
+  String leaderboardPointsWithLabel(Object points) {
+    return '$points نقطة';
+  }
+
+  @override
+  String get leaderboardPointsShort => 'نقطة';
+
+  @override
+  String leaderboardLevelFormat(Object level, Object name) {
+    return 'المستوى $level • $name';
+  }
+
+  @override
+  String get leaderboardEmptyTitle => 'لا يوجد متصدرون بعد';
+
+  @override
+  String get leaderboardEmptySubtitle => 'كن أول من يحصل على نقاط!';
+
+  @override
+  String get leaderboardErrorLoad => 'حدث خطأ في تحميل المتصدرين';
+
+  @override
   String get pointsLabel => 'النقاط';
 
   @override
@@ -1264,9 +1310,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reactionsClose => 'إغلاق';
-
-  @override
-  String get emailVerificationTitle => 'التحقق من البريد الإلكتروني';
 
   @override
   String get privacyPolicyTitle => 'سياسة الخصوصية';
@@ -2044,6 +2087,41 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String orgAdminLatest(Object value) {
+    return 'الأحدث: $value';
+  }
+
+  @override
+  String get orgAdminActiveUsers => 'المستخدمين النشطين';
+
+  @override
+  String get orgAdminAvgEventsPerUser7d => 'متوسط الأحداث/مستخدم (7 أيام)';
+
+  @override
+  String get orgAdminAvgMastery => 'متوسط الإتقان';
+
+  @override
+  String get orgAdminAvgMasteryDelta14d => 'تغيير متوسط الإتقان (14 يوم)';
+
+  @override
+  String get orgAdminLatest7Days => 'آخر 7 أيام';
+
+  @override
+  String get orgAdminDate => 'التاريخ';
+
+  @override
+  String get orgAdminActive => 'نشط';
+
+  @override
+  String get orgAdminAvgEvPerUsr => 'متوسط أح/مستخدم';
+
+  @override
+  String get orgAdminAvgMasteryShort => 'متوسط إتقان';
+
+  @override
+  String get orgAdminDelta14d => 'Δ14 يوم';
+
+  @override
   String get takeQuizNoQuestions => 'لا توجد أسئلة في هذا الاختبار بعد.';
 
   @override
@@ -2468,4 +2546,1662 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get userPickerRoleTrainee => 'متدرب';
+
+  @override
+  String quizSubmissionsTitle(Object quizTitle) {
+    return 'تسليمات: $quizTitle';
+  }
+
+  @override
+  String personalProfileUploadFailed(Object error) {
+    return 'فشل رفع الصورة: $error';
+  }
+
+  @override
+  String get personalProfileSaved => 'تم الحفظ';
+
+  @override
+  String personalProfileSaveFailed(Object error) {
+    return 'فشل الحفظ: $error';
+  }
+
+  @override
+  String get settingsArabicLabel => 'العربية';
+
+  @override
+  String privacyPolicyLoadFailed(Object error) {
+    return 'فشل تحميل سياسة الخصوصية: $error';
+  }
+
+  @override
+  String termsOfServiceLoadFailed(Object error) {
+    return 'فشل تحميل شروط الاستخدام: $error';
+  }
+
+  @override
+  String get traineeListTitle => 'المتدربون';
+
+  @override
+  String get traineeListEmpty => 'لا يوجد متدربون في هذا الكورس بعد.';
+
+  @override
+  String resourceLibraryUploadFailed(Object error) {
+    return 'فشل رفع الملف: $error';
+  }
+
+  @override
+  String get resourceLibraryDefaultCourseName => 'كورس';
+
+  @override
+  String resourceLibraryNotificationTitle(Object courseName) {
+    return 'ملف جديد في: $courseName';
+  }
+
+  @override
+  String resourceLibraryNotificationContent(Object fileName) {
+    return 'تمت إضافة ملف جديد بعنوان: $fileName';
+  }
+
+  @override
+  String resourceLibraryCannotOpen(Object fileUrl) {
+    return 'لا يمكن فتح هذا الملف: $fileUrl';
+  }
+
+  @override
+  String get resourceLibraryTitle => 'مكتبة الموارد';
+
+  @override
+  String resourceLibraryError(Object error) {
+    return 'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\\n\\n$error';
+  }
+
+  @override
+  String get resourceLibraryEmpty => 'لا توجد ملفات في المكتبة بعد.';
+
+  @override
+  String get resourceLibraryUploading => 'جار الرفع...';
+
+  @override
+  String get resourceLibraryUploadButton => 'رفع ملف';
+
+  @override
+  String get quizListTitle => 'الاختبارات';
+
+  @override
+  String quizListError(Object error) {
+    return 'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\\n\\n$error';
+  }
+
+  @override
+  String get quizListEmpty => 'لم يتم إنشاء أي اختبارات بعد.';
+
+  @override
+  String get quizListViewSubmissions => 'عرض التسليمات';
+
+  @override
+  String get quizListCreateButton => 'إنشاء اختبار';
+
+  @override
+  String quizSubmissionsError(Object error) {
+    return 'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\\n\\n$error';
+  }
+
+  @override
+  String get quizSubmissionsEmpty => 'لم يقم أي متدرب بتسليم هذا الاختبار بعد.';
+
+  @override
+  String quizSubmissionsResultFormat(Object score, Object total, Object date) {
+    return 'النتيجة: $score من $total\\nتم التسليم في: $date';
+  }
+
+  @override
+  String get traineeListLoading => 'جار التحميل...';
+
+  @override
+  String traineeListNotFound(Object traineeId) {
+    return 'متدرب غير موجود: $traineeId';
+  }
+
+  @override
+  String get traineeListUnknownEmail => 'بريد غير معروف';
+
+  @override
+  String get personalProfileSectionData => 'البيانات';
+
+  @override
+  String get personalProfileNameLabel => 'الاسم';
+
+  @override
+  String get personalProfileNameRequired => 'الاسم مطلوب';
+
+  @override
+  String get personalProfileEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get personalProfileStatsTitle => 'الإحصائيات';
+
+  @override
+  String get personalProfileAchievementsTitle => 'الإنجازات';
+
+  @override
+  String get personalProfileRecentActivityTitle => 'النشاط الأخير';
+
+  @override
+  String get personalProfileTrainerStatsTitle => 'إحصائيات التدريب';
+
+  @override
+  String get personalProfileSaveButton => 'حفظ التعديلات';
+
+  @override
+  String get personalProfileRoleTrainee => 'متدرب';
+
+  @override
+  String get personalProfileRoleTrainer => 'مدرب';
+
+  @override
+  String personalProfilePointsLabelShort(Object points) {
+    return 'نقاط: $points';
+  }
+
+  @override
+  String personalProfileAuthError(Object error) {
+    return 'خطأ بالمصادقة: $error';
+  }
+
+  @override
+  String get personalProfileLoginRequired => 'يرجى تسجيل الدخول';
+
+  @override
+  String get personalProfileTitle => 'الملف الشخصي';
+
+  @override
+  String personalProfileDataLoadError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get personalProfileActivitiesLabel => 'الأنشطة';
+
+  @override
+  String get personalProfileEvaluationsLabel => 'تقييمات';
+
+  @override
+  String get personalProfileEvaluationsGivenLabel => 'تقييمات قمت بها';
+
+  @override
+  String get personalProfileSinceLabel => 'منذ';
+
+  @override
+  String get personalProfilePointsLabel => 'نقاط';
+
+  @override
+  String get personalProfileNoBadges => 'لا توجد شارات بعد';
+
+  @override
+  String personalProfileActivityLoadError(Object error) {
+    return 'خطأ تحميل النشاط: $error';
+  }
+
+  @override
+  String get personalProfileNoRecentActivity => 'لا يوجد نشاط حديث بعد';
+
+  @override
+  String personalProfilePointsCountFormat(Object points) {
+    return '$points نقطة';
+  }
+
+  @override
+  String get personalProfileEventTestPassed => 'اجتياز اختبار';
+
+  @override
+  String get personalProfileEventTaskCompleted => 'إكمال مهمة';
+
+  @override
+  String get personalProfileEventLessonCompleted => 'إنهاء درس';
+
+  @override
+  String get personalProfileEventDailyStreak => 'سلسلة يومية';
+
+  @override
+  String get personalProfileEventDefault => 'حدث نقاط';
+
+  @override
+  String get trainerStatsCoursesLabel => 'الدورات';
+
+  @override
+  String get trainerStatsEvaluationsLabel => 'التقييمات';
+
+  @override
+  String get achievementsTitle => 'الإنجازات';
+
+  @override
+  String get achievementsMustLogin => 'يجب تسجيل الدخول أولاً';
+
+  @override
+  String get achievementsFilterByCategory => 'تصفية حسب الفئة';
+
+  @override
+  String get achievementsAll => 'الكل';
+
+  @override
+  String get achievementsSecretAchievement => 'إنجاز سري';
+
+  @override
+  String achievementsPoints(Object points) {
+    return '$points نقطة';
+  }
+
+  @override
+  String get achievementsUnlocked => 'مفتوح ✓';
+
+  @override
+  String get achievementsLocked => 'مقفل 🔒';
+
+  @override
+  String achievementsUnlockedOn(Object date) {
+    return 'تم الفتح: $date';
+  }
+
+  @override
+  String get achievementsThisIsSecret => 'هذا إنجاز سري! 🤫';
+
+  @override
+  String get achievementsWillDiscoverWhenUnlock => 'ستكتشفه عندما تفتحه';
+
+  @override
+  String get achievementsClose => 'إغلاق';
+
+  @override
+  String get achievementsNoAchievementsYet => 'لا توجد إنجازات بعد';
+
+  @override
+  String get achievementsLoadError => 'حدث خطأ في تحميل الإنجازات';
+
+  @override
+  String get achievementsRetry => 'إعادة المحاولة';
+
+  @override
+  String get achievementsStatUnlocked => 'مفتوحة';
+
+  @override
+  String get achievementsStatPercentage => 'النسبة';
+
+  @override
+  String get achievementsStatRemaining => 'متبقية';
+
+  @override
+  String get achievementsSecretLocked => 'إنجاز سري 🔒';
+
+  @override
+  String get analyticsTitle => 'التحليلات';
+
+  @override
+  String get analyticsOverview => 'نظرة عامة';
+
+  @override
+  String get analyticsTotalStudents => 'إجمالي الطلاب';
+
+  @override
+  String get analyticsActiveStudents => 'النشطون';
+
+  @override
+  String get analyticsAvgPoints => 'متوسط النقاط';
+
+  @override
+  String get analyticsAvgLevel => 'متوسط المستوى';
+
+  @override
+  String get analyticsEngagementRate => 'معدل التفاعل';
+
+  @override
+  String analyticsEngagementPercent(Object percent) {
+    return '$percent% من الطلاب نشطون';
+  }
+
+  @override
+  String analyticsActiveOf(Object active, Object total) {
+    return 'النشطون: $active من $total';
+  }
+
+  @override
+  String get analyticsTopStudents => 'أفضل الطلاب';
+
+  @override
+  String get analyticsNoStudents => 'لا يوجد طلاب بعد';
+
+  @override
+  String analyticsLevel(Object level) {
+    return 'المستوى $level';
+  }
+
+  @override
+  String get analyticsPointsLabel => 'نقطة';
+
+  @override
+  String get analyticsPointsStats => 'إحصائيات النقاط';
+
+  @override
+  String get analyticsPointsAwarded => 'نقطة ممنوحة';
+
+  @override
+  String get analyticsAchievementsUnlocked => 'إنجاز مفتوح';
+
+  @override
+  String get analyticsLoadError => 'حدث خطأ في تحميل التحليلات';
+
+  @override
+  String get analyticsRetry => 'إعادة المحاولة';
+
+  @override
+  String get gamificationSettingsTitle => 'إعدادات النقاط';
+
+  @override
+  String get gamificationSettingsSave => 'حفظ';
+
+  @override
+  String get gamificationSettingsLoadError => 'حدث خطأ في تحميل الإعدادات';
+
+  @override
+  String get gamificationSettingsUnauthorized => 'غير مصرح';
+
+  @override
+  String get gamificationSettingsSaveSuccess => '✅ تم حفظ الإعدادات بنجاح';
+
+  @override
+  String gamificationSettingsSaveError(Object error) {
+    return 'حدث خطأ في حفظ الإعدادات: $error';
+  }
+
+  @override
+  String get gamificationSettingsEnableSystem => 'تفعيل نظام النقاط';
+
+  @override
+  String get gamificationSettingsDisableNote =>
+      'إذا تم التعطيل، لن يتم منح أي نقاط';
+
+  @override
+  String get gamificationSettingsCoreActivities => 'الأنشطة الأساسية (إجبارية)';
+
+  @override
+  String get gamificationSettingsCoreNote => 'هذه الأنشطة دائماً مفعلة';
+
+  @override
+  String get gamificationSettingsCompleteLesson => 'إتمام درس';
+
+  @override
+  String get gamificationSettingsPassQuiz => 'اجتياز اختبار';
+
+  @override
+  String get gamificationSettingsPerfectQuiz => 'درجة كاملة في اختبار';
+
+  @override
+  String get gamificationSettingsCompleteTask => 'إتمام مهمة';
+
+  @override
+  String get gamificationSettingsCompleteModule => 'إتمام وحدة كاملة';
+
+  @override
+  String get gamificationSettingsEnableSocial => 'تفعيل نقاط التفاعل الاجتماعي';
+
+  @override
+  String get gamificationSettingsSocialNote => 'المنشورات والتعليقات';
+
+  @override
+  String get gamificationSettingsCreatePost => 'إنشاء منشور';
+
+  @override
+  String get gamificationSettingsWriteComment => 'كتابة تعليق';
+
+  @override
+  String get gamificationSettingsHelpPeer => 'مساعدة زميل';
+
+  @override
+  String get gamificationSettingsGetReaction => 'الحصول على reaction';
+
+  @override
+  String get gamificationSettingsEnableStreak => 'تفعيل سلسلة الدخول اليومي';
+
+  @override
+  String get gamificationSettingsStreakNote => 'تشجيع الدخول المتواصل';
+
+  @override
+  String get gamificationSettingsDailyLogin => 'الدخول اليومي';
+
+  @override
+  String get gamificationSettingsWeekStreak => 'أسبوع متواصل';
+
+  @override
+  String get gamificationSettingsSaveButton => 'حفظ الإعدادات';
+
+  @override
+  String get gamificationSettingsResetDefaults => 'إعادة القيم الافتراضية';
+
+  @override
+  String get gamificationSettingsResetSuccess => 'تم إعادة القيم الافتراضية';
+
+  @override
+  String gamificationSettingsPointsLabel(Object points) {
+    return '$points نقطة';
+  }
+
+  @override
+  String get moduleDetailTitle => 'تفاصيل الوحدة';
+
+  @override
+  String moduleDetailError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get moduleDetailRetry => 'إعادة المحاولة';
+
+  @override
+  String moduleDetailProgressError(Object error) {
+    return 'خطأ في تحميل التقدم: $error';
+  }
+
+  @override
+  String get moduleDetailDescription => 'الوصف';
+
+  @override
+  String get moduleDetailContents => 'محتويات الوحدة';
+
+  @override
+  String moduleDetailCompleteForPoints(Object points) {
+    return 'أكمل جميع المحتويات للحصول على $points نقطة';
+  }
+
+  @override
+  String get moduleDetailModuleCompleted => 'تم إكمال الوحدة! 🎉';
+
+  @override
+  String moduleDetailEarnedPoints(Object points) {
+    return 'حصلت على $points نقطة';
+  }
+
+  @override
+  String get moduleDetailCompleted => 'مكتملة';
+
+  @override
+  String get moduleDetailProgress => 'التقدم';
+
+  @override
+  String moduleDetailPointsOnCompletion(Object points) {
+    return '$points نقطة عند الإكمال';
+  }
+
+  @override
+  String get moduleDetailUnmarkedComplete =>
+      'تم إلغاء وضع علامة على المحتوى كمكتمل';
+
+  @override
+  String get moduleDetailMarkedComplete => 'تم وضع علامة على المحتوى كمكتمل ✓';
+
+  @override
+  String moduleDetailMarkError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get moduleDetailRequired => 'مطلوب';
+
+  @override
+  String get moduleDetailTypeLesson => 'درس';
+
+  @override
+  String get moduleDetailTypeQuiz => 'اختبار';
+
+  @override
+  String get moduleDetailTypeAssignment => 'واجب';
+
+  @override
+  String get moduleDetailTypeResource => 'مصدر';
+
+  @override
+  String get anomalyDashboardTitle => 'الكشف عن الشذوذ';
+
+  @override
+  String get anomalyDashboardMustLogin => 'يجب تسجيل الدخول';
+
+  @override
+  String get anomalyDashboardFilterStatus => 'فلترة حسب الحالة';
+
+  @override
+  String get anomalyDashboardAllStates => 'جميع الحالات';
+
+  @override
+  String get anomalyDashboardPending => 'قيد الانتظار';
+
+  @override
+  String get anomalyDashboardInvestigating => 'قيد التحقيق';
+
+  @override
+  String get anomalyDashboardResolved => 'تم الحل';
+
+  @override
+  String get anomalyDashboardTabAll => 'الكل';
+
+  @override
+  String get anomalyDashboardTabHigh => 'عالي';
+
+  @override
+  String get anomalyDashboardTabAlerts => 'التنبيهات';
+
+  @override
+  String get anomalyDashboardNoAnomalies => 'لا توجد شذوذات مكتشفة';
+
+  @override
+  String get anomalyDashboardSystemNormal => 'النظام يعمل بشكل طبيعي';
+
+  @override
+  String anomalyDashboardError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get anomalyDashboardNoHighRisk => 'لا توجد شذوذات عالية الخطورة';
+
+  @override
+  String get anomalyDashboardNoAlerts => 'لا توجد تنبيهات';
+
+  @override
+  String get anomalyDashboardReviewSuccess => 'تمت المراجعة بنجاح';
+
+  @override
+  String get anomalyDashboardReviewFailed => 'فشلت المراجعة';
+
+  @override
+  String get anomalyDashboardReviewButton => 'مراجعة';
+
+  @override
+  String get anomalyDashboardType => 'النوع';
+
+  @override
+  String get anomalyDashboardSeverity => 'الخطورة';
+
+  @override
+  String get anomalyDashboardStatus => 'الحالة';
+
+  @override
+  String get anomalyDashboardUser => 'المستخدم';
+
+  @override
+  String get anomalyDashboardDetectedAt => 'وقت الاكتشاف';
+
+  @override
+  String get anomalyDashboardDescription => 'الوصف';
+
+  @override
+  String get anomalyDashboardActions => 'الإجراءات';
+
+  @override
+  String get anomalyDashboardMarkResolved => 'وضع علامة كمحلول';
+
+  @override
+  String get anomalyDashboardInvestigate => 'تحقيق';
+
+  @override
+  String get myEvaluationsTitle => 'التقييمات الخاصة بي';
+
+  @override
+  String get myEvaluationsToggleView => 'تبديل المظهر';
+
+  @override
+  String get myEvaluationsMustLogin => 'يجب تسجيل الدخول أولاً';
+
+  @override
+  String get myEvaluationsNoEvaluations => 'لم يتم إضافة أي تقييمات لك بعد.';
+
+  @override
+  String myEvaluationsError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String myEvaluationsAuthError(Object error) {
+    return 'خطأ بالمصادقة: $error';
+  }
+
+  @override
+  String get myEvaluationsAudioUnavailable =>
+      'تعذر تشغيل التقييم الصوتي (رابط غير متاح حالياً)';
+
+  @override
+  String get myEvaluationsAudioAccessError =>
+      'تعذر الوصول لملف الصوت. تحقق من الاتصال.';
+
+  @override
+  String myEvaluationsAudioPlayError(Object error) {
+    return 'فشل تشغيل الصوت: $error';
+  }
+
+  @override
+  String get anomalySettingsTitle => 'إعدادات الكشف عن الشذوذ';
+
+  @override
+  String get anomalySettingsSaveSuccess => 'تم حفظ الإعدادات بنجاح';
+
+  @override
+  String get anomalySettingsSaveFailed => 'فشل حفظ الإعدادات';
+
+  @override
+  String anomalySettingsSaveError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get anomalySettingsEnableDetection => 'تفعيل الكشف عن الشذوذ';
+
+  @override
+  String get anomalySettingsEnableDetectionSubtitle =>
+      'اكتشاف السلوك غير الطبيعي تلقائياً';
+
+  @override
+  String get anomalySettingsEnabledTypes => 'أنواع الشذوذ المُفعّلة';
+
+  @override
+  String get anomalySettingsSuspiciousLogin => 'تسجيل دخول مشبوه';
+
+  @override
+  String get anomalySettingsSuspiciousLoginDesc => 'أجهزة أو مواقع غير معتادة';
+
+  @override
+  String get anomalySettingsAbnormalScores => 'درجات اختبار غير طبيعية';
+
+  @override
+  String get anomalySettingsAbnormalScoresDesc =>
+      'درجات عالية جداً أو منخفضة جداً';
+
+  @override
+  String get anomalySettingsRapidProgress => 'تقدم سريع';
+
+  @override
+  String get anomalySettingsRapidProgressDesc =>
+      'إكمال دورات أو اختبارات بسرعة غير طبيعية';
+
+  @override
+  String get anomalySettingsMultipleDevices => 'أجهزة متعددة';
+
+  @override
+  String get anomalySettingsMultipleDevicesDesc =>
+      'استخدام عدة أجهزة في وقت قصير';
+
+  @override
+  String get anomalySettingsUnusualActivity => 'نشاط غير معتاد';
+
+  @override
+  String get anomalySettingsUnusualActivityDesc => 'نشاط مفرط أو غير نمطي';
+
+  @override
+  String get anomalySettingsCheatingPattern => 'نمط غش';
+
+  @override
+  String get anomalySettingsCheatingPatternDesc => 'أنماط تشير إلى محاولة غش';
+
+  @override
+  String get anomalySettingsAccountSharing => 'مشاركة حساب';
+
+  @override
+  String get anomalySettingsAccountSharingDesc =>
+      'استخدام الحساب من قبل أشخاص مختلفين';
+
+  @override
+  String get anomalySettingsSensitivity => 'الحساسية';
+
+  @override
+  String get anomalySettingsSensitivityLow => 'منخفضة';
+
+  @override
+  String get anomalySettingsSensitivityHigh => 'عالية';
+
+  @override
+  String anomalySettingsSensitivityCurrent(Object percent) {
+    return 'الحساسية الحالية: $percent%';
+  }
+
+  @override
+  String get anomalySettingsAlerts => 'التنبيهات';
+
+  @override
+  String get anomalySettingsSendAlerts => 'إرسال تنبيهات';
+
+  @override
+  String get anomalySettingsSendAlertsSubtitle =>
+      'إخطار المسؤولين عند اكتشاف شذوذ';
+
+  @override
+  String get anomalySettingsMinimumSeverity => 'الحد الأدنى للتنبيه';
+
+  @override
+  String get anomalySettingsSeverityLow => 'منخفض';
+
+  @override
+  String get anomalySettingsSeverityMedium => 'متوسط';
+
+  @override
+  String get anomalySettingsSeverityHigh => 'عالي';
+
+  @override
+  String get anomalySettingsSeverityCritical => 'حرج';
+
+  @override
+  String get anomalySettingsAutomatedActions => 'الإجراءات التلقائية';
+
+  @override
+  String get anomalySettingsSuspendCritical => 'تعليق الحسابات الحرجة';
+
+  @override
+  String get anomalySettingsSuspendCriticalSubtitle =>
+      'تعليق تلقائي للحسابات ذات الشذوذ الحرج';
+
+  @override
+  String get anomalySettingsFlagCheating => 'وضع علامة على الغش';
+
+  @override
+  String get anomalySettingsFlagCheatingSubtitle =>
+      'وضع علامة تلقائية على محاولات الغش';
+
+  @override
+  String get anomalySettingsImportantNotes => 'ملاحظات مهمة';
+
+  @override
+  String get anomalySettingsNote1 =>
+      '• الكشف يعمل باستخدام خوارزميات إحصائية متقدمة';
+
+  @override
+  String get anomalySettingsNote2 =>
+      '• قد تحدث إيجابيات خاطئة - راجع دائماً قبل اتخاذ إجراء';
+
+  @override
+  String get anomalySettingsNote3 =>
+      '• يتحسن الكشف مع مرور الوقت وتجميع البيانات';
+
+  @override
+  String get anomalySettingsNote4 =>
+      '• الحساسية العالية = المزيد من الاكتشافات (بما في ذلك الخاطئة)';
+
+  @override
+  String get anomalySettingsNote5 => '• يوصى بمراجعة دورية للإعدادات والنتائج';
+
+  @override
+  String get moderationQueueTitle => 'قائمة الإشراف';
+
+  @override
+  String moderationQueueError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get moderationQueueNoPending => 'لا توجد تقارير قيد المراجعة';
+
+  @override
+  String moderationQueueLoadError(Object error) {
+    return 'خطأ في تحميل التقارير: $error';
+  }
+
+  @override
+  String get moderationQueuePending => 'قيد المراجعة';
+
+  @override
+  String get moderationQueueResolved => 'تم الحل';
+
+  @override
+  String get moderationQueueDismissed => 'مرفوض';
+
+  @override
+  String get moderationQueueTotal => 'الإجمالي';
+
+  @override
+  String moderationQueueReportedBy(Object name) {
+    return 'بلّغ عنه: $name';
+  }
+
+  @override
+  String get moderationQueueReason => 'السبب';
+
+  @override
+  String get moderationQueueDetails => 'التفاصيل';
+
+  @override
+  String get moderationQueueContentType => 'نوع المحتوى';
+
+  @override
+  String get moderationQueueActionWarn => 'تحذير';
+
+  @override
+  String get moderationQueueActionDelete => 'حذف المحتوى';
+
+  @override
+  String get moderationQueueActionMute => 'كتم';
+
+  @override
+  String get moderationQueueActionBan => 'حظر';
+
+  @override
+  String get moderationQueueActionDismiss => 'رفض البلاغ';
+
+  @override
+  String get moderationQueueStatusPending => 'قيد المراجعة';
+
+  @override
+  String get moderationQueueStatusInvestigating => 'جاري التحقيق';
+
+  @override
+  String get moderationQueueStatusActionTaken => 'تم اتخاذ إجراء';
+
+  @override
+  String get moderationQueueStatusDismissed => 'مرفوض';
+
+  @override
+  String get moderationQueueStatusResolved => 'تم الحل';
+
+  @override
+  String moderationQueueConfirmTitle(Object action) {
+    return 'تأكيد الإجراء: $action';
+  }
+
+  @override
+  String moderationQueueConfirmMessage(Object action) {
+    return 'هل أنت متأكد من $action؟';
+  }
+
+  @override
+  String get moderationQueueCancel => 'إلغاء';
+
+  @override
+  String get moderationQueueConfirm => 'تأكيد';
+
+  @override
+  String moderationQueueActionCompleted(Object action) {
+    return 'تم $action';
+  }
+
+  @override
+  String get moderationQueueActionSuccess => 'تم تنفيذ الإجراء بنجاح';
+
+  @override
+  String get moderationQueueActionFailed => 'فشل تنفيذ الإجراء';
+
+  @override
+  String get moderationQueueReasonInappropriate => 'محتوى غير لائق';
+
+  @override
+  String get moderationQueueReasonHarassment => 'تحرش';
+
+  @override
+  String get moderationQueueReasonSpam => 'بريد مزعج';
+
+  @override
+  String get moderationQueueReasonMisinformation => 'معلومات مضللة';
+
+  @override
+  String get moderationQueueReasonHarmful => 'محتوى ضار';
+
+  @override
+  String get moderationQueueReasonCopyright => 'انتهاك حقوق النشر';
+
+  @override
+  String get moderationQueueReasonOther => 'أخرى';
+
+  @override
+  String get createBadgeTitle => 'إنشاء شارة جديدة';
+
+  @override
+  String get createBadgeSuccess => 'تم إنشاء الشارة';
+
+  @override
+  String createBadgeError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get createBadgeIdLabel => 'المعرف (فريد)';
+
+  @override
+  String get createBadgeIdRequired => 'مطلوب';
+
+  @override
+  String get createBadgeNameLabel => 'الاسم';
+
+  @override
+  String get createBadgeNameRequired => 'مطلوب';
+
+  @override
+  String get createBadgeDescLabel => 'الوصف';
+
+  @override
+  String get createBadgeIconLabel => 'رابط الأيقونة (اختياري)';
+
+  @override
+  String get createBadgeIsActive => 'مفعلة';
+
+  @override
+  String get createBadgeAutoAward => 'منح تلقائي';
+
+  @override
+  String get createBadgeCriteria => 'المعايير (اختيارية)';
+
+  @override
+  String get createBadgePointsMin => 'نقاط ≥';
+
+  @override
+  String get createBadgeStreakMin => 'سلسلة أيام ≥';
+
+  @override
+  String get createBadgeQuizzesMin => 'اختبارات مجتازة ≥';
+
+  @override
+  String get createBadgeTasksMin => 'مهام منجزة ≥';
+
+  @override
+  String get createBadgeLessonsMin => 'دروس مكتملة ≥';
+
+  @override
+  String get createBadgeReviewsMin => 'مراجعات مكتوبة ≥';
+
+  @override
+  String get createBadgeSaveButton => 'حفظ';
+
+  @override
+  String get hrisImportTitle => 'استيراد المستخدمين';
+
+  @override
+  String get hrisImportChooseFile => 'اختر ملف CSV أو Excel';
+
+  @override
+  String get hrisImportSelectFile => 'اختيار ملف';
+
+  @override
+  String get hrisImportLoadTemplate => 'تحميل قالب محفوظ';
+
+  @override
+  String get hrisImportUnsupportedFile => 'نوع الملف غير مدعوم';
+
+  @override
+  String get hrisImportEmptyFile => 'الملف فارغ أو يحتوي على صف واحد فقط';
+
+  @override
+  String hrisImportError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get hrisImportMapColumns => 'تعيين الأعمدة';
+
+  @override
+  String get hrisImportEmailRequired => 'البريد الإلكتروني *';
+
+  @override
+  String get hrisImportNameRequired => 'الاسم *';
+
+  @override
+  String get hrisImportRoleOptional => 'الدور (اختياري)';
+
+  @override
+  String get hrisImportPhoneOptional => 'الهاتف (اختياري)';
+
+  @override
+  String get hrisImportDepartmentOptional => 'القسم (اختياري)';
+
+  @override
+  String get hrisImportJobTitleOptional => 'المسمى الوظيفي (اختياري)';
+
+  @override
+  String get hrisImportSaveAsTemplate => 'حفظ كقالب';
+
+  @override
+  String get hrisImportTemplateName => 'اسم القالب';
+
+  @override
+  String get hrisImportPreviewButton => 'معاينة';
+
+  @override
+  String get hrisImportBackButton => 'رجوع';
+
+  @override
+  String get hrisImportNone => '-- لا شيء --';
+
+  @override
+  String get hrisImportPreviewTitle => 'معاينة الاستيراد';
+
+  @override
+  String get hrisImportTotal => 'إجمالي';
+
+  @override
+  String get hrisImportValid => 'صحيح';
+
+  @override
+  String get hrisImportInvalid => 'خطأ';
+
+  @override
+  String get hrisImportUpdateExisting => 'تحديث المستخدمين الموجودين';
+
+  @override
+  String get hrisImportSampleRecords => 'عينة من السجلات:';
+
+  @override
+  String get hrisImportStartButton => 'بدء الاستيراد';
+
+  @override
+  String get hrisImportSuccess => 'تم الاستيراد بنجاح';
+
+  @override
+  String get hrisImportNoTemplates => 'لا توجد قوالب محفوظة';
+
+  @override
+  String get hrisImportChooseTemplate => 'اختر قالب';
+
+  @override
+  String get hrisImportCancel => 'إلغاء';
+
+  @override
+  String get importHistoryTitle => 'سجل الاستيرادات';
+
+  @override
+  String get importHistoryAuthRequired => 'يجب تسجيل الدخول';
+
+  @override
+  String importHistoryError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get importHistoryEmpty => 'لا توجد عمليات استيراد';
+
+  @override
+  String get importHistoryNewImport => 'استيراد جديد';
+
+  @override
+  String get importHistoryStatus => 'الحالة';
+
+  @override
+  String get importHistoryTotalRows => 'إجمالي الصفوف';
+
+  @override
+  String get importHistoryProcessed => 'تم معالجتها';
+
+  @override
+  String get importHistorySuccessful => 'نجحت';
+
+  @override
+  String get importHistoryFailed => 'فشلت';
+
+  @override
+  String get importHistoryUploader => 'المستخدم';
+
+  @override
+  String get importHistoryDate => 'التاريخ';
+
+  @override
+  String get importHistoryCompletedAt => 'اكتملت في';
+
+  @override
+  String get importHistoryErrors => 'الأخطاء:';
+
+  @override
+  String get importHistoryStatusPending => 'قيد الانتظار';
+
+  @override
+  String get importHistoryStatusProcessing => 'جاري المعالجة';
+
+  @override
+  String get importHistoryStatusCompleted => 'مكتمل';
+
+  @override
+  String get importHistoryStatusFailed => 'فشل';
+
+  @override
+  String get importHistoryStatusPartial => 'نجاح جزئي';
+
+  @override
+  String get bigqueryExportTitle => 'تصدير BigQuery';
+
+  @override
+  String get bigqueryExportAuthRequired => 'يجب تسجيل الدخول';
+
+  @override
+  String get bigqueryExportNotConfigured => 'يجب إعداد BigQuery أولاً';
+
+  @override
+  String get bigqueryExportNotEnabled => 'BigQuery غير مُفعّل';
+
+  @override
+  String get bigqueryExportStarted => 'بدأ التصدير بنجاح';
+
+  @override
+  String bigqueryExportError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get bigqueryExportNewExport => 'تصدير جديد';
+
+  @override
+  String get bigqueryExportDataType => 'نوع البيانات';
+
+  @override
+  String get bigqueryExportUsers => 'المستخدمين';
+
+  @override
+  String get bigqueryExportCourses => 'الدورات';
+
+  @override
+  String get bigqueryExportEnrollments => 'التسجيلات';
+
+  @override
+  String get bigqueryExportQuizResults => 'نتائج الاختبارات';
+
+  @override
+  String get bigqueryExportCertificates => 'الشهادات';
+
+  @override
+  String get bigqueryExportPointsAchievements => 'النقاط والإنجازات';
+
+  @override
+  String get bigqueryExportAll => 'جميع البيانات';
+
+  @override
+  String get bigqueryExportExporting => 'جاري التصدير...';
+
+  @override
+  String get bigqueryExportStart => 'بدء التصدير';
+
+  @override
+  String get bigqueryExportHistory => 'سجل التصديرات';
+
+  @override
+  String get bigqueryExportRefresh => 'تحديث';
+
+  @override
+  String get bigqueryExportNoExports => 'لا توجد عمليات تصدير';
+
+  @override
+  String get bigqueryExportDetailStatus => 'الحالة';
+
+  @override
+  String get bigqueryExportDetailType => 'نوع التصدير';
+
+  @override
+  String get bigqueryExportDetailTotal => 'إجمالي السجلات';
+
+  @override
+  String get bigqueryExportDetailExported => 'تم تصديره';
+
+  @override
+  String get bigqueryExportDetailFailed => 'فشل';
+
+  @override
+  String get bigqueryExportDetailUser => 'المستخدم';
+
+  @override
+  String get bigqueryExportDetailStarted => 'بدأ في';
+
+  @override
+  String get bigqueryExportDetailCompleted => 'اكتمل في';
+
+  @override
+  String get bigqueryExportDetailErrors => 'الأخطاء:';
+
+  @override
+  String get bigqueryExportAnalytics => 'التحليلات';
+
+  @override
+  String get bigqueryExportProgress => 'التقدم';
+
+  @override
+  String get bigqueryExportStatusPending => 'قيد الانتظار';
+
+  @override
+  String get bigqueryExportStatusProcessing => 'جاري المعالجة';
+
+  @override
+  String get bigqueryExportStatusUploading => 'جاري الرفع';
+
+  @override
+  String get bigqueryExportStatusCompleted => 'مكتمل';
+
+  @override
+  String get bigqueryExportStatusFailed => 'فشل';
+
+  @override
+  String get bigquerySettingsTitle => 'إعدادات BigQuery';
+
+  @override
+  String get bigquerySettingsSaved => 'تم حفظ الإعدادات بنجاح';
+
+  @override
+  String get bigquerySettingsSaveFailed => 'فشل حفظ الإعدادات';
+
+  @override
+  String bigquerySettingsError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get bigquerySettingsEnableExport => 'تفعيل BigQuery Export';
+
+  @override
+  String get bigquerySettingsExportDescription => 'تصدير البيانات إلى BigQuery';
+
+  @override
+  String get bigquerySettingsProjectInfo => 'معلومات المشروع';
+
+  @override
+  String get bigquerySettingsProjectIdHelper => 'معرّف مشروع Google Cloud';
+
+  @override
+  String get bigquerySettingsProjectIdRequired => 'Project ID مطلوب';
+
+  @override
+  String get bigquerySettingsDatasetIdHelper =>
+      'معرّف مجموعة البيانات في BigQuery';
+
+  @override
+  String get bigquerySettingsDatasetIdRequired => 'Dataset ID مطلوب';
+
+  @override
+  String get bigquerySettingsServiceAccountHelper =>
+      'بيانات Service Account بصيغة JSON';
+
+  @override
+  String get bigquerySettingsServiceAccountRequired =>
+      'Service Account JSON مطلوب';
+
+  @override
+  String get bigquerySettingsInvalidJSON => 'صيغة JSON غير صحيحة';
+
+  @override
+  String get bigquerySettingsEnabledDataTypes => 'أنواع البيانات المُفعّلة';
+
+  @override
+  String get bigquerySettingsUsersTitle => 'المستخدمين';
+
+  @override
+  String get bigquerySettingsUsersSubtitle => 'بيانات حسابات المستخدمين';
+
+  @override
+  String get bigquerySettingsCoursesTitle => 'الدورات';
+
+  @override
+  String get bigquerySettingsCoursesSubtitle => 'معلومات الدورات التدريبية';
+
+  @override
+  String get bigquerySettingsEnrollmentsTitle => 'التسجيلات';
+
+  @override
+  String get bigquerySettingsEnrollmentsSubtitle => 'سجلات التسجيل في الدورات';
+
+  @override
+  String get bigquerySettingsQuizResultsTitle => 'نتائج الاختبارات';
+
+  @override
+  String get bigquerySettingsQuizResultsSubtitle =>
+      'نتائج الاختبارات والتقييمات';
+
+  @override
+  String get bigquerySettingsCertificatesTitle => 'الشهادات';
+
+  @override
+  String get bigquerySettingsCertificatesSubtitle => 'سجلات إصدار الشهادات';
+
+  @override
+  String get bigquerySettingsGamificationTitle => 'النقاط والإنجازات';
+
+  @override
+  String get bigquerySettingsGamificationSubtitle => 'بيانات نظام التحفيز';
+
+  @override
+  String get bigquerySettingsAnalyticsTitle => 'التحليلات';
+
+  @override
+  String get bigquerySettingsAnalyticsSubtitle => 'بيانات تحليل الاستخدام';
+
+  @override
+  String get bigquerySettingsProgressTitle => 'التقدم';
+
+  @override
+  String get bigquerySettingsProgressSubtitle => 'بيانات التقدم التعليمي';
+
+  @override
+  String get bigquerySettingsSchedule => 'جدول التصدير';
+
+  @override
+  String get bigquerySettingsScheduleHourly => 'كل ساعة';
+
+  @override
+  String get bigquerySettingsScheduleDaily => 'يومياً';
+
+  @override
+  String get bigquerySettingsScheduleWeekly => 'أسبوعياً';
+
+  @override
+  String get bigquerySettingsScheduleManual => 'يدوي';
+
+  @override
+  String get bigquerySettingsSaveButton => 'حفظ الإعدادات';
+
+  @override
+  String get bigquerySettingsImportantNotes => 'ملاحظات مهمة';
+
+  @override
+  String get bigquerySettingsSetupSteps =>
+      '• يجب إنشاء مشروع Google Cloud وتفعيل BigQuery API\n• إنشاء Service Account وتنزيل ملف JSON\n• منح الصلاحيات المناسبة للـ Service Account\n• إنشاء Dataset في BigQuery مسبقاً\n• الجداول سيتم إنشاؤها تلقائياً عند التصدير';
+
+  @override
+  String courseDetailsNewPostTitle(Object courseName) {
+    return 'منشور جديد في: $courseName';
+  }
+
+  @override
+  String courseDetailsNewPostContent(Object authorEmail) {
+    return 'قام $authorEmail بإضافة منشور جديد.';
+  }
+
+  @override
+  String courseDetailsError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get courseDetailsMoreOptions => 'المزيد من الخيارات';
+
+  @override
+  String get courseDetailsBadges => 'الشارات والإنجازات';
+
+  @override
+  String get courseDetailsLeaderboard => 'لوحة المتصدرين';
+
+  @override
+  String get courseDetailsAchievements => 'الإنجازات';
+
+  @override
+  String get courseDetailsModules => 'الوحدات التعليمية';
+
+  @override
+  String get courseDetailsQuizzes => 'الاختبارات';
+
+  @override
+  String get courseDetailsResources => 'مكتبة الموارد';
+
+  @override
+  String get courseDetailsTrainees => 'المتدربين';
+
+  @override
+  String get courseDetailsAnalytics => 'تحليلات الكورس';
+
+  @override
+  String get courseDetailsPointsSettings => 'إعدادات النقاط';
+
+  @override
+  String get courseDetailsMyEvaluations => 'تقييماتي';
+
+  @override
+  String get courseDetailsInfoTitle => 'معلومات الكورس';
+
+  @override
+  String get courseDetailsInfoContent => 'تفاصيل الكورس الكاملة';
+
+  @override
+  String get courseDetailsClose => 'إغلاق';
+
+  @override
+  String get courseDetailsNoPosts => 'لا توجد منشورات';
+
+  @override
+  String get courseDetailsChangeFilters => 'جرّب تغيير إعدادات البحث';
+
+  @override
+  String get courseDetailsPlaceholder => 'ماذا تريد أن تشارك؟';
+
+  @override
+  String get courseDetailsAddImages => 'إضافة صور';
+
+  @override
+  String get courseDetailsCreatePoll => 'إنشاء استطلاع';
+
+  @override
+  String get courseDetailsTrainerFallback => 'المدرب';
+
+  @override
+  String get courseDetailsAuthRequired => 'يجب تسجيل الدخول أولاً';
+
+  @override
+  String get modulesEmptyTitle => 'لا توجد وحدات تعليمية بعد';
+
+  @override
+  String get modulesEmptySubtitle => 'سيتم إضافة الوحدات قريباً';
+
+  @override
+  String get modulesLoadError => 'حدث خطأ في تحميل الوحدات';
+
+  @override
+  String get modulesLockedMessage => 'مقفلة - أكمل الوحدة السابقة';
+
+  @override
+  String modulesContentCount(Object count) {
+    return '$count محتوى';
+  }
+
+  @override
+  String modulesProgressFormat(Object completed, Object total) {
+    return '$completed/$total مكتمل';
+  }
+
+  @override
+  String get forgotPasswordSuccess =>
+      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك';
+
+  @override
+  String get evaluationLoadError => 'خطأ في تحميل التقييم';
+
+  @override
+  String get quizHubCreatingTask => '... جاري إنشاء المهمة';
+
+  @override
+  String get quizHubNoAttempts => 'لا توجد محاولات بعد';
+
+  @override
+  String quizHubLatestScore(Object score, Object count) {
+    return 'أحدث درجة: $score | إجمالي المحاولات: $count';
+  }
+
+  @override
+  String get unknownUserInitial => '؟';
+
+  @override
+  String get emailVerificationSuccess => 'تم التحقق من بريدك بنجاح! 🎉';
+
+  @override
+  String get emailVerificationPending =>
+      'البريد لم يتم التحقق منه بعد. الرجاء فتح البريد والضغط على رابط التحقق.';
+
+  @override
+  String emailVerificationError(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String emailVerificationLinkSent(Object email) {
+    return 'تم إرسال رابط التحقق إلى $email';
+  }
+
+  @override
+  String emailVerificationSendError(Object error) {
+    return 'خطأ في إرسال البريد: $error';
+  }
+
+  @override
+  String get emailVerificationLogout => 'تسجيل خروج';
+
+  @override
+  String get emailVerificationTitle => 'تحقق من بريدك الإلكتروني';
+
+  @override
+  String get emailVerificationSentTo => 'أرسلنا رابط التحقق إلى:';
+
+  @override
+  String get emailVerificationInstructions =>
+      'الرجاء فتح بريدك الإلكتروني والضغط على رابط التحقق';
+
+  @override
+  String get emailVerificationSpamNote =>
+      '(تحقق من مجلد Spam إذا لم تجد الرسالة)';
+
+  @override
+  String get emailVerificationChecking => 'جاري التحقق...';
+
+  @override
+  String get emailVerificationChecked => 'لقد تحققت من البريد';
+
+  @override
+  String get emailVerificationResending => 'جاري الإرسال...';
+
+  @override
+  String get emailVerificationResend => 'إعادة إرسال البريد';
+
+  @override
+  String get emailVerificationWhy =>
+      'لماذا نحتاج التحقق؟\nللتأكد من أن البريد الإلكتروني صحيح وتتمكن من استعادة حسابك لاحقاً.';
+
+  @override
+  String anomalyError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get anomalyDetailType => 'النوع';
+
+  @override
+  String get anomalyDetailSeverity => 'الخطورة';
+
+  @override
+  String get anomalyDetailScore => 'الدرجة';
+
+  @override
+  String get anomalyDetailConfidence => 'مستوى الثقة';
+
+  @override
+  String get anomalyDetailUser => 'المستخدم';
+
+  @override
+  String get anomalyDetailStatus => 'الحالة';
+
+  @override
+  String get anomalyDetailDetected => 'تم الكشف';
+
+  @override
+  String get anomalyDetailEvidence => 'الأدلة:';
+
+  @override
+  String get anomalyDetailReview => 'المراجعة:';
+
+  @override
+  String get anomalyDetailReviewer => 'المراجع';
+
+  @override
+  String get anomalyDetailReviewDate => 'تاريخ المراجعة';
+
+  @override
+  String get anomalyDetailNotes => 'الملاحظات';
+
+  @override
+  String get anomalyTypeSuspiciousLogin => 'تسجيل دخول مشبوه';
+
+  @override
+  String get anomalyTypeAbnormalQuizScore => 'درجة اختبار غير طبيعية';
+
+  @override
+  String get anomalyTypeRapidProgress => 'تقدم سريع';
+
+  @override
+  String get anomalyTypeMultipleDevices => 'أجهزة متعددة';
+
+  @override
+  String get anomalyTypeUnusualActivity => 'نشاط غير معتاد';
+
+  @override
+  String get anomalyTypeCheatingPattern => 'نمط غش';
+
+  @override
+  String get anomalyTypeAccountSharing => 'مشاركة حساب';
+
+  @override
+  String get anomalySeverityLow => 'منخفض';
+
+  @override
+  String get anomalySeverityMedium => 'متوسط';
+
+  @override
+  String get anomalySeverityHigh => 'عالي';
+
+  @override
+  String get anomalySeverityCritical => 'حرج';
+
+  @override
+  String get anomalyStatusPending => 'قيد الانتظار';
+
+  @override
+  String get anomalyStatusInvestigating => 'قيد التحقيق';
+
+  @override
+  String get anomalyStatusResolved => 'تم الحل';
+
+  @override
+  String get anomalyStatusFalsePositive => 'إيجابي خاطئ';
+
+  @override
+  String get anomalyStatusConfirmed => 'مؤكد';
+
+  @override
+  String get anomalyReviewDialogTitle => 'مراجعة الشذوذ';
+
+  @override
+  String get anomalyReviewStatusLabel => 'الحالة';
+
+  @override
+  String get anomalyReviewNotesLabel => 'ملاحظات (اختياري)';
+
+  @override
+  String get manualGradeTitle => 'تصحيح يدوي';
+
+  @override
+  String get manualGradeSaveSuccess => 'تم حفظ التصحيح';
+
+  @override
+  String manualGradeSaveError(Object error) {
+    return 'فشل: $error';
+  }
+
+  @override
+  String get manualGradeNotFound => 'التسليم غير موجود';
+
+  @override
+  String manualGradeTraineeLabel(Object trainee) {
+    return 'المتدرب: $trainee';
+  }
+
+  @override
+  String manualGradeAutoScore(Object score) {
+    return 'درجة آلية: $score';
+  }
+
+  @override
+  String get manualGradeNoAnswer => 'لا توجد إجابة';
+
+  @override
+  String get manualGradeQuestionScore => 'درجة السؤال (عدد صحيح)';
+
+  @override
+  String get manualGradeSaveButton => 'حفظ التصحيح';
+
+  @override
+  String get manualGradingReviewTitle => 'مراجعة إجابات نصية';
+
+  @override
+  String get manualGradingNoSubmissions => 'لا توجد تسليمات تحتاج تصحيح يدوي.';
+
+  @override
+  String manualGradingAutoScoreLabel(Object auto, Object total) {
+    return 'درجة آلية: $auto / $total';
+  }
 }

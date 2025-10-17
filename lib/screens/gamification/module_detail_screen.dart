@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/l10n_ext.dart';
 import '../../models/gamification/learning_module.dart';
 import '../../providers/gamification/module_providers.dart';
 
@@ -17,12 +18,13 @@ class ModuleDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l = context.l;
     final moduleAsync = ref.watch(courseModulesProvider(courseId));
     final progressAsync = ref.watch(moduleProgressProvider(moduleId));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تفاصيل الوحدة'),
+        title: Text(l.moduleDetailTitle),
       ),
       body: moduleAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -32,11 +34,11 @@ class ModuleDetailScreen extends ConsumerWidget {
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('حدث خطأ: $error'),
+              Text(l.moduleDetailError(error.toString())),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => ref.invalidate(courseModulesProvider(courseId)),
-                child: const Text('إعادة المحاولة'),
+                child: Text(l.moduleDetailRetry),
               ),
             ],
           ),
@@ -50,7 +52,7 @@ class ModuleDetailScreen extends ConsumerWidget {
           return progressAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) => Center(
-              child: Text('خطأ في تحميل التقدم: $error'),
+              child: Text(l.moduleDetailProgressError(error.toString())),
             ),
             data: (progress) {
               final isCompleted = progress['isCompleted'] == true;
@@ -88,7 +90,7 @@ class ModuleDetailScreen extends ConsumerWidget {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      'الوصف',
+                                      l.moduleDetailDescription,
                                       style: theme.textTheme.titleMedium?.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -114,14 +116,14 @@ class ModuleDetailScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'محتويات الوحدة',
+                              l.moduleDetailContents,
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'أكمل جميع المحتويات للحصول على ${module.completionPoints} نقطة',
+                              l.moduleDetailCompleteForPoints(module.completionPoints.toString()),
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
@@ -166,7 +168,7 @@ class ModuleDetailScreen extends ConsumerWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'تم إكمال الوحدة! 🎉',
+                                        l.moduleDetailModuleCompleted,
                                         style: theme.textTheme.titleMedium?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.green.shade700,
@@ -174,7 +176,7 @@ class ModuleDetailScreen extends ConsumerWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        'حصلت على ${module.completionPoints} نقطة',
+                                        l.moduleDetailEarnedPoints(module.completionPoints.toString()),
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           color: Colors.green.shade600,
                                         ),
@@ -279,7 +281,7 @@ class _ModuleHeader extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              'مكتملة',
+                              context.l.moduleDetailCompleted,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.green.shade700,
@@ -305,7 +307,7 @@ class _ModuleHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'التقدم',
+                    context.l.moduleDetailProgress,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onPrimaryContainer,
@@ -350,7 +352,7 @@ class _ModuleHeader extends StatelessWidget {
                 Icon(Icons.stars, color: Colors.amber.shade700, size: 20),
                 const SizedBox(width: 8),
                 Text(
-                  '${module.completionPoints} نقطة عند الإكمال',
+                  context.l.moduleDetailPointsOnCompletion(module.completionPoints.toString()),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.amber.shade900,
@@ -398,12 +400,13 @@ class _ModuleContentTile extends ConsumerWidget {
             )).future);
 
             if (context.mounted) {
+              final l = context.l;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     isCompleted
-                        ? 'تم إلغاء وضع علامة على المحتوى كمكتمل'
-                        : 'تم وضع علامة على المحتوى كمكتمل ✓',
+                        ? l.moduleDetailUnmarkedComplete
+                        : l.moduleDetailMarkedComplete,
                   ),
                   duration: const Duration(seconds: 2),
                 ),
@@ -411,9 +414,10 @@ class _ModuleContentTile extends ConsumerWidget {
             }
           } catch (e) {
             if (context.mounted) {
+              final l = context.l;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('حدث خطأ: $e'),
+                  content: Text(l.moduleDetailMarkError(e.toString())),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -484,7 +488,7 @@ class _ModuleContentTile extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              'مطلوب',
+                              context.l.moduleDetailRequired,
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Colors.orange.shade900,
@@ -496,7 +500,7 @@ class _ModuleContentTile extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _getContentTypeLabel(content.type),
+                      _getContentTypeLabel(context, content.type),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -519,9 +523,10 @@ class _ModuleContentTile extends ConsumerWidget {
                     )).future);
                   } catch (e) {
                     if (context.mounted) {
+                      final l = context.l;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('حدث خطأ: $e'),
+                          content: Text(l.moduleDetailMarkError(e.toString())),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -549,16 +554,17 @@ class _ModuleContentTile extends ConsumerWidget {
     }
   }
 
-  String _getContentTypeLabel(ModuleContentType type) {
+  String _getContentTypeLabel(BuildContext context, ModuleContentType type) {
+    final l = context.l;
     switch (type) {
       case ModuleContentType.lesson:
-        return 'درس';
+        return l.moduleDetailTypeLesson;
       case ModuleContentType.quiz:
-        return 'اختبار';
+        return l.moduleDetailTypeQuiz;
       case ModuleContentType.assignment:
-        return 'واجب';
+        return l.moduleDetailTypeAssignment;
       case ModuleContentType.resource:
-        return 'مصدر';
+        return l.moduleDetailTypeResource;
     }
   }
 }

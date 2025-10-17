@@ -98,9 +98,7 @@ class _EditPostDialogState extends ConsumerState<EditPostDialog> {
             ),
             const SizedBox(height: 8),
             Text(
-              l.editPostCharacterCount
-                  .replaceAll('{current}', '${_controller.text.length}')
-                  .replaceAll('{max}', '5000'),
+              l.editPostCharacterCount('${_controller.text.length}', '5000'),
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey.shade600,

@@ -42,9 +42,7 @@ class QuizResultsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                context.l.quizResultsScoreDisplay
-                    .replaceAll('{score}', score.toString())
-                    .replaceAll('{total}', totalQuestions.toString()),
+                context.l.quizResultsScoreDisplay(score.toString(), totalQuestions.toString()),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                   fontWeight: FontWeight.bold,

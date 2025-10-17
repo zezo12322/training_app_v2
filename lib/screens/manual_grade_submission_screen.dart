@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/core/logging.dart';
+import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/models/quiz_submission.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/providers/quiz_providers.dart';
@@ -108,13 +109,13 @@ class _ManualGradeSubmissionScreenState
     res.when(
       success: (_) {
         if (mounted) {
-          AppSnackBar.show(context, 'تم حفظ التصحيح', isError: false);
+          AppSnackBar.show(context, context.l.manualGradeSaveSuccess, isError: false);
           Navigator.of(context).pop();
         }
       },
       failure: (f) {
         if (mounted) {
-          AppSnackBar.show(context, 'فشل: ${f.message}');
+          AppSnackBar.show(context, context.l.manualGradeSaveError(f.message));
         }
       },
     );
@@ -122,20 +123,21 @@ class _ManualGradeSubmissionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('تصحيح يدوي')),
+      appBar: AppBar(title: Text(l.manualGradeTitle)),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : submission == null
-          ? const Center(child: Text('التسليم غير موجود'))
+          ? Center(child: Text(l.manualGradeNotFound))
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
                 Text(
-                  'المتدرب: ${submission!.traineeEmail.isNotEmpty ? submission!.traineeEmail : submission!.traineeId}',
+                  l.manualGradeTraineeLabel(submission!.traineeEmail.isNotEmpty ? submission!.traineeEmail : submission!.traineeId),
                 ),
                 const SizedBox(height: 12),
-                Text('درجة آلية: ${submission!.autoScore}'),
+                Text(l.manualGradeAutoScore(submission!.autoScore.toString())),
                 const Divider(height: 32),
                 ...questions
                     .where(
@@ -158,14 +160,14 @@ class _ManualGradeSubmissionScreenState
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              Text(answer?.toString() ?? 'لا توجد إجابة'),
+                              Text(answer?.toString() ?? l.manualGradeNoAnswer),
                               const SizedBox(height: 8),
                               TextField(
                                 controller: _scoreCtrls[q.id],
                                 keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  labelText: 'درجة السؤال (عدد صحيح)',
-                                  border: OutlineInputBorder(),
+                                decoration: InputDecoration(
+                                  labelText: l.manualGradeQuestionScore,
+                                  border: const OutlineInputBorder(),
                                 ),
                               ),
                             ],
@@ -176,7 +178,7 @@ class _ManualGradeSubmissionScreenState
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.save),
-                  label: const Text('حفظ التصحيح'),
+                  label: Text(l.manualGradeSaveButton),
                   onPressed: _save,
                 ),
               ],

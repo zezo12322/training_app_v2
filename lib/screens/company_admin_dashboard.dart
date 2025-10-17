@@ -43,7 +43,7 @@ class CompanyAdminDashboard extends ConsumerWidget {
       ),
       body: metricsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text(context.l.companyAdminError.replaceAll('{error}', e.toString()))),
+        error: (e, st) => Center(child: Text(context.l.companyAdminError(e.toString()))),
         data: (list) {
           final dataAsc = list.reversed.toList();
           List<double> toDoubles(List<num> src) =>

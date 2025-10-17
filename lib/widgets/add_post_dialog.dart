@@ -106,14 +106,14 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
           },
         );
 
-        uploadResult.when(
+            uploadResult.when(
           success: (urls) {
             imageUrls = urls;
           },
           failure: (error) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l.addPostUploadError.replaceAll('{error}', error.message))),
+                SnackBar(content: Text(l.addPostUploadError(error.message))),
               );
             }
             setState(() => _isUploading = false);
@@ -222,9 +222,10 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                     
                     // Character counter
                     Text(
-                      l.addPostCharacterCount
-                          .replaceAll('{current}', '${_contentController.text.length}')
-                          .replaceAll('{max}', '5000'),
+          l.addPostCharacterCount(
+            _contentController.text.length,
+            5000,
+          ),
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,
@@ -259,7 +260,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                     // Selected images preview
                     if (_selectedImages.isNotEmpty) ...[
                       Text(
-                        l.addPostSelectedImages.replaceAll('{count}', '${_selectedImages.length}'),
+                        l.addPostSelectedImages(_selectedImages.length),
                         style: theme.textTheme.titleSmall,
                       ),
                       const SizedBox(height: 8),
@@ -318,7 +319,7 @@ class _AddPostDialogState extends ConsumerState<AddPostDialog> {
                       Center(
                         child: Text(
                           _uploadProgress < 1
-                              ? l.addPostUploadingImages.replaceAll('{percent}', '${(_uploadProgress * 100).toInt()}')
+                              ? l.addPostUploadingImages((_uploadProgress * 100).toInt())
                               : l.addPostPublishing,
                           style: TextStyle(
                             fontSize: 14,

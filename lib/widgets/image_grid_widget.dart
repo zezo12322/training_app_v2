@@ -277,11 +277,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text(
-          l.imageViewerTitle
-              .replaceAll('{current}', '${_currentIndex + 1}')
-              .replaceAll('{total}', '${widget.imageUrls.length}'),
-        ),
+            title: Text(l.imageViewerTitle('${_currentIndex + 1}', '${widget.imageUrls.length}')),
         actions: [
           IconButton(
             icon: const Icon(Icons.download),
@@ -370,9 +366,9 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
     } catch (e) {
       if (context.mounted) {
         final l = context.l;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.imageErrorGeneric.replaceAll('{error}', e.toString()))),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l.imageErrorGeneric(e.toString()))),
+          );
       }
     }
   }

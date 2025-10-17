@@ -8,6 +8,7 @@ import 'package:training_app/providers/wall_filter_providers.dart';
 import 'package:training_app/providers/gamification/gamification_providers.dart';
 import 'package:training_app/core/logging.dart';
 import 'package:training_app/services/notification_service.dart';
+import 'package:training_app/core/l10n_ext.dart';
 import '../widgets/wall_post_card.dart';
 import '../widgets/add_post_dialog.dart';
 import '../widgets/create_poll_dialog.dart';
@@ -41,14 +42,40 @@ class CourseDetailsScreen extends ConsumerStatefulWidget {
       _CourseDetailsScreenState();
 }
 
-class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
+class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> 
+    with WidgetsBindingObserver {
+  
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // 🎮 تحديث Daily Streak عند فتح الكورس
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkDailyStreak();
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshData();
+    }
+  }
+
+  void _refreshData() {
+    // Invalidate wall posts to refresh content
+    ref.invalidate(wallPostsStreamProvider(widget.courseId));
+  }
+
+  Future<void> _onRefresh() async {
+    _refreshData();
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   Future<void> _checkDailyStreak() async {
@@ -80,8 +107,8 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       if (trainees.isEmpty) return;
       await OneSignalNotificationService().sendNotificationViaBackend(
         userIds: trainees,
-        title: 'منشور جديد في: $courseName',
-        content: 'قام $authorEmail بإضافة منشور جديد.',
+        title: context.l.courseDetailsNewPostTitle(courseName),
+        content: context.l.courseDetailsNewPostContent(authorEmail),
       );
     } catch (e, st) {
       logger.w(
@@ -114,12 +141,13 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      AppSnackBar.show(context, 'حدث خطأ: $e');
+      AppSnackBar.show(context, context.l.courseDetailsError(e.toString()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final authUser = ref.watch(authStateProvider).value;
     final isTrainer = authUser?.uid == widget.trainerId;
     return Scaffold(
@@ -128,7 +156,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
         actions: [
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
-            tooltip: 'المزيد من الخيارات',
+            tooltip: l.courseDetailsMoreOptions,
             onSelected: (value) {
               switch (value) {
                 case 'badges':
@@ -204,86 +232,86 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'badges',
                 child: ListTile(
-                  leading: Icon(Icons.emoji_events_outlined),
-                  title: Text('الشارات والإنجازات'),
+                  leading: const Icon(Icons.emoji_events_outlined),
+                  title: Text(l.courseDetailsBadges),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'leaderboard',
                 child: ListTile(
-                  leading: Icon(Icons.leaderboard_outlined),
-                  title: Text('لوحة المتصدرين'),
+                  leading: const Icon(Icons.leaderboard_outlined),
+                  title: Text(l.courseDetailsLeaderboard),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'achievements',
                 child: ListTile(
-                  leading: Icon(Icons.military_tech_outlined),
-                  title: Text('الإنجازات'),
+                  leading: const Icon(Icons.military_tech_outlined),
+                  title: Text(l.courseDetailsAchievements),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'modules',
                 child: ListTile(
-                  leading: Icon(Icons.school_outlined),
-                  title: Text('الوحدات التعليمية'),
+                  leading: const Icon(Icons.school_outlined),
+                  title: Text(l.courseDetailsModules),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'quizzes',
                 child: ListTile(
-                  leading: Icon(Icons.quiz_outlined),
-                  title: Text('الاختبارات'),
+                  leading: const Icon(Icons.quiz_outlined),
+                  title: Text(l.courseDetailsQuizzes),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'resources',
                 child: ListTile(
-                  leading: Icon(Icons.folder_copy_outlined),
-                  title: Text('مكتبة الموارد'),
+                  leading: const Icon(Icons.folder_copy_outlined),
+                  title: Text(l.courseDetailsResources),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
               if (isTrainer) ...[
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'trainees',
                   child: ListTile(
-                    leading: Icon(Icons.people_alt_outlined),
-                    title: Text('المتدربين'),
+                    leading: const Icon(Icons.people_alt_outlined),
+                    title: Text(l.courseDetailsTrainees),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'analytics',
                   child: ListTile(
-                    leading: Icon(Icons.analytics_outlined),
-                    title: Text('تحليلات الكورس'),
+                    leading: const Icon(Icons.analytics_outlined),
+                    title: Text(l.courseDetailsAnalytics),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'gamification',
                   child: ListTile(
-                    leading: Icon(Icons.settings_outlined),
-                    title: Text('إعدادات النقاط'),
+                    leading: const Icon(Icons.settings_outlined),
+                    title: Text(l.courseDetailsPointsSettings),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
               ],
               if (!isTrainer)
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'evaluations',
                   child: ListTile(
-                    leading: Icon(Icons.assignment_turned_in_outlined),
-                    title: Text('تقييماتي'),
+                    leading: const Icon(Icons.assignment_turned_in_outlined),
+                    title: Text(l.courseDetailsMyEvaluations),
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
@@ -291,49 +319,53 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Search bar
-          WallSearchBar(courseId: widget.courseId),
-          const Divider(height: 1),
-          
-          // Content
-          Expanded(
-            child: Column(
-              children: [
-                // Progress Card
-                ProgressCard(
-                  courseId: widget.courseId,
-                  showStreak: true,
-                  onTap: () {
-                    // Show course details in dialog
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('معلومات الكورس'),
-                        content: const Text('تفاصيل الكورس الكاملة'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('إغلاق'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                // Posts List
-                Expanded(child: _buildPostsList()),
-              ],
+      body: RefreshIndicator(
+        onRefresh: _onRefresh,
+        child: Column(
+          children: [
+            // Search bar
+            WallSearchBar(courseId: widget.courseId),
+            const Divider(height: 1),
+            
+            // Content
+            Expanded(
+              child: Column(
+                children: [
+                  // Progress Card
+                  ProgressCard(
+                    courseId: widget.courseId,
+                    showStreak: true,
+                    onTap: () {
+                      // Show course details in dialog
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(l.courseDetailsInfoTitle),
+                          content: Text(l.courseDetailsInfoContent),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(l.courseDetailsClose),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  // Posts List
+                  Expanded(child: _buildPostsList()),
+                ],
+              ),
             ),
-          ),
-          if (isTrainer) _buildPostComposer(),
-        ],
+            if (isTrainer) _buildPostComposer(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildPostsList() {
+    final l = context.l;
     final postsAsync = ref.watch(wallPostsStreamProvider(widget.courseId));
     final authUser = ref.watch(authStateProvider).value;
     final userDoc = authUser != null
@@ -342,7 +374,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
 
     return postsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('حدث خطأ: $e')),
+      error: (e, _) => Center(child: Text(l.courseDetailsError(e.toString()))),
       data: (allPosts) {
         // Apply filters
         final filteredPosts = ref.watch(
@@ -366,7 +398,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                     const SizedBox(height: 16),
                     Center(
                       child: Text(
-                        'لا توجد منشورات',
+                        l.courseDetailsNoPosts,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey.shade600,
@@ -376,7 +408,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                     const SizedBox(height: 8),
                     Center(
                       child: Text(
-                        'جرّب تغيير إعدادات البحث',
+                        l.courseDetailsChangeFilters,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade500,
@@ -411,6 +443,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
   }
 
   Widget _buildPostComposer() {
+    final l = context.l;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -438,7 +471,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'ماذا تريد أن تشارك؟',
+                    l.courseDetailsPlaceholder,
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 15,
@@ -448,12 +481,12 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
                 IconButton(
                   icon: Icon(Icons.photo_library, color: Theme.of(context).colorScheme.primary),
                   onPressed: () => _showAddPostDialog(),
-                  tooltip: 'إضافة صور',
+                  tooltip: l.courseDetailsAddImages,
                 ),
                 IconButton(
                   icon: Icon(Icons.poll, color: Theme.of(context).colorScheme.secondary),
                   onPressed: () => _showCreatePollDialog(),
-                  tooltip: 'إنشاء استطلاع',
+                  tooltip: l.courseDetailsCreatePoll,
                 ),
               ],
             ),
@@ -477,7 +510,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
       final authUser = ref.read(authStateProvider).value;
       if (authUser != null) {
         await _sendNotificationsToTrainees(
-          authUser.email ?? 'المدرب',
+          authUser.email ?? context.l.courseDetailsTrainerFallback,
           widget.courseName,
         );
       }
@@ -487,7 +520,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
   Future<void> _showCreatePollDialog() async {
     final authUser = ref.read(authStateProvider).value;
     if (authUser == null) {
-      AppSnackBar.show(context, 'يجب تسجيل الدخول أولاً');
+      AppSnackBar.show(context, context.l.courseDetailsAuthRequired);
       return;
     }
 
@@ -509,7 +542,7 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen> {
     if (result == true && mounted) {
       // Poll was created successfully
       await _sendNotificationsToTrainees(
-        authUser.email ?? 'المدرب',
+        authUser.email ?? context.l.courseDetailsTrainerFallback,
         widget.courseName,
       );
     }

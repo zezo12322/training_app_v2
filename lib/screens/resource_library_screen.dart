@@ -6,6 +6,7 @@ import 'package:training_app/core/ui/snackbar_helper.dart';
 import 'package:training_app/services/notification_service.dart'; // notification service
 import 'package:url_launcher/url_launcher.dart';
 import 'package:training_app/services/hybrid_storage_service.dart';
+import '../core/l10n_ext.dart';
 
 class ResourceLibraryScreen extends StatefulWidget {
   final String courseId;
@@ -47,7 +48,7 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
       // --- إرسال الإشعار بعد الرفع بنجاح ---
       await _sendNewResourceNotification(fileName);
     } catch (e) {
-      if (mounted) AppSnackBar.show(context, 'فشل رفع الملف: $e');
+      if (mounted) AppSnackBar.show(context, context.l.resourceLibraryUploadFailed(e.toString()));
     } finally {
       if (mounted) {
         setState(() {
@@ -58,19 +59,20 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
   }
 
   Future<void> _sendNewResourceNotification(String fileName) async {
+    final l = context.l;
     final courseDoc = await FirebaseFirestore.instance
         .collection('courses')
         .doc(widget.courseId)
         .get();
     if (!courseDoc.exists) return;
-    final courseName = courseDoc.data()?['name'] ?? 'كورس';
+    final courseName = courseDoc.data()?['name'] ?? l.resourceLibraryDefaultCourseName;
     final trainees = List<String>.from(courseDoc.data()?['trainees'] ?? []);
     if (trainees.isEmpty) return;
 
     await OneSignalNotificationService().sendNotificationViaBackend(
       userIds: trainees,
-      title: 'ملف جديد في: $courseName',
-      content: 'تمت إضافة ملف جديد بعنوان: $fileName',
+      title: l.resourceLibraryNotificationTitle(courseName),
+      content: l.resourceLibraryNotificationContent(fileName),
     );
   }
 
@@ -79,14 +81,15 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
-      if (mounted) AppSnackBar.show(context, 'لا يمكن فتح هذا الملف: $fileUrl');
+      if (mounted) AppSnackBar.show(context, context.l.resourceLibraryCannotOpen(fileUrl));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('مكتبة الموارد')),
+      appBar: AppBar(title: Text(l.resourceLibraryTitle)),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 150));
@@ -104,16 +107,16 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\n\n${snapshot.error}',
+                  l.resourceLibraryError(snapshot.error.toString()),
                 ),
               );
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 120),
-                  Center(child: Text('لا توجد ملفات في المكتبة بعد.')),
+                children: [
+                  const SizedBox(height: 120),
+                  Center(child: Text(l.resourceLibraryEmpty)),
                 ],
               );
             }
@@ -155,8 +158,8 @@ class _ResourceLibraryScreenState extends State<ResourceLibraryScreen> {
               heroTag: 'resource_library_fab', // unique tag
               onPressed: _isLoading ? null : _pickAndUploadFile,
               label: _isLoading
-                  ? const Text('جار الرفع...')
-                  : const Text('رفع ملف'),
+                  ? Text(l.resourceLibraryUploading)
+                  : Text(l.resourceLibraryUploadButton),
               icon: _isLoading
                   ? const SizedBox(
                       width: 20,

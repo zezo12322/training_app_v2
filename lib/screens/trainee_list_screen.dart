@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'trainee_report_card_screen.dart'; // <<< استيراد شاشة بطاقة التقرير
+import '../core/l10n_ext.dart';
 
 class TraineeListScreen extends StatelessWidget {
   final String courseId;
@@ -18,8 +19,9 @@ class TraineeListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('المتدربون')),
+      appBar: AppBar(title: Text(l.traineeListTitle)),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 150));
@@ -27,9 +29,9 @@ class TraineeListScreen extends StatelessWidget {
         child: traineeIds.isEmpty
             ? ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 120),
-                  Center(child: Text('لا يوجد متدربون في هذا الكورس بعد.')),
+                children: [
+                  const SizedBox(height: 120),
+                  Center(child: Text(l.traineeListEmpty)),
                 ],
               )
             : ListView.builder(
@@ -41,19 +43,19 @@ class TraineeListScreen extends StatelessWidget {
                     future: _getUserData(traineeId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const ListTile(title: Text('جار التحميل...'));
+                        return ListTile(title: Text(l.traineeListLoading));
                       }
                       if (!snapshot.hasData || !snapshot.data!.exists) {
                         return ListTile(
                           leading: const Icon(Icons.error, color: Colors.red),
-                          title: Text('متدرب غير موجود: $traineeId'),
+                          title: Text(l.traineeListNotFound(traineeId)),
                         );
                       }
 
                       final userData =
                           snapshot.data!.data() as Map<String, dynamic>;
                       final traineeEmail =
-                          userData['email'] as String? ?? 'بريد غير معروف';
+                          userData['email'] as String? ?? l.traineeListUnknownEmail;
 
                       return Card(
                         margin: const EdgeInsets.symmetric(

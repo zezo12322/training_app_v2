@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
+import 'package:training_app/core/design/tokens.dart';
 // import 'package:training_app/services/sso_service.dart'; // ❌ REMOVED - No more SSO
 
 enum UserRole { trainer, trainee }
@@ -112,130 +113,379 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final l = context.l;
+    final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    
     return Scaffold(
-      appBar: AppBar(title: Text(l.signupTitle)),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // --- 3. إضافة حقل إدخال الاسم في الواجهة ---
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: l.fullNameLabel,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.person),
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                  validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? l.fieldRequired : null,
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: l.emailLabel,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.email),
-                  ),
-                  validator: (v) {
-                    if (v == null || v.trim().isEmpty) return l.fieldRequired;
-                    if (!v.contains('@')) return l.invalidEmail;
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: _obscure,
-                  decoration: InputDecoration(
-                    labelText: l.passwordLabel,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                      onPressed: () => setState(() => _obscure = !_obscure),
-                      icon: Icon(
-                        _obscure ? Icons.visibility : Icons.visibility_off,
-                      ),
+      backgroundColor: DesignTokens.background(context),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth > 600 ? 100 : 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  
+                  // Logo/Brand Name
+                  Text(
+                    'Training App',
+                    style: DesignTokens.h2(context).copyWith(
+                      color: theme.colorScheme.primary,
                     ),
                   ),
-                  validator: (v) =>
-                      (v == null || v.length < 6) ? l.passwordTooShort : null,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  l.chooseRole,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile<UserRole>(
-                        title: Text(l.roleTrainer),
-                        value: UserRole.trainer,
-                        groupValue: _selectedRole,
-                        onChanged: (value) =>
-                            setState(() => _selectedRole = value),
-                      ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Signup Card
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    margin: EdgeInsets.only(top: DesignTokens.spacingXl),
+                    decoration: BoxDecoration(
+                      color: DesignTokens.surface(context),
+                      borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                      boxShadow: DesignTokens.shadowMd(context),
                     ),
-                    Expanded(
-                      child: RadioListTile<UserRole>(
-                        title: Text(l.roleTrainee),
-                        value: UserRole.trainee,
-                        groupValue: _selectedRole,
-                        onChanged: (value) =>
-                            setState(() => _selectedRole = value),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                FilledButton(
-                  onPressed: _isLoading ? null : _createAccount,
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: _isLoading
-                        ? const SizedBox(
-                            key: ValueKey('prog'),
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
+                    padding: EdgeInsets.all(DesignTokens.spacingXl),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Title
+                          Text(
+                            l.signupTitle,
+                            textAlign: TextAlign.center,
+                            style: DesignTokens.h4(context),
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingSm),
+                          
+                          Text(
+                            "It's quick and easy.",
+                            textAlign: TextAlign.center,
+                            style: DesignTokens.body1(context).copyWith(
+                              color: DesignTokens.textSecondary(context),
                             ),
-                          )
-                        : Text(key: const ValueKey('text'), l.signupAction),
+                          ),
+                          
+                          Divider(height: DesignTokens.spacingXxl),
+                          
+                          // Name Field
+                          TextFormField(
+                            controller: _nameController,
+                            textCapitalization: TextCapitalization.words,
+                            style: DesignTokens.body1(context),
+                            decoration: InputDecoration(
+                              hintText: l.fullNameLabel,
+                              hintStyle: DesignTokens.body1(context).copyWith(
+                                color: DesignTokens.textSecondary(context),
+                              ),
+                              filled: true,
+                              fillColor: DesignTokens.fillColor(context),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: DesignTokens.spacingLg,
+                                vertical: DesignTokens.spacingLg,
+                              ),
+                            ),
+                            validator: (v) =>
+                                (v == null || v.trim().isEmpty) ? l.fieldRequired : null,
+                            textInputAction: TextInputAction.next,
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingMd),
+                          
+                          // Email Field
+                          TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            style: DesignTokens.body1(context),
+                            decoration: InputDecoration(
+                              hintText: l.emailLabel,
+                              hintStyle: DesignTokens.body1(context).copyWith(
+                                color: DesignTokens.textSecondary(context),
+                              ),
+                              filled: true,
+                              fillColor: DesignTokens.fillColor(context),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: DesignTokens.spacingLg,
+                                vertical: DesignTokens.spacingLg,
+                              ),
+                            ),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return l.fieldRequired;
+                              if (!v.contains('@')) return l.invalidEmail;
+                              return null;
+                            },
+                            textInputAction: TextInputAction.next,
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingMd),
+                          
+                          // Password Field
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obscure,
+                            style: DesignTokens.body1(context),
+                            decoration: InputDecoration(
+                              hintText: l.passwordLabel,
+                              hintStyle: DesignTokens.body1(context).copyWith(
+                                color: DesignTokens.textSecondary(context),
+                              ),
+                              filled: true,
+                              fillColor: DesignTokens.fillColor(context),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: DesignTokens.spacingLg,
+                                vertical: DesignTokens.spacingLg,
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () => setState(() => _obscure = !_obscure),
+                                icon: Icon(
+                                  _obscure ? Icons.visibility_off : Icons.visibility,
+                                  color: DesignTokens.textSecondary(context),
+                                ),
+                              ),
+                            ),
+                            validator: (v) =>
+                                (v == null || v.length < 6) ? l.passwordTooShort : null,
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingLg),
+                          
+                          // Role Selection
+                          Text(
+                            l.chooseRole,
+                            style: DesignTokens.body1(context).copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingSm),
+                          
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Material(
+                                  color: _selectedRole == UserRole.trainer
+                                      ? theme.colorScheme.primary.withOpacity(0.1)
+                                      : DesignTokens.fillColor(context),
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                  child: InkWell(
+                                    onTap: () => setState(() => _selectedRole = UserRole.trainer),
+                                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: DesignTokens.spacingMd,
+                                        horizontal: DesignTokens.spacingMd,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                        border: Border.all(
+                                          color: _selectedRole == UserRole.trainer
+                                              ? theme.colorScheme.primary
+                                              : DesignTokens.borderColor(context),
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Radio<UserRole>(
+                                            value: UserRole.trainer,
+                                            groupValue: _selectedRole,
+                                            onChanged: (value) =>
+                                                setState(() => _selectedRole = value),
+                                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              l.roleTrainer,
+                                              style: DesignTokens.body1(context).copyWith(
+                                                fontWeight: _selectedRole == UserRole.trainer
+                                                    ? FontWeight.w600
+                                                    : FontWeight.normal,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: DesignTokens.spacingMd),
+                              Expanded(
+                                child: Material(
+                                  color: _selectedRole == UserRole.trainee
+                                      ? theme.colorScheme.primary.withOpacity(0.1)
+                                      : DesignTokens.fillColor(context),
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                  child: InkWell(
+                                    onTap: () => setState(() => _selectedRole = UserRole.trainee),
+                                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: DesignTokens.spacingMd,
+                                        horizontal: DesignTokens.spacingMd,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                        border: Border.all(
+                                          color: _selectedRole == UserRole.trainee
+                                              ? theme.colorScheme.primary
+                                              : DesignTokens.borderColor(context),
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Radio<UserRole>(
+                                            value: UserRole.trainee,
+                                            groupValue: _selectedRole,
+                                            onChanged: (value) =>
+                                                setState(() => _selectedRole = value),
+                                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              l.roleTrainee,
+                                              style: DesignTokens.body1(context).copyWith(
+                                                fontWeight: _selectedRole == UserRole.trainee
+                                                    ? FontWeight.w600
+                                                    : FontWeight.normal,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingXl),
+                          
+                          // Sign Up Button
+                          SizedBox(
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _createAccount,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: DesignTokens.success,
+                                foregroundColor: DesignTokens.textOnColor(context),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                ),
+                                elevation: 0,
+                                textStyle: DesignTokens.button(context),
+                              ),
+                              child: AnimatedSwitcher(
+                                duration: DesignTokens.durationMedium,
+                                child: _isLoading
+                                    ? SizedBox(
+                                        key: const ValueKey('prog'),
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.5,
+                                          color: DesignTokens.textOnColor(context),
+                                        ),
+                                      )
+                                    : Text(
+                                        key: const ValueKey('text'),
+                                        l.signupAction,
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                // ❌ REMOVED: SSO buttons (Google Sign-In, Apple Sign-In) - No more SSO
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.login, size: 18),
-                      const SizedBox(width: 6),
-                      Text(l.haveAccountLogin),
-                    ],
+                  
+                  SizedBox(height: DesignTokens.spacingXl),
+                  
+                  // Already have account link
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: theme.colorScheme.primary,
+                      backgroundColor: DesignTokens.surface(context),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: DesignTokens.spacingXl,
+                        vertical: DesignTokens.spacingMd,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                      ),
+                    ),
+                    child: Text(
+                      l.haveAccountLogin,
+                      style: DesignTokens.body1(context).copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
         ),

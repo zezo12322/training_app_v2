@@ -393,7 +393,7 @@ class _WallPostCardState extends ConsumerState<WallPostCard>
                           onPressed: _showCommentsSheet,
                           icon: const Icon(Icons.comment_outlined, size: 16),
                           label: Text(
-                            l.postCommentCount.replaceAll('{count}', '${widget.post.commentCount}'),
+                            l.postCommentCount(widget.post.commentCount),
                             style: const TextStyle(fontSize: 13),
                           ),
                           style: TextButton.styleFrom(

@@ -88,7 +88,9 @@ void main() {
 
       when(() => mockFirestore.collection('users')).thenReturn(mockCollection);
       when(() => mockCollection.doc(any())).thenReturn(mockDocument);
-      when(() => mockDocument.set(any())).thenAnswer((_) async {});
+      when(() => mockDocument.set(any())).thenAnswer((_) async {
+        return null;
+      });
 
       // Act
       final result = await authRepository.signUp(
@@ -132,6 +134,7 @@ void main() {
       Map<String, dynamic>? capturedData;
       when(() => mockDocument.set(any())).thenAnswer((invocation) async {
         capturedData = invocation.positionalArguments[0] as Map<String, dynamic>;
+        return null;
       });
 
       // Act
@@ -298,6 +301,7 @@ void main() {
       Map<String, dynamic>? firestoreData;
       when(() => mockDocument.set(any())).thenAnswer((invocation) async {
         firestoreData = invocation.positionalArguments[0] as Map<String, dynamic>;
+        return null;
       });
 
       // Act
@@ -326,6 +330,7 @@ void main() {
       Map<String, dynamic>? updatedData;
       when(() => mockDocument.update(any())).thenAnswer((invocation) async {
         updatedData = invocation.positionalArguments[0] as Map<String, dynamic>;
+        return null;
       });
 
       // Act

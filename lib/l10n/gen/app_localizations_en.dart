@@ -708,6 +708,54 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get leaderboardWeekly => 'Weekly';
+
+  @override
+  String get leaderboardMonthly => 'Monthly';
+
+  @override
+  String get leaderboardAllTime => 'All Time';
+
+  @override
+  String get leaderboardRetry => 'Retry';
+
+  @override
+  String get leaderboardLoadError =>
+      'An error occurred while loading leaderboard';
+
+  @override
+  String get leaderboardNoEntries => 'No leaderboard entries yet';
+
+  @override
+  String get leaderboardYou => 'You';
+
+  @override
+  String get leaderboardRank => 'Rank';
+
+  @override
+  String leaderboardPointsWithLabel(Object points) {
+    return '$points points';
+  }
+
+  @override
+  String get leaderboardPointsShort => 'points';
+
+  @override
+  String leaderboardLevelFormat(Object level, Object name) {
+    return 'Level $level • $name';
+  }
+
+  @override
+  String get leaderboardEmptyTitle => 'No top players yet';
+
+  @override
+  String get leaderboardEmptySubtitle => 'Be the first to earn points!';
+
+  @override
+  String get leaderboardErrorLoad =>
+      'An error occurred while loading top players';
+
+  @override
   String get pointsLabel => 'Points';
 
   @override
@@ -1275,9 +1323,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reactionsClose => 'Close';
-
-  @override
-  String get emailVerificationTitle => 'Email Verification';
 
   @override
   String get privacyPolicyTitle => 'Privacy Policy';
@@ -2059,6 +2104,41 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String orgAdminLatest(Object value) {
+    return 'Latest: $value';
+  }
+
+  @override
+  String get orgAdminActiveUsers => 'Active Users';
+
+  @override
+  String get orgAdminAvgEventsPerUser7d => 'Avg Events/User (7d)';
+
+  @override
+  String get orgAdminAvgMastery => 'Avg Mastery';
+
+  @override
+  String get orgAdminAvgMasteryDelta14d => 'Avg Mastery Delta (14d)';
+
+  @override
+  String get orgAdminLatest7Days => 'Latest 7 Days';
+
+  @override
+  String get orgAdminDate => 'Date';
+
+  @override
+  String get orgAdminActive => 'Active';
+
+  @override
+  String get orgAdminAvgEvPerUsr => 'Avg Ev/Usr';
+
+  @override
+  String get orgAdminAvgMasteryShort => 'Avg Mast';
+
+  @override
+  String get orgAdminDelta14d => 'Δ14d';
+
+  @override
   String get takeQuizNoQuestions => 'No questions in this quiz yet.';
 
   @override
@@ -2489,4 +2569,1673 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userPickerRoleTrainee => 'Trainee';
+
+  @override
+  String quizSubmissionsTitle(Object quizTitle) {
+    return 'Submissions: $quizTitle';
+  }
+
+  @override
+  String personalProfileUploadFailed(Object error) {
+    return 'Image upload failed: $error';
+  }
+
+  @override
+  String get personalProfileSaved => 'Saved';
+
+  @override
+  String personalProfileSaveFailed(Object error) {
+    return 'Save failed: $error';
+  }
+
+  @override
+  String get settingsArabicLabel => 'Arabic';
+
+  @override
+  String privacyPolicyLoadFailed(Object error) {
+    return 'Failed to load privacy policy: $error';
+  }
+
+  @override
+  String termsOfServiceLoadFailed(Object error) {
+    return 'Failed to load terms of service: $error';
+  }
+
+  @override
+  String get traineeListTitle => 'Trainees';
+
+  @override
+  String get traineeListEmpty => 'No trainees in this course yet.';
+
+  @override
+  String resourceLibraryUploadFailed(Object error) {
+    return 'File upload failed: $error';
+  }
+
+  @override
+  String get resourceLibraryDefaultCourseName => 'Course';
+
+  @override
+  String resourceLibraryNotificationTitle(Object courseName) {
+    return 'New file in: $courseName';
+  }
+
+  @override
+  String resourceLibraryNotificationContent(Object fileName) {
+    return 'New file added with title: $fileName';
+  }
+
+  @override
+  String resourceLibraryCannotOpen(Object fileUrl) {
+    return 'Cannot open this file: $fileUrl';
+  }
+
+  @override
+  String get resourceLibraryTitle => 'Resource Library';
+
+  @override
+  String resourceLibraryError(Object error) {
+    return 'An error occurred. Make sure to create the required index.\\n\\n$error';
+  }
+
+  @override
+  String get resourceLibraryEmpty => 'No files in the library yet.';
+
+  @override
+  String get resourceLibraryUploading => 'Uploading...';
+
+  @override
+  String get resourceLibraryUploadButton => 'Upload File';
+
+  @override
+  String get quizListTitle => 'Quizzes';
+
+  @override
+  String quizListError(Object error) {
+    return 'An error occurred. Make sure to create the required index.\\n\\n$error';
+  }
+
+  @override
+  String get quizListEmpty => 'No quizzes created yet.';
+
+  @override
+  String get quizListViewSubmissions => 'View submissions';
+
+  @override
+  String get quizListCreateButton => 'Create Quiz';
+
+  @override
+  String quizSubmissionsError(Object error) {
+    return 'An error occurred. Make sure to create the required index.\\n\\n$error';
+  }
+
+  @override
+  String get quizSubmissionsEmpty => 'No trainee has submitted this quiz yet.';
+
+  @override
+  String quizSubmissionsResultFormat(Object score, Object total, Object date) {
+    return 'Score: $score out of $total\\nSubmitted on: $date';
+  }
+
+  @override
+  String get traineeListLoading => 'Loading...';
+
+  @override
+  String traineeListNotFound(Object traineeId) {
+    return 'Trainee not found: $traineeId';
+  }
+
+  @override
+  String get traineeListUnknownEmail => 'Unknown email';
+
+  @override
+  String get personalProfileSectionData => 'Data';
+
+  @override
+  String get personalProfileNameLabel => 'Name';
+
+  @override
+  String get personalProfileNameRequired => 'Name is required';
+
+  @override
+  String get personalProfileEmailLabel => 'Email';
+
+  @override
+  String get personalProfileStatsTitle => 'Statistics';
+
+  @override
+  String get personalProfileAchievementsTitle => 'Achievements';
+
+  @override
+  String get personalProfileRecentActivityTitle => 'Recent activity';
+
+  @override
+  String get personalProfileTrainerStatsTitle => 'Training statistics';
+
+  @override
+  String get personalProfileSaveButton => 'Save changes';
+
+  @override
+  String get personalProfileRoleTrainee => 'Trainee';
+
+  @override
+  String get personalProfileRoleTrainer => 'Trainer';
+
+  @override
+  String personalProfilePointsLabelShort(Object points) {
+    return 'Points: $points';
+  }
+
+  @override
+  String personalProfileAuthError(Object error) {
+    return 'Auth error: $error';
+  }
+
+  @override
+  String get personalProfileLoginRequired => 'Please log in';
+
+  @override
+  String get personalProfileTitle => 'Personal profile';
+
+  @override
+  String personalProfileDataLoadError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get personalProfileActivitiesLabel => 'Activities';
+
+  @override
+  String get personalProfileEvaluationsLabel => 'Evaluations';
+
+  @override
+  String get personalProfileEvaluationsGivenLabel => 'Evaluations you gave';
+
+  @override
+  String get personalProfileSinceLabel => 'Since';
+
+  @override
+  String get personalProfilePointsLabel => 'Points';
+
+  @override
+  String get personalProfileNoBadges => 'No badges yet';
+
+  @override
+  String personalProfileActivityLoadError(Object error) {
+    return 'Failed to load activity: $error';
+  }
+
+  @override
+  String get personalProfileNoRecentActivity => 'No recent activity yet';
+
+  @override
+  String personalProfilePointsCountFormat(Object points) {
+    return '$points points';
+  }
+
+  @override
+  String get personalProfileEventTestPassed => 'Test passed';
+
+  @override
+  String get personalProfileEventTaskCompleted => 'Task completed';
+
+  @override
+  String get personalProfileEventLessonCompleted => 'Lesson completed';
+
+  @override
+  String get personalProfileEventDailyStreak => 'Daily streak';
+
+  @override
+  String get personalProfileEventDefault => 'Point event';
+
+  @override
+  String get trainerStatsCoursesLabel => 'Courses';
+
+  @override
+  String get trainerStatsEvaluationsLabel => 'Evaluations';
+
+  @override
+  String get achievementsTitle => 'Achievements';
+
+  @override
+  String get achievementsMustLogin => 'You must log in first';
+
+  @override
+  String get achievementsFilterByCategory => 'Filter by Category';
+
+  @override
+  String get achievementsAll => 'All';
+
+  @override
+  String get achievementsSecretAchievement => 'Secret Achievement';
+
+  @override
+  String achievementsPoints(Object points) {
+    return '$points points';
+  }
+
+  @override
+  String get achievementsUnlocked => 'Unlocked ✓';
+
+  @override
+  String get achievementsLocked => 'Locked 🔒';
+
+  @override
+  String achievementsUnlockedOn(Object date) {
+    return 'Unlocked: $date';
+  }
+
+  @override
+  String get achievementsThisIsSecret => 'This is a secret achievement! 🤫';
+
+  @override
+  String get achievementsWillDiscoverWhenUnlock =>
+      'You\'ll discover it when you unlock it';
+
+  @override
+  String get achievementsClose => 'Close';
+
+  @override
+  String get achievementsNoAchievementsYet => 'No achievements yet';
+
+  @override
+  String get achievementsLoadError =>
+      'An error occurred while loading achievements';
+
+  @override
+  String get achievementsRetry => 'Retry';
+
+  @override
+  String get achievementsStatUnlocked => 'Unlocked';
+
+  @override
+  String get achievementsStatPercentage => 'Percentage';
+
+  @override
+  String get achievementsStatRemaining => 'Remaining';
+
+  @override
+  String get achievementsSecretLocked => 'Secret achievement 🔒';
+
+  @override
+  String get analyticsTitle => 'Analytics';
+
+  @override
+  String get analyticsOverview => 'Overview';
+
+  @override
+  String get analyticsTotalStudents => 'Total Students';
+
+  @override
+  String get analyticsActiveStudents => 'Active Students';
+
+  @override
+  String get analyticsAvgPoints => 'Avg Points';
+
+  @override
+  String get analyticsAvgLevel => 'Avg Level';
+
+  @override
+  String get analyticsEngagementRate => 'Engagement Rate';
+
+  @override
+  String analyticsEngagementPercent(Object percent) {
+    return '$percent% of students are active';
+  }
+
+  @override
+  String analyticsActiveOf(Object active, Object total) {
+    return 'Active: $active of $total';
+  }
+
+  @override
+  String get analyticsTopStudents => 'Top Students';
+
+  @override
+  String get analyticsNoStudents => 'No students yet';
+
+  @override
+  String analyticsLevel(Object level) {
+    return 'Level $level';
+  }
+
+  @override
+  String get analyticsPointsLabel => 'Points';
+
+  @override
+  String get analyticsPointsStats => 'Points Statistics';
+
+  @override
+  String get analyticsPointsAwarded => 'Points Awarded';
+
+  @override
+  String get analyticsAchievementsUnlocked => 'Achievements Unlocked';
+
+  @override
+  String get analyticsLoadError => 'An error occurred while loading analytics';
+
+  @override
+  String get analyticsRetry => 'Retry';
+
+  @override
+  String get gamificationSettingsTitle => 'Points Settings';
+
+  @override
+  String get gamificationSettingsSave => 'Save';
+
+  @override
+  String get gamificationSettingsLoadError =>
+      'An error occurred while loading settings';
+
+  @override
+  String get gamificationSettingsUnauthorized => 'Unauthorized';
+
+  @override
+  String get gamificationSettingsSaveSuccess => '✅ Settings saved successfully';
+
+  @override
+  String gamificationSettingsSaveError(Object error) {
+    return 'An error occurred while saving settings: $error';
+  }
+
+  @override
+  String get gamificationSettingsEnableSystem => 'Enable Points System';
+
+  @override
+  String get gamificationSettingsDisableNote =>
+      'If disabled, no points will be awarded';
+
+  @override
+  String get gamificationSettingsCoreActivities =>
+      'Core Activities (Mandatory)';
+
+  @override
+  String get gamificationSettingsCoreNote =>
+      'These activities are always enabled';
+
+  @override
+  String get gamificationSettingsCompleteLesson => 'Complete Lesson';
+
+  @override
+  String get gamificationSettingsPassQuiz => 'Pass Quiz';
+
+  @override
+  String get gamificationSettingsPerfectQuiz => 'Perfect Quiz Score';
+
+  @override
+  String get gamificationSettingsCompleteTask => 'Complete Task';
+
+  @override
+  String get gamificationSettingsCompleteModule => 'Complete Module';
+
+  @override
+  String get gamificationSettingsEnableSocial =>
+      'Enable Social Interaction Points';
+
+  @override
+  String get gamificationSettingsSocialNote => 'Posts and Comments';
+
+  @override
+  String get gamificationSettingsCreatePost => 'Create Post';
+
+  @override
+  String get gamificationSettingsWriteComment => 'Write Comment';
+
+  @override
+  String get gamificationSettingsHelpPeer => 'Help Peer';
+
+  @override
+  String get gamificationSettingsGetReaction => 'Get Reaction';
+
+  @override
+  String get gamificationSettingsEnableStreak => 'Enable Daily Login Streak';
+
+  @override
+  String get gamificationSettingsStreakNote => 'Encourage continuous login';
+
+  @override
+  String get gamificationSettingsDailyLogin => 'Daily Login';
+
+  @override
+  String get gamificationSettingsWeekStreak => 'Weekly Streak';
+
+  @override
+  String get gamificationSettingsSaveButton => 'Save Settings';
+
+  @override
+  String get gamificationSettingsResetDefaults => 'Reset to Defaults';
+
+  @override
+  String get gamificationSettingsResetSuccess => 'Default values restored';
+
+  @override
+  String gamificationSettingsPointsLabel(Object points) {
+    return '$points points';
+  }
+
+  @override
+  String get moduleDetailTitle => 'Module Details';
+
+  @override
+  String moduleDetailError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String get moduleDetailRetry => 'Retry';
+
+  @override
+  String moduleDetailProgressError(Object error) {
+    return 'Error loading progress: $error';
+  }
+
+  @override
+  String get moduleDetailDescription => 'Description';
+
+  @override
+  String get moduleDetailContents => 'Module Contents';
+
+  @override
+  String moduleDetailCompleteForPoints(Object points) {
+    return 'Complete all contents to get $points points';
+  }
+
+  @override
+  String get moduleDetailModuleCompleted => 'Module Completed! 🎉';
+
+  @override
+  String moduleDetailEarnedPoints(Object points) {
+    return 'You earned $points points';
+  }
+
+  @override
+  String get moduleDetailCompleted => 'Completed';
+
+  @override
+  String get moduleDetailProgress => 'Progress';
+
+  @override
+  String moduleDetailPointsOnCompletion(Object points) {
+    return '$points points on completion';
+  }
+
+  @override
+  String get moduleDetailUnmarkedComplete => 'Unmarked content as completed';
+
+  @override
+  String get moduleDetailMarkedComplete => 'Marked content as completed ✓';
+
+  @override
+  String moduleDetailMarkError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String get moduleDetailRequired => 'Required';
+
+  @override
+  String get moduleDetailTypeLesson => 'Lesson';
+
+  @override
+  String get moduleDetailTypeQuiz => 'Quiz';
+
+  @override
+  String get moduleDetailTypeAssignment => 'Assignment';
+
+  @override
+  String get moduleDetailTypeResource => 'Resource';
+
+  @override
+  String get anomalyDashboardTitle => 'Anomaly Detection';
+
+  @override
+  String get anomalyDashboardMustLogin => 'Must be logged in';
+
+  @override
+  String get anomalyDashboardFilterStatus => 'Filter by status';
+
+  @override
+  String get anomalyDashboardAllStates => 'All States';
+
+  @override
+  String get anomalyDashboardPending => 'Pending';
+
+  @override
+  String get anomalyDashboardInvestigating => 'Investigating';
+
+  @override
+  String get anomalyDashboardResolved => 'Resolved';
+
+  @override
+  String get anomalyDashboardTabAll => 'All';
+
+  @override
+  String get anomalyDashboardTabHigh => 'High';
+
+  @override
+  String get anomalyDashboardTabAlerts => 'Alerts';
+
+  @override
+  String get anomalyDashboardNoAnomalies => 'No anomalies detected';
+
+  @override
+  String get anomalyDashboardSystemNormal => 'System operating normally';
+
+  @override
+  String anomalyDashboardError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get anomalyDashboardNoHighRisk => 'No high-risk anomalies';
+
+  @override
+  String get anomalyDashboardNoAlerts => 'No alerts';
+
+  @override
+  String get anomalyDashboardReviewSuccess => 'Reviewed successfully';
+
+  @override
+  String get anomalyDashboardReviewFailed => 'Review failed';
+
+  @override
+  String get anomalyDashboardReviewButton => 'Review';
+
+  @override
+  String get anomalyDashboardType => 'Type';
+
+  @override
+  String get anomalyDashboardSeverity => 'Severity';
+
+  @override
+  String get anomalyDashboardStatus => 'Status';
+
+  @override
+  String get anomalyDashboardUser => 'User';
+
+  @override
+  String get anomalyDashboardDetectedAt => 'Detected At';
+
+  @override
+  String get anomalyDashboardDescription => 'Description';
+
+  @override
+  String get anomalyDashboardActions => 'Actions';
+
+  @override
+  String get anomalyDashboardMarkResolved => 'Mark as Resolved';
+
+  @override
+  String get anomalyDashboardInvestigate => 'Investigate';
+
+  @override
+  String get myEvaluationsTitle => 'My Evaluations';
+
+  @override
+  String get myEvaluationsToggleView => 'Toggle View';
+
+  @override
+  String get myEvaluationsMustLogin => 'Must log in first';
+
+  @override
+  String get myEvaluationsNoEvaluations => 'No evaluations added for you yet.';
+
+  @override
+  String myEvaluationsError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String myEvaluationsAuthError(Object error) {
+    return 'Authentication error: $error';
+  }
+
+  @override
+  String get myEvaluationsAudioUnavailable =>
+      'Unable to play audio evaluation (link currently unavailable)';
+
+  @override
+  String get myEvaluationsAudioAccessError =>
+      'Unable to access audio file. Check connection.';
+
+  @override
+  String myEvaluationsAudioPlayError(Object error) {
+    return 'Audio playback failed: $error';
+  }
+
+  @override
+  String get anomalySettingsTitle => 'Anomaly Detection Settings';
+
+  @override
+  String get anomalySettingsSaveSuccess => 'Settings saved successfully';
+
+  @override
+  String get anomalySettingsSaveFailed => 'Failed to save settings';
+
+  @override
+  String anomalySettingsSaveError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get anomalySettingsEnableDetection => 'Enable Anomaly Detection';
+
+  @override
+  String get anomalySettingsEnableDetectionSubtitle =>
+      'Automatically detect abnormal behavior';
+
+  @override
+  String get anomalySettingsEnabledTypes => 'Enabled Anomaly Types';
+
+  @override
+  String get anomalySettingsSuspiciousLogin => 'Suspicious Login';
+
+  @override
+  String get anomalySettingsSuspiciousLoginDesc =>
+      'Unusual devices or locations';
+
+  @override
+  String get anomalySettingsAbnormalScores => 'Abnormal Test Scores';
+
+  @override
+  String get anomalySettingsAbnormalScoresDesc =>
+      'Very high or very low scores';
+
+  @override
+  String get anomalySettingsRapidProgress => 'Rapid Progress';
+
+  @override
+  String get anomalySettingsRapidProgressDesc =>
+      'Completing courses or tests abnormally fast';
+
+  @override
+  String get anomalySettingsMultipleDevices => 'Multiple Devices';
+
+  @override
+  String get anomalySettingsMultipleDevicesDesc =>
+      'Using multiple devices in short time';
+
+  @override
+  String get anomalySettingsUnusualActivity => 'Unusual Activity';
+
+  @override
+  String get anomalySettingsUnusualActivityDesc =>
+      'Excessive or atypical activity';
+
+  @override
+  String get anomalySettingsCheatingPattern => 'Cheating Pattern';
+
+  @override
+  String get anomalySettingsCheatingPatternDesc =>
+      'Patterns indicating cheating attempt';
+
+  @override
+  String get anomalySettingsAccountSharing => 'Account Sharing';
+
+  @override
+  String get anomalySettingsAccountSharingDesc =>
+      'Account used by different people';
+
+  @override
+  String get anomalySettingsSensitivity => 'Sensitivity';
+
+  @override
+  String get anomalySettingsSensitivityLow => 'Low';
+
+  @override
+  String get anomalySettingsSensitivityHigh => 'High';
+
+  @override
+  String anomalySettingsSensitivityCurrent(Object percent) {
+    return 'Current sensitivity: $percent%';
+  }
+
+  @override
+  String get anomalySettingsAlerts => 'Alerts';
+
+  @override
+  String get anomalySettingsSendAlerts => 'Send Alerts';
+
+  @override
+  String get anomalySettingsSendAlertsSubtitle =>
+      'Notify admins when anomaly detected';
+
+  @override
+  String get anomalySettingsMinimumSeverity => 'Minimum Alert Severity';
+
+  @override
+  String get anomalySettingsSeverityLow => 'Low';
+
+  @override
+  String get anomalySettingsSeverityMedium => 'Medium';
+
+  @override
+  String get anomalySettingsSeverityHigh => 'High';
+
+  @override
+  String get anomalySettingsSeverityCritical => 'Critical';
+
+  @override
+  String get anomalySettingsAutomatedActions => 'Automated Actions';
+
+  @override
+  String get anomalySettingsSuspendCritical => 'Suspend Critical Accounts';
+
+  @override
+  String get anomalySettingsSuspendCriticalSubtitle =>
+      'Automatically suspend accounts with critical anomalies';
+
+  @override
+  String get anomalySettingsFlagCheating => 'Flag Cheating';
+
+  @override
+  String get anomalySettingsFlagCheatingSubtitle =>
+      'Automatically flag cheating attempts';
+
+  @override
+  String get anomalySettingsImportantNotes => 'Important Notes';
+
+  @override
+  String get anomalySettingsNote1 =>
+      '• Detection uses advanced statistical algorithms';
+
+  @override
+  String get anomalySettingsNote2 =>
+      '• False positives may occur - always review before action';
+
+  @override
+  String get anomalySettingsNote3 =>
+      '• Detection improves over time as data accumulates';
+
+  @override
+  String get anomalySettingsNote4 =>
+      '• High sensitivity = more detections (including false ones)';
+
+  @override
+  String get anomalySettingsNote5 =>
+      '• Periodic review of settings and results recommended';
+
+  @override
+  String get moderationQueueTitle => 'Moderation Queue';
+
+  @override
+  String moderationQueueError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get moderationQueueNoPending => 'No pending reports';
+
+  @override
+  String moderationQueueLoadError(Object error) {
+    return 'Error loading reports: $error';
+  }
+
+  @override
+  String get moderationQueuePending => 'Pending';
+
+  @override
+  String get moderationQueueResolved => 'Resolved';
+
+  @override
+  String get moderationQueueDismissed => 'Dismissed';
+
+  @override
+  String get moderationQueueTotal => 'Total';
+
+  @override
+  String moderationQueueReportedBy(Object name) {
+    return 'Reported by: $name';
+  }
+
+  @override
+  String get moderationQueueReason => 'Reason';
+
+  @override
+  String get moderationQueueDetails => 'Details';
+
+  @override
+  String get moderationQueueContentType => 'Content Type';
+
+  @override
+  String get moderationQueueActionWarn => 'Warn';
+
+  @override
+  String get moderationQueueActionDelete => 'Delete Content';
+
+  @override
+  String get moderationQueueActionMute => 'Mute';
+
+  @override
+  String get moderationQueueActionBan => 'Ban';
+
+  @override
+  String get moderationQueueActionDismiss => 'Dismiss Report';
+
+  @override
+  String get moderationQueueStatusPending => 'Pending Review';
+
+  @override
+  String get moderationQueueStatusInvestigating => 'Investigating';
+
+  @override
+  String get moderationQueueStatusActionTaken => 'Action Taken';
+
+  @override
+  String get moderationQueueStatusDismissed => 'Dismissed';
+
+  @override
+  String get moderationQueueStatusResolved => 'Resolved';
+
+  @override
+  String moderationQueueConfirmTitle(Object action) {
+    return 'Confirm Action: $action';
+  }
+
+  @override
+  String moderationQueueConfirmMessage(Object action) {
+    return 'Are you sure about $action?';
+  }
+
+  @override
+  String get moderationQueueCancel => 'Cancel';
+
+  @override
+  String get moderationQueueConfirm => 'Confirm';
+
+  @override
+  String moderationQueueActionCompleted(Object action) {
+    return 'Completed $action';
+  }
+
+  @override
+  String get moderationQueueActionSuccess => 'Action completed successfully';
+
+  @override
+  String get moderationQueueActionFailed => 'Action failed';
+
+  @override
+  String get moderationQueueReasonInappropriate => 'Inappropriate Content';
+
+  @override
+  String get moderationQueueReasonHarassment => 'Harassment';
+
+  @override
+  String get moderationQueueReasonSpam => 'Spam';
+
+  @override
+  String get moderationQueueReasonMisinformation => 'Misinformation';
+
+  @override
+  String get moderationQueueReasonHarmful => 'Harmful Content';
+
+  @override
+  String get moderationQueueReasonCopyright => 'Copyright Violation';
+
+  @override
+  String get moderationQueueReasonOther => 'Other';
+
+  @override
+  String get createBadgeTitle => 'Create New Badge';
+
+  @override
+  String get createBadgeSuccess => 'Badge created';
+
+  @override
+  String createBadgeError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get createBadgeIdLabel => 'ID (unique)';
+
+  @override
+  String get createBadgeIdRequired => 'Required';
+
+  @override
+  String get createBadgeNameLabel => 'Name';
+
+  @override
+  String get createBadgeNameRequired => 'Required';
+
+  @override
+  String get createBadgeDescLabel => 'Description';
+
+  @override
+  String get createBadgeIconLabel => 'Icon URL (optional)';
+
+  @override
+  String get createBadgeIsActive => 'Active';
+
+  @override
+  String get createBadgeAutoAward => 'Auto Award';
+
+  @override
+  String get createBadgeCriteria => 'Criteria (optional)';
+
+  @override
+  String get createBadgePointsMin => 'Points ≥';
+
+  @override
+  String get createBadgeStreakMin => 'Daily Streak ≥';
+
+  @override
+  String get createBadgeQuizzesMin => 'Quizzes Passed ≥';
+
+  @override
+  String get createBadgeTasksMin => 'Tasks Completed ≥';
+
+  @override
+  String get createBadgeLessonsMin => 'Lessons Completed ≥';
+
+  @override
+  String get createBadgeReviewsMin => 'Reviews Written ≥';
+
+  @override
+  String get createBadgeSaveButton => 'Save';
+
+  @override
+  String get hrisImportTitle => 'Import Users';
+
+  @override
+  String get hrisImportChooseFile => 'Choose CSV or Excel file';
+
+  @override
+  String get hrisImportSelectFile => 'Select File';
+
+  @override
+  String get hrisImportLoadTemplate => 'Load Saved Template';
+
+  @override
+  String get hrisImportUnsupportedFile => 'Unsupported file type';
+
+  @override
+  String get hrisImportEmptyFile => 'File is empty or contains only one row';
+
+  @override
+  String hrisImportError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get hrisImportMapColumns => 'Map Columns';
+
+  @override
+  String get hrisImportEmailRequired => 'Email *';
+
+  @override
+  String get hrisImportNameRequired => 'Name *';
+
+  @override
+  String get hrisImportRoleOptional => 'Role (optional)';
+
+  @override
+  String get hrisImportPhoneOptional => 'Phone (optional)';
+
+  @override
+  String get hrisImportDepartmentOptional => 'Department (optional)';
+
+  @override
+  String get hrisImportJobTitleOptional => 'Job Title (optional)';
+
+  @override
+  String get hrisImportSaveAsTemplate => 'Save as Template';
+
+  @override
+  String get hrisImportTemplateName => 'Template Name';
+
+  @override
+  String get hrisImportPreviewButton => 'Preview';
+
+  @override
+  String get hrisImportBackButton => 'Back';
+
+  @override
+  String get hrisImportNone => '-- None --';
+
+  @override
+  String get hrisImportPreviewTitle => 'Import Preview';
+
+  @override
+  String get hrisImportTotal => 'Total';
+
+  @override
+  String get hrisImportValid => 'Valid';
+
+  @override
+  String get hrisImportInvalid => 'Invalid';
+
+  @override
+  String get hrisImportUpdateExisting => 'Update Existing Users';
+
+  @override
+  String get hrisImportSampleRecords => 'Sample Records:';
+
+  @override
+  String get hrisImportStartButton => 'Start Import';
+
+  @override
+  String get hrisImportSuccess => 'Import completed successfully';
+
+  @override
+  String get hrisImportNoTemplates => 'No saved templates';
+
+  @override
+  String get hrisImportChooseTemplate => 'Choose Template';
+
+  @override
+  String get hrisImportCancel => 'Cancel';
+
+  @override
+  String get importHistoryTitle => 'Import History';
+
+  @override
+  String get importHistoryAuthRequired => 'You must be logged in';
+
+  @override
+  String importHistoryError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get importHistoryEmpty => 'No import operations';
+
+  @override
+  String get importHistoryNewImport => 'New Import';
+
+  @override
+  String get importHistoryStatus => 'Status';
+
+  @override
+  String get importHistoryTotalRows => 'Total Rows';
+
+  @override
+  String get importHistoryProcessed => 'Processed';
+
+  @override
+  String get importHistorySuccessful => 'Successful';
+
+  @override
+  String get importHistoryFailed => 'Failed';
+
+  @override
+  String get importHistoryUploader => 'User';
+
+  @override
+  String get importHistoryDate => 'Date';
+
+  @override
+  String get importHistoryCompletedAt => 'Completed at';
+
+  @override
+  String get importHistoryErrors => 'Errors:';
+
+  @override
+  String get importHistoryStatusPending => 'Pending';
+
+  @override
+  String get importHistoryStatusProcessing => 'Processing';
+
+  @override
+  String get importHistoryStatusCompleted => 'Completed';
+
+  @override
+  String get importHistoryStatusFailed => 'Failed';
+
+  @override
+  String get importHistoryStatusPartial => 'Partial Success';
+
+  @override
+  String get bigqueryExportTitle => 'BigQuery Export';
+
+  @override
+  String get bigqueryExportAuthRequired => 'You must be logged in';
+
+  @override
+  String get bigqueryExportNotConfigured => 'BigQuery must be configured first';
+
+  @override
+  String get bigqueryExportNotEnabled => 'BigQuery is not enabled';
+
+  @override
+  String get bigqueryExportStarted => 'Export started successfully';
+
+  @override
+  String bigqueryExportError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get bigqueryExportNewExport => 'New Export';
+
+  @override
+  String get bigqueryExportDataType => 'Data Type';
+
+  @override
+  String get bigqueryExportUsers => 'Users';
+
+  @override
+  String get bigqueryExportCourses => 'Courses';
+
+  @override
+  String get bigqueryExportEnrollments => 'Enrollments';
+
+  @override
+  String get bigqueryExportQuizResults => 'Quiz Results';
+
+  @override
+  String get bigqueryExportCertificates => 'Certificates';
+
+  @override
+  String get bigqueryExportPointsAchievements => 'Points & Achievements';
+
+  @override
+  String get bigqueryExportAll => 'All Data';
+
+  @override
+  String get bigqueryExportExporting => 'Exporting...';
+
+  @override
+  String get bigqueryExportStart => 'Start Export';
+
+  @override
+  String get bigqueryExportHistory => 'Export History';
+
+  @override
+  String get bigqueryExportRefresh => 'Refresh';
+
+  @override
+  String get bigqueryExportNoExports => 'No export operations';
+
+  @override
+  String get bigqueryExportDetailStatus => 'Status';
+
+  @override
+  String get bigqueryExportDetailType => 'Export Type';
+
+  @override
+  String get bigqueryExportDetailTotal => 'Total Records';
+
+  @override
+  String get bigqueryExportDetailExported => 'Exported';
+
+  @override
+  String get bigqueryExportDetailFailed => 'Failed';
+
+  @override
+  String get bigqueryExportDetailUser => 'User';
+
+  @override
+  String get bigqueryExportDetailStarted => 'Started at';
+
+  @override
+  String get bigqueryExportDetailCompleted => 'Completed at';
+
+  @override
+  String get bigqueryExportDetailErrors => 'Errors:';
+
+  @override
+  String get bigqueryExportAnalytics => 'Analytics';
+
+  @override
+  String get bigqueryExportProgress => 'Progress';
+
+  @override
+  String get bigqueryExportStatusPending => 'Pending';
+
+  @override
+  String get bigqueryExportStatusProcessing => 'Processing';
+
+  @override
+  String get bigqueryExportStatusUploading => 'Uploading';
+
+  @override
+  String get bigqueryExportStatusCompleted => 'Completed';
+
+  @override
+  String get bigqueryExportStatusFailed => 'Failed';
+
+  @override
+  String get bigquerySettingsTitle => 'BigQuery Settings';
+
+  @override
+  String get bigquerySettingsSaved => 'Settings saved successfully';
+
+  @override
+  String get bigquerySettingsSaveFailed => 'Failed to save settings';
+
+  @override
+  String bigquerySettingsError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get bigquerySettingsEnableExport => 'Enable BigQuery Export';
+
+  @override
+  String get bigquerySettingsExportDescription => 'Export data to BigQuery';
+
+  @override
+  String get bigquerySettingsProjectInfo => 'Project Information';
+
+  @override
+  String get bigquerySettingsProjectIdHelper => 'Google Cloud Project ID';
+
+  @override
+  String get bigquerySettingsProjectIdRequired => 'Project ID is required';
+
+  @override
+  String get bigquerySettingsDatasetIdHelper => 'BigQuery Dataset ID';
+
+  @override
+  String get bigquerySettingsDatasetIdRequired => 'Dataset ID is required';
+
+  @override
+  String get bigquerySettingsServiceAccountHelper =>
+      'Service Account JSON credentials';
+
+  @override
+  String get bigquerySettingsServiceAccountRequired =>
+      'Service Account JSON is required';
+
+  @override
+  String get bigquerySettingsInvalidJSON => 'Invalid JSON format';
+
+  @override
+  String get bigquerySettingsEnabledDataTypes => 'Enabled Data Types';
+
+  @override
+  String get bigquerySettingsUsersTitle => 'Users';
+
+  @override
+  String get bigquerySettingsUsersSubtitle => 'User account data';
+
+  @override
+  String get bigquerySettingsCoursesTitle => 'Courses';
+
+  @override
+  String get bigquerySettingsCoursesSubtitle => 'Training course information';
+
+  @override
+  String get bigquerySettingsEnrollmentsTitle => 'Enrollments';
+
+  @override
+  String get bigquerySettingsEnrollmentsSubtitle =>
+      'Course registration records';
+
+  @override
+  String get bigquerySettingsQuizResultsTitle => 'Quiz Results';
+
+  @override
+  String get bigquerySettingsQuizResultsSubtitle =>
+      'Quiz and assessment results';
+
+  @override
+  String get bigquerySettingsCertificatesTitle => 'Certificates';
+
+  @override
+  String get bigquerySettingsCertificatesSubtitle =>
+      'Certificate issuance records';
+
+  @override
+  String get bigquerySettingsGamificationTitle => 'Points & Achievements';
+
+  @override
+  String get bigquerySettingsGamificationSubtitle => 'Gamification system data';
+
+  @override
+  String get bigquerySettingsAnalyticsTitle => 'Analytics';
+
+  @override
+  String get bigquerySettingsAnalyticsSubtitle => 'Usage analytics data';
+
+  @override
+  String get bigquerySettingsProgressTitle => 'Progress';
+
+  @override
+  String get bigquerySettingsProgressSubtitle => 'Learning progress data';
+
+  @override
+  String get bigquerySettingsSchedule => 'Export Schedule';
+
+  @override
+  String get bigquerySettingsScheduleHourly => 'Hourly';
+
+  @override
+  String get bigquerySettingsScheduleDaily => 'Daily';
+
+  @override
+  String get bigquerySettingsScheduleWeekly => 'Weekly';
+
+  @override
+  String get bigquerySettingsScheduleManual => 'Manual';
+
+  @override
+  String get bigquerySettingsSaveButton => 'Save Settings';
+
+  @override
+  String get bigquerySettingsImportantNotes => 'Important Notes';
+
+  @override
+  String get bigquerySettingsSetupSteps =>
+      '• Create a Google Cloud project and enable BigQuery API\n• Create a Service Account and download JSON file\n• Grant appropriate permissions to the Service Account\n• Create a Dataset in BigQuery beforehand\n• Tables will be created automatically during export';
+
+  @override
+  String courseDetailsNewPostTitle(Object courseName) {
+    return 'New post in: $courseName';
+  }
+
+  @override
+  String courseDetailsNewPostContent(Object authorEmail) {
+    return '$authorEmail added a new post.';
+  }
+
+  @override
+  String courseDetailsError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String get courseDetailsMoreOptions => 'More options';
+
+  @override
+  String get courseDetailsBadges => 'Badges & Achievements';
+
+  @override
+  String get courseDetailsLeaderboard => 'Leaderboard';
+
+  @override
+  String get courseDetailsAchievements => 'Achievements';
+
+  @override
+  String get courseDetailsModules => 'Learning Modules';
+
+  @override
+  String get courseDetailsQuizzes => 'Quizzes';
+
+  @override
+  String get courseDetailsResources => 'Resource Library';
+
+  @override
+  String get courseDetailsTrainees => 'Trainees';
+
+  @override
+  String get courseDetailsAnalytics => 'Course Analytics';
+
+  @override
+  String get courseDetailsPointsSettings => 'Points Settings';
+
+  @override
+  String get courseDetailsMyEvaluations => 'My Evaluations';
+
+  @override
+  String get courseDetailsInfoTitle => 'Course Information';
+
+  @override
+  String get courseDetailsInfoContent => 'Full course details';
+
+  @override
+  String get courseDetailsClose => 'Close';
+
+  @override
+  String get courseDetailsNoPosts => 'No posts';
+
+  @override
+  String get courseDetailsChangeFilters => 'Try changing the search settings';
+
+  @override
+  String get courseDetailsPlaceholder => 'What do you want to share?';
+
+  @override
+  String get courseDetailsAddImages => 'Add images';
+
+  @override
+  String get courseDetailsCreatePoll => 'Create poll';
+
+  @override
+  String get courseDetailsTrainerFallback => 'Trainer';
+
+  @override
+  String get courseDetailsAuthRequired => 'You must log in first';
+
+  @override
+  String get modulesEmptyTitle => 'No learning modules yet';
+
+  @override
+  String get modulesEmptySubtitle => 'Modules will be added soon';
+
+  @override
+  String get modulesLoadError => 'An error occurred while loading modules';
+
+  @override
+  String get modulesLockedMessage => 'Locked - complete the previous module';
+
+  @override
+  String modulesContentCount(Object count) {
+    return '$count content';
+  }
+
+  @override
+  String modulesProgressFormat(Object completed, Object total) {
+    return '$completed/$total completed';
+  }
+
+  @override
+  String get forgotPasswordSuccess => 'Password reset link sent to your email';
+
+  @override
+  String get evaluationLoadError => 'Error loading evaluation';
+
+  @override
+  String get quizHubCreatingTask => '... Creating task';
+
+  @override
+  String get quizHubNoAttempts => 'No attempts yet';
+
+  @override
+  String quizHubLatestScore(Object score, Object count) {
+    return 'Latest score: $score | Total attempts: $count';
+  }
+
+  @override
+  String get unknownUserInitial => '?';
+
+  @override
+  String get emailVerificationSuccess =>
+      'Your email has been verified successfully! 🎉';
+
+  @override
+  String get emailVerificationPending =>
+      'Email not verified yet. Please open your email and click the verification link.';
+
+  @override
+  String emailVerificationError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String emailVerificationLinkSent(Object email) {
+    return 'Verification link sent to $email';
+  }
+
+  @override
+  String emailVerificationSendError(Object error) {
+    return 'Error sending email: $error';
+  }
+
+  @override
+  String get emailVerificationLogout => 'Log out';
+
+  @override
+  String get emailVerificationTitle => 'Verify Your Email';
+
+  @override
+  String get emailVerificationSentTo => 'We sent a verification link to:';
+
+  @override
+  String get emailVerificationInstructions =>
+      'Please open your email and click the verification link';
+
+  @override
+  String get emailVerificationSpamNote =>
+      '(Check your Spam folder if you don\'t see the message)';
+
+  @override
+  String get emailVerificationChecking => 'Checking...';
+
+  @override
+  String get emailVerificationChecked => 'I verified my email';
+
+  @override
+  String get emailVerificationResending => 'Sending...';
+
+  @override
+  String get emailVerificationResend => 'Resend email';
+
+  @override
+  String get emailVerificationWhy =>
+      'Why do we need verification?\nTo ensure your email is correct and you can recover your account later.';
+
+  @override
+  String anomalyError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get anomalyDetailType => 'Type';
+
+  @override
+  String get anomalyDetailSeverity => 'Severity';
+
+  @override
+  String get anomalyDetailScore => 'Score';
+
+  @override
+  String get anomalyDetailConfidence => 'Confidence Level';
+
+  @override
+  String get anomalyDetailUser => 'User';
+
+  @override
+  String get anomalyDetailStatus => 'Status';
+
+  @override
+  String get anomalyDetailDetected => 'Detected';
+
+  @override
+  String get anomalyDetailEvidence => 'Evidence:';
+
+  @override
+  String get anomalyDetailReview => 'Review:';
+
+  @override
+  String get anomalyDetailReviewer => 'Reviewer';
+
+  @override
+  String get anomalyDetailReviewDate => 'Review Date';
+
+  @override
+  String get anomalyDetailNotes => 'Notes';
+
+  @override
+  String get anomalyTypeSuspiciousLogin => 'Suspicious login';
+
+  @override
+  String get anomalyTypeAbnormalQuizScore => 'Abnormal quiz score';
+
+  @override
+  String get anomalyTypeRapidProgress => 'Rapid progress';
+
+  @override
+  String get anomalyTypeMultipleDevices => 'Multiple devices';
+
+  @override
+  String get anomalyTypeUnusualActivity => 'Unusual activity';
+
+  @override
+  String get anomalyTypeCheatingPattern => 'Cheating pattern';
+
+  @override
+  String get anomalyTypeAccountSharing => 'Account sharing';
+
+  @override
+  String get anomalySeverityLow => 'Low';
+
+  @override
+  String get anomalySeverityMedium => 'Medium';
+
+  @override
+  String get anomalySeverityHigh => 'High';
+
+  @override
+  String get anomalySeverityCritical => 'Critical';
+
+  @override
+  String get anomalyStatusPending => 'Pending';
+
+  @override
+  String get anomalyStatusInvestigating => 'Investigating';
+
+  @override
+  String get anomalyStatusResolved => 'Resolved';
+
+  @override
+  String get anomalyStatusFalsePositive => 'False Positive';
+
+  @override
+  String get anomalyStatusConfirmed => 'Confirmed';
+
+  @override
+  String get anomalyReviewDialogTitle => 'Review Anomaly';
+
+  @override
+  String get anomalyReviewStatusLabel => 'Status';
+
+  @override
+  String get anomalyReviewNotesLabel => 'Notes (optional)';
+
+  @override
+  String get manualGradeTitle => 'Manual Grading';
+
+  @override
+  String get manualGradeSaveSuccess => 'Grading saved';
+
+  @override
+  String manualGradeSaveError(Object error) {
+    return 'Failed: $error';
+  }
+
+  @override
+  String get manualGradeNotFound => 'Submission not found';
+
+  @override
+  String manualGradeTraineeLabel(Object trainee) {
+    return 'Trainee: $trainee';
+  }
+
+  @override
+  String manualGradeAutoScore(Object score) {
+    return 'Auto score: $score';
+  }
+
+  @override
+  String get manualGradeNoAnswer => 'No answer';
+
+  @override
+  String get manualGradeQuestionScore => 'Question score (integer)';
+
+  @override
+  String get manualGradeSaveButton => 'Save Grading';
+
+  @override
+  String get manualGradingReviewTitle => 'Review Text Answers';
+
+  @override
+  String get manualGradingNoSubmissions =>
+      'No submissions need manual grading.';
+
+  @override
+  String manualGradingAutoScoreLabel(Object auto, Object total) {
+    return 'Auto score: $auto / $total';
+  }
 }

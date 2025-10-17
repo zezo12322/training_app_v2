@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../core/l10n_ext.dart';
 
 class CreateBadgeScreen extends StatefulWidget {
   const CreateBadgeScreen({super.key});
@@ -70,14 +71,14 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('تم إنشاء الشارة')));
+        ).showSnackBar(SnackBar(content: Text(context.l.createBadgeSuccess)));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('خطأ: $e')));
+        ).showSnackBar(SnackBar(content: Text(context.l.createBadgeError(e.toString()))));
       }
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -86,8 +87,9 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('إنشاء شارة جديدة')),
+      appBar: AppBar(title: Text(l.createBadgeTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -97,45 +99,45 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
             children: [
               TextFormField(
                 controller: _idCtrl,
-                decoration: const InputDecoration(labelText: 'المعرف (فريد)'),
+                decoration: InputDecoration(labelText: l.createBadgeIdLabel),
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'مطلوب';
+                  if (v == null || v.trim().isEmpty) return l.createBadgeIdRequired;
                   return null;
                 },
               ),
               TextFormField(
                 controller: _nameCtrl,
-                decoration: const InputDecoration(labelText: 'الاسم'),
+                decoration: InputDecoration(labelText: l.createBadgeNameLabel),
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'مطلوب';
+                  if (v == null || v.trim().isEmpty) return l.createBadgeNameRequired;
                   return null;
                 },
               ),
               TextFormField(
                 controller: _descCtrl,
-                decoration: const InputDecoration(labelText: 'الوصف'),
+                decoration: InputDecoration(labelText: l.createBadgeDescLabel),
               ),
               TextFormField(
                 controller: _iconCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'رابط الأيقونة (اختياري)',
+                decoration: InputDecoration(
+                  labelText: l.createBadgeIconLabel,
                 ),
               ),
               const SizedBox(height: 12),
               SwitchListTile(
                 value: _active,
                 onChanged: (v) => setState(() => _active = v),
-                title: const Text('مفعلة'),
+                title: Text(l.createBadgeIsActive),
               ),
               SwitchListTile(
                 value: _auto,
                 onChanged: (v) => setState(() => _auto = v),
-                title: const Text('منح تلقائي'),
+                title: Text(l.createBadgeAutoAward),
               ),
               const Divider(height: 32),
-              const Text(
-                'المعايير (اختيارية)',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                l.createBadgeCriteria,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Wrap(
                 spacing: 12,
@@ -146,7 +148,7 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _pointsCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'نقاط ≥'),
+                      decoration: InputDecoration(labelText: l.createBadgePointsMin),
                     ),
                   ),
                   SizedBox(
@@ -154,8 +156,8 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _streakCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'سلسلة أيام ≥',
+                      decoration: InputDecoration(
+                        labelText: l.createBadgeStreakMin,
                       ),
                     ),
                   ),
@@ -164,8 +166,8 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _quizPassCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'اختبارات مجتازة ≥',
+                      decoration: InputDecoration(
+                        labelText: l.createBadgeQuizzesMin,
                       ),
                     ),
                   ),
@@ -174,8 +176,8 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _tasksCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'مهام منجزة ≥',
+                      decoration: InputDecoration(
+                        labelText: l.createBadgeTasksMin,
                       ),
                     ),
                   ),
@@ -184,8 +186,8 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _lessonsCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'دروس مكتملة ≥',
+                      decoration: InputDecoration(
+                        labelText: l.createBadgeLessonsMin,
                       ),
                     ),
                   ),
@@ -194,8 +196,8 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                     child: TextField(
                       controller: _reviewsCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        labelText: 'مراجعات مكتوبة ≥',
+                      decoration: InputDecoration(
+                        labelText: l.createBadgeReviewsMin,
                       ),
                     ),
                   ),
@@ -207,7 +209,7 @@ class _CreateBadgeScreenState extends State<CreateBadgeScreen> {
                   : FilledButton.icon(
                       onPressed: _save,
                       icon: const Icon(Icons.save),
-                      label: const Text('حفظ'),
+                      label: Text(l.createBadgeSaveButton),
                     ),
             ],
           ),

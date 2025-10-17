@@ -122,7 +122,7 @@ class SettingsScreen extends ConsumerWidget {
                           onSelected: (_) => setAppLocale(ref, null),
                         ),
                         ChoiceChip(
-                          label: const Text('العربية'),
+                          label: Text(l.settingsArabicLabel),
                           selected: currentLocale?.languageCode == 'ar',
                           onSelected: (_) =>
                               setAppLocale(ref, const Locale('ar')),

@@ -102,7 +102,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
         },
         failure: (f) {
           if (mounted) {
-            AppSnackBar.show(context, context.l.takeQuizSubmissionFailed.replaceAll('{message}', f.message));
+            AppSnackBar.show(context, context.l.takeQuizSubmissionFailed(f.message));
           }
         },
       );
@@ -145,9 +145,7 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    context.l.takeQuizQuestionProgress
-                        .replaceAll('{current}', (_currentQuestionIndex + 1).toString())
-                        .replaceAll('{total}', _questions.length.toString()),
+                    context.l.takeQuizQuestionProgress((_currentQuestionIndex + 1).toString(), _questions.length.toString()),
                     style: Theme.of(
                       context,
                     ).textTheme.titleMedium?.copyWith(color: Colors.grey),

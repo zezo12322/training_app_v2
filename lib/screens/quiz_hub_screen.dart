@@ -226,7 +226,7 @@ Future<void> _showTaskDialog(
     if (context.mounted) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('... جاري إنشاء المهمة')));
+      ).showSnackBar(SnackBar(content: Text(context.l.quizHubCreatingTask)));
     }
     await fut;
     if (context.mounted) {
@@ -366,7 +366,7 @@ class _TestsTab extends ConsumerWidget {
                               trainerSubs[q.id] ?? const <QuizSubmissionLite>[];
                           if (all.isEmpty) {
                             return Text(
-                              'لا توجد محاولات بعد',
+                              context.l.quizHubNoAttempts,
                               style: TextStyle(
                                 fontSize: 11,
                                 color: Theme.of(context).colorScheme.outline,
@@ -375,7 +375,7 @@ class _TestsTab extends ConsumerWidget {
                           }
                           final latestAny = all.first; // ordered desc
                           return Text(
-                            'أحدث درجة: ${latestAny.score} | إجمالي المحاولات: ${all.length}',
+                            context.l.quizHubLatestScore(latestAny.score.toString(), all.length.toString()),
                             style: TextStyle(
                               fontSize: 11,
                               color: Theme.of(context).colorScheme.primary,

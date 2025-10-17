@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/hris_import.dart';
 import '../providers/user_providers.dart';
 import 'hris_import_screen.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة سجل الاستيرادات
 class ImportHistoryScreen extends ConsumerWidget {
@@ -14,14 +15,14 @@ class ImportHistoryScreen extends ConsumerWidget {
     final user = ref.watch(currentUserProvider).value;
     
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: Text('يجب تسجيل الدخول')),
+      return Scaffold(
+        body: Center(child: Text(context.l.importHistoryAuthRequired)),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('سجل الاستيرادات'),
+        title: Text(context.l.importHistoryTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -44,7 +45,7 @@ class ImportHistoryScreen extends ConsumerWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('خطأ: ${snapshot.error}'));
+            return Center(child: Text(context.l.importHistoryError(snapshot.error.toString())));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -62,7 +63,7 @@ class ImportHistoryScreen extends ConsumerWidget {
                 children: [
                   const Icon(Icons.history, size: 80, color: Colors.grey),
                   const SizedBox(height: 20),
-                  const Text('لا توجد عمليات استيراد'),
+                  Text(context.l.importHistoryEmpty),
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () {
@@ -74,7 +75,7 @@ class ImportHistoryScreen extends ConsumerWidget {
                       );
                     },
                     icon: const Icon(Icons.add),
-                    label: const Text('استيراد جديد'),
+                    label: Text(context.l.importHistoryNewImport),
                   ),
                 ],
               ),
@@ -215,20 +216,20 @@ class _ImportCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _DetailRow('الحالة', _getStatusText(import.status)),
-                  _DetailRow('إجمالي الصفوف', '${import.totalRows}'),
-                  _DetailRow('تم معالجتها', '${import.processedRows}'),
-                  _DetailRow('نجحت', '${import.successfulRows}'),
-                  _DetailRow('فشلت', '${import.failedRows}'),
-                  _DetailRow('المستخدم', import.uploaderName),
-                  _DetailRow('التاريخ', _formatDate(import.uploadedAt)),
+                  _DetailRow(context.l.importHistoryStatus, _getStatusText(import.status, context)),
+                  _DetailRow(context.l.importHistoryTotalRows, '${import.totalRows}'),
+                  _DetailRow(context.l.importHistoryProcessed, '${import.processedRows}'),
+                  _DetailRow(context.l.importHistorySuccessful, '${import.successfulRows}'),
+                  _DetailRow(context.l.importHistoryFailed, '${import.failedRows}'),
+                  _DetailRow(context.l.importHistoryUploader, import.uploaderName),
+                  _DetailRow(context.l.importHistoryDate, _formatDate(import.uploadedAt)),
                   if (import.completedAt != null)
-                    _DetailRow('اكتملت في', _formatDate(import.completedAt!)),
+                    _DetailRow(context.l.importHistoryCompletedAt, _formatDate(import.completedAt!)),
                   const SizedBox(height: 20),
                   if (import.errors.isNotEmpty) ...[
-                    const Text(
-                      'الأخطاء:',
-                      style: TextStyle(
+                    Text(
+                      context.l.importHistoryErrors,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -266,18 +267,18 @@ class _ImportCard extends StatelessWidget {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
   }
 
-  String _getStatusText(ImportStatus status) {
+  String _getStatusText(ImportStatus status, BuildContext context) {
     switch (status) {
       case ImportStatus.pending:
-        return 'قيد الانتظار';
+        return context.l.importHistoryStatusPending;
       case ImportStatus.processing:
-        return 'جاري المعالجة';
+        return context.l.importHistoryStatusProcessing;
       case ImportStatus.completed:
-        return 'مكتمل';
+        return context.l.importHistoryStatusCompleted;
       case ImportStatus.failed:
-        return 'فشل';
+        return context.l.importHistoryStatusFailed;
       case ImportStatus.partialSuccess:
-        return 'نجاح جزئي';
+        return context.l.importHistoryStatusPartial;
     }
   }
 }
@@ -317,29 +318,30 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     Color color;
     String label;
 
     switch (status) {
       case ImportStatus.pending:
         color = Colors.orange;
-        label = 'قيد الانتظار';
+        label = l.importHistoryStatusPending;
         break;
       case ImportStatus.processing:
         color = Colors.blue;
-        label = 'جاري المعالجة';
+        label = l.importHistoryStatusProcessing;
         break;
       case ImportStatus.completed:
         color = Colors.green;
-        label = 'مكتمل';
+        label = l.importHistoryStatusCompleted;
         break;
       case ImportStatus.failed:
         color = Colors.red;
-        label = 'فشل';
+        label = l.importHistoryStatusFailed;
         break;
       case ImportStatus.partialSuccess:
         color = Colors.amber;
-        label = 'نجاح جزئي';
+        label = l.importHistoryStatusPartial;
         break;
     }
 

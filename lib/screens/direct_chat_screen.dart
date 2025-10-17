@@ -234,19 +234,19 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                   final confirm = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('حذف المحادثة'),
-                      content: const Text('هل تريد حذف هذه المحادثة؟ سيتم إخفاؤها من قائمتك فقط.'),
+                      title: Text(context.l.directChatDeleteTitle),
+                      content: Text(context.l.directChatDeleteConfirm),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context, false),
-                          child: const Text('إلغاء'),
+                          child: Text(context.l.dialogCancel),
                         ),
                         ElevatedButton(
                           onPressed: () => Navigator.pop(context, true),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
-                          child: const Text('حذف'),
+                          child: Text(context.l.dialogDeleteButton),
                         ),
                       ],
                     ),
@@ -265,7 +265,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                   
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(success ? 'تم حذف المحادثة' : 'فشل حذف المحادثة'),
+                      content: Text(success ? context.l.directChatDeleteSuccess : context.l.directChatDeleteError),
                     ),
                   );
                   
@@ -276,17 +276,17 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'block',
-                child: Text('حظر'),
+                child: Text(context.l.directChatBlock),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'report',
-                child: Text('إبلاغ'),
+                child: Text(context.l.directChatReport),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'delete',
-                child: Text('حذف المحادثة'),
+                child: Text(context.l.directChatDeleteTitle),
               ),
             ],
           ),
@@ -323,7 +323,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
-                child: Text(context.l.directChatError.replaceAll('{error}', error.toString())),
+                child: Text(context.l.directChatError(error.toString())),
               ),
             ),
           ),
@@ -385,7 +385,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                         if (!mounted) return;
                         final l = context.l;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l.directChatFileUploadError.replaceAll('{error}', e.toString()))),
+                          SnackBar(content: Text(l.directChatFileUploadError(e.toString()))),
                         );
                       }
                     }
@@ -430,7 +430,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                         if (!mounted) return;
                         final l = context.l;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l.directChatImageUploadError.replaceAll('{error}', e.toString()))),
+                          SnackBar(content: Text(l.directChatImageUploadError(e.toString()))),
                         );
                       }
                     }

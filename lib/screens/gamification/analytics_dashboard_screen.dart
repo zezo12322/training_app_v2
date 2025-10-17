@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/l10n_ext.dart';
 import '../../providers/gamification/analytics_providers.dart';
 
 /// لوحة تحليلات الكورس (للمدربين)
@@ -24,7 +25,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('التحليلات'),
+        title: Text(context.l.analyticsTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -49,7 +50,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
                 _buildTopStudentsCard(analytics, context),
                 const SizedBox(height: 24),
-                _buildPointsCard(analytics, context),
+                _buildPointsStatsCard(analytics, context),
               ],
             ),
           );
@@ -61,12 +62,13 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildOverviewCards(dynamic analytics, BuildContext context) {
+    final l = context.l;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'نظرة عامة',
-          style: TextStyle(
+        Text(
+          l.analyticsOverview,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -78,7 +80,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               child: _buildStatCard(
                 '👥',
                 '${analytics.totalStudents}',
-                'إجمالي الطلاب',
+                l.analyticsTotalStudents,
                 Colors.blue,
               ),
             ),
@@ -87,7 +89,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               child: _buildStatCard(
                 '✅',
                 '${analytics.activeStudents}',
-                'النشطون',
+                l.analyticsActiveStudents,
                 Colors.green,
               ),
             ),
@@ -100,7 +102,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               child: _buildStatCard(
                 '⭐',
                 '${analytics.avgPoints.toStringAsFixed(1)}',
-                'متوسط النقاط',
+                l.analyticsAvgPoints,
                 Colors.amber,
               ),
             ),
@@ -109,7 +111,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               child: _buildStatCard(
                 '📊',
                 '${analytics.avgLevel.toStringAsFixed(1)}',
-                'متوسط المستوى',
+                l.analyticsAvgLevel,
                 Colors.purple,
               ),
             ),
@@ -157,6 +159,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildEngagementCard(dynamic analytics, BuildContext context) {
+    final l = context.l;
     // Calculate simple engagement rate
     final engagementPercent = analytics.totalStudents > 0
         ? (analytics.activeStudents / analytics.totalStudents * 100)
@@ -172,9 +175,9 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               children: [
                 const Text('📈', style: TextStyle(fontSize: 24)),
                 const SizedBox(width: 8),
-                const Text(
-                  'معدل التفاعل',
-                  style: TextStyle(
+                Text(
+                  l.analyticsEngagementRate,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -193,7 +196,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '${engagementPercent.toStringAsFixed(1)}% من الطلاب نشطون',
+              l.analyticsEngagementPercent(engagementPercent.toStringAsFixed(1)),
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey.shade600,
@@ -201,7 +204,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'النشطون: ${analytics.activeStudents} من ${analytics.totalStudents}',
+              l.analyticsActiveOf(analytics.activeStudents.toString(), analytics.totalStudents.toString()),
               style: const TextStyle(fontSize: 12),
             ),
           ],
@@ -218,6 +221,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildTopStudentsCard(dynamic analytics, BuildContext context) {
+    final l = context.l;
     final topStudents = analytics.topStudents ?? [];
 
     return Card(
@@ -230,9 +234,9 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               children: [
                 const Text('🏆', style: TextStyle(fontSize: 24)),
                 const SizedBox(width: 8),
-                const Text(
-                  'أفضل الطلاب',
-                  style: TextStyle(
+                Text(
+                  l.analyticsTopStudents,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -241,12 +245,12 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             if (topStudents.isEmpty)
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   child: Text(
-                    'لا يوجد طلاب بعد',
-                    style: TextStyle(color: Colors.grey),
+                    l.analyticsNoStudents,
+                    style: const TextStyle(color: Colors.grey),
                   ),
                 ),
               )
@@ -265,7 +269,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                     ),
                   ),
                   title: Text(student.userName),
-                  subtitle: Text('المستوى ${student.level}'),
+                  subtitle: Text(l.analyticsLevel(student.level.toString())),
                   trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -277,9 +281,9 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Text(
-                        'نقطة',
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      Text(
+                        l.analyticsPointsLabel,
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -298,7 +302,8 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
     return Colors.blue;
   }
 
-  Widget _buildPointsCard(dynamic analytics, BuildContext context) {
+  Widget _buildPointsStatsCard(dynamic analytics, BuildContext context) {
+    final l = context.l;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -309,9 +314,9 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               children: [
                 const Text('⭐', style: TextStyle(fontSize: 24)),
                 const SizedBox(width: 8),
-                const Text(
-                  'إحصائيات النقاط',
-                  style: TextStyle(
+                Text(
+                  l.analyticsPointsStats,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -337,7 +342,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'نقطة ممنوحة',
+                      l.analyticsPointsAwarded,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,
@@ -360,7 +365,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'إنجاز مفتوح',
+                      l.analyticsAchievementsUnlocked,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,
@@ -381,13 +386,14 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
     WidgetRef ref,
     Object error,
   ) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           const SizedBox(height: 16),
-          const Text('حدث خطأ في تحميل التحليلات'),
+          Text(l.analyticsLoadError),
           const SizedBox(height: 8),
           Text(
             error.toString(),
@@ -400,7 +406,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               ref.invalidate(courseAnalyticsProvider);
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            label: Text(l.analyticsRetry),
           ),
         ],
       ),

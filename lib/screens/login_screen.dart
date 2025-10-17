@@ -7,6 +7,7 @@ import 'package:training_app/core/ui/snackbar_helper.dart';
 // import 'package:training_app/services/sso_service.dart'; // ❌ REMOVED - No more SSO
 import 'signup_screen.dart'; // لاستيراد شاشة إنشاء الحساب
 import 'forgot_password_screen.dart'; // شاشة نسيت كلمة المرور
+import 'package:training_app/core/design/tokens.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -94,119 +95,242 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final l = context.l;
+    final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    
     return Scaffold(
-      appBar: AppBar(title: Text(l.loginTitle)),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  l.loginWelcomeBack,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+      backgroundColor: DesignTokens.background(context),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth > 600 ? 100 : 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  
+                  // Logo/Brand Name
+                  Text(
+                    'Training App',
+                    style: DesignTokens.h1(context).copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: l.emailLabel,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.email),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Tagline
+                  Text(
+                    l.loginWelcomeBack,
+                    textAlign: TextAlign.center,
+                    style: DesignTokens.h6(context).copyWith(
+                      color: DesignTokens.textSecondary(context),
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  validator: (v) {
-                    if (v == null || v.trim().isEmpty) return l.fieldRequired;
-                    if (!v.contains('@')) return l.invalidEmail;
-                    return null;
-                  },
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: _obscure,
-                  decoration: InputDecoration(
-                    labelText: l.passwordLabel,
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                      onPressed: () => setState(() => _obscure = !_obscure),
-                      icon: Icon(
-                        _obscure ? Icons.visibility : Icons.visibility_off,
+                  
+                  const SizedBox(height: 32),
+                  
+                  // Login Form Card
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    decoration: BoxDecoration(
+                      color: DesignTokens.surface(context),
+                      borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                      boxShadow: DesignTokens.shadowMd(context),
+                    ),
+                    padding: const EdgeInsets.all(24),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Email Field
+                          TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            style: DesignTokens.body1(context),
+                            decoration: InputDecoration(
+                              hintText: l.emailLabel,
+                              hintStyle: DesignTokens.body1(context).copyWith(
+                                color: DesignTokens.textSecondary(context),
+                              ),
+                              filled: true,
+                              fillColor: DesignTokens.fillColor(context),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: DesignTokens.spacingLg,
+                                vertical: DesignTokens.spacingLg,
+                              ),
+                            ),
+                            validator: (v) {
+                              if (v == null || v.trim().isEmpty) return l.fieldRequired;
+                              if (!v.contains('@')) return l.invalidEmail;
+                              return null;
+                            },
+                            textInputAction: TextInputAction.next,
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingMd),
+                          
+                          // Password Field
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obscure,
+                            style: DesignTokens.body1(context),
+                            decoration: InputDecoration(
+                              hintText: l.passwordLabel,
+                              hintStyle: DesignTokens.body1(context).copyWith(
+                                color: DesignTokens.textSecondary(context),
+                              ),
+                              filled: true,
+                              fillColor: DesignTokens.fillColor(context),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(color: DesignTokens.borderColor(context)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                borderSide: BorderSide(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: DesignTokens.spacingLg,
+                                vertical: DesignTokens.spacingLg,
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () => setState(() => _obscure = !_obscure),
+                                icon: Icon(
+                                  _obscure ? Icons.visibility_off : Icons.visibility,
+                                  color: DesignTokens.textSecondary(context),
+                                ),
+                              ),
+                            ),
+                            validator: (v) =>
+                                (v == null || v.length < 6) ? l.passwordTooShort : null,
+                            onFieldSubmitted: (_) => _signIn(),
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingXl),
+                          
+                          // Login Button
+                          SizedBox(
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _signIn,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme.colorScheme.primary,
+                                foregroundColor: DesignTokens.textOnColor(context),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                ),
+                                elevation: 0,
+                                textStyle: DesignTokens.button(context),
+                              ),
+                              child: AnimatedSwitcher(
+                                duration: DesignTokens.durationMedium,
+                                child: _isLoading
+                                    ? SizedBox(
+                                        key: const ValueKey('prog'),
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.5,
+                                          color: DesignTokens.textOnColor(context),
+                                        ),
+                                      )
+                                    : Text(
+                                        key: const ValueKey('text'),
+                                        l.loginAction,
+                                      ),
+                              ),
+                            ),
+                          ),
+                          
+                          SizedBox(height: DesignTokens.spacingLg),
+                          
+                          // Forgot Password Link
+                          Center(
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const ForgotPasswordScreen(),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: theme.colorScheme.primary,
+                              ),
+                              child: Text(
+                                l.forgotPasswordNavigate,
+                                style: DesignTokens.body1(context).copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  validator: (v) =>
-                      (v == null || v.length < 6) ? l.passwordTooShort : null,
-                  onFieldSubmitted: (_) => _signIn(),
-                ),
-                const SizedBox(height: 8),
-                // زر نسيت كلمة المرور
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(l.forgotPasswordNavigate),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: _isLoading ? null : _signIn,
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    child: _isLoading
-                        ? const SizedBox(
-                            key: ValueKey('prog'),
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
+                  
+                  SizedBox(height: DesignTokens.spacingXl),
+                  
+                  // Create Account Button
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: SizedBox(
+                      height: 52,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const SignupScreen(),
                             ),
-                          )
-                        : Text(key: const ValueKey('text'), l.loginAction),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // ❌ REMOVED: Google & Apple Sign-In buttons
-                // Using Email/Password authentication only
-                TextButton(
-                  onPressed: () {
-                    // الانتقال إلى شاشة إنشاء حساب
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: DesignTokens.surface(context),
+                          foregroundColor: theme.colorScheme.primary,
+                          side: BorderSide(color: theme.colorScheme.primary, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                          ),
+                          textStyle: DesignTokens.button(context),
+                        ),
+                        child: Text(l.signupNavigate),
                       ),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.person_add_outlined, size: 18),
-                      const SizedBox(width: 6),
-                      Text(l.signupNavigate),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
         ),

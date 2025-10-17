@@ -166,7 +166,7 @@ class _EvaluationThreadScreenState
             error: (e, st) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'خطأ في تحميل التقييم',
+                context.l.evaluationLoadError,
                 style: TextStyle(color: Colors.red.shade700, fontSize: 12),
               ),
             ),

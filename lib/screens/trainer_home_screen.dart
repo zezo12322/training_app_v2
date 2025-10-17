@@ -27,8 +27,28 @@ class TrainerHomeScreen extends ConsumerStatefulWidget {
   ConsumerState<TrainerHomeScreen> createState() => _TrainerHomeScreenState();
 }
 
-class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> {
+class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with WidgetsBindingObserver {
   bool _requested = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // عند العودة للتطبيق أو الشاشة، نعمل refresh
+    if (state == AppLifecycleState.resumed) {
+      _refreshData();
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -40,6 +60,20 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> {
       });
       _requested = true;
     }
+  }
+
+  void _refreshData() {
+    // تحديث بيانات المستخدم والكورسات
+    ref.invalidate(currentUserModelProvider);
+    ref.invalidate(trainerCoursesProvider);
+    requestCurrentUserLoad(ref);
+    requestTrainerCoursesLoad(ref);
+  }
+
+  Future<void> _onRefresh() async {
+    _refreshData();
+    // انتظر قليلاً لإعطاء الوقت للبيانات أن تتحدث
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   @override
@@ -56,66 +90,69 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> {
     }
 
     final l = context.l;
-    final content = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const PersonalProfileScreen(),
-                    ),
-                  );
-                },
-                child: Hero(
-                  tag: 'userAvatarHero',
-                  child: CircleAvatar(
-                    radius: 26,
-                    backgroundImage: (userModel?.imageUrl != null)
-                        ? NetworkImage(userModel!.imageUrl!)
-                        : null,
-                    child: userModel?.imageUrl == null
-                        ? const Icon(Icons.person)
-                        : null,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Builder(
-                  builder: (ctx) {
-                    final l2 =
-                        ctx.l; // local context variant (animation/scope safety)
-                    final text = userModel?.name != null
-                        ? l2.greetingTrainer(userModel!.name)
-                        : l2.greetingTrainerFallback;
-                    return Text(
-                      text,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+    final content = RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const PersonalProfileScreen(),
                       ),
                     );
                   },
+                  child: Hero(
+                    tag: 'userAvatarHero',
+                    child: CircleAvatar(
+                      radius: 26,
+                      backgroundImage: (userModel?.imageUrl != null)
+                          ? NetworkImage(userModel!.imageUrl!)
+                          : null,
+                      child: userModel?.imageUrl == null
+                          ? const Icon(Icons.person)
+                          : null,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Builder(
+                    builder: (ctx) {
+                      final l2 =
+                          ctx.l; // local context variant (animation/scope safety)
+                      final text = userModel?.name != null
+                          ? l2.greetingTrainer(userModel!.name)
+                          : l2.greetingTrainerFallback;
+                      return Text(
+                        text,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            l.trainerCoursesSubtitle,
-            style: const TextStyle(fontSize: 18, color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              l.trainerCoursesSubtitle,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+            ),
           ),
-        ),
-        const Divider(indent: 16, endIndent: 16, height: 16),
-        Expanded(child: _CoursesTrainerList(coursesAsync: coursesAsync)),
-      ],
+          const Divider(indent: 16, endIndent: 16, height: 16),
+          Expanded(child: _CoursesTrainerList(coursesAsync: coursesAsync)),
+        ],
+      ),
     );
 
     if (widget.embed) return SafeArea(child: content);

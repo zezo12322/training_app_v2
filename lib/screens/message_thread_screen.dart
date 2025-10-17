@@ -151,7 +151,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
             loading: () => const LinearProgressIndicator(),
             error: (error, _) => Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(l.messageThreadError.replaceAll('{error}', error.toString())),
+              child: Text(l.messageThreadError(error.toString())),
             ),
           ),
 
@@ -184,7 +184,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Center(
-                child: Text(l.messageThreadError.replaceAll('{error}', error.toString())),
+                child: Text(l.messageThreadError(error.toString())),
               ),
             ),
           ),
@@ -261,7 +261,7 @@ class _ParentMessageCard extends StatelessWidget {
                 child: Text(
                   message.authorName.isNotEmpty
                       ? message.authorName[0].toUpperCase()
-                      : '؟',
+                      : context.l.unknownUserInitial,
                   style: const TextStyle(fontSize: 14),
                 ),
               ),
@@ -419,7 +419,7 @@ class ThreadIndicator extends ConsumerWidget {
                 if (recentReplies.isNotEmpty) ...[
                   const SizedBox(height: 4),
                   Text(
-                    l.messageThreadLastReply.replaceAll('{author}', recentReplies.last.authorName),
+                    l.messageThreadLastReply(recentReplies.last.authorName),
                     style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

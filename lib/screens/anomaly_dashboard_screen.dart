@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../core/l10n_ext.dart';
 import '../models/anomaly.dart';
 import '../providers/anomaly_providers.dart';
 import '../providers/user_providers.dart';
@@ -33,16 +34,17 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(currentUserProvider).value;
+    final l = context.l;
     
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: Text('يجب تسجيل الدخول')),
+      return Scaffold(
+        body: Center(child: Text(l.anomalyDashboardMustLogin)),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('الكشف عن الشذوذ'),
+        title: Text(l.anomalyDashboardTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -57,36 +59,36 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
           ),
           PopupMenuButton<InvestigationStatus?>(
             icon: const Icon(Icons.filter_list),
-            tooltip: 'فلترة حسب الحالة',
+            tooltip: l.anomalyDashboardFilterStatus,
             onSelected: (status) {
               setState(() => _filterStatus = status);
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: null,
-                child: Text('جميع الحالات'),
+                child: Text(l.anomalyDashboardAllStates),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: InvestigationStatus.pending,
-                child: Text('قيد الانتظار'),
+                child: Text(l.anomalyDashboardPending),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: InvestigationStatus.investigating,
-                child: Text('قيد التحقيق'),
+                child: Text(l.anomalyDashboardInvestigating),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: InvestigationStatus.resolved,
-                child: Text('تم الحل'),
+                child: Text(l.anomalyDashboardResolved),
               ),
             ],
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'الكل', icon: Icon(Icons.list)),
-            Tab(text: 'عالي', icon: Icon(Icons.priority_high)),
-            Tab(text: 'التنبيهات', icon: Icon(Icons.notifications)),
+          tabs: [
+            Tab(text: l.anomalyDashboardTabAll, icon: const Icon(Icons.list)),
+            Tab(text: l.anomalyDashboardTabHigh, icon: const Icon(Icons.priority_high)),
+            Tab(text: l.anomalyDashboardTabAlerts, icon: const Icon(Icons.notifications)),
           ],
         ),
       ),
@@ -114,17 +116,17 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
     return anomaliesAsync.when(
       data: (anomalies) {
         if (anomalies.isEmpty) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.check_circle, size: 80, color: Colors.green),
-                SizedBox(height: 20),
-                Text('لا توجد شذوذات مكتشفة'),
-                SizedBox(height: 10),
+                const Icon(Icons.check_circle, size: 80, color: Colors.green),
+                const SizedBox(height: 20),
+                Text(context.l.anomalyDashboardNoAnomalies),
+                const SizedBox(height: 10),
                 Text(
-                  'النظام يعمل بشكل طبيعي',
-                  style: TextStyle(color: Colors.grey),
+                  context.l.anomalyDashboardSystemNormal,
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),
@@ -145,7 +147,7 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(
-        child: Text('خطأ: $error'),
+        child: Text(context.l.anomalyDashboardError(error.toString())),
       ),
     );
   }
@@ -163,13 +165,13 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
     return anomaliesAsync.when(
       data: (anomalies) {
         if (anomalies.isEmpty) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.security, size: 80, color: Colors.green),
-                SizedBox(height: 20),
-                Text('لا توجد شذوذات عالية الخطورة'),
+                const Icon(Icons.security, size: 80, color: Colors.green),
+                const SizedBox(height: 20),
+                Text(context.l.anomalyDashboardNoHighRisk),
               ],
             ),
           );
@@ -189,7 +191,7 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(
-        child: Text('خطأ: $error'),
+        child: Text(context.l.anomalyDashboardError(error.toString())),
       ),
     );
   }
@@ -201,13 +203,13 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
     return alertsAsync.when(
       data: (alerts) {
         if (alerts.isEmpty) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.notifications_off, size: 80, color: Colors.grey),
-                SizedBox(height: 20),
-                Text('لا توجد تنبيهات'),
+                const Icon(Icons.notifications_off, size: 80, color: Colors.grey),
+                const SizedBox(height: 20),
+                Text(context.l.anomalyDashboardNoAlerts),
               ],
             ),
           );
@@ -224,7 +226,7 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(
-        child: Text('خطأ: $error'),
+        child: Text(context.l.anomalyError(error.toString())),
       ),
     );
   }
@@ -251,15 +253,16 @@ class _AnomalyDashboardScreenState extends ConsumerState<AnomalyDashboardScreen>
       );
 
       if (mounted) {
+        final l = context.l;
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تمت المراجعة بنجاح')),
+            SnackBar(content: Text(l.anomalyDashboardReviewSuccess)),
           );
           // تحديث القائمة
           ref.invalidate(anomaliesProvider);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('فشلت المراجعة')),
+            SnackBar(content: Text(l.anomalyDashboardReviewFailed)),
           );
         }
       }
@@ -336,7 +339,7 @@ class _AnomalyCard extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: onReview,
                     icon: const Icon(Icons.rate_review, size: 18),
-                    label: const Text('مراجعة'),
+                    label: Text(context.l.anomalyDashboardReviewButton),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 36),
                     ),
@@ -350,6 +353,7 @@ class _AnomalyCard extends StatelessWidget {
   }
 
   void _showDetails(BuildContext context) {
+    final l = context.l;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -383,17 +387,17 @@ class _AnomalyCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _DetailRow('النوع', _getTypeLabel(anomaly.type)),
-                  _DetailRow('الخطورة', _getSeverityLabel(anomaly.severity)),
-                  _DetailRow('الدرجة', '${(anomaly.score * 100).toStringAsFixed(1)}%'),
-                  _DetailRow('مستوى الثقة', '${(anomaly.confidenceLevel * 100).toStringAsFixed(1)}%'),
-                  _DetailRow('المستخدم', anomaly.userName),
-                  _DetailRow('الحالة', _getStatusLabel(anomaly.status)),
-                  _DetailRow('تم الكشف', _formatDate(anomaly.detectedAt)),
+                  _DetailRow(l.anomalyDetailType, _getTypeLabel(anomaly.type, context)),
+                  _DetailRow(l.anomalyDetailSeverity, _getSeverityLabel(anomaly.severity, context)),
+                  _DetailRow(l.anomalyDetailScore, '${(anomaly.score * 100).toStringAsFixed(1)}%'),
+                  _DetailRow(l.anomalyDetailConfidence, '${(anomaly.confidenceLevel * 100).toStringAsFixed(1)}%'),
+                  _DetailRow(l.anomalyDetailUser, anomaly.userName),
+                  _DetailRow(l.anomalyDetailStatus, _getStatusLabel(anomaly.status, context)),
+                  _DetailRow(l.anomalyDetailDetected, _formatDate(anomaly.detectedAt)),
                   const SizedBox(height: 20),
-                  const Text(
-                    'الأدلة:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  Text(
+                    l.anomalyDetailEvidence,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   ...anomaly.evidencePoints.map((evidence) => Padding(
@@ -408,15 +412,15 @@ class _AnomalyCard extends StatelessWidget {
                       )),
                   if (anomaly.isReviewed) ...[
                     const SizedBox(height: 20),
-                    const Text(
-                      'المراجعة:',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    Text(
+                      l.anomalyDetailReview,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
-                    _DetailRow('المراجع', anomaly.reviewerName ?? ''),
-                    _DetailRow('تاريخ المراجعة', anomaly.reviewedAt != null ? _formatDate(anomaly.reviewedAt!) : ''),
+                    _DetailRow(l.anomalyDetailReviewer, anomaly.reviewerName ?? ''),
+                    _DetailRow(l.anomalyDetailReviewDate, anomaly.reviewedAt != null ? _formatDate(anomaly.reviewedAt!) : ''),
                     if (anomaly.reviewNotes != null)
-                      _DetailRow('الملاحظات', anomaly.reviewNotes!),
+                      _DetailRow(l.anomalyDetailNotes, anomaly.reviewNotes!),
                   ],
                 ],
               ),
@@ -438,50 +442,53 @@ class _AnomalyCard extends StatelessWidget {
     return Colors.green;
   }
 
-  String _getTypeLabel(AnomalyType type) {
+  String _getTypeLabel(AnomalyType type, BuildContext context) {
+    final l = context.l;
     switch (type) {
       case AnomalyType.suspiciousLogin:
-        return 'تسجيل دخول مشبوه';
+        return l.anomalyTypeSuspiciousLogin;
       case AnomalyType.unusualQuizScore:
-        return 'درجة اختبار غير طبيعية';
+        return l.anomalyTypeAbnormalQuizScore;
       case AnomalyType.rapidProgress:
-        return 'تقدم سريع';
+        return l.anomalyTypeRapidProgress;
       case AnomalyType.multipleDevices:
-        return 'أجهزة متعددة';
+        return l.anomalyTypeMultipleDevices;
       case AnomalyType.unusualActivity:
-        return 'نشاط غير معتاد';
+        return l.anomalyTypeUnusualActivity;
       case AnomalyType.cheatingPattern:
-        return 'نمط غش';
+        return l.anomalyTypeCheatingPattern;
       case AnomalyType.accountSharing:
-        return 'مشاركة حساب';
+        return l.anomalyTypeAccountSharing;
     }
   }
 
-  String _getSeverityLabel(AnomalySeverity severity) {
+  String _getSeverityLabel(AnomalySeverity severity, BuildContext context) {
+    final l = context.l;
     switch (severity) {
       case AnomalySeverity.low:
-        return 'منخفض';
+        return l.anomalySeverityLow;
       case AnomalySeverity.medium:
-        return 'متوسط';
+        return l.anomalySeverityMedium;
       case AnomalySeverity.high:
-        return 'عالي';
+        return l.anomalySeverityHigh;
       case AnomalySeverity.critical:
-        return 'حرج';
+        return l.anomalySeverityCritical;
     }
   }
 
-  String _getStatusLabel(InvestigationStatus status) {
+  String _getStatusLabel(InvestigationStatus status, BuildContext context) {
+    final l = context.l;
     switch (status) {
       case InvestigationStatus.pending:
-        return 'قيد الانتظار';
+        return l.anomalyStatusPending;
       case InvestigationStatus.investigating:
-        return 'قيد التحقيق';
+        return l.anomalyStatusInvestigating;
       case InvestigationStatus.resolved:
-        return 'تم الحل';
+        return l.anomalyStatusResolved;
       case InvestigationStatus.falsePositive:
-        return 'إيجابي خاطئ';
+        return l.anomalyStatusFalsePositive;
       case InvestigationStatus.confirmed:
-        return 'مؤكد';
+        return l.anomalyStatusConfirmed;
     }
   }
 }
@@ -570,8 +577,9 @@ class _ReviewDialogState extends State<_ReviewDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return AlertDialog(
-      title: const Text('مراجعة الشذوذ'),
+      title: Text(l.anomalyReviewDialogTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -580,26 +588,26 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           const SizedBox(height: 20),
           DropdownButtonFormField<InvestigationStatus>(
             initialValue: _selectedStatus,
-            decoration: const InputDecoration(
-              labelText: 'الحالة',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: l.anomalyReviewStatusLabel,
+              border: const OutlineInputBorder(),
             ),
-            items: const [
+            items: [
               DropdownMenuItem(
                 value: InvestigationStatus.investigating,
-                child: Text('قيد التحقيق'),
+                child: Text(l.anomalyStatusInvestigating),
               ),
               DropdownMenuItem(
                 value: InvestigationStatus.resolved,
-                child: Text('تم الحل'),
+                child: Text(l.anomalyStatusResolved),
               ),
               DropdownMenuItem(
                 value: InvestigationStatus.falsePositive,
-                child: Text('إيجابي خاطئ'),
+                child: Text(l.anomalyStatusFalsePositive),
               ),
               DropdownMenuItem(
                 value: InvestigationStatus.confirmed,
-                child: Text('مؤكد'),
+                child: Text(l.anomalyStatusConfirmed),
               ),
             ],
             onChanged: (value) {
@@ -611,9 +619,9 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           const SizedBox(height: 16),
           TextField(
             controller: _notesController,
-            decoration: const InputDecoration(
-              labelText: 'ملاحظات (اختياري)',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: l.anomalyReviewNotesLabel,
+              border: const OutlineInputBorder(),
             ),
             maxLines: 3,
           ),
@@ -622,7 +630,7 @@ class _ReviewDialogState extends State<_ReviewDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('إلغاء'),
+          child: Text(l.dialogCancel),
         ),
         ElevatedButton(
           onPressed: () {
@@ -633,7 +641,7 @@ class _ReviewDialogState extends State<_ReviewDialog> {
                   : _notesController.text.trim(),
             });
           },
-          child: const Text('حفظ'),
+          child: Text(l.dialogSaveButton),
         ),
       ],
     );
@@ -674,25 +682,26 @@ class _SeverityChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     Color color;
     String label;
 
     switch (severity) {
       case AnomalySeverity.low:
         color = Colors.blue;
-        label = 'منخفض';
+        label = l.anomalySeverityLow;
         break;
       case AnomalySeverity.medium:
         color = Colors.orange;
-        label = 'متوسط';
+        label = l.anomalySeverityMedium;
         break;
       case AnomalySeverity.high:
         color = Colors.red;
-        label = 'عالي';
+        label = l.anomalySeverityHigh;
         break;
       case AnomalySeverity.critical:
         color = Colors.purple;
-        label = 'حرج';
+        label = l.anomalySeverityCritical;
         break;
     }
 
@@ -711,29 +720,30 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     Color color;
     String label;
 
     switch (status) {
       case InvestigationStatus.pending:
         color = Colors.orange;
-        label = 'قيد الانتظار';
+        label = l.anomalyStatusPending;
         break;
       case InvestigationStatus.investigating:
         color = Colors.blue;
-        label = 'قيد التحقيق';
+        label = l.anomalyStatusInvestigating;
         break;
       case InvestigationStatus.resolved:
         color = Colors.green;
-        label = 'تم الحل';
+        label = l.anomalyStatusResolved;
         break;
       case InvestigationStatus.falsePositive:
         color = Colors.grey;
-        label = 'إيجابي خاطئ';
+        label = l.anomalyStatusFalsePositive;
         break;
       case InvestigationStatus.confirmed:
         color = Colors.red;
-        label = 'مؤكد';
+        label = l.anomalyStatusConfirmed;
         break;
     }
 

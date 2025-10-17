@@ -2,6 +2,26 @@
 
 A comprehensive Flutter-based training management application with advanced features including course management, interactive course walls, polls, push notifications, and gamification.
 
+---
+
+## 📚 UI/UX Improvement Documentation
+
+**NEW**: Comprehensive UI/UX enhancement project in progress! 🎨
+
+### 📄 Essential Files
+- **[UI_UX_IMPROVEMENT_PLAN.md](./UI_UX_IMPROVEMENT_PLAN.md)** - Complete roadmap with 8 phases, code examples, and checklists
+- **[PROGRESS_TRACKING.md](./PROGRESS_TRACKING.md)** - Daily progress tracking, statistics, and lessons learned
+- **[DESIGN_SYSTEM_QUICK_REF.md](./DESIGN_SYSTEM_QUICK_REF.md)** - Quick reference for Design Tokens (colors, typography, spacing)
+
+**Current Status**: 
+- ✅ Phase 1: Design System (100% complete)
+- ✅ Phase 2: Authentication Screens (100% complete)
+- ⏳ Phase 3: Main Screens (Next)
+
+**Progress**: 15% overall (2/8 phases complete)
+
+---
+
 ## ✨ Features
 
 ### 🏫 Core Features

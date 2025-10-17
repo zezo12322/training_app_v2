@@ -185,13 +185,65 @@ dart run build_runner build --delete-conflicting-outputs
 - **ML Anomaly Detection**: Z-score based detection for cheating, suspicious logins, rapid progress (`lib/providers/anomaly_providers.dart`)
 - **Chat System**: Real-time course chat and direct messages with Firestore (`lib/repositories/chat_repository.dart`)
 
+## UI/UX Improvement Project (NEW - October 2025)
+- **Main Plan**: `UI_UX_IMPROVEMENT_PLAN.md` - 8-phase roadmap with detailed checklists and code examples
+- **Progress Tracking**: `PROGRESS_TRACKING.md` - Daily progress, statistics, and lessons learned
+- **Quick Reference**: `DESIGN_SYSTEM_QUICK_REF.md` - Design Tokens reference (colors, typography, spacing)
+- **Design System**: `lib/core/design/tokens.dart` - Adaptive colors, typography, spacing for Light/Dark Mode
+- **Current Status**: Phase 1 (Design System) & Phase 2 (Auth Screens) complete - 15% overall progress
+
+### Design System Usage
+```dart
+// Always use Design Tokens for consistency and Light/Dark Mode support
+Container(
+  color: DesignTokens.surface(context),           // NOT Colors.white
+  padding: EdgeInsets.all(DesignTokens.spacingLg), // NOT EdgeInsets.all(16)
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(DesignTokens.radiusLg), // NOT BorderRadius.circular(12)
+    boxShadow: DesignTokens.shadowMd(context),     // Adaptive shadows
+  ),
+  child: Text(
+    'Title',
+    style: DesignTokens.h4(context),               // NOT TextStyle(fontSize: 28, ...)
+  ),
+)
+```
+
 ## When Making Changes
 1. **Models**: Update model → run build_runner → check generated `.g.dart` and `.freezed.dart`
 2. **Providers**: Use correct provider type (Stream vs Future) → test with `.autoDispose` → verify family parameters
 3. **Repositories**: Return `Result<T>` → handle all error cases → add Firestore indexes if querying new fields
-4. **UI**: Check role-based access with `RoleGate` → use `context.l` for localization → test on both Arabic and English
+4. **UI**: 
+   - **NEW**: Use `DesignTokens` for all colors, typography, spacing, and shadows
+   - Check role-based access with `RoleGate` 
+   - Use `context.l` for localization 
+   - Test on both Arabic and English
+   - **NEW**: Test Light/Dark Mode with `DesignTokens`
+   - **NEW**: Test responsive design (Desktop/Tablet/Mobile)
 5. **Security**: Update `firestore.rules` → deploy rules → test with different roles
 6. **Backend**: Update Cloud Functions → test locally with emulator → deploy with `firebase deploy --only functions`
+7. **UI/UX Development** (NEW):
+   - Check current task in `PROGRESS_TRACKING.md`
+   - Follow detailed steps in `UI_UX_IMPROVEMENT_PLAN.md`
+   - Use code examples from `DESIGN_SYSTEM_QUICK_REF.md`
+   - **ALWAYS** update `PROGRESS_TRACKING.md` after completing any task
+   - Test Light/Dark Mode, Responsive, and RTL support
+   - Git commit after each screen/feature completion
+
+## Daily Workflow for UI/UX Tasks
+1. **Morning** (5 min): Review `PROGRESS_TRACKING.md` → identify today's task
+2. **Start Task** (10 min): Read task section in `UI_UX_IMPROVEMENT_PLAN.md` → copy starter code
+3. **During Work**: Use `DESIGN_SYSTEM_QUICK_REF.md` for quick reference → avoid hardcoded values
+4. **After Task** (10 min): 
+   - Test thoroughly (Light/Dark, Responsive, RTL)
+   - Git commit with clear message
+   - **UPDATE `PROGRESS_TRACKING.md`** with:
+     - Task completion status
+     - Time spent
+     - Problems encountered and solutions
+     - Update statistics (files modified, lines of code)
+     - Set next task
+5. **End of Day**: Review progress → plan tomorrow's work
 
 ---
-**Last Updated**: October 16, 2025
+**Last Updated**: October 17, 2025

@@ -4,6 +4,7 @@ import '../models/bigquery_export.dart';
 import '../providers/bigquery_providers.dart';
 import '../providers/user_providers.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة إعدادات BigQuery
 class BigQuerySettingsScreen extends ConsumerStatefulWidget {
@@ -99,13 +100,13 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
       if (mounted) {
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم حفظ الإعدادات بنجاح')),
+            SnackBar(content: Text(context.l.bigquerySettingsSaved)),
           );
           // تحديث البيانات
           ref.invalidate(bigQueryConfigProvider(user.institutionId ?? ''));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('فشل حفظ الإعدادات')),
+            SnackBar(content: Text(context.l.bigquerySettingsSaveFailed)),
           );
         }
       }
@@ -113,7 +114,7 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
       logger.e('Error saving config', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.bigquerySettingsError(e.toString()))),
         );
       }
     } finally {
@@ -125,9 +126,10 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إعدادات BigQuery'),
+        title: Text(l.bigquerySettingsTitle),
         actions: [
           if (!_isLoading)
             IconButton(
@@ -152,28 +154,28 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SwitchListTile(
-                      title: const Text('تفعيل BigQuery Export'),
-                      subtitle: const Text('تصدير البيانات إلى BigQuery'),
+                      title: Text(l.bigquerySettingsEnableExport),
+                      subtitle: Text(l.bigquerySettingsExportDescription),
                       value: _isEnabled,
                       onChanged: (value) => setState(() => _isEnabled = value),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'معلومات المشروع',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Text(
+                      l.bigquerySettingsProjectInfo,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _projectIdController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Project ID *',
                         hintText: 'my-project-id',
-                        border: OutlineInputBorder(),
-                        helperText: 'معرّف مشروع Google Cloud',
+                        border: const OutlineInputBorder(),
+                        helperText: l.bigquerySettingsProjectIdHelper,
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Project ID مطلوب';
+                          return l.bigquerySettingsProjectIdRequired;
                         }
                         return null;
                       },
@@ -181,15 +183,15 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _datasetIdController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Dataset ID *',
                         hintText: 'training_data',
-                        border: OutlineInputBorder(),
-                        helperText: 'معرّف مجموعة البيانات في BigQuery',
+                        border: const OutlineInputBorder(),
+                        helperText: l.bigquerySettingsDatasetIdHelper,
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Dataset ID مطلوب';
+                          return l.bigquerySettingsDatasetIdRequired;
                         }
                         return null;
                       },
@@ -197,94 +199,94 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _credentialsController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Service Account JSON *',
                         hintText: '{"type": "service_account", ...}',
-                        border: OutlineInputBorder(),
-                        helperText: 'بيانات Service Account بصيغة JSON',
+                        border: const OutlineInputBorder(),
+                        helperText: l.bigquerySettingsServiceAccountHelper,
                       ),
                       maxLines: 5,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Service Account JSON مطلوب';
+                          return l.bigquerySettingsServiceAccountRequired;
                         }
                         // تحقق بسيط من صيغة JSON
                         try {
                           // ignore: unused_local_variable
                           final json = value.trim();
                           if (!json.startsWith('{') || !json.endsWith('}')) {
-                            return 'صيغة JSON غير صحيحة';
+                            return l.bigquerySettingsInvalidJSON;
                           }
                         } catch (e) {
-                          return 'صيغة JSON غير صحيحة';
+                          return l.bigquerySettingsInvalidJSON;
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'أنواع البيانات المُفعّلة',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Text(
+                      l.bigquerySettingsEnabledDataTypes,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
                     _buildExportTypeCheckbox(
                       ExportType.users,
-                      'المستخدمين',
-                      'بيانات حسابات المستخدمين',
+                      l.bigquerySettingsUsersTitle,
+                      l.bigquerySettingsUsersSubtitle,
                     ),
                     _buildExportTypeCheckbox(
                       ExportType.courses,
-                      'الدورات',
-                      'معلومات الدورات التدريبية',
+                      l.bigquerySettingsCoursesTitle,
+                      l.bigquerySettingsCoursesSubtitle,
                     ),
                     _buildExportTypeCheckbox(
                       ExportType.enrollments,
-                      'التسجيلات',
-                      'تسجيلات المستخدمين في الدورات',
+                      l.bigquerySettingsEnrollmentsTitle,
+                      l.bigquerySettingsEnrollmentsSubtitle,
                     ),
                     _buildExportTypeCheckbox(
                       ExportType.quizResults,
-                      'نتائج الاختبارات',
-                      'نتائج وأداء الاختبارات',
+                      l.bigquerySettingsQuizResultsTitle,
+                      l.bigquerySettingsQuizResultsSubtitle,
                     ),
                     _buildExportTypeCheckbox(
                       ExportType.certificates,
-                      'الشهادات',
-                      'الشهادات الصادرة',
+                      l.bigquerySettingsCertificatesTitle,
+                      l.bigquerySettingsCertificatesSubtitle,
                     ),
                     _buildExportTypeCheckbox(
                       ExportType.gamification,
-                      'النقاط والإنجازات',
-                      'بيانات النقاط والإنجازات',
+                      l.bigquerySettingsGamificationTitle,
+                      l.bigquerySettingsGamificationSubtitle,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'الجدولة الافتراضية',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Text(
+                      l.bigquerySettingsSchedule,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<ExportFrequency>(
                       initialValue: _defaultFrequency,
-                      decoration: const InputDecoration(
-                        labelText: 'تكرار التصدير',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l.bigquerySettingsSchedule,
+                        border: const OutlineInputBorder(),
                       ),
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                           value: ExportFrequency.manual,
-                          child: Text('يدوي'),
+                          child: Text(l.bigquerySettingsScheduleManual),
                         ),
                         DropdownMenuItem(
                           value: ExportFrequency.daily,
-                          child: Text('يومي'),
+                          child: Text(l.bigquerySettingsScheduleDaily),
                         ),
                         DropdownMenuItem(
                           value: ExportFrequency.weekly,
-                          child: Text('أسبوعي'),
+                          child: Text(l.bigquerySettingsScheduleWeekly),
                         ),
                         DropdownMenuItem(
                           value: ExportFrequency.monthly,
-                          child: Text('شهري'),
+                          child: Text('Monthly'),
                         ),
                       ],
                       onChanged: (value) {
@@ -306,7 +308,7 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                                 Icon(Icons.info_outline, color: Colors.blue.shade700),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'ملاحظات مهمة',
+                                  l.bigquerySettingsImportantNotes,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -316,13 +318,9 @@ class _BigQuerySettingsScreenState extends ConsumerState<BigQuerySettingsScreen>
                               ],
                             ),
                             const SizedBox(height: 12),
-                            const Text(
-                              '• يجب إنشاء مشروع Google Cloud وتفعيل BigQuery API\n'
-                              '• إنشاء Service Account وتنزيل ملف JSON\n'
-                              '• منح الصلاحيات المناسبة للـ Service Account\n'
-                              '• إنشاء Dataset في BigQuery مسبقاً\n'
-                              '• الجداول سيتم إنشاؤها تلقائياً عند التصدير',
-                              style: TextStyle(fontSize: 14),
+                            Text(
+                              l.bigquerySettingsSetupSteps,
+                              style: const TextStyle(fontSize: 14),
                             ),
                           ],
                         ),

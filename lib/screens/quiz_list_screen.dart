@@ -4,6 +4,7 @@ import 'add_question_screen.dart';
 import 'create_quiz_screen.dart';
 import 'take_quiz_screen.dart'; // <<< تأكد من وجود هذا الاستيراد
 import 'quiz_submissions_screen.dart';
+import '../core/l10n_ext.dart';
 
 class QuizListScreen extends StatelessWidget {
   final String courseId;
@@ -17,8 +18,9 @@ class QuizListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
-      appBar: AppBar(title: const Text('الاختبارات')),
+      appBar: AppBar(title: Text(l.quizListTitle)),
       body: RefreshIndicator(
         onRefresh: () async {
           /* Firestore stream auto-updates; dummy wait */
@@ -37,16 +39,16 @@ class QuizListScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'حدث خطأ. تأكد من إنشاء الفهرس المطلوب.\n\n${snapshot.error}',
+                  l.quizListError(snapshot.error.toString()),
                 ),
               );
             }
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                children: const [
-                  SizedBox(height: 120),
-                  Center(child: Text('لم يتم إنشاء أي اختبارات بعد.')),
+                children: [
+                  const SizedBox(height: 120),
+                  Center(child: Text(l.quizListEmpty)),
                 ],
               );
             }
@@ -72,7 +74,7 @@ class QuizListScreen extends StatelessWidget {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.bar_chart_outlined),
-                                tooltip: 'عرض التسليمات',
+                                tooltip: l.quizListViewSubmissions,
                                 onPressed: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -119,7 +121,7 @@ class QuizListScreen extends StatelessWidget {
           ? FloatingActionButton.extended(
               heroTag: 'quiz_list_fab', // unique tag
               icon: const Icon(Icons.add),
-              label: const Text('إنشاء اختبار'),
+              label: Text(l.quizListCreateButton),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

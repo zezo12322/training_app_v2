@@ -38,7 +38,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _privacyPolicy = 'فشل تحميل سياسة الخصوصية: $e';
+          _privacyPolicy = context.l.privacyPolicyLoadFailed(e.toString());
           _isLoading = false;
         });
       }

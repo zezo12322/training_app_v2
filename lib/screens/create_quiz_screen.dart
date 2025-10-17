@@ -76,7 +76,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.l.createQuizError.replaceAll('{error}', e.toString())),
+            content: Text(context.l.createQuizError(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );

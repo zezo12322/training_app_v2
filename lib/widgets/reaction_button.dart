@@ -74,7 +74,7 @@ class _ReactionButtonState extends ConsumerState<ReactionButton>
           final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l.reactionError.replaceAll('{error}', error.message)),
+              content: Text(l.reactionError(error.message)),
               duration: const Duration(seconds: 2),
             ),
           );

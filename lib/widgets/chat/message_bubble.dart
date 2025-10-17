@@ -142,7 +142,7 @@ class MessageBubble extends StatelessWidget {
     } else if (messageDate ==
         today.subtract(const Duration(days: 1))) {
       // Yesterday
-      return l.messageBubbleYesterday.replaceAll('{time}', DateFormat.jm().format(dateTime));
+  return l.messageBubbleYesterday(DateFormat.jm().format(dateTime));
     } else if (now.difference(dateTime).inDays < 7) {
       // This week: show day name
       return DateFormat('EEEE HH:mm', 'ar').format(dateTime);

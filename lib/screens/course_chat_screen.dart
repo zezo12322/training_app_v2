@@ -120,7 +120,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(l.courseChatLoadError.replaceAll('{error}', error.toString()))),
+  error: (error, stack) => Center(child: Text(l.courseChatLoadError(error.toString()))),
       ),
     );
   }
@@ -186,7 +186,7 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
       if (mounted) {
         final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.courseChatMessageSendError.replaceAll('{error}', e.toString()))),
+          SnackBar(content: Text(l.courseChatMessageSendError(e.toString()))),
         );
       }
     }
@@ -276,11 +276,11 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
             SnackBar(content: Text(l.courseChatEditSuccess)),
           );
         }
-      } catch (e) {
+        } catch (e) {
         if (mounted) {
           final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l.courseChatEditError.replaceAll('{error}', e.toString()))),
+            SnackBar(content: Text(l.courseChatEditError(e.toString()))),
           );
         }
       }
@@ -326,11 +326,11 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
             SnackBar(content: Text(l.courseChatDeleteSuccess)),
           );
         }
-      } catch (e) {
+        } catch (e) {
         if (mounted) {
           final l = context.l;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l.courseChatDeleteError.replaceAll('{error}', e.toString()))),
+            SnackBar(content: Text(l.courseChatDeleteError(e.toString()))),
           );
         }
       }
@@ -352,11 +352,11 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
           SnackBar(content: Text(l.courseChatFlagSuccess)),
         );
       }
-    } catch (e) {
+      } catch (e) {
       if (mounted) {
         final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.courseChatFlagError.replaceAll('{error}', e.toString()))),
+          SnackBar(content: Text(l.courseChatFlagError(e.toString()))),
         );
       }
     }
@@ -413,10 +413,10 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l.courseChatInfoCourse.replaceAll('{name}', _chatRoom!.courseName)),
-            Text(l.courseChatInfoParticipants.replaceAll('{count}', '${_chatRoom!.participantIds.length}')),
-            Text(l.courseChatInfoCreated.replaceAll('{date}', '${_chatRoom!.createdAt}')),
+            children: [
+            Text(l.courseChatInfoCourse((_chatRoom!.courseName ?? '').toString())),
+            Text(l.courseChatInfoParticipants((_chatRoom!.participantIds.length).toString())),
+            Text(l.courseChatInfoCreated((_chatRoom!.createdAt).toString())),
           ],
         ),
         actions: [

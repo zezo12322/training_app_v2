@@ -86,7 +86,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
         });
         final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.messageSearchError.replaceAll('{error}', e.toString()))),
+          SnackBar(content: Text(l.messageSearchError(e.toString()))),
         );
       }
     }
@@ -213,7 +213,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
           child: Row(
             children: [
               Text(
-                l.messageSearchResultsCount.replaceAll('{count}', _results.length.toString()),
+                l.messageSearchResultsCount(_results.length.toString()),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -250,7 +250,7 @@ class _SearchResultTile extends StatelessWidget {
         child: Text(
           result.authorName.isNotEmpty
               ? result.authorName[0].toUpperCase()
-              : '؟',
+              : l.unknownUserInitial,
         ),
       ),
       title: Text(

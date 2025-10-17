@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/l10n_ext.dart';
 import '../../models/gamification/gamification_settings.dart';
 import '../../models/gamification/activity_points.dart';
 import '../../providers/gamification/gamification_providers.dart';
@@ -89,7 +90,7 @@ class _GamificationSettingsScreenState
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('حدث خطأ في تحميل الإعدادات')),
+          SnackBar(content: Text(context.l.gamificationSettingsLoadError)),
         );
       }
       _setDefaultValues();
@@ -126,7 +127,7 @@ class _GamificationSettingsScreenState
       final trainerId = authState.value?.uid;
 
       if (trainerId == null) {
-        throw Exception('غير مصرح');
+        throw Exception(context.l.gamificationSettingsUnauthorized);
       }
 
       final activityPoints = ActivityPoints(
@@ -159,14 +160,14 @@ class _GamificationSettingsScreenState
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('✅ تم حفظ الإعدادات بنجاح')),
+          SnackBar(content: Text(context.l.gamificationSettingsSaveSuccess)),
         );
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('حدث خطأ في حفظ الإعدادات: $e')),
+          SnackBar(content: Text(context.l.gamificationSettingsSaveError(e.toString()))),
         );
       }
     } finally {
@@ -179,11 +180,12 @@ class _GamificationSettingsScreenState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l;
 
     if (_isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('إعدادات النقاط'),
+          title: Text(l.gamificationSettingsTitle),
         ),
         body: const Center(child: CircularProgressIndicator()),
       );
@@ -191,7 +193,7 @@ class _GamificationSettingsScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إعدادات النقاط'),
+        title: Text(l.gamificationSettingsTitle),
         actions: [
           TextButton.icon(
             onPressed: _isSaving ? null : _saveSettings,
@@ -202,7 +204,7 @@ class _GamificationSettingsScreenState
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.save),
-            label: const Text('حفظ'),
+            label: Text(l.gamificationSettingsSave),
           ),
         ],
       ),
@@ -212,11 +214,11 @@ class _GamificationSettingsScreenState
           // System Enable/Disable
           Card(
             child: SwitchListTile(
-              title: const Text(
-                'تفعيل نظام النقاط',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l.gamificationSettingsEnableSystem,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: const Text('إذا تم التعطيل، لن يتم منح أي نقاط'),
+              subtitle: Text(l.gamificationSettingsDisableNote),
               value: _isSystemEnabled,
               onChanged: (value) {
                 setState(() => _isSystemEnabled = value);
@@ -228,14 +230,14 @@ class _GamificationSettingsScreenState
 
           // Core Activities
           Text(
-            'الأنشطة الأساسية (إجبارية)',
+            l.gamificationSettingsCoreActivities,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'هذه الأنشطة دائماً مفعلة',
+            l.gamificationSettingsCoreNote,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -243,35 +245,40 @@ class _GamificationSettingsScreenState
           const SizedBox(height: 16),
 
           _buildSlider(
-            title: 'إتمام درس',
+            context: context,
+            title: l.gamificationSettingsCompleteLesson,
             value: _lessonPoints,
             onChanged: (v) => setState(() => _lessonPoints = v),
             min: 0,
             max: 50,
           ),
           _buildSlider(
-            title: 'اجتياز اختبار',
+            context: context,
+            title: l.gamificationSettingsPassQuiz,
             value: _quizPoints,
             onChanged: (v) => setState(() => _quizPoints = v),
             min: 0,
             max: 100,
           ),
           _buildSlider(
-            title: 'درجة كاملة في اختبار',
+            context: context,
+            title: l.gamificationSettingsPerfectQuiz,
             value: _perfectQuizPoints,
             onChanged: (v) => setState(() => _perfectQuizPoints = v),
             min: 0,
             max: 150,
           ),
           _buildSlider(
-            title: 'إتمام مهمة',
+            context: context,
+            title: l.gamificationSettingsCompleteTask,
             value: _assignmentPoints,
             onChanged: (v) => setState(() => _assignmentPoints = v),
             min: 0,
             max: 100,
           ),
           _buildSlider(
-            title: 'إتمام وحدة كاملة',
+            context: context,
+            title: l.gamificationSettingsCompleteModule,
             value: _modulePoints,
             onChanged: (v) => setState(() => _modulePoints = v),
             min: 0,
@@ -283,11 +290,11 @@ class _GamificationSettingsScreenState
           // Social Activities
           Card(
             child: SwitchListTile(
-              title: const Text(
-                'تفعيل نقاط التفاعل الاجتماعي',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l.gamificationSettingsEnableSocial,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: const Text('المنشورات والتعليقات'),
+              subtitle: Text(l.gamificationSettingsSocialNote),
               value: _enableSocialPoints,
               onChanged: (value) {
                 setState(() => _enableSocialPoints = value);
@@ -298,28 +305,32 @@ class _GamificationSettingsScreenState
 
           if (_enableSocialPoints) ...[
             _buildSlider(
-              title: 'إنشاء منشور',
+              context: context,
+              title: l.gamificationSettingsCreatePost,
               value: _postPoints,
               onChanged: (v) => setState(() => _postPoints = v),
               min: 0,
               max: 20,
             ),
             _buildSlider(
-              title: 'كتابة تعليق',
+              context: context,
+              title: l.gamificationSettingsWriteComment,
               value: _commentPoints,
               onChanged: (v) => setState(() => _commentPoints = v),
               min: 0,
               max: 10,
             ),
             _buildSlider(
-              title: 'مساعدة زميل',
+              context: context,
+              title: l.gamificationSettingsHelpPeer,
               value: _helpfulPoints,
               onChanged: (v) => setState(() => _helpfulPoints = v),
               min: 0,
               max: 30,
             ),
             _buildSlider(
-              title: 'الحصول على reaction',
+              context: context,
+              title: l.gamificationSettingsGetReaction,
               value: _reactionPoints,
               onChanged: (v) => setState(() => _reactionPoints = v),
               min: 0,
@@ -332,11 +343,11 @@ class _GamificationSettingsScreenState
           // Daily Streak
           Card(
             child: SwitchListTile(
-              title: const Text(
-                'تفعيل سلسلة الدخول اليومي',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l.gamificationSettingsEnableStreak,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: const Text('تشجيع الدخول المتواصل'),
+              subtitle: Text(l.gamificationSettingsStreakNote),
               value: _enableDailyStreak,
               onChanged: (value) {
                 setState(() => _enableDailyStreak = value);
@@ -347,14 +358,16 @@ class _GamificationSettingsScreenState
 
           if (_enableDailyStreak) ...[
             _buildSlider(
-              title: 'الدخول اليومي',
+              context: context,
+              title: l.gamificationSettingsDailyLogin,
               value: _dailyStreakPoints,
               onChanged: (v) => setState(() => _dailyStreakPoints = v),
               min: 0,
               max: 20,
             ),
             _buildSlider(
-              title: 'أسبوع متواصل',
+              context: context,
+              title: l.gamificationSettingsWeekStreak,
               value: _weeklyStreakPoints,
               onChanged: (v) => setState(() => _weeklyStreakPoints = v),
               min: 0,
@@ -374,7 +387,7 @@ class _GamificationSettingsScreenState
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.save),
-            label: const Text('حفظ الإعدادات'),
+            label: Text(l.gamificationSettingsSaveButton),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(16),
             ),
@@ -391,11 +404,11 @@ class _GamificationSettingsScreenState
                       _setDefaultValues();
                     });
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('تم إعادة القيم الافتراضية')),
+                      SnackBar(content: Text(l.gamificationSettingsResetSuccess)),
                     );
                   },
             icon: const Icon(Icons.refresh),
-            label: const Text('إعادة القيم الافتراضية'),
+            label: Text(l.gamificationSettingsResetDefaults),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.all(16),
             ),
@@ -408,12 +421,14 @@ class _GamificationSettingsScreenState
   }
 
   Widget _buildSlider({
+    required BuildContext context,
     required String title,
     required double value,
     required ValueChanged<double> onChanged,
     required double min,
     required double max,
   }) {
+    final l = context.l;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -443,7 +458,7 @@ class _GamificationSettingsScreenState
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    '${value.round()} نقطة',
+                    l.gamificationSettingsPointsLabel(value.round().toString()),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

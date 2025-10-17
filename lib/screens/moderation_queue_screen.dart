@@ -4,6 +4,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../models/moderation.dart';
 import '../providers/moderation_providers.dart';
 import '../providers/auth_provider.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة قائمة انتظار الإشراف
 class ModerationQueueScreen extends ConsumerStatefulWidget {
@@ -15,22 +16,23 @@ class ModerationQueueScreen extends ConsumerStatefulWidget {
 
 class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
 
-  String _getReportTypeLabel(ReportType type) {
+  String _getReportTypeLabel(ReportType type, BuildContext context) {
+    final l = context.l;
     switch (type) {
       case ReportType.inappropriate:
-        return 'محتوى غير لائق';
+        return l.moderationQueueReasonInappropriate;
       case ReportType.harassment:
-        return 'تحرش';
+        return l.moderationQueueReasonHarassment;
       case ReportType.spam:
         return 'spam';
       case ReportType.misinformation:
-        return 'معلومات مضللة';
+        return l.moderationQueueReasonMisinformation;
       case ReportType.harmful:
-        return 'محتوى ضار';
+        return l.moderationQueueReasonHarmful;
       case ReportType.copyright:
-        return 'انتهاك حقوق النشر';
+        return l.moderationQueueReasonCopyright;
       case ReportType.other:
-        return 'أخرى';
+        return l.moderationQueueReasonOther;
     }
   }
 
@@ -93,7 +95,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('قائمة الإشراف'),
+        title: Text(context.l.moderationQueueTitle),
         actions: [
           // إحصائيات سريعة
           statsAsync.when(
@@ -116,9 +118,9 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
         children: [
           // إحصائيات
           statsAsync.when(
-            data: (stats) => _buildStatsCard(stats),
+            data: (stats) => _buildStatsCard(stats, context),
             loading: () => const LinearProgressIndicator(),
-            error: (error, _) => Text('خطأ: $error'),
+            error: (error, _) => Text(context.l.moderationQueueError(error.toString())),
           ),
 
           const Divider(height: 1),
@@ -128,15 +130,15 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
             child: reportsAsync.when(
               data: (reports) {
                 if (reports.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.check_circle, size: 64, color: Colors.green),
-                        SizedBox(height: 16),
+                        const Icon(Icons.check_circle, size: 64, color: Colors.green),
+                        const SizedBox(height: 16),
                         Text(
-                          'لا توجد تقارير قيد المراجعة',
-                          style: TextStyle(fontSize: 16),
+                          context.l.moderationQueueNoPending,
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
@@ -153,7 +155,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
-                child: Text('خطأ في تحميل التقارير: $error'),
+                child: Text(context.l.moderationQueueLoadError(error.toString())),
               ),
             ),
           ),
@@ -162,7 +164,8 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
     );
   }
 
-  Widget _buildStatsCard(ModerationStats stats) {
+  Widget _buildStatsCard(ModerationStats stats, BuildContext context) {
+    final l = context.l;
     return Card(
       margin: const EdgeInsets.all(8),
       child: Padding(
@@ -170,10 +173,10 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildStatItem('قيد المراجعة', stats.pendingReports, Colors.orange),
-            _buildStatItem('تم الحل', stats.resolvedReports, Colors.green),
-            _buildStatItem('مرفوض', stats.dismissedReports, Colors.grey),
-            _buildStatItem('الإجمالي', stats.totalReports, Colors.blue),
+            _buildStatItem(l.moderationQueuePending, stats.pendingReports, Colors.orange),
+            _buildStatItem(l.moderationQueueResolved, stats.resolvedReports, Colors.green),
+            _buildStatItem(l.moderationQueueDismissed, stats.dismissedReports, Colors.grey),
+            _buildStatItem(l.moderationQueueTotal, stats.totalReports, Colors.blue),
           ],
         ),
       ),
@@ -203,7 +206,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
   Widget _buildReportCard(BuildContext context, Report report, currentUser) {
     final typeColor = _getReportTypeColor(report.type);
     final typeIcon = _getReportTypeIcon(report.type);
-    final typeLabel = _getReportTypeLabel(report.type);
+    final typeLabel = _getReportTypeLabel(report.type, context);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -220,14 +223,14 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            _buildStatusChip(report.status),
+            _buildStatusChip(report.status, context),
           ],
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
-            Text('بلّغ عنه: ${report.reporterName}'),
+            Text(context.l.moderationQueueReportedBy(report.reporterName)),
             Text(
               timeago.format(report.createdAt, locale: 'ar'),
               style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -241,15 +244,15 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // السبب
-                _buildInfoRow('السبب', report.reason),
+                _buildInfoRow(context.l.moderationQueueReason, report.reason),
                 const SizedBox(height: 8),
                 
                 // التفاصيل
                 if (report.description.isNotEmpty)
-                  _buildInfoRow('التفاصيل', report.description),
+                  _buildInfoRow(context.l.moderationQueueDetails, report.description),
                 
                 // نوع المحتوى
-                _buildInfoRow('نوع المحتوى', report.contentType),
+                _buildInfoRow(context.l.moderationQueueContentType, report.contentType),
                 
                 const Divider(height: 24),
                 
@@ -262,7 +265,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                       context,
                       report,
                       currentUser,
-                      'تحذير',
+                      context.l.moderationQueueActionWarn,
                       ModerationAction.warning,
                       Colors.orange,
                       Icons.warning,
@@ -271,7 +274,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                       context,
                       report,
                       currentUser,
-                      'حذف المحتوى',
+                      context.l.moderationQueueActionDelete,
                       ModerationAction.deleteContent,
                       Colors.red,
                       Icons.delete,
@@ -280,7 +283,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                       context,
                       report,
                       currentUser,
-                      'كتم',
+                      context.l.moderationQueueActionMute,
                       ModerationAction.muteUser,
                       Colors.purple,
                       Icons.volume_off,
@@ -289,7 +292,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                       context,
                       report,
                       currentUser,
-                      'حظر',
+                      context.l.moderationQueueActionBan,
                       ModerationAction.banUser,
                       Colors.black,
                       Icons.block,
@@ -298,7 +301,7 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
                       context,
                       report,
                       currentUser,
-                      'رفض البلاغ',
+                      context.l.moderationQueueActionDismiss,
                       ModerationAction.none,
                       Colors.grey,
                       Icons.close,
@@ -313,30 +316,31 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
     );
   }
 
-  Widget _buildStatusChip(ReportStatus status) {
+  Widget _buildStatusChip(ReportStatus status, BuildContext context) {
+    final l = context.l;
     Color color;
     String label;
     
     switch (status) {
       case ReportStatus.pending:
         color = Colors.orange;
-        label = 'قيد المراجعة';
+        label = l.moderationQueueStatusPending;
         break;
       case ReportStatus.investigating:
         color = Colors.blue;
-        label = 'جاري التحقيق';
+        label = l.moderationQueueStatusInvestigating;
         break;
       case ReportStatus.actionTaken:
         color = Colors.red;
-        label = 'تم اتخاذ إجراء';
+        label = l.moderationQueueStatusActionTaken;
         break;
       case ReportStatus.dismissed:
         color = Colors.grey;
-        label = 'مرفوض';
+        label = l.moderationQueueStatusDismissed;
         break;
       case ReportStatus.resolved:
         color = Colors.green;
-        label = 'تم الحل';
+        label = l.moderationQueueStatusResolved;
         break;
     }
 
@@ -396,20 +400,21 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
     ModerationAction action,
     String actionLabel,
   ) async {
+    final l = context.l;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('تأكيد الإجراء: $actionLabel'),
-        content: Text('هل أنت متأكد من $actionLabel؟'),
+        title: Text(l.moderationQueueConfirmTitle(actionLabel)),
+        content: Text(l.moderationQueueConfirmMessage(actionLabel)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('إلغاء'),
+            child: Text(l.moderationQueueCancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('تأكيد'),
+            child: Text(l.moderationQueueConfirm),
           ),
         ],
       ),
@@ -427,14 +432,14 @@ class _ModerationQueueScreenState extends ConsumerState<ModerationQueueScreen> {
           ? ReportStatus.dismissed
           : ReportStatus.actionTaken,
       action: action,
-      reviewNotes: 'تم $actionLabel',
+      reviewNotes: l.moderationQueueActionCompleted(actionLabel),
     );
 
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(success ? 'تم تنفيذ الإجراء بنجاح' : 'فشل تنفيذ الإجراء'),
+        content: Text(success ? l.moderationQueueActionSuccess : l.moderationQueueActionFailed),
         backgroundColor: success ? Colors.green : Colors.red,
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/l10n_ext.dart';
 import '../../models/gamification/learning_module.dart';
 import '../../providers/gamification/module_providers.dart';
 import 'module_detail_screen.dart';
@@ -85,6 +86,7 @@ class ModulesScreen extends ConsumerWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,14 +98,14 @@ class ModulesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'لا توجد وحدات تعليمية بعد',
+            l.modulesEmptyTitle,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Colors.grey[600],
                 ),
           ),
           const SizedBox(height: 8),
           Text(
-            'سيتم إضافة الوحدات قريباً',
+            l.modulesEmptySubtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.grey[500],
                 ),
@@ -120,6 +122,7 @@ class ModulesScreen extends ConsumerWidget {
   }
 
   Widget _buildErrorState(BuildContext context, Object error) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +134,7 @@ class ModulesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'حدث خطأ في تحميل الوحدات',
+            l.modulesLoadError,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
@@ -174,6 +177,7 @@ class _ModuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final progressPercentage = progress['progressPercentage'] ?? 0.0;
     final isCompleted = progress['isCompleted'] == true;
 
@@ -213,7 +217,7 @@ class _ModuleCard extends StatelessWidget {
                         if (!isUnlocked) ...[
                           const SizedBox(height: 4),
                           Text(
-                            'مقفلة - أكمل الوحدة السابقة',
+                            l.modulesLockedMessage,
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                   color: Colors.grey[600],
                                   fontStyle: FontStyle.italic,
@@ -317,7 +321,7 @@ class _ModuleCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '${module.contents.length} محتوى',
+                          l.modulesContentCount(module.contents.length.toString()),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: Colors.grey[600],
                               ),
@@ -330,7 +334,10 @@ class _ModuleCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '${(progress['completedContents'] as List?)?.length ?? 0}/${module.contents.where((c) => c.isRequired).length} مكتمل',
+                          l.modulesProgressFormat(
+                            ((progress['completedContents'] as List?)?.length ?? 0).toString(),
+                            module.contents.where((c) => c.isRequired).length.toString(),
+                          ),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: Colors.grey[600],
                               ),

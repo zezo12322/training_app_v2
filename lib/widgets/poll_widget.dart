@@ -41,7 +41,7 @@ class PollWidget extends ConsumerWidget {
       error: (error, stack) => Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(l.pollError.replaceAll('{error}', error.toString())),
+          child: Text(l.pollError(error.toString())),
         ),
       ),
     );
@@ -69,7 +69,7 @@ class _PollContentState extends ConsumerState<_PollContent> {
 
     setState(() => _isVoting = true);
 
-    try {
+  try {
       final hasVoted = widget.poll.hasUserVoted(widget.userId);
       final currentVotes = widget.poll.getUserVotes(widget.userId);
 
@@ -89,10 +89,10 @@ class _PollContentState extends ConsumerState<_PollContent> {
         );
       }
     } catch (e) {
-      if (mounted) {
+        if (mounted) {
         final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l.pollVoteError.replaceAll('{error}', e.toString()))),
+          SnackBar(content: Text(l.pollVoteError(e.toString()))),
         );
       }
     } finally {
@@ -204,9 +204,10 @@ class _PollContentState extends ConsumerState<_PollContent> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  l.pollVotesCount
-                      .replaceAll('{count}', '${widget.poll.totalVotes}')
-                      .replaceAll('{votes}', widget.poll.totalVotes == 1 ? l.pollVotesSingular : l.pollVotesPlural),
+          l.pollVotesCount(
+            widget.poll.totalVotes.toString(),
+            widget.poll.totalVotes == 1 ? l.pollVotesSingular : l.pollVotesPlural,
+          ),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -221,8 +222,8 @@ class _PollContentState extends ConsumerState<_PollContent> {
                   const SizedBox(width: 4),
                   Text(
                     widget.poll.isActive
-                        ? l.pollEndsIn.replaceAll('{time}', timeago.format(widget.poll.endsAt!, locale: 'ar'))
-                        : l.pollEnded.replaceAll('{time}', timeago.format(widget.poll.endsAt!, locale: 'ar')),
+              ? l.pollEndsIn(timeago.format(widget.poll.endsAt!, locale: 'ar'))
+                : l.pollEnded(timeago.format(widget.poll.endsAt!, locale: 'ar')),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
@@ -366,9 +367,9 @@ class _ResultOption extends StatelessWidget {
           builder: (ctx) {
             final l = ctx.l;
             return Text(
-              option.voteCount == 1
-                  ? l.pollOptionVotesSingular.replaceAll('{count}', '${option.voteCount}')
-                  : l.pollOptionVotesPlural.replaceAll('{count}', '${option.voteCount}'),
+        option.voteCount == 1
+          ? l.pollOptionVotesSingular(option.voteCount.toString())
+          : l.pollOptionVotesPlural(option.voteCount.toString()),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),

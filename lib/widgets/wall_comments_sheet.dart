@@ -88,7 +88,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l.wallCommentsError.replaceAll('{error}', e.toString()))),
+          SnackBar(content: Text(context.l.wallCommentsError(e.toString()))),
         );
       }
     } finally {
@@ -156,7 +156,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                     child: CircularProgressIndicator(),
                   ),
                   error: (error, stack) => Center(
-                    child: Text(l.wallCommentsError.replaceAll('{error}', error.toString())),
+                    child: Text(l.wallCommentsError(error.toString())),
                   ),
                   data: (comments) {
                     if (comments.isEmpty) {
@@ -274,7 +274,7 @@ class _WallCommentsSheetState extends ConsumerState<WallCommentsSheet> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                l.wallCommentsReplyingTo.replaceAll('{username}', _replyingToUsername!),
+                                l.wallCommentsReplyingTo(_replyingToUsername!),
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: theme.colorScheme.onPrimaryContainer,
@@ -406,7 +406,7 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l.wallCommentsError.replaceAll('{error}', error.toString()))),
+        SnackBar(content: Text(context.l.wallCommentsError(error.toString()))),
       );
     }
   }
@@ -464,10 +464,10 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                     _showReplies ? Icons.expand_less : Icons.expand_more,
                     size: 16,
                   ),
-                  label: Text(
+                    label: Text(
                     _showReplies
                         ? l.wallCommentsHideReplies
-                        : l.wallCommentsShowReplies.replaceAll('{count}', widget.replies.length.toString()),
+                        : l.wallCommentsShowReplies(widget.replies.length),
                     style: const TextStyle(fontSize: 12),
                   ),
                   style: TextButton.styleFrom(
@@ -584,32 +584,37 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                   Builder(
                     builder: (ctx) {
                       final l = ctx.l;
-                      return TextField(
-                        controller: _editController,
-                        maxLines: null,
-                        maxLength: 2000,
-                        decoration: InputDecoration(
-                          hintText: l.commentPlaceholder,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                        ),
-                        style: TextStyle(fontSize: isReply ? 13 : 14, height: 1.4),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: _editController,
+                            maxLines: null,
+                            maxLength: 2000,
+                            decoration: InputDecoration(
+                              hintText: l.commentPlaceholder,
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                            ),
+                            style: TextStyle(fontSize: isReply ? 13 : 14, height: 1.4),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: _cancelEdit,
+                                child: Text(l.dialogCancelButton),
+                              ),
+                              const SizedBox(width: 8),
+                              ElevatedButton(
+                                onPressed: _saveEdit,
+                                child: Text(l.dialogSaveButton),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: _cancelEdit,
-                        child: Text(l.dialogCancelButton),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: _saveEdit,
-                        child: Text(l.dialogSaveButton),
-                      ),
-                    ],
                   ),
                 ] else
                   Text(

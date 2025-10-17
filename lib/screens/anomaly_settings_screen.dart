@@ -4,6 +4,7 @@ import '../models/anomaly.dart';
 import '../providers/anomaly_providers.dart';
 import '../providers/user_providers.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة إعدادات الكشف عن الشذوذ
 class AnomalySettingsScreen extends ConsumerStatefulWidget {
@@ -87,22 +88,24 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
       final success = await service.saveSettings(settings);
 
       if (mounted) {
+        final l = context.l;
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم حفظ الإعدادات بنجاح')),
+            SnackBar(content: Text(l.anomalySettingsSaveSuccess)),
           );
           ref.invalidate(anomalySettingsProvider(user.institutionId ?? ''));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('فشل حفظ الإعدادات')),
+            SnackBar(content: Text(l.anomalySettingsSaveFailed)),
           );
         }
       }
     } catch (e) {
       logger.e('Error saving settings', error: e);
       if (mounted) {
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(l.anomalySettingsSaveError(e.toString()))),
         );
       }
     } finally {
@@ -114,9 +117,10 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إعدادات الكشف عن الشذوذ'),
+        title: Text(l.anomalySettingsTitle),
         actions: [
           if (!_isLoading)
             IconButton(
@@ -139,61 +143,61 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SwitchListTile(
-                    title: const Text('تفعيل الكشف عن الشذوذ'),
-                    subtitle: const Text('اكتشاف السلوك غير الطبيعي تلقائياً'),
+                    title: Text(l.anomalySettingsEnableDetection),
+                    subtitle: Text(l.anomalySettingsEnableDetectionSubtitle),
                     value: _isEnabled,
                     onChanged: (value) => setState(() => _isEnabled = value),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'أنواع الشذوذ المُفعّلة',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    l.anomalySettingsEnabledTypes,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   _buildTypeCheckbox(
                     AnomalyType.suspiciousLogin,
-                    'تسجيل دخول مشبوه',
-                    'أجهزة أو مواقع غير معتادة',
+                    l.anomalySettingsSuspiciousLogin,
+                    l.anomalySettingsSuspiciousLoginDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.unusualQuizScore,
-                    'درجات اختبار غير طبيعية',
-                    'درجات عالية جداً أو منخفضة جداً',
+                    l.anomalySettingsAbnormalScores,
+                    l.anomalySettingsAbnormalScoresDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.rapidProgress,
-                    'تقدم سريع',
-                    'إكمال دورات أو اختبارات بسرعة غير طبيعية',
+                    l.anomalySettingsRapidProgress,
+                    l.anomalySettingsRapidProgressDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.multipleDevices,
-                    'أجهزة متعددة',
-                    'استخدام عدة أجهزة في وقت قصير',
+                    l.anomalySettingsMultipleDevices,
+                    l.anomalySettingsMultipleDevicesDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.unusualActivity,
-                    'نشاط غير معتاد',
-                    'نشاط مفرط أو غير نمطي',
+                    l.anomalySettingsUnusualActivity,
+                    l.anomalySettingsUnusualActivityDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.cheatingPattern,
-                    'نمط غش',
-                    'أنماط تشير إلى محاولة غش',
+                    l.anomalySettingsCheatingPattern,
+                    l.anomalySettingsCheatingPatternDesc,
                   ),
                   _buildTypeCheckbox(
                     AnomalyType.accountSharing,
-                    'مشاركة حساب',
-                    'استخدام الحساب من قبل أشخاص مختلفين',
+                    l.anomalySettingsAccountSharing,
+                    l.anomalySettingsAccountSharingDesc,
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'الحساسية',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    l.anomalySettingsSensitivity,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const Text('منخفضة'),
+                      Text(l.anomalySettingsSensitivityLow),
                       Expanded(
                         child: Slider(
                           value: _sensitivityLevel,
@@ -206,23 +210,23 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                           },
                         ),
                       ),
-                      const Text('عالية'),
+                      Text(l.anomalySettingsSensitivityHigh),
                     ],
                   ),
                   Text(
-                    'الحساسية الحالية: ${(_sensitivityLevel * 100).toStringAsFixed(0)}%',
+                    l.anomalySettingsSensitivityCurrent((_sensitivityLevel * 100).toStringAsFixed(0)),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.grey),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'التنبيهات',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    l.anomalySettingsAlerts,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   SwitchListTile(
-                    title: const Text('إرسال تنبيهات'),
-                    subtitle: const Text('إخطار المسؤولين عند اكتشاف شذوذ'),
+                    title: Text(l.anomalySettingsSendAlerts),
+                    subtitle: Text(l.anomalySettingsSendAlertsSubtitle),
                     value: _sendAlerts,
                     onChanged: (value) => setState(() => _sendAlerts = value),
                   ),
@@ -230,26 +234,26 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                     const SizedBox(height: 12),
                     DropdownButtonFormField<AnomalySeverity>(
                       initialValue: _minAlertSeverity,
-                      decoration: const InputDecoration(
-                        labelText: 'الحد الأدنى للتنبيه',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l.anomalySettingsMinimumSeverity,
+                        border: const OutlineInputBorder(),
                       ),
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                           value: AnomalySeverity.low,
-                          child: Text('منخفض'),
+                          child: Text(l.anomalySettingsSeverityLow),
                         ),
                         DropdownMenuItem(
                           value: AnomalySeverity.medium,
-                          child: Text('متوسط'),
+                          child: Text(l.anomalySettingsSeverityMedium),
                         ),
                         DropdownMenuItem(
                           value: AnomalySeverity.high,
-                          child: Text('عالي'),
+                          child: Text(l.anomalySettingsSeverityHigh),
                         ),
                         DropdownMenuItem(
                           value: AnomalySeverity.critical,
-                          child: Text('حرج'),
+                          child: Text(l.anomalySettingsSeverityCritical),
                         ),
                       ],
                       onChanged: (value) {
@@ -260,20 +264,20 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                     ),
                   ],
                   const SizedBox(height: 20),
-                  const Text(
-                    'الإجراءات التلقائية',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    l.anomalySettingsAutomatedActions,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   SwitchListTile(
-                    title: const Text('تعليق الحسابات الحرجة'),
-                    subtitle: const Text('تعليق تلقائي للحسابات ذات الشذوذ الحرج'),
+                    title: Text(l.anomalySettingsSuspendCritical),
+                    subtitle: Text(l.anomalySettingsSuspendCriticalSubtitle),
                     value: _autoSuspendCritical,
                     onChanged: (value) => setState(() => _autoSuspendCritical = value),
                   ),
                   SwitchListTile(
-                    title: const Text('وضع علامة على الغش'),
-                    subtitle: const Text('وضع علامة تلقائية على محاولات الغش'),
+                    title: Text(l.anomalySettingsFlagCheating),
+                    subtitle: Text(l.anomalySettingsFlagCheatingSubtitle),
                     value: _autoFlagCheating,
                     onChanged: (value) => setState(() => _autoFlagCheating = value),
                   ),
@@ -290,7 +294,7 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                               Icon(Icons.info_outline, color: Colors.blue.shade700),
                               const SizedBox(width: 8),
                               Text(
-                                'ملاحظات مهمة',
+                                l.anomalySettingsImportantNotes,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -300,13 +304,13 @@ class _AnomalySettingsScreenState extends ConsumerState<AnomalySettingsScreen> {
                             ],
                           ),
                           const SizedBox(height: 12),
-                          const Text(
-                            '• الكشف يعمل باستخدام خوارزميات إحصائية متقدمة\n'
-                            '• قد تحدث إيجابيات خاطئة - راجع دائماً قبل اتخاذ إجراء\n'
-                            '• يتحسن الكشف مع مرور الوقت وتجميع البيانات\n'
-                            '• الحساسية العالية = المزيد من الاكتشافات (بما في ذلك الخاطئة)\n'
-                            '• يوصى بمراجعة دورية للإعدادات والنتائج',
-                            style: TextStyle(fontSize: 14),
+                          Text(
+                            '${l.anomalySettingsNote1}\n'
+                            '${l.anomalySettingsNote2}\n'
+                            '${l.anomalySettingsNote3}\n'
+                            '${l.anomalySettingsNote4}\n'
+                            '${l.anomalySettingsNote5}',
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ],
                       ),

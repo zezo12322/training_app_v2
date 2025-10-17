@@ -316,7 +316,7 @@ void main() {
 
   group('✅ Test Coverage Summary', () {
     test('Coverage Report', () {
-      print('\n' + '='*60);
+      print('\n${'='*60}');
       print('📊 ONESIGNAL NOTIFICATIONS TEST COVERAGE REPORT');
       print('='*60);
       print('✅ Initialization:');

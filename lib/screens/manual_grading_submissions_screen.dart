@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/models/quiz_submission.dart';
 // Removed unused auth_provider import
 import 'package:training_app/providers/quiz_providers.dart';
@@ -11,9 +12,10 @@ class ManualGradingSubmissionsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
     final repo = ref.watch(quizRepositoryProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('مراجعة إجابات نصية')),
+      appBar: AppBar(title: Text(l.manualGradingReviewTitle)),
       body: StreamBuilder<List<QuizSubmission>>(
         stream: repo.watchSubmissionsNeedingReview(quizId),
         builder: (context, snapshot) {
@@ -22,8 +24,8 @@ class ManualGradingSubmissionsScreen extends ConsumerWidget {
           }
           final subs = snapshot.data!;
           if (subs.isEmpty) {
-            return const Center(
-              child: Text('لا توجد تسليمات تحتاج تصحيح يدوي.'),
+            return Center(
+              child: Text(l.manualGradingNoSubmissions),
             );
           }
           return ListView.builder(
@@ -35,7 +37,7 @@ class ManualGradingSubmissionsScreen extends ConsumerWidget {
                   s.traineeEmail.isNotEmpty ? s.traineeEmail : s.traineeId,
                 ),
                 subtitle: Text(
-                  'درجة آلية: ${s.autoScore} / ${s.totalQuestions}',
+                  l.manualGradingAutoScoreLabel(s.autoScore.toString(), s.totalQuestions.toString()),
                 ),
                 trailing: const Icon(Icons.edit),
                 onTap: () => Navigator.of(context).push(

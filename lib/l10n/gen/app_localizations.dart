@@ -1358,6 +1358,90 @@ abstract class AppLocalizations {
   /// **'{points} pts'**
   String leaderboardPoints(Object points);
 
+  /// No description provided for @leaderboardWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get leaderboardWeekly;
+
+  /// No description provided for @leaderboardMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get leaderboardMonthly;
+
+  /// No description provided for @leaderboardAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All Time'**
+  String get leaderboardAllTime;
+
+  /// No description provided for @leaderboardRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get leaderboardRetry;
+
+  /// No description provided for @leaderboardLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading leaderboard'**
+  String get leaderboardLoadError;
+
+  /// No description provided for @leaderboardNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No leaderboard entries yet'**
+  String get leaderboardNoEntries;
+
+  /// No description provided for @leaderboardYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get leaderboardYou;
+
+  /// No description provided for @leaderboardRank.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank'**
+  String get leaderboardRank;
+
+  /// No description provided for @leaderboardPointsWithLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points'**
+  String leaderboardPointsWithLabel(Object points);
+
+  /// No description provided for @leaderboardPointsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'points'**
+  String get leaderboardPointsShort;
+
+  /// No description provided for @leaderboardLevelFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level} • {name}'**
+  String leaderboardLevelFormat(Object level, Object name);
+
+  /// No description provided for @leaderboardEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No top players yet'**
+  String get leaderboardEmptyTitle;
+
+  /// No description provided for @leaderboardEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to earn points!'**
+  String get leaderboardEmptySubtitle;
+
+  /// No description provided for @leaderboardErrorLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading top players'**
+  String get leaderboardErrorLoad;
+
   /// No description provided for @pointsLabel.
   ///
   /// In en, this message translates to:
@@ -2407,12 +2491,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get reactionsClose;
-
-  /// No description provided for @emailVerificationTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Email Verification'**
-  String get emailVerificationTitle;
 
   /// No description provided for @privacyPolicyTitle.
   ///
@@ -3788,6 +3866,72 @@ abstract class AppLocalizations {
   /// **'Error: {error}'**
   String orgAdminError(Object error);
 
+  /// No description provided for @orgAdminLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest: {value}'**
+  String orgAdminLatest(Object value);
+
+  /// No description provided for @orgAdminActiveUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Users'**
+  String get orgAdminActiveUsers;
+
+  /// No description provided for @orgAdminAvgEventsPerUser7d.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Events/User (7d)'**
+  String get orgAdminAvgEventsPerUser7d;
+
+  /// No description provided for @orgAdminAvgMastery.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Mastery'**
+  String get orgAdminAvgMastery;
+
+  /// No description provided for @orgAdminAvgMasteryDelta14d.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Mastery Delta (14d)'**
+  String get orgAdminAvgMasteryDelta14d;
+
+  /// No description provided for @orgAdminLatest7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest 7 Days'**
+  String get orgAdminLatest7Days;
+
+  /// No description provided for @orgAdminDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get orgAdminDate;
+
+  /// No description provided for @orgAdminActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get orgAdminActive;
+
+  /// No description provided for @orgAdminAvgEvPerUsr.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Ev/Usr'**
+  String get orgAdminAvgEvPerUsr;
+
+  /// No description provided for @orgAdminAvgMasteryShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Mast'**
+  String get orgAdminAvgMasteryShort;
+
+  /// No description provided for @orgAdminDelta14d.
+  ///
+  /// In en, this message translates to:
+  /// **'Δ14d'**
+  String get orgAdminDelta14d;
+
   /// No description provided for @takeQuizNoQuestions.
   ///
   /// In en, this message translates to:
@@ -4537,6 +4681,3018 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trainee'**
   String get userPickerRoleTrainee;
+
+  /// No description provided for @quizSubmissionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Submissions: {quizTitle}'**
+  String quizSubmissionsTitle(Object quizTitle);
+
+  /// No description provided for @personalProfileUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Image upload failed: {error}'**
+  String personalProfileUploadFailed(Object error);
+
+  /// No description provided for @personalProfileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get personalProfileSaved;
+
+  /// No description provided for @personalProfileSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Save failed: {error}'**
+  String personalProfileSaveFailed(Object error);
+
+  /// No description provided for @settingsArabicLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get settingsArabicLabel;
+
+  /// No description provided for @privacyPolicyLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load privacy policy: {error}'**
+  String privacyPolicyLoadFailed(Object error);
+
+  /// No description provided for @termsOfServiceLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load terms of service: {error}'**
+  String termsOfServiceLoadFailed(Object error);
+
+  /// No description provided for @traineeListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainees'**
+  String get traineeListTitle;
+
+  /// No description provided for @traineeListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No trainees in this course yet.'**
+  String get traineeListEmpty;
+
+  /// No description provided for @resourceLibraryUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'File upload failed: {error}'**
+  String resourceLibraryUploadFailed(Object error);
+
+  /// No description provided for @resourceLibraryDefaultCourseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Course'**
+  String get resourceLibraryDefaultCourseName;
+
+  /// No description provided for @resourceLibraryNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New file in: {courseName}'**
+  String resourceLibraryNotificationTitle(Object courseName);
+
+  /// No description provided for @resourceLibraryNotificationContent.
+  ///
+  /// In en, this message translates to:
+  /// **'New file added with title: {fileName}'**
+  String resourceLibraryNotificationContent(Object fileName);
+
+  /// No description provided for @resourceLibraryCannotOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open this file: {fileUrl}'**
+  String resourceLibraryCannotOpen(Object fileUrl);
+
+  /// No description provided for @resourceLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resource Library'**
+  String get resourceLibraryTitle;
+
+  /// No description provided for @resourceLibraryError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Make sure to create the required index.\\n\\n{error}'**
+  String resourceLibraryError(Object error);
+
+  /// No description provided for @resourceLibraryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No files in the library yet.'**
+  String get resourceLibraryEmpty;
+
+  /// No description provided for @resourceLibraryUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading...'**
+  String get resourceLibraryUploading;
+
+  /// No description provided for @resourceLibraryUploadButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload File'**
+  String get resourceLibraryUploadButton;
+
+  /// No description provided for @quizListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quizzes'**
+  String get quizListTitle;
+
+  /// No description provided for @quizListError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Make sure to create the required index.\\n\\n{error}'**
+  String quizListError(Object error);
+
+  /// No description provided for @quizListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No quizzes created yet.'**
+  String get quizListEmpty;
+
+  /// No description provided for @quizListViewSubmissions.
+  ///
+  /// In en, this message translates to:
+  /// **'View submissions'**
+  String get quizListViewSubmissions;
+
+  /// No description provided for @quizListCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Quiz'**
+  String get quizListCreateButton;
+
+  /// No description provided for @quizSubmissionsError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Make sure to create the required index.\\n\\n{error}'**
+  String quizSubmissionsError(Object error);
+
+  /// No description provided for @quizSubmissionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No trainee has submitted this quiz yet.'**
+  String get quizSubmissionsEmpty;
+
+  /// No description provided for @quizSubmissionsResultFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Score: {score} out of {total}\\nSubmitted on: {date}'**
+  String quizSubmissionsResultFormat(Object score, Object total, Object date);
+
+  /// No description provided for @traineeListLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get traineeListLoading;
+
+  /// No description provided for @traineeListNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainee not found: {traineeId}'**
+  String traineeListNotFound(Object traineeId);
+
+  /// No description provided for @traineeListUnknownEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown email'**
+  String get traineeListUnknownEmail;
+
+  /// No description provided for @personalProfileSectionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get personalProfileSectionData;
+
+  /// No description provided for @personalProfileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get personalProfileNameLabel;
+
+  /// No description provided for @personalProfileNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get personalProfileNameRequired;
+
+  /// No description provided for @personalProfileEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get personalProfileEmailLabel;
+
+  /// No description provided for @personalProfileStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get personalProfileStatsTitle;
+
+  /// No description provided for @personalProfileAchievementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get personalProfileAchievementsTitle;
+
+  /// No description provided for @personalProfileRecentActivityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get personalProfileRecentActivityTitle;
+
+  /// No description provided for @personalProfileTrainerStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Training statistics'**
+  String get personalProfileTrainerStatsTitle;
+
+  /// No description provided for @personalProfileSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get personalProfileSaveButton;
+
+  /// No description provided for @personalProfileRoleTrainee.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainee'**
+  String get personalProfileRoleTrainee;
+
+  /// No description provided for @personalProfileRoleTrainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer'**
+  String get personalProfileRoleTrainer;
+
+  /// No description provided for @personalProfilePointsLabelShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Points: {points}'**
+  String personalProfilePointsLabelShort(Object points);
+
+  /// No description provided for @personalProfileAuthError.
+  ///
+  /// In en, this message translates to:
+  /// **'Auth error: {error}'**
+  String personalProfileAuthError(Object error);
+
+  /// No description provided for @personalProfileLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in'**
+  String get personalProfileLoginRequired;
+
+  /// No description provided for @personalProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal profile'**
+  String get personalProfileTitle;
+
+  /// No description provided for @personalProfileDataLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String personalProfileDataLoadError(Object error);
+
+  /// No description provided for @personalProfileActivitiesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get personalProfileActivitiesLabel;
+
+  /// No description provided for @personalProfileEvaluationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluations'**
+  String get personalProfileEvaluationsLabel;
+
+  /// No description provided for @personalProfileEvaluationsGivenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluations you gave'**
+  String get personalProfileEvaluationsGivenLabel;
+
+  /// No description provided for @personalProfileSinceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Since'**
+  String get personalProfileSinceLabel;
+
+  /// No description provided for @personalProfilePointsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get personalProfilePointsLabel;
+
+  /// No description provided for @personalProfileNoBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'No badges yet'**
+  String get personalProfileNoBadges;
+
+  /// No description provided for @personalProfileActivityLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load activity: {error}'**
+  String personalProfileActivityLoadError(Object error);
+
+  /// No description provided for @personalProfileNoRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent activity yet'**
+  String get personalProfileNoRecentActivity;
+
+  /// No description provided for @personalProfilePointsCountFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points'**
+  String personalProfilePointsCountFormat(Object points);
+
+  /// No description provided for @personalProfileEventTestPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Test passed'**
+  String get personalProfileEventTestPassed;
+
+  /// No description provided for @personalProfileEventTaskCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task completed'**
+  String get personalProfileEventTaskCompleted;
+
+  /// No description provided for @personalProfileEventLessonCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson completed'**
+  String get personalProfileEventLessonCompleted;
+
+  /// No description provided for @personalProfileEventDailyStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily streak'**
+  String get personalProfileEventDailyStreak;
+
+  /// No description provided for @personalProfileEventDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Point event'**
+  String get personalProfileEventDefault;
+
+  /// No description provided for @trainerStatsCoursesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses'**
+  String get trainerStatsCoursesLabel;
+
+  /// No description provided for @trainerStatsEvaluationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluations'**
+  String get trainerStatsEvaluationsLabel;
+
+  /// No description provided for @achievementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get achievementsTitle;
+
+  /// No description provided for @achievementsMustLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in first'**
+  String get achievementsMustLogin;
+
+  /// No description provided for @achievementsFilterByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Category'**
+  String get achievementsFilterByCategory;
+
+  /// No description provided for @achievementsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get achievementsAll;
+
+  /// No description provided for @achievementsSecretAchievement.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret Achievement'**
+  String get achievementsSecretAchievement;
+
+  /// No description provided for @achievementsPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points'**
+  String achievementsPoints(Object points);
+
+  /// No description provided for @achievementsUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked ✓'**
+  String get achievementsUnlocked;
+
+  /// No description provided for @achievementsLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked 🔒'**
+  String get achievementsLocked;
+
+  /// No description provided for @achievementsUnlockedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked: {date}'**
+  String achievementsUnlockedOn(Object date);
+
+  /// No description provided for @achievementsThisIsSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a secret achievement! 🤫'**
+  String get achievementsThisIsSecret;
+
+  /// No description provided for @achievementsWillDiscoverWhenUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll discover it when you unlock it'**
+  String get achievementsWillDiscoverWhenUnlock;
+
+  /// No description provided for @achievementsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get achievementsClose;
+
+  /// No description provided for @achievementsNoAchievementsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No achievements yet'**
+  String get achievementsNoAchievementsYet;
+
+  /// No description provided for @achievementsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading achievements'**
+  String get achievementsLoadError;
+
+  /// No description provided for @achievementsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get achievementsRetry;
+
+  /// No description provided for @achievementsStatUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked'**
+  String get achievementsStatUnlocked;
+
+  /// No description provided for @achievementsStatPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get achievementsStatPercentage;
+
+  /// No description provided for @achievementsStatRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get achievementsStatRemaining;
+
+  /// No description provided for @achievementsSecretLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret achievement 🔒'**
+  String get achievementsSecretLocked;
+
+  /// No description provided for @analyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analyticsTitle;
+
+  /// No description provided for @analyticsOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get analyticsOverview;
+
+  /// No description provided for @analyticsTotalStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Students'**
+  String get analyticsTotalStudents;
+
+  /// No description provided for @analyticsActiveStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Students'**
+  String get analyticsActiveStudents;
+
+  /// No description provided for @analyticsAvgPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Points'**
+  String get analyticsAvgPoints;
+
+  /// No description provided for @analyticsAvgLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Level'**
+  String get analyticsAvgLevel;
+
+  /// No description provided for @analyticsEngagementRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Engagement Rate'**
+  String get analyticsEngagementRate;
+
+  /// No description provided for @analyticsEngagementPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of students are active'**
+  String analyticsEngagementPercent(Object percent);
+
+  /// No description provided for @analyticsActiveOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Active: {active} of {total}'**
+  String analyticsActiveOf(Object active, Object total);
+
+  /// No description provided for @analyticsTopStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Students'**
+  String get analyticsTopStudents;
+
+  /// No description provided for @analyticsNoStudents.
+  ///
+  /// In en, this message translates to:
+  /// **'No students yet'**
+  String get analyticsNoStudents;
+
+  /// No description provided for @analyticsLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String analyticsLevel(Object level);
+
+  /// No description provided for @analyticsPointsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get analyticsPointsLabel;
+
+  /// No description provided for @analyticsPointsStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Statistics'**
+  String get analyticsPointsStats;
+
+  /// No description provided for @analyticsPointsAwarded.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Awarded'**
+  String get analyticsPointsAwarded;
+
+  /// No description provided for @analyticsAchievementsUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements Unlocked'**
+  String get analyticsAchievementsUnlocked;
+
+  /// No description provided for @analyticsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading analytics'**
+  String get analyticsLoadError;
+
+  /// No description provided for @analyticsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get analyticsRetry;
+
+  /// No description provided for @gamificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Settings'**
+  String get gamificationSettingsTitle;
+
+  /// No description provided for @gamificationSettingsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get gamificationSettingsSave;
+
+  /// No description provided for @gamificationSettingsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading settings'**
+  String get gamificationSettingsLoadError;
+
+  /// No description provided for @gamificationSettingsUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Unauthorized'**
+  String get gamificationSettingsUnauthorized;
+
+  /// No description provided for @gamificationSettingsSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'✅ Settings saved successfully'**
+  String get gamificationSettingsSaveSuccess;
+
+  /// No description provided for @gamificationSettingsSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving settings: {error}'**
+  String gamificationSettingsSaveError(Object error);
+
+  /// No description provided for @gamificationSettingsEnableSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Points System'**
+  String get gamificationSettingsEnableSystem;
+
+  /// No description provided for @gamificationSettingsDisableNote.
+  ///
+  /// In en, this message translates to:
+  /// **'If disabled, no points will be awarded'**
+  String get gamificationSettingsDisableNote;
+
+  /// No description provided for @gamificationSettingsCoreActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Core Activities (Mandatory)'**
+  String get gamificationSettingsCoreActivities;
+
+  /// No description provided for @gamificationSettingsCoreNote.
+  ///
+  /// In en, this message translates to:
+  /// **'These activities are always enabled'**
+  String get gamificationSettingsCoreNote;
+
+  /// No description provided for @gamificationSettingsCompleteLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Lesson'**
+  String get gamificationSettingsCompleteLesson;
+
+  /// No description provided for @gamificationSettingsPassQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass Quiz'**
+  String get gamificationSettingsPassQuiz;
+
+  /// No description provided for @gamificationSettingsPerfectQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect Quiz Score'**
+  String get gamificationSettingsPerfectQuiz;
+
+  /// No description provided for @gamificationSettingsCompleteTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Task'**
+  String get gamificationSettingsCompleteTask;
+
+  /// No description provided for @gamificationSettingsCompleteModule.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Module'**
+  String get gamificationSettingsCompleteModule;
+
+  /// No description provided for @gamificationSettingsEnableSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Social Interaction Points'**
+  String get gamificationSettingsEnableSocial;
+
+  /// No description provided for @gamificationSettingsSocialNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts and Comments'**
+  String get gamificationSettingsSocialNote;
+
+  /// No description provided for @gamificationSettingsCreatePost.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Post'**
+  String get gamificationSettingsCreatePost;
+
+  /// No description provided for @gamificationSettingsWriteComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Write Comment'**
+  String get gamificationSettingsWriteComment;
+
+  /// No description provided for @gamificationSettingsHelpPeer.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Peer'**
+  String get gamificationSettingsHelpPeer;
+
+  /// No description provided for @gamificationSettingsGetReaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Reaction'**
+  String get gamificationSettingsGetReaction;
+
+  /// No description provided for @gamificationSettingsEnableStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Daily Login Streak'**
+  String get gamificationSettingsEnableStreak;
+
+  /// No description provided for @gamificationSettingsStreakNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Encourage continuous login'**
+  String get gamificationSettingsStreakNote;
+
+  /// No description provided for @gamificationSettingsDailyLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Login'**
+  String get gamificationSettingsDailyLogin;
+
+  /// No description provided for @gamificationSettingsWeekStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Streak'**
+  String get gamificationSettingsWeekStreak;
+
+  /// No description provided for @gamificationSettingsSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Settings'**
+  String get gamificationSettingsSaveButton;
+
+  /// No description provided for @gamificationSettingsResetDefaults.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Defaults'**
+  String get gamificationSettingsResetDefaults;
+
+  /// No description provided for @gamificationSettingsResetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Default values restored'**
+  String get gamificationSettingsResetSuccess;
+
+  /// No description provided for @gamificationSettingsPointsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points'**
+  String gamificationSettingsPointsLabel(Object points);
+
+  /// No description provided for @moduleDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Module Details'**
+  String get moduleDetailTitle;
+
+  /// No description provided for @moduleDetailError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String moduleDetailError(Object error);
+
+  /// No description provided for @moduleDetailRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get moduleDetailRetry;
+
+  /// No description provided for @moduleDetailProgressError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading progress: {error}'**
+  String moduleDetailProgressError(Object error);
+
+  /// No description provided for @moduleDetailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get moduleDetailDescription;
+
+  /// No description provided for @moduleDetailContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Module Contents'**
+  String get moduleDetailContents;
+
+  /// No description provided for @moduleDetailCompleteForPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete all contents to get {points} points'**
+  String moduleDetailCompleteForPoints(Object points);
+
+  /// No description provided for @moduleDetailModuleCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Module Completed! 🎉'**
+  String get moduleDetailModuleCompleted;
+
+  /// No description provided for @moduleDetailEarnedPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'You earned {points} points'**
+  String moduleDetailEarnedPoints(Object points);
+
+  /// No description provided for @moduleDetailCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get moduleDetailCompleted;
+
+  /// No description provided for @moduleDetailProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get moduleDetailProgress;
+
+  /// No description provided for @moduleDetailPointsOnCompletion.
+  ///
+  /// In en, this message translates to:
+  /// **'{points} points on completion'**
+  String moduleDetailPointsOnCompletion(Object points);
+
+  /// No description provided for @moduleDetailUnmarkedComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmarked content as completed'**
+  String get moduleDetailUnmarkedComplete;
+
+  /// No description provided for @moduleDetailMarkedComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked content as completed ✓'**
+  String get moduleDetailMarkedComplete;
+
+  /// No description provided for @moduleDetailMarkError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String moduleDetailMarkError(Object error);
+
+  /// No description provided for @moduleDetailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get moduleDetailRequired;
+
+  /// No description provided for @moduleDetailTypeLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson'**
+  String get moduleDetailTypeLesson;
+
+  /// No description provided for @moduleDetailTypeQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz'**
+  String get moduleDetailTypeQuiz;
+
+  /// No description provided for @moduleDetailTypeAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignment'**
+  String get moduleDetailTypeAssignment;
+
+  /// No description provided for @moduleDetailTypeResource.
+  ///
+  /// In en, this message translates to:
+  /// **'Resource'**
+  String get moduleDetailTypeResource;
+
+  /// No description provided for @anomalyDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anomaly Detection'**
+  String get anomalyDashboardTitle;
+
+  /// No description provided for @anomalyDashboardMustLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be logged in'**
+  String get anomalyDashboardMustLogin;
+
+  /// No description provided for @anomalyDashboardFilterStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by status'**
+  String get anomalyDashboardFilterStatus;
+
+  /// No description provided for @anomalyDashboardAllStates.
+  ///
+  /// In en, this message translates to:
+  /// **'All States'**
+  String get anomalyDashboardAllStates;
+
+  /// No description provided for @anomalyDashboardPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get anomalyDashboardPending;
+
+  /// No description provided for @anomalyDashboardInvestigating.
+  ///
+  /// In en, this message translates to:
+  /// **'Investigating'**
+  String get anomalyDashboardInvestigating;
+
+  /// No description provided for @anomalyDashboardResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get anomalyDashboardResolved;
+
+  /// No description provided for @anomalyDashboardTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get anomalyDashboardTabAll;
+
+  /// No description provided for @anomalyDashboardTabHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get anomalyDashboardTabHigh;
+
+  /// No description provided for @anomalyDashboardTabAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get anomalyDashboardTabAlerts;
+
+  /// No description provided for @anomalyDashboardNoAnomalies.
+  ///
+  /// In en, this message translates to:
+  /// **'No anomalies detected'**
+  String get anomalyDashboardNoAnomalies;
+
+  /// No description provided for @anomalyDashboardSystemNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'System operating normally'**
+  String get anomalyDashboardSystemNormal;
+
+  /// No description provided for @anomalyDashboardError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String anomalyDashboardError(Object error);
+
+  /// No description provided for @anomalyDashboardNoHighRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'No high-risk anomalies'**
+  String get anomalyDashboardNoHighRisk;
+
+  /// No description provided for @anomalyDashboardNoAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No alerts'**
+  String get anomalyDashboardNoAlerts;
+
+  /// No description provided for @anomalyDashboardReviewSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed successfully'**
+  String get anomalyDashboardReviewSuccess;
+
+  /// No description provided for @anomalyDashboardReviewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Review failed'**
+  String get anomalyDashboardReviewFailed;
+
+  /// No description provided for @anomalyDashboardReviewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get anomalyDashboardReviewButton;
+
+  /// No description provided for @anomalyDashboardType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get anomalyDashboardType;
+
+  /// No description provided for @anomalyDashboardSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get anomalyDashboardSeverity;
+
+  /// No description provided for @anomalyDashboardStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get anomalyDashboardStatus;
+
+  /// No description provided for @anomalyDashboardUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get anomalyDashboardUser;
+
+  /// No description provided for @anomalyDashboardDetectedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected At'**
+  String get anomalyDashboardDetectedAt;
+
+  /// No description provided for @anomalyDashboardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get anomalyDashboardDescription;
+
+  /// No description provided for @anomalyDashboardActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get anomalyDashboardActions;
+
+  /// No description provided for @anomalyDashboardMarkResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Resolved'**
+  String get anomalyDashboardMarkResolved;
+
+  /// No description provided for @anomalyDashboardInvestigate.
+  ///
+  /// In en, this message translates to:
+  /// **'Investigate'**
+  String get anomalyDashboardInvestigate;
+
+  /// No description provided for @myEvaluationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Evaluations'**
+  String get myEvaluationsTitle;
+
+  /// No description provided for @myEvaluationsToggleView.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle View'**
+  String get myEvaluationsToggleView;
+
+  /// No description provided for @myEvaluationsMustLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Must log in first'**
+  String get myEvaluationsMustLogin;
+
+  /// No description provided for @myEvaluationsNoEvaluations.
+  ///
+  /// In en, this message translates to:
+  /// **'No evaluations added for you yet.'**
+  String get myEvaluationsNoEvaluations;
+
+  /// No description provided for @myEvaluationsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String myEvaluationsError(Object error);
+
+  /// No description provided for @myEvaluationsAuthError.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication error: {error}'**
+  String myEvaluationsAuthError(Object error);
+
+  /// No description provided for @myEvaluationsAudioUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to play audio evaluation (link currently unavailable)'**
+  String get myEvaluationsAudioUnavailable;
+
+  /// No description provided for @myEvaluationsAudioAccessError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to access audio file. Check connection.'**
+  String get myEvaluationsAudioAccessError;
+
+  /// No description provided for @myEvaluationsAudioPlayError.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio playback failed: {error}'**
+  String myEvaluationsAudioPlayError(Object error);
+
+  /// No description provided for @anomalySettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anomaly Detection Settings'**
+  String get anomalySettingsTitle;
+
+  /// No description provided for @anomalySettingsSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved successfully'**
+  String get anomalySettingsSaveSuccess;
+
+  /// No description provided for @anomalySettingsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save settings'**
+  String get anomalySettingsSaveFailed;
+
+  /// No description provided for @anomalySettingsSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String anomalySettingsSaveError(Object error);
+
+  /// No description provided for @anomalySettingsEnableDetection.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Anomaly Detection'**
+  String get anomalySettingsEnableDetection;
+
+  /// No description provided for @anomalySettingsEnableDetectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically detect abnormal behavior'**
+  String get anomalySettingsEnableDetectionSubtitle;
+
+  /// No description provided for @anomalySettingsEnabledTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled Anomaly Types'**
+  String get anomalySettingsEnabledTypes;
+
+  /// No description provided for @anomalySettingsSuspiciousLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspicious Login'**
+  String get anomalySettingsSuspiciousLogin;
+
+  /// No description provided for @anomalySettingsSuspiciousLoginDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual devices or locations'**
+  String get anomalySettingsSuspiciousLoginDesc;
+
+  /// No description provided for @anomalySettingsAbnormalScores.
+  ///
+  /// In en, this message translates to:
+  /// **'Abnormal Test Scores'**
+  String get anomalySettingsAbnormalScores;
+
+  /// No description provided for @anomalySettingsAbnormalScoresDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Very high or very low scores'**
+  String get anomalySettingsAbnormalScoresDesc;
+
+  /// No description provided for @anomalySettingsRapidProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Rapid Progress'**
+  String get anomalySettingsRapidProgress;
+
+  /// No description provided for @anomalySettingsRapidProgressDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Completing courses or tests abnormally fast'**
+  String get anomalySettingsRapidProgressDesc;
+
+  /// No description provided for @anomalySettingsMultipleDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple Devices'**
+  String get anomalySettingsMultipleDevices;
+
+  /// No description provided for @anomalySettingsMultipleDevicesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Using multiple devices in short time'**
+  String get anomalySettingsMultipleDevicesDesc;
+
+  /// No description provided for @anomalySettingsUnusualActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual Activity'**
+  String get anomalySettingsUnusualActivity;
+
+  /// No description provided for @anomalySettingsUnusualActivityDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Excessive or atypical activity'**
+  String get anomalySettingsUnusualActivityDesc;
+
+  /// No description provided for @anomalySettingsCheatingPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheating Pattern'**
+  String get anomalySettingsCheatingPattern;
+
+  /// No description provided for @anomalySettingsCheatingPatternDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Patterns indicating cheating attempt'**
+  String get anomalySettingsCheatingPatternDesc;
+
+  /// No description provided for @anomalySettingsAccountSharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Sharing'**
+  String get anomalySettingsAccountSharing;
+
+  /// No description provided for @anomalySettingsAccountSharingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Account used by different people'**
+  String get anomalySettingsAccountSharingDesc;
+
+  /// No description provided for @anomalySettingsSensitivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitivity'**
+  String get anomalySettingsSensitivity;
+
+  /// No description provided for @anomalySettingsSensitivityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get anomalySettingsSensitivityLow;
+
+  /// No description provided for @anomalySettingsSensitivityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get anomalySettingsSensitivityHigh;
+
+  /// No description provided for @anomalySettingsSensitivityCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current sensitivity: {percent}%'**
+  String anomalySettingsSensitivityCurrent(Object percent);
+
+  /// No description provided for @anomalySettingsAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get anomalySettingsAlerts;
+
+  /// No description provided for @anomalySettingsSendAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Alerts'**
+  String get anomalySettingsSendAlerts;
+
+  /// No description provided for @anomalySettingsSendAlertsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify admins when anomaly detected'**
+  String get anomalySettingsSendAlertsSubtitle;
+
+  /// No description provided for @anomalySettingsMinimumSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum Alert Severity'**
+  String get anomalySettingsMinimumSeverity;
+
+  /// No description provided for @anomalySettingsSeverityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get anomalySettingsSeverityLow;
+
+  /// No description provided for @anomalySettingsSeverityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get anomalySettingsSeverityMedium;
+
+  /// No description provided for @anomalySettingsSeverityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get anomalySettingsSeverityHigh;
+
+  /// No description provided for @anomalySettingsSeverityCritical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get anomalySettingsSeverityCritical;
+
+  /// No description provided for @anomalySettingsAutomatedActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Automated Actions'**
+  String get anomalySettingsAutomatedActions;
+
+  /// No description provided for @anomalySettingsSuspendCritical.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspend Critical Accounts'**
+  String get anomalySettingsSuspendCritical;
+
+  /// No description provided for @anomalySettingsSuspendCriticalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically suspend accounts with critical anomalies'**
+  String get anomalySettingsSuspendCriticalSubtitle;
+
+  /// No description provided for @anomalySettingsFlagCheating.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag Cheating'**
+  String get anomalySettingsFlagCheating;
+
+  /// No description provided for @anomalySettingsFlagCheatingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically flag cheating attempts'**
+  String get anomalySettingsFlagCheatingSubtitle;
+
+  /// No description provided for @anomalySettingsImportantNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Notes'**
+  String get anomalySettingsImportantNotes;
+
+  /// No description provided for @anomalySettingsNote1.
+  ///
+  /// In en, this message translates to:
+  /// **'• Detection uses advanced statistical algorithms'**
+  String get anomalySettingsNote1;
+
+  /// No description provided for @anomalySettingsNote2.
+  ///
+  /// In en, this message translates to:
+  /// **'• False positives may occur - always review before action'**
+  String get anomalySettingsNote2;
+
+  /// No description provided for @anomalySettingsNote3.
+  ///
+  /// In en, this message translates to:
+  /// **'• Detection improves over time as data accumulates'**
+  String get anomalySettingsNote3;
+
+  /// No description provided for @anomalySettingsNote4.
+  ///
+  /// In en, this message translates to:
+  /// **'• High sensitivity = more detections (including false ones)'**
+  String get anomalySettingsNote4;
+
+  /// No description provided for @anomalySettingsNote5.
+  ///
+  /// In en, this message translates to:
+  /// **'• Periodic review of settings and results recommended'**
+  String get anomalySettingsNote5;
+
+  /// No description provided for @moderationQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderation Queue'**
+  String get moderationQueueTitle;
+
+  /// No description provided for @moderationQueueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String moderationQueueError(Object error);
+
+  /// No description provided for @moderationQueueNoPending.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending reports'**
+  String get moderationQueueNoPending;
+
+  /// No description provided for @moderationQueueLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading reports: {error}'**
+  String moderationQueueLoadError(Object error);
+
+  /// No description provided for @moderationQueuePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get moderationQueuePending;
+
+  /// No description provided for @moderationQueueResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get moderationQueueResolved;
+
+  /// No description provided for @moderationQueueDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismissed'**
+  String get moderationQueueDismissed;
+
+  /// No description provided for @moderationQueueTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get moderationQueueTotal;
+
+  /// No description provided for @moderationQueueReportedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported by: {name}'**
+  String moderationQueueReportedBy(Object name);
+
+  /// No description provided for @moderationQueueReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get moderationQueueReason;
+
+  /// No description provided for @moderationQueueDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get moderationQueueDetails;
+
+  /// No description provided for @moderationQueueContentType.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Type'**
+  String get moderationQueueContentType;
+
+  /// No description provided for @moderationQueueActionWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'Warn'**
+  String get moderationQueueActionWarn;
+
+  /// No description provided for @moderationQueueActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Content'**
+  String get moderationQueueActionDelete;
+
+  /// No description provided for @moderationQueueActionMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get moderationQueueActionMute;
+
+  /// No description provided for @moderationQueueActionBan.
+  ///
+  /// In en, this message translates to:
+  /// **'Ban'**
+  String get moderationQueueActionBan;
+
+  /// No description provided for @moderationQueueActionDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss Report'**
+  String get moderationQueueActionDismiss;
+
+  /// No description provided for @moderationQueueStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Review'**
+  String get moderationQueueStatusPending;
+
+  /// No description provided for @moderationQueueStatusInvestigating.
+  ///
+  /// In en, this message translates to:
+  /// **'Investigating'**
+  String get moderationQueueStatusInvestigating;
+
+  /// No description provided for @moderationQueueStatusActionTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Action Taken'**
+  String get moderationQueueStatusActionTaken;
+
+  /// No description provided for @moderationQueueStatusDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismissed'**
+  String get moderationQueueStatusDismissed;
+
+  /// No description provided for @moderationQueueStatusResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get moderationQueueStatusResolved;
+
+  /// No description provided for @moderationQueueConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Action: {action}'**
+  String moderationQueueConfirmTitle(Object action);
+
+  /// No description provided for @moderationQueueConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure about {action}?'**
+  String moderationQueueConfirmMessage(Object action);
+
+  /// No description provided for @moderationQueueCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get moderationQueueCancel;
+
+  /// No description provided for @moderationQueueConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get moderationQueueConfirm;
+
+  /// No description provided for @moderationQueueActionCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed {action}'**
+  String moderationQueueActionCompleted(Object action);
+
+  /// No description provided for @moderationQueueActionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Action completed successfully'**
+  String get moderationQueueActionSuccess;
+
+  /// No description provided for @moderationQueueActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Action failed'**
+  String get moderationQueueActionFailed;
+
+  /// No description provided for @moderationQueueReasonInappropriate.
+  ///
+  /// In en, this message translates to:
+  /// **'Inappropriate Content'**
+  String get moderationQueueReasonInappropriate;
+
+  /// No description provided for @moderationQueueReasonHarassment.
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment'**
+  String get moderationQueueReasonHarassment;
+
+  /// No description provided for @moderationQueueReasonSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam'**
+  String get moderationQueueReasonSpam;
+
+  /// No description provided for @moderationQueueReasonMisinformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Misinformation'**
+  String get moderationQueueReasonMisinformation;
+
+  /// No description provided for @moderationQueueReasonHarmful.
+  ///
+  /// In en, this message translates to:
+  /// **'Harmful Content'**
+  String get moderationQueueReasonHarmful;
+
+  /// No description provided for @moderationQueueReasonCopyright.
+  ///
+  /// In en, this message translates to:
+  /// **'Copyright Violation'**
+  String get moderationQueueReasonCopyright;
+
+  /// No description provided for @moderationQueueReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get moderationQueueReasonOther;
+
+  /// No description provided for @createBadgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Badge'**
+  String get createBadgeTitle;
+
+  /// No description provided for @createBadgeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge created'**
+  String get createBadgeSuccess;
+
+  /// No description provided for @createBadgeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String createBadgeError(Object error);
+
+  /// No description provided for @createBadgeIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ID (unique)'**
+  String get createBadgeIdLabel;
+
+  /// No description provided for @createBadgeIdRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get createBadgeIdRequired;
+
+  /// No description provided for @createBadgeNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get createBadgeNameLabel;
+
+  /// No description provided for @createBadgeNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get createBadgeNameRequired;
+
+  /// No description provided for @createBadgeDescLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get createBadgeDescLabel;
+
+  /// No description provided for @createBadgeIconLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon URL (optional)'**
+  String get createBadgeIconLabel;
+
+  /// No description provided for @createBadgeIsActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get createBadgeIsActive;
+
+  /// No description provided for @createBadgeAutoAward.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Award'**
+  String get createBadgeAutoAward;
+
+  /// No description provided for @createBadgeCriteria.
+  ///
+  /// In en, this message translates to:
+  /// **'Criteria (optional)'**
+  String get createBadgeCriteria;
+
+  /// No description provided for @createBadgePointsMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Points ≥'**
+  String get createBadgePointsMin;
+
+  /// No description provided for @createBadgeStreakMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Streak ≥'**
+  String get createBadgeStreakMin;
+
+  /// No description provided for @createBadgeQuizzesMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Quizzes Passed ≥'**
+  String get createBadgeQuizzesMin;
+
+  /// No description provided for @createBadgeTasksMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks Completed ≥'**
+  String get createBadgeTasksMin;
+
+  /// No description provided for @createBadgeLessonsMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Lessons Completed ≥'**
+  String get createBadgeLessonsMin;
+
+  /// No description provided for @createBadgeReviewsMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews Written ≥'**
+  String get createBadgeReviewsMin;
+
+  /// No description provided for @createBadgeSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get createBadgeSaveButton;
+
+  /// No description provided for @hrisImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Users'**
+  String get hrisImportTitle;
+
+  /// No description provided for @hrisImportChooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose CSV or Excel file'**
+  String get hrisImportChooseFile;
+
+  /// No description provided for @hrisImportSelectFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select File'**
+  String get hrisImportSelectFile;
+
+  /// No description provided for @hrisImportLoadTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Load Saved Template'**
+  String get hrisImportLoadTemplate;
+
+  /// No description provided for @hrisImportUnsupportedFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported file type'**
+  String get hrisImportUnsupportedFile;
+
+  /// No description provided for @hrisImportEmptyFile.
+  ///
+  /// In en, this message translates to:
+  /// **'File is empty or contains only one row'**
+  String get hrisImportEmptyFile;
+
+  /// No description provided for @hrisImportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String hrisImportError(Object error);
+
+  /// No description provided for @hrisImportMapColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Map Columns'**
+  String get hrisImportMapColumns;
+
+  /// No description provided for @hrisImportEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email *'**
+  String get hrisImportEmailRequired;
+
+  /// No description provided for @hrisImportNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name *'**
+  String get hrisImportNameRequired;
+
+  /// No description provided for @hrisImportRoleOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Role (optional)'**
+  String get hrisImportRoleOptional;
+
+  /// No description provided for @hrisImportPhoneOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone (optional)'**
+  String get hrisImportPhoneOptional;
+
+  /// No description provided for @hrisImportDepartmentOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Department (optional)'**
+  String get hrisImportDepartmentOptional;
+
+  /// No description provided for @hrisImportJobTitleOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Title (optional)'**
+  String get hrisImportJobTitleOptional;
+
+  /// No description provided for @hrisImportSaveAsTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as Template'**
+  String get hrisImportSaveAsTemplate;
+
+  /// No description provided for @hrisImportTemplateName.
+  ///
+  /// In en, this message translates to:
+  /// **'Template Name'**
+  String get hrisImportTemplateName;
+
+  /// No description provided for @hrisImportPreviewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get hrisImportPreviewButton;
+
+  /// No description provided for @hrisImportBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get hrisImportBackButton;
+
+  /// No description provided for @hrisImportNone.
+  ///
+  /// In en, this message translates to:
+  /// **'-- None --'**
+  String get hrisImportNone;
+
+  /// No description provided for @hrisImportPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Preview'**
+  String get hrisImportPreviewTitle;
+
+  /// No description provided for @hrisImportTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get hrisImportTotal;
+
+  /// No description provided for @hrisImportValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid'**
+  String get hrisImportValid;
+
+  /// No description provided for @hrisImportInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid'**
+  String get hrisImportInvalid;
+
+  /// No description provided for @hrisImportUpdateExisting.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Existing Users'**
+  String get hrisImportUpdateExisting;
+
+  /// No description provided for @hrisImportSampleRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample Records:'**
+  String get hrisImportSampleRecords;
+
+  /// No description provided for @hrisImportStartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Import'**
+  String get hrisImportStartButton;
+
+  /// No description provided for @hrisImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Import completed successfully'**
+  String get hrisImportSuccess;
+
+  /// No description provided for @hrisImportNoTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved templates'**
+  String get hrisImportNoTemplates;
+
+  /// No description provided for @hrisImportChooseTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Template'**
+  String get hrisImportChooseTemplate;
+
+  /// No description provided for @hrisImportCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get hrisImportCancel;
+
+  /// No description provided for @importHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import History'**
+  String get importHistoryTitle;
+
+  /// No description provided for @importHistoryAuthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in'**
+  String get importHistoryAuthRequired;
+
+  /// No description provided for @importHistoryError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String importHistoryError(Object error);
+
+  /// No description provided for @importHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No import operations'**
+  String get importHistoryEmpty;
+
+  /// No description provided for @importHistoryNewImport.
+  ///
+  /// In en, this message translates to:
+  /// **'New Import'**
+  String get importHistoryNewImport;
+
+  /// No description provided for @importHistoryStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get importHistoryStatus;
+
+  /// No description provided for @importHistoryTotalRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Rows'**
+  String get importHistoryTotalRows;
+
+  /// No description provided for @importHistoryProcessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Processed'**
+  String get importHistoryProcessed;
+
+  /// No description provided for @importHistorySuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Successful'**
+  String get importHistorySuccessful;
+
+  /// No description provided for @importHistoryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get importHistoryFailed;
+
+  /// No description provided for @importHistoryUploader.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get importHistoryUploader;
+
+  /// No description provided for @importHistoryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get importHistoryDate;
+
+  /// No description provided for @importHistoryCompletedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed at'**
+  String get importHistoryCompletedAt;
+
+  /// No description provided for @importHistoryErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors:'**
+  String get importHistoryErrors;
+
+  /// No description provided for @importHistoryStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get importHistoryStatusPending;
+
+  /// No description provided for @importHistoryStatusProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get importHistoryStatusProcessing;
+
+  /// No description provided for @importHistoryStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get importHistoryStatusCompleted;
+
+  /// No description provided for @importHistoryStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get importHistoryStatusFailed;
+
+  /// No description provided for @importHistoryStatusPartial.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial Success'**
+  String get importHistoryStatusPartial;
+
+  /// No description provided for @bigqueryExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BigQuery Export'**
+  String get bigqueryExportTitle;
+
+  /// No description provided for @bigqueryExportAuthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in'**
+  String get bigqueryExportAuthRequired;
+
+  /// No description provided for @bigqueryExportNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'BigQuery must be configured first'**
+  String get bigqueryExportNotConfigured;
+
+  /// No description provided for @bigqueryExportNotEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'BigQuery is not enabled'**
+  String get bigqueryExportNotEnabled;
+
+  /// No description provided for @bigqueryExportStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Export started successfully'**
+  String get bigqueryExportStarted;
+
+  /// No description provided for @bigqueryExportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String bigqueryExportError(Object error);
+
+  /// No description provided for @bigqueryExportNewExport.
+  ///
+  /// In en, this message translates to:
+  /// **'New Export'**
+  String get bigqueryExportNewExport;
+
+  /// No description provided for @bigqueryExportDataType.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Type'**
+  String get bigqueryExportDataType;
+
+  /// No description provided for @bigqueryExportUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get bigqueryExportUsers;
+
+  /// No description provided for @bigqueryExportCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses'**
+  String get bigqueryExportCourses;
+
+  /// No description provided for @bigqueryExportEnrollments.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrollments'**
+  String get bigqueryExportEnrollments;
+
+  /// No description provided for @bigqueryExportQuizResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Results'**
+  String get bigqueryExportQuizResults;
+
+  /// No description provided for @bigqueryExportCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificates'**
+  String get bigqueryExportCertificates;
+
+  /// No description provided for @bigqueryExportPointsAchievements.
+  ///
+  /// In en, this message translates to:
+  /// **'Points & Achievements'**
+  String get bigqueryExportPointsAchievements;
+
+  /// No description provided for @bigqueryExportAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Data'**
+  String get bigqueryExportAll;
+
+  /// No description provided for @bigqueryExportExporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting...'**
+  String get bigqueryExportExporting;
+
+  /// No description provided for @bigqueryExportStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Export'**
+  String get bigqueryExportStart;
+
+  /// No description provided for @bigqueryExportHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Export History'**
+  String get bigqueryExportHistory;
+
+  /// No description provided for @bigqueryExportRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get bigqueryExportRefresh;
+
+  /// No description provided for @bigqueryExportNoExports.
+  ///
+  /// In en, this message translates to:
+  /// **'No export operations'**
+  String get bigqueryExportNoExports;
+
+  /// No description provided for @bigqueryExportDetailStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get bigqueryExportDetailStatus;
+
+  /// No description provided for @bigqueryExportDetailType.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Type'**
+  String get bigqueryExportDetailType;
+
+  /// No description provided for @bigqueryExportDetailTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Records'**
+  String get bigqueryExportDetailTotal;
+
+  /// No description provided for @bigqueryExportDetailExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Exported'**
+  String get bigqueryExportDetailExported;
+
+  /// No description provided for @bigqueryExportDetailFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get bigqueryExportDetailFailed;
+
+  /// No description provided for @bigqueryExportDetailUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get bigqueryExportDetailUser;
+
+  /// No description provided for @bigqueryExportDetailStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Started at'**
+  String get bigqueryExportDetailStarted;
+
+  /// No description provided for @bigqueryExportDetailCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed at'**
+  String get bigqueryExportDetailCompleted;
+
+  /// No description provided for @bigqueryExportDetailErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors:'**
+  String get bigqueryExportDetailErrors;
+
+  /// No description provided for @bigqueryExportAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get bigqueryExportAnalytics;
+
+  /// No description provided for @bigqueryExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get bigqueryExportProgress;
+
+  /// No description provided for @bigqueryExportStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get bigqueryExportStatusPending;
+
+  /// No description provided for @bigqueryExportStatusProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get bigqueryExportStatusProcessing;
+
+  /// No description provided for @bigqueryExportStatusUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading'**
+  String get bigqueryExportStatusUploading;
+
+  /// No description provided for @bigqueryExportStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get bigqueryExportStatusCompleted;
+
+  /// No description provided for @bigqueryExportStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get bigqueryExportStatusFailed;
+
+  /// No description provided for @bigquerySettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'BigQuery Settings'**
+  String get bigquerySettingsTitle;
+
+  /// No description provided for @bigquerySettingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved successfully'**
+  String get bigquerySettingsSaved;
+
+  /// No description provided for @bigquerySettingsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save settings'**
+  String get bigquerySettingsSaveFailed;
+
+  /// No description provided for @bigquerySettingsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String bigquerySettingsError(Object error);
+
+  /// No description provided for @bigquerySettingsEnableExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable BigQuery Export'**
+  String get bigquerySettingsEnableExport;
+
+  /// No description provided for @bigquerySettingsExportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data to BigQuery'**
+  String get bigquerySettingsExportDescription;
+
+  /// No description provided for @bigquerySettingsProjectInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Information'**
+  String get bigquerySettingsProjectInfo;
+
+  /// No description provided for @bigquerySettingsProjectIdHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Cloud Project ID'**
+  String get bigquerySettingsProjectIdHelper;
+
+  /// No description provided for @bigquerySettingsProjectIdRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Project ID is required'**
+  String get bigquerySettingsProjectIdRequired;
+
+  /// No description provided for @bigquerySettingsDatasetIdHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'BigQuery Dataset ID'**
+  String get bigquerySettingsDatasetIdHelper;
+
+  /// No description provided for @bigquerySettingsDatasetIdRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Dataset ID is required'**
+  String get bigquerySettingsDatasetIdRequired;
+
+  /// No description provided for @bigquerySettingsServiceAccountHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Account JSON credentials'**
+  String get bigquerySettingsServiceAccountHelper;
+
+  /// No description provided for @bigquerySettingsServiceAccountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Account JSON is required'**
+  String get bigquerySettingsServiceAccountRequired;
+
+  /// No description provided for @bigquerySettingsInvalidJSON.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid JSON format'**
+  String get bigquerySettingsInvalidJSON;
+
+  /// No description provided for @bigquerySettingsEnabledDataTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled Data Types'**
+  String get bigquerySettingsEnabledDataTypes;
+
+  /// No description provided for @bigquerySettingsUsersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get bigquerySettingsUsersTitle;
+
+  /// No description provided for @bigquerySettingsUsersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User account data'**
+  String get bigquerySettingsUsersSubtitle;
+
+  /// No description provided for @bigquerySettingsCoursesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses'**
+  String get bigquerySettingsCoursesTitle;
+
+  /// No description provided for @bigquerySettingsCoursesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Training course information'**
+  String get bigquerySettingsCoursesSubtitle;
+
+  /// No description provided for @bigquerySettingsEnrollmentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enrollments'**
+  String get bigquerySettingsEnrollmentsTitle;
+
+  /// No description provided for @bigquerySettingsEnrollmentsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course registration records'**
+  String get bigquerySettingsEnrollmentsSubtitle;
+
+  /// No description provided for @bigquerySettingsQuizResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Results'**
+  String get bigquerySettingsQuizResultsTitle;
+
+  /// No description provided for @bigquerySettingsQuizResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz and assessment results'**
+  String get bigquerySettingsQuizResultsSubtitle;
+
+  /// No description provided for @bigquerySettingsCertificatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificates'**
+  String get bigquerySettingsCertificatesTitle;
+
+  /// No description provided for @bigquerySettingsCertificatesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate issuance records'**
+  String get bigquerySettingsCertificatesSubtitle;
+
+  /// No description provided for @bigquerySettingsGamificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Points & Achievements'**
+  String get bigquerySettingsGamificationTitle;
+
+  /// No description provided for @bigquerySettingsGamificationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gamification system data'**
+  String get bigquerySettingsGamificationSubtitle;
+
+  /// No description provided for @bigquerySettingsAnalyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get bigquerySettingsAnalyticsTitle;
+
+  /// No description provided for @bigquerySettingsAnalyticsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage analytics data'**
+  String get bigquerySettingsAnalyticsSubtitle;
+
+  /// No description provided for @bigquerySettingsProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get bigquerySettingsProgressTitle;
+
+  /// No description provided for @bigquerySettingsProgressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning progress data'**
+  String get bigquerySettingsProgressSubtitle;
+
+  /// No description provided for @bigquerySettingsSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Schedule'**
+  String get bigquerySettingsSchedule;
+
+  /// No description provided for @bigquerySettingsScheduleHourly.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly'**
+  String get bigquerySettingsScheduleHourly;
+
+  /// No description provided for @bigquerySettingsScheduleDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get bigquerySettingsScheduleDaily;
+
+  /// No description provided for @bigquerySettingsScheduleWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get bigquerySettingsScheduleWeekly;
+
+  /// No description provided for @bigquerySettingsScheduleManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get bigquerySettingsScheduleManual;
+
+  /// No description provided for @bigquerySettingsSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Settings'**
+  String get bigquerySettingsSaveButton;
+
+  /// No description provided for @bigquerySettingsImportantNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Important Notes'**
+  String get bigquerySettingsImportantNotes;
+
+  /// No description provided for @bigquerySettingsSetupSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'• Create a Google Cloud project and enable BigQuery API\n• Create a Service Account and download JSON file\n• Grant appropriate permissions to the Service Account\n• Create a Dataset in BigQuery beforehand\n• Tables will be created automatically during export'**
+  String get bigquerySettingsSetupSteps;
+
+  /// No description provided for @courseDetailsNewPostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New post in: {courseName}'**
+  String courseDetailsNewPostTitle(Object courseName);
+
+  /// No description provided for @courseDetailsNewPostContent.
+  ///
+  /// In en, this message translates to:
+  /// **'{authorEmail} added a new post.'**
+  String courseDetailsNewPostContent(Object authorEmail);
+
+  /// No description provided for @courseDetailsError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String courseDetailsError(Object error);
+
+  /// No description provided for @courseDetailsMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get courseDetailsMoreOptions;
+
+  /// No description provided for @courseDetailsBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges & Achievements'**
+  String get courseDetailsBadges;
+
+  /// No description provided for @courseDetailsLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get courseDetailsLeaderboard;
+
+  /// No description provided for @courseDetailsAchievements.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get courseDetailsAchievements;
+
+  /// No description provided for @courseDetailsModules.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Modules'**
+  String get courseDetailsModules;
+
+  /// No description provided for @courseDetailsQuizzes.
+  ///
+  /// In en, this message translates to:
+  /// **'Quizzes'**
+  String get courseDetailsQuizzes;
+
+  /// No description provided for @courseDetailsResources.
+  ///
+  /// In en, this message translates to:
+  /// **'Resource Library'**
+  String get courseDetailsResources;
+
+  /// No description provided for @courseDetailsTrainees.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainees'**
+  String get courseDetailsTrainees;
+
+  /// No description provided for @courseDetailsAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Analytics'**
+  String get courseDetailsAnalytics;
+
+  /// No description provided for @courseDetailsPointsSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Points Settings'**
+  String get courseDetailsPointsSettings;
+
+  /// No description provided for @courseDetailsMyEvaluations.
+  ///
+  /// In en, this message translates to:
+  /// **'My Evaluations'**
+  String get courseDetailsMyEvaluations;
+
+  /// No description provided for @courseDetailsInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Information'**
+  String get courseDetailsInfoTitle;
+
+  /// No description provided for @courseDetailsInfoContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Full course details'**
+  String get courseDetailsInfoContent;
+
+  /// No description provided for @courseDetailsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get courseDetailsClose;
+
+  /// No description provided for @courseDetailsNoPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts'**
+  String get courseDetailsNoPosts;
+
+  /// No description provided for @courseDetailsChangeFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Try changing the search settings'**
+  String get courseDetailsChangeFilters;
+
+  /// No description provided for @courseDetailsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to share?'**
+  String get courseDetailsPlaceholder;
+
+  /// No description provided for @courseDetailsAddImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Add images'**
+  String get courseDetailsAddImages;
+
+  /// No description provided for @courseDetailsCreatePoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Create poll'**
+  String get courseDetailsCreatePoll;
+
+  /// No description provided for @courseDetailsTrainerFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer'**
+  String get courseDetailsTrainerFallback;
+
+  /// No description provided for @courseDetailsAuthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in first'**
+  String get courseDetailsAuthRequired;
+
+  /// No description provided for @modulesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No learning modules yet'**
+  String get modulesEmptyTitle;
+
+  /// No description provided for @modulesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Modules will be added soon'**
+  String get modulesEmptySubtitle;
+
+  /// No description provided for @modulesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading modules'**
+  String get modulesLoadError;
+
+  /// No description provided for @modulesLockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked - complete the previous module'**
+  String get modulesLockedMessage;
+
+  /// No description provided for @modulesContentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} content'**
+  String modulesContentCount(Object count);
+
+  /// No description provided for @modulesProgressFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed}/{total} completed'**
+  String modulesProgressFormat(Object completed, Object total);
+
+  /// No description provided for @forgotPasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent to your email'**
+  String get forgotPasswordSuccess;
+
+  /// No description provided for @evaluationLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading evaluation'**
+  String get evaluationLoadError;
+
+  /// No description provided for @quizHubCreatingTask.
+  ///
+  /// In en, this message translates to:
+  /// **'... Creating task'**
+  String get quizHubCreatingTask;
+
+  /// No description provided for @quizHubNoAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'No attempts yet'**
+  String get quizHubNoAttempts;
+
+  /// No description provided for @quizHubLatestScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest score: {score} | Total attempts: {count}'**
+  String quizHubLatestScore(Object score, Object count);
+
+  /// No description provided for @unknownUserInitial.
+  ///
+  /// In en, this message translates to:
+  /// **'?'**
+  String get unknownUserInitial;
+
+  /// No description provided for @emailVerificationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email has been verified successfully! 🎉'**
+  String get emailVerificationSuccess;
+
+  /// No description provided for @emailVerificationPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Email not verified yet. Please open your email and click the verification link.'**
+  String get emailVerificationPending;
+
+  /// No description provided for @emailVerificationError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String emailVerificationError(Object error);
+
+  /// No description provided for @emailVerificationLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification link sent to {email}'**
+  String emailVerificationLinkSent(Object email);
+
+  /// No description provided for @emailVerificationSendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error sending email: {error}'**
+  String emailVerificationSendError(Object error);
+
+  /// No description provided for @emailVerificationLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get emailVerificationLogout;
+
+  /// No description provided for @emailVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Your Email'**
+  String get emailVerificationTitle;
+
+  /// No description provided for @emailVerificationSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a verification link to:'**
+  String get emailVerificationSentTo;
+
+  /// No description provided for @emailVerificationInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Please open your email and click the verification link'**
+  String get emailVerificationInstructions;
+
+  /// No description provided for @emailVerificationSpamNote.
+  ///
+  /// In en, this message translates to:
+  /// **'(Check your Spam folder if you don\'t see the message)'**
+  String get emailVerificationSpamNote;
+
+  /// No description provided for @emailVerificationChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get emailVerificationChecking;
+
+  /// No description provided for @emailVerificationChecked.
+  ///
+  /// In en, this message translates to:
+  /// **'I verified my email'**
+  String get emailVerificationChecked;
+
+  /// No description provided for @emailVerificationResending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get emailVerificationResending;
+
+  /// No description provided for @emailVerificationResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get emailVerificationResend;
+
+  /// No description provided for @emailVerificationWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why do we need verification?\nTo ensure your email is correct and you can recover your account later.'**
+  String get emailVerificationWhy;
+
+  /// No description provided for @anomalyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String anomalyError(Object error);
+
+  /// No description provided for @anomalyDetailType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get anomalyDetailType;
+
+  /// No description provided for @anomalyDetailSeverity.
+  ///
+  /// In en, this message translates to:
+  /// **'Severity'**
+  String get anomalyDetailSeverity;
+
+  /// No description provided for @anomalyDetailScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get anomalyDetailScore;
+
+  /// No description provided for @anomalyDetailConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence Level'**
+  String get anomalyDetailConfidence;
+
+  /// No description provided for @anomalyDetailUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get anomalyDetailUser;
+
+  /// No description provided for @anomalyDetailStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get anomalyDetailStatus;
+
+  /// No description provided for @anomalyDetailDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected'**
+  String get anomalyDetailDetected;
+
+  /// No description provided for @anomalyDetailEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Evidence:'**
+  String get anomalyDetailEvidence;
+
+  /// No description provided for @anomalyDetailReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review:'**
+  String get anomalyDetailReview;
+
+  /// No description provided for @anomalyDetailReviewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewer'**
+  String get anomalyDetailReviewer;
+
+  /// No description provided for @anomalyDetailReviewDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Date'**
+  String get anomalyDetailReviewDate;
+
+  /// No description provided for @anomalyDetailNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get anomalyDetailNotes;
+
+  /// No description provided for @anomalyTypeSuspiciousLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspicious login'**
+  String get anomalyTypeSuspiciousLogin;
+
+  /// No description provided for @anomalyTypeAbnormalQuizScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Abnormal quiz score'**
+  String get anomalyTypeAbnormalQuizScore;
+
+  /// No description provided for @anomalyTypeRapidProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Rapid progress'**
+  String get anomalyTypeRapidProgress;
+
+  /// No description provided for @anomalyTypeMultipleDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple devices'**
+  String get anomalyTypeMultipleDevices;
+
+  /// No description provided for @anomalyTypeUnusualActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual activity'**
+  String get anomalyTypeUnusualActivity;
+
+  /// No description provided for @anomalyTypeCheatingPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheating pattern'**
+  String get anomalyTypeCheatingPattern;
+
+  /// No description provided for @anomalyTypeAccountSharing.
+  ///
+  /// In en, this message translates to:
+  /// **'Account sharing'**
+  String get anomalyTypeAccountSharing;
+
+  /// No description provided for @anomalySeverityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get anomalySeverityLow;
+
+  /// No description provided for @anomalySeverityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get anomalySeverityMedium;
+
+  /// No description provided for @anomalySeverityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get anomalySeverityHigh;
+
+  /// No description provided for @anomalySeverityCritical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get anomalySeverityCritical;
+
+  /// No description provided for @anomalyStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get anomalyStatusPending;
+
+  /// No description provided for @anomalyStatusInvestigating.
+  ///
+  /// In en, this message translates to:
+  /// **'Investigating'**
+  String get anomalyStatusInvestigating;
+
+  /// No description provided for @anomalyStatusResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get anomalyStatusResolved;
+
+  /// No description provided for @anomalyStatusFalsePositive.
+  ///
+  /// In en, this message translates to:
+  /// **'False Positive'**
+  String get anomalyStatusFalsePositive;
+
+  /// No description provided for @anomalyStatusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get anomalyStatusConfirmed;
+
+  /// No description provided for @anomalyReviewDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Anomaly'**
+  String get anomalyReviewDialogTitle;
+
+  /// No description provided for @anomalyReviewStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get anomalyReviewStatusLabel;
+
+  /// No description provided for @anomalyReviewNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional)'**
+  String get anomalyReviewNotesLabel;
+
+  /// No description provided for @manualGradeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Grading'**
+  String get manualGradeTitle;
+
+  /// No description provided for @manualGradeSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Grading saved'**
+  String get manualGradeSaveSuccess;
+
+  /// No description provided for @manualGradeSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed: {error}'**
+  String manualGradeSaveError(Object error);
+
+  /// No description provided for @manualGradeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Submission not found'**
+  String get manualGradeNotFound;
+
+  /// No description provided for @manualGradeTraineeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainee: {trainee}'**
+  String manualGradeTraineeLabel(Object trainee);
+
+  /// No description provided for @manualGradeAutoScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto score: {score}'**
+  String manualGradeAutoScore(Object score);
+
+  /// No description provided for @manualGradeNoAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'No answer'**
+  String get manualGradeNoAnswer;
+
+  /// No description provided for @manualGradeQuestionScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Question score (integer)'**
+  String get manualGradeQuestionScore;
+
+  /// No description provided for @manualGradeSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Grading'**
+  String get manualGradeSaveButton;
+
+  /// No description provided for @manualGradingReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Text Answers'**
+  String get manualGradingReviewTitle;
+
+  /// No description provided for @manualGradingNoSubmissions.
+  ///
+  /// In en, this message translates to:
+  /// **'No submissions need manual grading.'**
+  String get manualGradingNoSubmissions;
+
+  /// No description provided for @manualGradingAutoScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto score: {auto} / {total}'**
+  String manualGradingAutoScoreLabel(Object auto, Object total);
 }
 
 class _AppLocalizationsDelegate

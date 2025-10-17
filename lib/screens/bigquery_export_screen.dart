@@ -4,6 +4,7 @@ import '../models/bigquery_export.dart';
 import '../providers/bigquery_providers.dart';
 import '../providers/user_providers.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 import 'bigquery_settings_screen.dart';
 
 /// شاشة تصدير BigQuery
@@ -28,7 +29,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
     if (config == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('يجب إعداد BigQuery أولاً')),
+          SnackBar(content: Text(context.l.bigqueryExportNotConfigured)),
         );
       }
       return;
@@ -37,7 +38,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
     if (!config.isEnabled) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('BigQuery غير مُفعّل')),
+          SnackBar(content: Text(context.l.bigqueryExportNotEnabled)),
         );
       }
       return;
@@ -59,14 +60,14 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('بدأ التصدير بنجاح')),
+          SnackBar(content: Text(context.l.bigqueryExportStarted)),
         );
       }
     } catch (e) {
       logger.e('Error starting export', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.bigqueryExportError(e.toString()))),
         );
       }
     } finally {
@@ -78,11 +79,12 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final user = ref.watch(currentUserProvider).value;
     
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: Text('يجب تسجيل الدخول')),
+      return Scaffold(
+        body: Center(child: Text(l.bigqueryExportAuthRequired)),
       );
     }
 
@@ -90,7 +92,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تصدير BigQuery'),
+        title: Text(l.bigqueryExportTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -115,45 +117,45 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'تصدير جديد',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Text(
+                    l.bigqueryExportNewExport,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<ExportType>(
                     initialValue: _selectedType,
-                    decoration: const InputDecoration(
-                      labelText: 'نوع البيانات',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l.bigqueryExportDataType,
+                      border: const OutlineInputBorder(),
                     ),
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: ExportType.users,
-                        child: Text('المستخدمين'),
+                        child: Text(l.bigqueryExportUsers),
                       ),
                       DropdownMenuItem(
                         value: ExportType.courses,
-                        child: Text('الدورات'),
+                        child: Text(l.bigqueryExportCourses),
                       ),
                       DropdownMenuItem(
                         value: ExportType.enrollments,
-                        child: Text('التسجيلات'),
+                        child: Text(l.bigqueryExportEnrollments),
                       ),
                       DropdownMenuItem(
                         value: ExportType.quizResults,
-                        child: Text('نتائج الاختبارات'),
+                        child: Text(l.bigqueryExportQuizResults),
                       ),
                       DropdownMenuItem(
                         value: ExportType.certificates,
-                        child: Text('الشهادات'),
+                        child: Text(l.bigqueryExportCertificates),
                       ),
                       DropdownMenuItem(
                         value: ExportType.gamification,
-                        child: Text('النقاط والإنجازات'),
+                        child: Text(l.bigqueryExportPointsAchievements),
                       ),
                       DropdownMenuItem(
                         value: ExportType.all,
-                        child: Text('جميع البيانات'),
+                        child: Text(l.bigqueryExportAll),
                       ),
                     ],
                     onChanged: _isExporting
@@ -174,7 +176,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.cloud_upload),
-                    label: Text(_isExporting ? 'جاري التصدير...' : 'بدء التصدير'),
+                    label: Text(_isExporting ? l.bigqueryExportExporting : l.bigqueryExportStart),
                   ),
                 ],
               ),
@@ -186,9 +188,9 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                const Text(
-                  'سجل التصديرات',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  l.bigqueryExportHistory,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 TextButton.icon(
@@ -196,7 +198,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
                     ref.invalidate(exportsHistoryProvider(user.institutionId ?? ''));
                   },
                   icon: const Icon(Icons.refresh),
-                  label: const Text('تحديث'),
+                  label: Text(l.bigqueryExportRefresh),
                 ),
               ],
             ),
@@ -207,13 +209,13 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
             child: exportsAsync.when(
               data: (exports) {
                 if (exports.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.history, size: 80, color: Colors.grey),
-                        SizedBox(height: 20),
-                        Text('لا توجد عمليات تصدير'),
+                        const Icon(Icons.history, size: 80, color: Colors.grey),
+                        const SizedBox(height: 20),
+                        Text(l.bigqueryExportNoExports),
                       ],
                     ),
                   );
@@ -230,7 +232,7 @@ class _BigQueryExportScreenState extends ConsumerState<BigQueryExportScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
-                child: Text('خطأ: $error'),
+                child: Text(l.bigqueryExportError(error.toString())),
               ),
             ),
           ),
@@ -261,7 +263,7 @@ class _ExportCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      _getTypeLabel(export.exportType),
+                      _getTypeLabel(export.exportType, context),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -348,7 +350,7 @@ class _ExportCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          _getTypeLabel(export.exportType),
+                          _getTypeLabel(export.exportType, context),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -362,23 +364,23 @@ class _ExportCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _DetailRow('الحالة', _getStatusText(export.status)),
-                  _DetailRow('نوع التصدير', _getTypeLabel(export.exportType)),
-                  _DetailRow('إجمالي السجلات', '${export.totalRecords}'),
-                  _DetailRow('تم تصديره', '${export.exportedRecords}'),
-                  _DetailRow('فشل', '${export.failedRecords}'),
+                  _DetailRow(context.l.bigqueryExportDetailStatus, _getStatusText(export.status, context)),
+                  _DetailRow(context.l.bigqueryExportDetailType, _getTypeLabel(export.exportType, context)),
+                  _DetailRow(context.l.bigqueryExportDetailTotal, '${export.totalRecords}'),
+                  _DetailRow(context.l.bigqueryExportDetailExported, '${export.exportedRecords}'),
+                  _DetailRow(context.l.bigqueryExportDetailFailed, '${export.failedRecords}'),
                   _DetailRow('Project ID', export.projectId),
                   _DetailRow('Dataset ID', export.datasetId),
                   _DetailRow('Table ID', export.tableId),
-                  _DetailRow('المستخدم', export.triggeredByName),
-                  _DetailRow('بدأ في', _formatDate(export.startedAt)),
+                  _DetailRow(context.l.bigqueryExportDetailUser, export.triggeredByName),
+                  _DetailRow(context.l.bigqueryExportDetailStarted, _formatDate(export.startedAt)),
                   if (export.completedAt != null)
-                    _DetailRow('اكتمل في', _formatDate(export.completedAt!)),
+                    _DetailRow(context.l.bigqueryExportDetailCompleted, _formatDate(export.completedAt!)),
                   const SizedBox(height: 20),
                   if (export.errors.isNotEmpty) ...[
-                    const Text(
-                      'الأخطاء:',
-                      style: TextStyle(
+                    Text(
+                      context.l.bigqueryExportDetailErrors,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -416,41 +418,43 @@ class _ExportCard extends StatelessWidget {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
   }
 
-  String _getTypeLabel(ExportType type) {
+  String _getTypeLabel(ExportType type, BuildContext context) {
+    final l = context.l;
     switch (type) {
       case ExportType.users:
-        return 'المستخدمين';
+        return l.bigqueryExportUsers;
       case ExportType.courses:
-        return 'الدورات';
+        return l.bigqueryExportCourses;
       case ExportType.enrollments:
-        return 'التسجيلات';
+        return l.bigqueryExportEnrollments;
       case ExportType.quizResults:
-        return 'نتائج الاختبارات';
+        return l.bigqueryExportQuizResults;
       case ExportType.certificates:
-        return 'الشهادات';
+        return l.bigqueryExportCertificates;
       case ExportType.gamification:
-        return 'النقاط والإنجازات';
+        return l.bigqueryExportPointsAchievements;
       case ExportType.analytics:
-        return 'التحليلات';
+        return l.bigqueryExportAnalytics;
       case ExportType.progress:
-        return 'التقدم';
+        return l.bigqueryExportProgress;
       case ExportType.all:
-        return 'جميع البيانات';
+        return l.bigqueryExportAll;
     }
   }
 
-  String _getStatusText(ExportStatus status) {
+  String _getStatusText(ExportStatus status, BuildContext context) {
+    final l = context.l;
     switch (status) {
       case ExportStatus.pending:
-        return 'قيد الانتظار';
+        return l.bigqueryExportStatusPending;
       case ExportStatus.processing:
-        return 'جاري المعالجة';
+        return l.bigqueryExportStatusProcessing;
       case ExportStatus.uploading:
-        return 'جاري الرفع';
+        return l.bigqueryExportStatusUploading;
       case ExportStatus.completed:
-        return 'مكتمل';
+        return l.bigqueryExportStatusCompleted;
       case ExportStatus.failed:
-        return 'فشل';
+        return l.bigqueryExportStatusFailed;
     }
   }
 }
@@ -490,29 +494,30 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     Color color;
     String label;
 
     switch (status) {
       case ExportStatus.pending:
         color = Colors.orange;
-        label = 'قيد الانتظار';
+        label = l.bigqueryExportStatusPending;
         break;
       case ExportStatus.processing:
         color = Colors.blue;
-        label = 'جاري المعالجة';
+        label = l.bigqueryExportStatusProcessing;
         break;
       case ExportStatus.uploading:
         color = Colors.purple;
-        label = 'جاري الرفع';
+        label = l.bigqueryExportStatusUploading;
         break;
       case ExportStatus.completed:
         color = Colors.green;
-        label = 'مكتمل';
+        label = l.bigqueryExportStatusCompleted;
         break;
       case ExportStatus.failed:
         color = Colors.red;
-        label = 'فشل';
+        label = l.bigqueryExportStatusFailed;
         break;
     }
 

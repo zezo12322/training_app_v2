@@ -8,6 +8,7 @@ import '../models/user_model.dart';
 import '../providers/hris_import_providers.dart';
 import '../providers/user_providers.dart';
 import '../core/logging.dart';
+import '../core/l10n_ext.dart';
 
 /// شاشة استيراد HRIS
 class HRISImportScreen extends ConsumerStatefulWidget {
@@ -31,46 +32,48 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final user = ref.watch(currentUserProvider).value;
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('استيراد المستخدمين'),
+        title: Text(l.hrisImportTitle),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _fileData == null
-              ? _buildFilePicker(user)
+              ? _buildFilePicker(user, context)
               : _fieldMapping == null
-                  ? _buildColumnMapping()
-                  : _buildPreview(),
+                  ? _buildColumnMapping(context)
+                  : _buildPreview(context),
     );
   }
 
   /// اختيار الملف
-  Widget _buildFilePicker(AppUser? user) {
+  Widget _buildFilePicker(AppUser? user, BuildContext context) {
+    final l = context.l;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.upload_file, size: 80, color: Colors.grey),
           const SizedBox(height: 20),
-          const Text(
-            'اختر ملف CSV أو Excel',
-            style: TextStyle(fontSize: 18),
+          Text(
+            l.hrisImportChooseFile,
+            style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 30),
           ElevatedButton.icon(
             onPressed: _pickFile,
             icon: const Icon(Icons.folder_open),
-            label: const Text('اختيار ملف'),
+            label: Text(l.hrisImportSelectFile),
           ),
           const SizedBox(height: 20),
           if (user != null)
             TextButton.icon(
               onPressed: () => _loadTemplate(user.institutionId ?? ''),
               icon: const Icon(Icons.bookmark),
-              label: const Text('تحميل قالب محفوظ'),
+              label: Text(l.hrisImportLoadTemplate),
             ),
         ],
       ),
@@ -98,7 +101,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       } else if (extension == 'xlsx' || extension == 'xls') {
         fileType = ImportFileType.excel;
       } else {
-        throw Exception('نوع الملف غير مدعوم');
+        throw Exception(context.l.hrisImportUnsupportedFile);
       }
 
       // قراءة الملف
@@ -112,7 +115,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       }
 
       if (data.isEmpty || data.length < 2) {
-        throw Exception('الملف فارغ أو يحتوي على صف واحد فقط');
+        throw Exception(context.l.hrisImportEmptyFile);
       }
 
       setState(() {
@@ -126,7 +129,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       logger.e('Error picking file', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.hrisImportError(e.toString()))),
         );
       }
       setState(() => _isLoading = false);
@@ -134,19 +137,20 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
   }
 
   /// تعيين الأعمدة
-  Widget _buildColumnMapping() {
+  Widget _buildColumnMapping(BuildContext context) {
+    final l = context.l;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'تعيين الأعمدة',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Text(
+            l.hrisImportMapColumns,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           _buildColumnDropdown(
-            'البريد الإلكتروني *',
+            l.hrisImportEmailRequired,
             (value) => setState(() {
               _fieldMapping = FieldMapping(
                 emailColumn: value!,
@@ -156,7 +160,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 12),
           _buildColumnDropdown(
-            'الاسم *',
+            l.hrisImportNameRequired,
             (value) => setState(() {
               _fieldMapping = FieldMapping(
                 emailColumn: _fieldMapping?.emailColumn ?? '',
@@ -166,7 +170,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 12),
           _buildColumnDropdown(
-            'الدور (اختياري)',
+            l.hrisImportRoleOptional,
             (value) => setState(() {
               _fieldMapping = _fieldMapping?.copyWith(roleColumn: value);
             }),
@@ -174,7 +178,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 12),
           _buildColumnDropdown(
-            'الهاتف (اختياري)',
+            l.hrisImportPhoneOptional,
             (value) => setState(() {
               _fieldMapping = _fieldMapping?.copyWith(phoneColumn: value);
             }),
@@ -182,7 +186,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 12),
           _buildColumnDropdown(
-            'القسم (اختياري)',
+            l.hrisImportDepartmentOptional,
             (value) => setState(() {
               _fieldMapping = _fieldMapping?.copyWith(departmentColumn: value);
             }),
@@ -190,7 +194,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 12),
           _buildColumnDropdown(
-            'المسمى الوظيفي (اختياري)',
+            l.hrisImportJobTitleOptional,
             (value) => setState(() {
               _fieldMapping = _fieldMapping?.copyWith(jobTitleColumn: value);
             }),
@@ -198,7 +202,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           ),
           const SizedBox(height: 20),
           CheckboxListTile(
-            title: const Text('حفظ كقالب'),
+            title: Text(l.hrisImportSaveAsTemplate),
             value: _saveAsTemplate,
             onChanged: (value) => setState(() => _saveAsTemplate = value!),
           ),
@@ -206,9 +210,9 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: TextField(
-                decoration: const InputDecoration(
-                  labelText: 'اسم القالب',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: l.hrisImportTemplateName,
+                  border: const OutlineInputBorder(),
                 ),
                 onChanged: (value) => _templateName = value,
               ),
@@ -216,7 +220,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: _canPreview() ? _previewImport : null,
-            child: const Text('معاينة'),
+            child: Text(l.hrisImportPreviewButton),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
@@ -225,7 +229,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
               _headers = null;
               _fieldMapping = null;
             }),
-            child: const Text('رجوع'),
+            child: Text(l.hrisImportBackButton),
           ),
         ],
       ),
@@ -245,9 +249,9 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       ),
       items: [
         if (!required)
-          const DropdownMenuItem(
+          DropdownMenuItem(
             value: null,
-            child: Text('-- لا شيء --'),
+            child: Text(context.l.hrisImportNone),
           ),
         ..._headers!.map((header) {
           return DropdownMenuItem(
@@ -286,7 +290,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       logger.e('Error previewing import', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.hrisImportError(e.toString()))),
         );
       }
       setState(() => _isLoading = false);
@@ -294,7 +298,8 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
   }
 
   /// معاينة السجلات
-  Widget _buildPreview() {
+  Widget _buildPreview(BuildContext context) {
+    final l = context.l;
     final validCount = _previewRecords!.where((r) => r.isValid).length;
     final invalidCount = _previewRecords!.length - validCount;
 
@@ -303,9 +308,9 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'معاينة الاستيراد',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Text(
+            l.hrisImportPreviewTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           Card(
@@ -316,14 +321,14 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildStatChip('إجمالي', _previewRecords!.length),
-                      _buildStatChip('صحيح', validCount, Colors.green),
-                      _buildStatChip('خطأ', invalidCount, Colors.red),
+                      _buildStatChip(l.hrisImportTotal, _previewRecords!.length),
+                      _buildStatChip(l.hrisImportValid, validCount, Colors.green),
+                      _buildStatChip(l.hrisImportInvalid, invalidCount, Colors.red),
                     ],
                   ),
                   const SizedBox(height: 16),
                   SwitchListTile(
-                    title: const Text('تحديث المستخدمين الموجودين'),
+                    title: Text(l.hrisImportUpdateExisting),
                     value: _updateExisting,
                     onChanged: (value) => setState(() => _updateExisting = value),
                   ),
@@ -332,7 +337,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          const Text('عينة من السجلات:', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(l.hrisImportSampleRecords, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           ..._previewRecords!.take(5).map((record) {
             return Card(
@@ -360,7 +365,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: validCount > 0 ? _startImport : null,
-            child: const Text('بدء الاستيراد'),
+            child: Text(l.hrisImportStartButton),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
@@ -368,7 +373,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
               _previewRecords = null;
               _fieldMapping = null;
             }),
-            child: const Text('رجوع'),
+            child: Text(l.hrisImportBackButton),
           ),
         ],
       ),
@@ -444,7 +449,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم الاستيراد بنجاح')),
+          SnackBar(content: Text(context.l.hrisImportSuccess)),
         );
         Navigator.pop(context);
       }
@@ -452,7 +457,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       logger.e('Error importing users', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.hrisImportError(e.toString()))),
         );
       }
     } finally {
@@ -469,7 +474,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       
       if (templates.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('لا توجد قوالب محفوظة')),
+          SnackBar(content: Text(context.l.hrisImportNoTemplates)),
         );
         return;
       }
@@ -479,7 +484,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('اختر قالب'),
+            title: Text(context.l.hrisImportChooseTemplate),
             content: SizedBox(
               width: double.maxFinite,
               child: ListView.builder(
@@ -500,7 +505,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('إلغاء'),
+                child: Text(context.l.hrisImportCancel),
               ),
             ],
           );
@@ -516,7 +521,7 @@ class _HRISImportScreenState extends ConsumerState<HRISImportScreen> {
       logger.e('Error loading template', error: e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ: ${e.toString()}')),
+          SnackBar(content: Text(context.l.hrisImportError(e.toString()))),
         );
       }
     }

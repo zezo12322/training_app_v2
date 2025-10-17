@@ -173,7 +173,7 @@ class RecommendationCard extends ConsumerWidget {
                   if (recommendation.estimatedMinutes != null)
                     _buildInfoChip(
                       icon: Icons.access_time,
-                      label: l.recommendationMinutes.replaceAll('{minutes}', recommendation.estimatedMinutes.toString()),
+                      label: l.recommendationMinutes(recommendation.estimatedMinutes.toString()),
                       color: Colors.orange,
                     ),
                   
@@ -188,7 +188,7 @@ class RecommendationCard extends ConsumerWidget {
                   // درجة الثقة
                   _buildInfoChip(
                     icon: Icons.verified,
-                    label: l.recommendationConfidence.replaceAll('{percent}', (recommendation.confidence * 100).toInt().toString()),
+                    label: l.recommendationConfidence((recommendation.confidence * 100).toInt().toString()),
                     color: Colors.green,
                   ),
                 ],
@@ -356,7 +356,7 @@ class RecommendationsList extends ConsumerWidget {
                 // يمكن التنقل للمحتوى هنا
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(l.recommendationsOpenSnackbar.replaceAll('{title}', rec.contentTitle)),
+                    content: Text(l.recommendationsOpenSnackbar(rec.contentTitle)),
                     duration: const Duration(seconds: 2),
                   ),
                 );

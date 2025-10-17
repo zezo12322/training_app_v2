@@ -112,7 +112,7 @@ class SuperAdminDashboard extends ConsumerWidget {
                   child: CircularProgressIndicator(),
                 ),
               ),
-              error: (e, st) => Text(context.l.superAdminUsersLoadError.replaceAll('{error}', e.toString())),
+              error: (e, st) => Text(context.l.superAdminUsersLoadError(e.toString())),
             ),
             const SizedBox(height: 32),
             Text(context.l.superAdminAlerts, style: Theme.of(context).textTheme.titleMedium),
@@ -239,8 +239,8 @@ class _SystemSettingsCard extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(l.superAdminFlags.replaceAll('{count}', (s?.featureFlags.length ?? 0).toString())),
-                Text(l.superAdminThresholds.replaceAll('{count}', (s?.thresholds.length ?? 0).toString())),
+                Text(l.superAdminFlags((s?.featureFlags.length ?? 0).toString())),
+                Text(l.superAdminThresholds((s?.thresholds.length ?? 0).toString())),
                 const Divider(height: 16),
                 _FlagsStatus(s: s),
               ],
@@ -257,7 +257,7 @@ class _SystemSettingsCard extends ConsumerWidget {
         error: (e, st) => Card(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Text(l.superAdminSettingsError.replaceAll('{error}', e.toString())),
+            child: Text(l.superAdminSettingsError(e.toString())),
           ),
         ),
       ),
@@ -290,14 +290,14 @@ class _AlertsSection extends StatelessWidget {
           if (snap.hasError) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(l.superAdminAlertError.replaceAll('{title}', title).replaceAll('{error}', snap.error.toString())),
+              child: Text(l.superAdminAlertError(title, snap.error.toString())),
             );
           }
           final docs = snap.data?.docs ?? [];
           if (docs.isEmpty) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(l.superAdminNoAlerts.replaceAll('{title}', title)),
+              child: Text(l.superAdminNoAlerts(title)),
             );
           }
           return Column(
@@ -320,7 +320,7 @@ class _AlertsSection extends StatelessWidget {
                     right: 12,
                   ),
                   child: Text(
-                    l.superAdminMoreAlerts.replaceAll('{count}', (docs.length - 5).toString()),
+                    l.superAdminMoreAlerts((docs.length - 5).toString()),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ),
@@ -397,7 +397,7 @@ class _TenantsSection extends ConsumerWidget {
                           .toList(),
                     ),
               loading: () => const LinearProgressIndicator(),
-              error: (e, st) => Text(l.superAdminInstitutionsError.replaceAll('{error}', e.toString())),
+              error: (e, st) => Text(l.superAdminInstitutionsError(e.toString())),
             ),
             const SizedBox(height: 12),
             Text(l.superAdminCompanies, style: Theme.of(context).textTheme.titleSmall),
@@ -417,7 +417,7 @@ class _TenantsSection extends ConsumerWidget {
                           .toList(),
                     ),
               loading: () => const LinearProgressIndicator(),
-              error: (e, st) => Text(l.superAdminCompaniesError.replaceAll('{error}', e.toString())),
+              error: (e, st) => Text(l.superAdminCompaniesError(e.toString())),
             ),
           ],
         ),
@@ -528,7 +528,7 @@ class _CreateInstitutionDialogState extends ConsumerState<_CreateInstitutionDial
                     }
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError.replaceAll('{error}', e.toString()))));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError(e.toString()))));
                     }
                   } finally {
                     if (mounted) setState(() => _saving = false);
@@ -600,7 +600,7 @@ class _CreateCompanyDialogState extends ConsumerState<_CreateCompanyDialog> {
                     }
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError.replaceAll('{error}', e.toString()))));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.superAdminCreateError(e.toString()))));
                     }
                   } finally {
                     if (mounted) setState(() => _saving = false);
