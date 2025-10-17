@@ -2377,4 +2377,116 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messageBubbleEdited => '(edited)';
+
+  @override
+  String messageSearchError(Object error) {
+    return 'Search error: $error';
+  }
+
+  @override
+  String get messageSearchPlaceholderRoom => 'Search in this conversation...';
+
+  @override
+  String get messageSearchPlaceholderAll => 'Search in all messages...';
+
+  @override
+  String get messageSearchTitle => 'Search in messages';
+
+  @override
+  String get messageSearchNoResults => 'No results';
+
+  @override
+  String get messageSearchNoResultsHint => 'Try different search terms';
+
+  @override
+  String messageSearchResultsCount(Object count) {
+    return 'Results: $count';
+  }
+
+  @override
+  String get messageSearchEdited => 'edited';
+
+  @override
+  String get messageSearchDefaultRoom => 'conversation';
+
+  @override
+  String get messageSearchTooltip => 'Search';
+
+  @override
+  String get messageThreadTitle => 'Replies';
+
+  @override
+  String get messageThreadParentNotFound => 'Message not found';
+
+  @override
+  String get messageThreadUserNotFound => 'User data not found';
+
+  @override
+  String get messageThreadSendFailed => 'Failed to send reply';
+
+  @override
+  String get messageThreadNoReplies => 'No replies yet';
+
+  @override
+  String messageThreadError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get messageThreadReplyPlaceholder => 'Type your reply...';
+
+  @override
+  String get messageThreadReplySingular => 'reply';
+
+  @override
+  String get messageThreadReplyPlural => 'replies';
+
+  @override
+  String messageThreadLastReply(Object author) {
+    return 'Last reply: $author';
+  }
+
+  @override
+  String get userPickerError => 'Error creating conversation';
+
+  @override
+  String get userPickerLoginRequired => 'Please log in';
+
+  @override
+  String get userPickerLoadError => 'Cannot load user data';
+
+  @override
+  String get userPickerTitle => 'Choose a user to chat with';
+
+  @override
+  String get userPickerSearchHint => 'Search for a user...';
+
+  @override
+  String get userPickerNoResults => 'No results';
+
+  @override
+  String get userPickerNoUsers => 'No users';
+
+  @override
+  String get userPickerNoResultsHint => 'Try different search terms';
+
+  @override
+  String get userPickerNoUsersHint => 'No other users in your institution';
+
+  @override
+  String userPickerErrorWithDetails(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String get userPickerRetry => 'Retry';
+
+  @override
+  String get userPickerRoleManager => 'Manager';
+
+  @override
+  String get userPickerRoleTrainer => 'Trainer';
+
+  @override
+  String get userPickerRoleTrainee => 'Trainee';
 }

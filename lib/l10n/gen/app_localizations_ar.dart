@@ -2356,4 +2356,116 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get messageBubbleEdited => '(معدلة)';
+
+  @override
+  String messageSearchError(Object error) {
+    return 'خطأ في البحث: $error';
+  }
+
+  @override
+  String get messageSearchPlaceholderRoom => 'ابحث في هذه المحادثة...';
+
+  @override
+  String get messageSearchPlaceholderAll => 'ابحث في جميع الرسائل...';
+
+  @override
+  String get messageSearchTitle => 'ابحث في الرسائل';
+
+  @override
+  String get messageSearchNoResults => 'لا توجد نتائج';
+
+  @override
+  String get messageSearchNoResultsHint => 'جرب كلمات بحث مختلفة';
+
+  @override
+  String messageSearchResultsCount(Object count) {
+    return 'عدد النتائج: $count';
+  }
+
+  @override
+  String get messageSearchEdited => 'معدلة';
+
+  @override
+  String get messageSearchDefaultRoom => 'محادثة';
+
+  @override
+  String get messageSearchTooltip => 'بحث';
+
+  @override
+  String get messageThreadTitle => 'الردود';
+
+  @override
+  String get messageThreadParentNotFound => 'لم يتم العثور على الرسالة الأصلية';
+
+  @override
+  String get messageThreadUserNotFound => 'لم يتم العثور على بيانات المستخدم';
+
+  @override
+  String get messageThreadSendFailed => 'فشل إرسال الرد';
+
+  @override
+  String get messageThreadNoReplies => 'لا توجد ردود بعد';
+
+  @override
+  String messageThreadError(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get messageThreadReplyPlaceholder => 'اكتب ردك...';
+
+  @override
+  String get messageThreadReplySingular => 'رد';
+
+  @override
+  String get messageThreadReplyPlural => 'ردود';
+
+  @override
+  String messageThreadLastReply(Object author) {
+    return 'آخر رد: $author';
+  }
+
+  @override
+  String get userPickerError => 'حدث خطأ في إنشاء المحادثة';
+
+  @override
+  String get userPickerLoginRequired => 'يرجى تسجيل الدخول';
+
+  @override
+  String get userPickerLoadError => 'لا يمكن تحميل بيانات المستخدم';
+
+  @override
+  String get userPickerTitle => 'اختر مستخدم للمحادثة';
+
+  @override
+  String get userPickerSearchHint => 'ابحث عن مستخدم...';
+
+  @override
+  String get userPickerNoResults => 'لا توجد نتائج';
+
+  @override
+  String get userPickerNoUsers => 'لا يوجد مستخدمون';
+
+  @override
+  String get userPickerNoResultsHint => 'جرب كلمات بحث مختلفة';
+
+  @override
+  String get userPickerNoUsersHint => 'لا يوجد مستخدمون آخرون في مؤسستك';
+
+  @override
+  String userPickerErrorWithDetails(Object error) {
+    return 'حدث خطأ: $error';
+  }
+
+  @override
+  String get userPickerRetry => 'إعادة المحاولة';
+
+  @override
+  String get userPickerRoleManager => 'مدير';
+
+  @override
+  String get userPickerRoleTrainer => 'مدرب';
+
+  @override
+  String get userPickerRoleTrainee => 'متدرب';
 }

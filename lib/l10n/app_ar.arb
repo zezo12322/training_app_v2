@@ -843,4 +843,46 @@
   ,"chatInputPlaceholder": "اكتب رسالة..."
   
   ,"messageBubbleEdited": "(معدلة)"
+  
+  ,"messageSearchError": "خطأ في البحث: {error}"
+  ,"@messageSearchError": {"placeholders": {"error": {}}}
+  ,"messageSearchPlaceholderRoom": "ابحث في هذه المحادثة..."
+  ,"messageSearchPlaceholderAll": "ابحث في جميع الرسائل..."
+  ,"messageSearchTitle": "ابحث في الرسائل"
+  ,"messageSearchNoResults": "لا توجد نتائج"
+  ,"messageSearchNoResultsHint": "جرب كلمات بحث مختلفة"
+  ,"messageSearchResultsCount": "عدد النتائج: {count}"
+  ,"@messageSearchResultsCount": {"placeholders": {"count": {}}}
+  ,"messageSearchEdited": "معدلة"
+  ,"messageSearchDefaultRoom": "محادثة"
+  ,"messageSearchTooltip": "بحث"
+  
+  ,"messageThreadTitle": "الردود"
+  ,"messageThreadParentNotFound": "لم يتم العثور على الرسالة الأصلية"
+  ,"messageThreadUserNotFound": "لم يتم العثور على بيانات المستخدم"
+  ,"messageThreadSendFailed": "فشل إرسال الرد"
+  ,"messageThreadNoReplies": "لا توجد ردود بعد"
+  ,"messageThreadError": "خطأ: {error}"
+  ,"@messageThreadError": {"placeholders": {"error": {}}}
+  ,"messageThreadReplyPlaceholder": "اكتب ردك..."
+  ,"messageThreadReplySingular": "رد"
+  ,"messageThreadReplyPlural": "ردود"
+  ,"messageThreadLastReply": "آخر رد: {author}"
+  ,"@messageThreadLastReply": {"placeholders": {"author": {}}}
+  
+  ,"userPickerError": "حدث خطأ في إنشاء المحادثة"
+  ,"userPickerLoginRequired": "يرجى تسجيل الدخول"
+  ,"userPickerLoadError": "لا يمكن تحميل بيانات المستخدم"
+  ,"userPickerTitle": "اختر مستخدم للمحادثة"
+  ,"userPickerSearchHint": "ابحث عن مستخدم..."
+  ,"userPickerNoResults": "لا توجد نتائج"
+  ,"userPickerNoUsers": "لا يوجد مستخدمون"
+  ,"userPickerNoResultsHint": "جرب كلمات بحث مختلفة"
+  ,"userPickerNoUsersHint": "لا يوجد مستخدمون آخرون في مؤسستك"
+  ,"userPickerErrorWithDetails": "حدث خطأ: {error}"
+  ,"@userPickerErrorWithDetails": {"placeholders": {"error": {}}}
+  ,"userPickerRetry": "إعادة المحاولة"
+  ,"userPickerRoleManager": "مدير"
+  ,"userPickerRoleTrainer": "مدرب"
+  ,"userPickerRoleTrainee": "متدرب"
 }

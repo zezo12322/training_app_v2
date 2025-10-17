@@ -843,4 +843,46 @@
   ,"chatInputPlaceholder": "Type a message..."
   
   ,"messageBubbleEdited": "(edited)"
+  
+  ,"messageSearchError": "Search error: {error}"
+  ,"@messageSearchError": {"placeholders": {"error": {}}}
+  ,"messageSearchPlaceholderRoom": "Search in this conversation..."
+  ,"messageSearchPlaceholderAll": "Search in all messages..."
+  ,"messageSearchTitle": "Search in messages"
+  ,"messageSearchNoResults": "No results"
+  ,"messageSearchNoResultsHint": "Try different search terms"
+  ,"messageSearchResultsCount": "Results: {count}"
+  ,"@messageSearchResultsCount": {"placeholders": {"count": {}}}
+  ,"messageSearchEdited": "edited"
+  ,"messageSearchDefaultRoom": "conversation"
+  ,"messageSearchTooltip": "Search"
+  
+  ,"messageThreadTitle": "Replies"
+  ,"messageThreadParentNotFound": "Message not found"
+  ,"messageThreadUserNotFound": "User data not found"
+  ,"messageThreadSendFailed": "Failed to send reply"
+  ,"messageThreadNoReplies": "No replies yet"
+  ,"messageThreadError": "Error: {error}"
+  ,"@messageThreadError": {"placeholders": {"error": {}}}
+  ,"messageThreadReplyPlaceholder": "Type your reply..."
+  ,"messageThreadReplySingular": "reply"
+  ,"messageThreadReplyPlural": "replies"
+  ,"messageThreadLastReply": "Last reply: {author}"
+  ,"@messageThreadLastReply": {"placeholders": {"author": {}}}
+  
+  ,"userPickerError": "Error creating conversation"
+  ,"userPickerLoginRequired": "Please log in"
+  ,"userPickerLoadError": "Cannot load user data"
+  ,"userPickerTitle": "Choose a user to chat with"
+  ,"userPickerSearchHint": "Search for a user..."
+  ,"userPickerNoResults": "No results"
+  ,"userPickerNoUsers": "No users"
+  ,"userPickerNoResultsHint": "Try different search terms"
+  ,"userPickerNoUsersHint": "No other users in your institution"
+  ,"userPickerErrorWithDetails": "An error occurred: {error}"
+  ,"@userPickerErrorWithDetails": {"placeholders": {"error": {}}}
+  ,"userPickerRetry": "Retry"
+  ,"userPickerRoleManager": "Manager"
+  ,"userPickerRoleTrainer": "Trainer"
+  ,"userPickerRoleTrainee": "Trainee"
 }

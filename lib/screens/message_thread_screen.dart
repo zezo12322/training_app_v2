@@ -4,6 +4,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../models/chat_message.dart';
 import '../services/message_threading_service.dart';
 import '../providers/user_providers.dart';
+import '../core/l10n_ext.dart';
 
 /// مزود خدمة Threading
 final messageThreadingServiceProvider = Provider<MessageThreadingService>((ref) {
@@ -63,6 +64,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
   }
 
   Future<void> _sendReply() async {
+    final l = context.l;
     final content = _replyController.text.trim();
     if (content.isEmpty) return;
 
@@ -71,7 +73,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
     
     if (parent == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('لم يتم العثور على الرسالة الأصلية')),
+        SnackBar(content: Text(l.messageThreadParentNotFound)),
       );
       return;
     }
@@ -81,7 +83,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
     if (currentUser == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('لم يتم العثور على بيانات المستخدم')),
+          SnackBar(content: Text(l.messageThreadUserNotFound)),
         );
       }
       return;
@@ -117,7 +119,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('فشل إرسال الرد')),
+          SnackBar(content: Text(l.messageThreadSendFailed)),
         );
       }
     }
@@ -125,12 +127,13 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final parentAsync = ref.watch(parentMessageProvider(widget.parentMessageId));
     final repliesAsync = ref.watch(threadMessagesProvider(widget.parentMessageId));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('الردود'),
+        title: Text(l.messageThreadTitle),
       ),
       body: Column(
         children: [
@@ -138,9 +141,9 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
           parentAsync.when(
             data: (parent) {
               if (parent == null) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('لم يتم العثور على الرسالة'),
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(l.messageThreadParentNotFound),
                 );
               }
               return _ParentMessageCard(message: parent);
@@ -148,7 +151,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
             loading: () => const LinearProgressIndicator(),
             error: (error, _) => Padding(
               padding: const EdgeInsets.all(16),
-              child: Text('خطأ: $error'),
+              child: Text(l.messageThreadError.replaceAll('{error}', error.toString())),
             ),
           ),
 
@@ -159,8 +162,8 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
             child: repliesAsync.when(
               data: (replies) {
                 if (replies.isEmpty) {
-                  return const Center(
-                    child: Text('لا توجد ردود بعد'),
+                  return Center(
+                    child: Text(l.messageThreadNoReplies),
                   );
                 }
 
@@ -181,7 +184,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Center(
-                child: Text('خطأ: $error'),
+                child: Text(l.messageThreadError.replaceAll('{error}', error.toString())),
               ),
             ),
           ),
@@ -205,7 +208,7 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
                   child: TextField(
                     controller: _replyController,
                     decoration: InputDecoration(
-                      hintText: 'اكتب ردك...',
+                      hintText: l.messageThreadReplyPlaceholder,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -243,6 +246,8 @@ class _ParentMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       color: Colors.blue.withValues(alpha: 0.05),
@@ -289,7 +294,7 @@ class _ParentMessageCard extends StatelessWidget {
               const Icon(Icons.forum, size: 14, color: Colors.grey),
               const SizedBox(width: 4),
               Text(
-                '${message.threadCount} ${message.threadCount == 1 ? 'رد' : 'ردود'}',
+                '${message.threadCount} ${message.threadCount == 1 ? l.messageThreadReplySingular : l.messageThreadReplyPlural}',
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ],
@@ -312,6 +317,8 @@ class _ReplyBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -370,6 +377,8 @@ class ThreadIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
+    
     if (!message.hasReplies) return const SizedBox.shrink();
 
     final recentRepliesStream = ref.watch(messageThreadingServiceProvider)
@@ -398,7 +407,7 @@ class ThreadIndicator extends ConsumerWidget {
                     const Icon(Icons.forum, size: 14, color: Colors.blue),
                     const SizedBox(width: 4),
                     Text(
-                      '${message.threadCount} ${message.threadCount == 1 ? 'رد' : 'ردود'}',
+                      '${message.threadCount} ${message.threadCount == 1 ? l.messageThreadReplySingular : l.messageThreadReplyPlural}',
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.blue,
@@ -410,7 +419,7 @@ class ThreadIndicator extends ConsumerWidget {
                 if (recentReplies.isNotEmpty) ...[
                   const SizedBox(height: 4),
                   Text(
-                    'آخر رد: ${recentReplies.last.authorName}',
+                    l.messageThreadLastReply.replaceAll('{author}', recentReplies.last.authorName),
                     style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

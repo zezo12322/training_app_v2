@@ -174,20 +174,20 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                   // تأكيد الحظر
                   final confirm = await showDialog<bool>(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('حظر المستخدم'),
-                      content: const Text('هل تريد حظر هذا المستخدم؟ لن تتمكن من استقبال رسائله.'),
+                    builder: (dialogContext) => AlertDialog(
+                      title: Text(dialogContext.l.directChatBlockTitle),
+                      content: Text(dialogContext.l.directChatBlockConfirm),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: const Text('إلغاء'),
+                          onPressed: () => Navigator.pop(dialogContext, false),
+                          child: Text(dialogContext.l.dialogCancelButton),
                         ),
                         ElevatedButton(
-                          onPressed: () => Navigator.pop(context, true),
+                          onPressed: () => Navigator.pop(dialogContext, true),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
-                          child: const Text('حظر'),
+                          child: Text(dialogContext.l.directChatBlock),
                         ),
                       ],
                     ),
@@ -204,9 +204,10 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                   
                   if (!mounted) break;
                   
+                  final l = context.l;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(success ? 'تم حظر المستخدم' : 'فشل حظر المستخدم'),
+                      content: Text(success ? l.directChatBlockSuccess : l.directChatBlockError),
                     ),
                   );
                   

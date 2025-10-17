@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/message_search.dart';
 import '../services/message_search_service.dart';
+import '../core/l10n_ext.dart';
 import 'course_chat_screen.dart';
 
 /// مزود خدمة البحث
@@ -83,8 +84,9 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
         setState(() {
           _isSearching = false;
         });
+        final l = context.l;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('خطأ في البحث: $e')),
+          SnackBar(content: Text(l.messageSearchError.replaceAll('{error}', e.toString()))),
         );
       }
     }
@@ -92,6 +94,8 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -99,8 +103,8 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
           focusNode: _searchFocusNode,
           decoration: InputDecoration(
             hintText: widget.roomId != null
-                ? 'ابحث في هذه المحادثة...'
-                : 'ابحث في جميع الرسائل...',
+                ? l.messageSearchPlaceholderRoom
+                : l.messageSearchPlaceholderAll,
             border: InputBorder.none,
             suffixIcon: _searchController.text.isNotEmpty
                 ? IconButton(
@@ -138,6 +142,8 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
   }
 
   Widget _buildBody() {
+    final l = context.l;
+    
     if (_isSearching) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -156,7 +162,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'ابحث في الرسائل',
+              l.messageSearchTitle,
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.grey[600],
@@ -179,7 +185,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'لا توجد نتائج',
+              l.messageSearchNoResults,
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.grey[600],
@@ -187,7 +193,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'جرب كلمات بحث مختلفة',
+              l.messageSearchNoResultsHint,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -207,7 +213,7 @@ class _MessageSearchScreenState extends ConsumerState<MessageSearchScreen> {
           child: Row(
             children: [
               Text(
-                'عدد النتائج: ${_results.length}',
+                l.messageSearchResultsCount.replaceAll('{count}', _results.length.toString()),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -237,6 +243,8 @@ class _SearchResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -287,7 +295,7 @@ class _SearchResultTile extends StatelessWidget {
               if (result.isEdited) ...[
                 const SizedBox(width: 8),
                 Text(
-                  'معدلة',
+                  l.messageSearchEdited,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[600],
@@ -307,7 +315,7 @@ class _SearchResultTile extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => CourseChatScreen(
                 courseId: result.roomId,
-                courseName: result.roomName ?? 'محادثة',
+                courseName: result.roomName ?? l.messageSearchDefaultRoom,
               ),
             ),
           );
@@ -325,6 +333,8 @@ class SearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
+    
     return IconButton(
       icon: const Icon(Icons.search),
       onPressed: () {
@@ -335,7 +345,7 @@ class SearchButton extends StatelessWidget {
           ),
         );
       },
-      tooltip: 'بحث',
+      tooltip: l.messageSearchTooltip,
     );
   }
 }

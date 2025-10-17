@@ -4,6 +4,7 @@ import '../models/user_model.dart';
 import '../providers/user_providers.dart';
 import '../providers/auth_provider.dart';
 import '../providers/direct_message_providers.dart';
+import '../core/l10n_ext.dart';
 import 'direct_chat_screen.dart';
 
 /// شاشة اختيار مستخدم لبدء محادثة مباشرة
@@ -69,40 +70,42 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
         ),
       );
     } else if (mounted) {
+      final l = context.l;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('حدث خطأ في إنشاء المحادثة')),
+        SnackBar(content: Text(l.userPickerError)),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     final authUser = ref.watch(authStateProvider).value;
     
     if (authUser == null) {
-      return const Scaffold(
-        body: Center(child: Text('يرجى تسجيل الدخول')),
+      return Scaffold(
+        body: Center(child: Text(l.userPickerLoginRequired)),
       );
     }
 
     final currentUserAsync = ref.watch(currentUserProvider);
     
     return currentUserAsync.when(
-      data: (currentUserData) {
-        if (currentUserData == null) {
-          return const Scaffold(
-            body: Center(child: Text('لا يمكن تحميل بيانات المستخدم')),
+      data: (currentUser) {
+        if (currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text(l.userPickerLoadError)),
           );
         }
 
         // جلب المستخدمين من نفس المؤسسة/الشركة
         final usersAsync = ref.watch(
-          usersInSameInstitutionProvider(currentUserData.institutionId ?? ''),
+          usersInSameInstitutionProvider(currentUser.institutionId ?? ''),
         );
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('اختر مستخدم للمحادثة'),
+            title: Text(l.userPickerTitle),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: Padding(
@@ -110,7 +113,7 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
                 child: TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'ابحث عن مستخدم...',
+                    hintText: l.userPickerSearchHint,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: _searchQuery.isNotEmpty
                         ? IconButton(
@@ -157,8 +160,8 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
                       const SizedBox(height: 16),
                       Text(
                         _searchQuery.isNotEmpty
-                            ? 'لا توجد نتائج'
-                            : 'لا يوجد مستخدمون',
+                            ? l.userPickerNoResults
+                            : l.userPickerNoUsers,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey[600],
@@ -167,8 +170,8 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
                       const SizedBox(height: 8),
                       Text(
                         _searchQuery.isNotEmpty
-                            ? 'جرب كلمات بحث مختلفة'
-                            : 'لا يوجد مستخدمون آخرون في مؤسستك',
+                            ? l.userPickerNoResultsHint
+                            : l.userPickerNoUsersHint,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[500],
@@ -199,13 +202,13 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
                 children: [
                   const Icon(Icons.error_outline, size: 64, color: Colors.red),
                   const SizedBox(height: 16),
-                  Text('حدث خطأ: ${error.toString()}'),
+                  Text(l.userPickerErrorWithDetails(error.toString())),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => ref.invalidate(
-                      usersInSameInstitutionProvider(currentUserData.institutionId ?? ''),
+                      usersInSameInstitutionProvider(currentUser.institutionId ?? ''),
                     ),
-                    child: const Text('إعادة المحاولة'),
+                    child: Text(l.userPickerRetry),
                   ),
                 ],
               ),
@@ -223,7 +226,7 @@ class _UserPickerScreenState extends ConsumerState<UserPickerScreen> {
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('حدث خطأ: ${error.toString()}'),
+              Text(l.userPickerErrorWithDetails(error.toString())),
             ],
           ),
         ),
@@ -262,7 +265,7 @@ class _UserTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _getRoleText(user.role),
+            _getRoleText(context, user.role),
             style: TextStyle(
               fontSize: 12,
               color: _getRoleColor(user.role),
@@ -294,14 +297,15 @@ class _UserTile extends StatelessWidget {
     return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
   }
 
-  String _getRoleText(String role) {
+  String _getRoleText(BuildContext context, String role) {
+    final l = context.l;
     switch (role.toLowerCase()) {
       case 'admin':
-        return 'مدير';
+        return l.userPickerRoleManager;
       case 'instructor':
-        return 'مدرب';
+        return l.userPickerRoleTrainer;
       case 'trainee':
-        return 'متدرب';
+        return l.userPickerRoleTrainee;
       default:
         return role;
     }

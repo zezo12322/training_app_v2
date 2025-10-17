@@ -4333,6 +4333,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'(edited)'**
   String get messageBubbleEdited;
+
+  /// No description provided for @messageSearchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Search error: {error}'**
+  String messageSearchError(Object error);
+
+  /// No description provided for @messageSearchPlaceholderRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in this conversation...'**
+  String get messageSearchPlaceholderRoom;
+
+  /// No description provided for @messageSearchPlaceholderAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in all messages...'**
+  String get messageSearchPlaceholderAll;
+
+  /// No description provided for @messageSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in messages'**
+  String get messageSearchTitle;
+
+  /// No description provided for @messageSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get messageSearchNoResults;
+
+  /// No description provided for @messageSearchNoResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different search terms'**
+  String get messageSearchNoResultsHint;
+
+  /// No description provided for @messageSearchResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Results: {count}'**
+  String messageSearchResultsCount(Object count);
+
+  /// No description provided for @messageSearchEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get messageSearchEdited;
+
+  /// No description provided for @messageSearchDefaultRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'conversation'**
+  String get messageSearchDefaultRoom;
+
+  /// No description provided for @messageSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get messageSearchTooltip;
+
+  /// No description provided for @messageThreadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replies'**
+  String get messageThreadTitle;
+
+  /// No description provided for @messageThreadParentNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Message not found'**
+  String get messageThreadParentNotFound;
+
+  /// No description provided for @messageThreadUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User data not found'**
+  String get messageThreadUserNotFound;
+
+  /// No description provided for @messageThreadSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send reply'**
+  String get messageThreadSendFailed;
+
+  /// No description provided for @messageThreadNoReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'No replies yet'**
+  String get messageThreadNoReplies;
+
+  /// No description provided for @messageThreadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String messageThreadError(Object error);
+
+  /// No description provided for @messageThreadReplyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your reply...'**
+  String get messageThreadReplyPlaceholder;
+
+  /// No description provided for @messageThreadReplySingular.
+  ///
+  /// In en, this message translates to:
+  /// **'reply'**
+  String get messageThreadReplySingular;
+
+  /// No description provided for @messageThreadReplyPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'replies'**
+  String get messageThreadReplyPlural;
+
+  /// No description provided for @messageThreadLastReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Last reply: {author}'**
+  String messageThreadLastReply(Object author);
+
+  /// No description provided for @userPickerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error creating conversation'**
+  String get userPickerError;
+
+  /// No description provided for @userPickerLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in'**
+  String get userPickerLoginRequired;
+
+  /// No description provided for @userPickerLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot load user data'**
+  String get userPickerLoadError;
+
+  /// No description provided for @userPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a user to chat with'**
+  String get userPickerTitle;
+
+  /// No description provided for @userPickerSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a user...'**
+  String get userPickerSearchHint;
+
+  /// No description provided for @userPickerNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get userPickerNoResults;
+
+  /// No description provided for @userPickerNoUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'No users'**
+  String get userPickerNoUsers;
+
+  /// No description provided for @userPickerNoResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different search terms'**
+  String get userPickerNoResultsHint;
+
+  /// No description provided for @userPickerNoUsersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No other users in your institution'**
+  String get userPickerNoUsersHint;
+
+  /// No description provided for @userPickerErrorWithDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred: {error}'**
+  String userPickerErrorWithDetails(Object error);
+
+  /// No description provided for @userPickerRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get userPickerRetry;
+
+  /// No description provided for @userPickerRoleManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get userPickerRoleManager;
+
+  /// No description provided for @userPickerRoleTrainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer'**
+  String get userPickerRoleTrainer;
+
+  /// No description provided for @userPickerRoleTrainee.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainee'**
+  String get userPickerRoleTrainee;
 }
 
 class _AppLocalizationsDelegate
