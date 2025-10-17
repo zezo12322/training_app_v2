@@ -565,11 +565,13 @@ class _CommentItemState extends ConsumerState<_CommentItem> {
                     ),
                     if (comment.isEdited) ...[
                       const SizedBox(width: 6),
-                      Text(
-                        '(معدّل)',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey.shade600,
+                      Builder(
+                        builder: (ctx) => Text(
+                          ctx.l.messageBubbleEdited,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey.shade600,
+                          ),
                         ),
                       ),
                     ],
