@@ -5,13 +5,14 @@ import 'package:training_app/providers/course_providers.dart';
 import 'package:training_app/core/bootstrap.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/models/course.dart';
-import 'create_course_screen.dart'; // kept single import (deduplicated)
+import 'create_course_screen.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/animations/slide_fade_in.dart';
 import 'course_details_screen.dart';
 import 'personal_profile_screen.dart';
-import '../widgets/skeleton.dart';
 import 'auth_wrapper.dart';
+import '../core/design/tokens.dart';
+import '../widgets/widgets.dart';
 
 class TrainerHomeScreen extends ConsumerStatefulWidget {
   final bool embed; // if true, hide own Scaffold and AppBar (used inside shell)
@@ -95,8 +96,10 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          // Header with Avatar and Greeting
+          Container(
+            color: DesignTokens.surface(context),
+            padding: EdgeInsets.all(DesignTokens.spacingLg),
             child: Row(
               children: [
                 GestureDetector(
@@ -109,47 +112,52 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
                   },
                   child: Hero(
                     tag: 'userAvatarHero',
-                    child: CircleAvatar(
-                      radius: 26,
-                      backgroundImage: (userModel?.imageUrl != null)
-                          ? NetworkImage(userModel!.imageUrl!)
-                          : null,
-                      child: userModel?.imageUrl == null
-                          ? const Icon(Icons.person)
-                          : null,
+                    child: AppAvatar(
+                      imageUrl: userModel?.imageUrl,
+                      name: userModel?.name ?? 'Trainer',
+                      size: AppAvatarSize.lg,
+                      showOnlineStatus: true,
+                      isOnline: true,
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: DesignTokens.spacingLg),
                 Expanded(
-                  child: Builder(
-                    builder: (ctx) {
-                      final l2 =
-                          ctx.l; // local context variant (animation/scope safety)
-                      final text = userModel?.name != null
-                          ? l2.greetingTrainer(userModel!.name)
-                          : l2.greetingTrainerFallback;
-                      return Text(
-                        text,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userModel?.name != null
+                            ? l.greetingTrainer(userModel!.name)
+                            : l.greetingTrainerFallback,
+                        style: DesignTokens.h5(context),
+                      ),
+                      SizedBox(height: DesignTokens.spacingXs),
+                      Text(
+                        l.trainerCoursesSubtitle,
+                        style: DesignTokens.body2(context).copyWith(
+                          color: DesignTokens.textSecondary(context),
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(height: DesignTokens.spacingSm),
+          // Stats Dashboard
+          _StatsSection(coursesAsync: coursesAsync),
+          SizedBox(height: DesignTokens.spacingLg),
+          // Courses Section Header
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingLg),
             child: Text(
-              l.trainerCoursesSubtitle,
-              style: const TextStyle(fontSize: 18, color: Colors.grey),
+              'My Courses', // TODO: Add to l10n
+              style: DesignTokens.h6(context),
             ),
           ),
-          const Divider(indent: 16, endIndent: 16, height: 16),
+          SizedBox(height: DesignTokens.spacingMd),
           Expanded(child: _CoursesTrainerList(coursesAsync: coursesAsync)),
         ],
       ),
@@ -157,11 +165,20 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
 
     if (widget.embed) return SafeArea(child: content);
     return Scaffold(
+      backgroundColor: DesignTokens.background(context),
       appBar: AppBar(
-        title: Text(l.dashboardTitleTrainer),
+        backgroundColor: DesignTokens.surface(context),
+        elevation: 0,
+        title: Text(
+          l.dashboardTitleTrainer,
+          style: DesignTokens.h6(context),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+              color: DesignTokens.textPrimary(context),
+            ),
             onPressed: () async {
               await ref.read(authRepositoryProvider).signOut();
               if (!context.mounted) return;
@@ -176,9 +193,154 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
       body: content,
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'trainer_home_fab',
+        backgroundColor: DesignTokens.info,
         onPressed: () => TrainerHomeScreen.createCourse(context),
-        icon: const Icon(Icons.add),
-        label: Text(l.createCourseFab),
+        icon: Icon(Icons.add, color: DesignTokens.textOnColor(context)),
+        label: Text(
+          l.createCourseFab,
+          style: DesignTokens.button(context).copyWith(
+            color: DesignTokens.textOnColor(context),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Stats Dashboard Section
+class _StatsSection extends StatelessWidget {
+  final AsyncValue<List<Course>> coursesAsync;
+  const _StatsSection({required this.coursesAsync});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingLg),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Responsive: 4 cards on desktop, 2 on tablet/mobile
+          final crossAxisCount = constraints.maxWidth > 900
+              ? 4
+              : constraints.maxWidth > 600
+                  ? 2
+                  : 2;
+
+          return coursesAsync.when(
+            loading: () => GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: DesignTokens.spacingMd,
+                mainAxisSpacing: DesignTokens.spacingMd,
+                childAspectRatio: 1.5,
+              ),
+              itemCount: 4,
+              itemBuilder: (ctx, i) => AppLoadingSkeleton(
+                type: AppSkeletonType.roundedRectangle,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            error: (_, __) => const SizedBox.shrink(),
+            data: (courses) {
+              final totalCourses = courses.length;
+              final totalStudents = courses.fold<int>(
+                0,
+                (sum, course) => sum + course.trainees.length,
+              );
+
+              return GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: DesignTokens.spacingMd,
+                mainAxisSpacing: DesignTokens.spacingMd,
+                childAspectRatio: 1.5,
+                children: [
+                  _StatCard(
+                    icon: Icons.book_outlined,
+                    iconColor: DesignTokens.info,
+                    title: 'Total Courses',
+                    value: totalCourses.toString(),
+                  ),
+                  _StatCard(
+                    icon: Icons.people_outline,
+                    iconColor: DesignTokens.success,
+                    title: 'Total Students',
+                    value: totalStudents.toString(),
+                  ),
+                  _StatCard(
+                    icon: Icons.workspace_premium,
+                    iconColor: DesignTokens.warning,
+                    title: 'Active Courses',
+                    value: totalCourses.toString(), // All courses are active
+                  ),
+                  _StatCard(
+                    icon: Icons.schedule,
+                    iconColor: const Color(0xFF9C27B0), // Purple
+                    title: 'This Week',
+                    value: '0', // TODO: Calculate weekly activity
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+// Individual Stat Card
+class _StatCard extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String title;
+  final String value;
+
+  const _StatCard({
+    required this.icon,
+    required this.iconColor,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Padding(
+        padding: EdgeInsets.all(DesignTokens.spacingLg),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(DesignTokens.spacingSm),
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              ),
+              child: Icon(
+                icon,
+                size: 24,
+                color: iconColor,
+              ),
+            ),
+            SizedBox(height: DesignTokens.spacingMd),
+            Text(
+              value,
+              style: DesignTokens.h4(context).copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: DesignTokens.spacingXs),
+            Text(
+              title,
+              style: DesignTokens.caption(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -197,10 +359,18 @@ class _CoursesTrainerList extends ConsumerWidget {
         loading: () => ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: 6,
-          itemBuilder: (_, i) => const ListTileSkeleton(withAvatar: false),
+          itemBuilder: (ctx, i) => Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingMd,
+              vertical: DesignTokens.spacingSm,
+            ),
+            child: AppSkeletonLayouts.card(ctx),
+          ),
         ),
-        error: (err, _) =>
-            Center(child: Text(l.loadCoursesError(err.toString()))),
+        error: (err, _) => AppErrorState(
+          message: l.loadCoursesError(err.toString()),
+          onRetry: () => ref.invalidate(trainerCoursesProvider),
+        ),
         data: (courses) {
           final limit = currentTrainerLimit(ref);
           if (courses.isEmpty) {
@@ -212,26 +382,14 @@ class _CoursesTrainerList extends ConsumerWidget {
               },
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 60),
+                padding: EdgeInsets.all(DesignTokens.spacingXl),
                 children: [
-                  Icon(
-                    Icons.school_outlined,
-                    size: 80,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: Text(
-                      l.noTrainerCoursesTitleAlt,
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: Text(
-                      l.noTrainerCoursesHintAlt,
-                      style: const TextStyle(color: Colors.grey),
-                    ),
+                  AppEmptyState(
+                    icon: Icons.school_outlined,
+                    title: l.noTrainerCoursesTitleAlt,
+                    description: l.noTrainerCoursesHintAlt,
+                    actionLabel: l.createCourseFab,
+                    onAction: () => TrainerHomeScreen.createCourse(context),
                   ),
                 ],
               ),
@@ -283,33 +441,67 @@ class TrainerCourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      elevation: 3,
-      shadowColor: const Color(0x1A000000),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
+    return AppCard(
+      margin: EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingSm,
+        vertical: DesignTokens.spacingSm,
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CourseDetailsScreen(
+              courseId: course.id,
+              courseName: course.name,
+              trainerId: course.trainerId,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: DesignTokens.spacingLg,
+          vertical: DesignTokens.spacingMd,
         ),
-        leading: const Icon(Icons.book, size: 30),
-        title: Text(
-          course.name,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        subtitle: Text(context.l.courseCodePrefix(course.courseCode)),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => CourseDetailsScreen(
-                courseId: course.id,
-                courseName: course.name,
-                trainerId: course.trainerId,
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(DesignTokens.spacingMd),
+              decoration: BoxDecoration(
+                color: DesignTokens.info.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              ),
+              child: Icon(
+                Icons.book,
+                size: 28,
+                color: DesignTokens.info,
               ),
             ),
-          );
-        },
+            SizedBox(width: DesignTokens.spacingLg),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course.name,
+                    style: DesignTokens.body1(context).copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: DesignTokens.spacingXs),
+                  Text(
+                    context.l.courseCodePrefix(course.courseCode),
+                    style: DesignTokens.caption(context),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: DesignTokens.textSecondary(context),
+            ),
+          ],
+        ),
       ),
     );
   }
