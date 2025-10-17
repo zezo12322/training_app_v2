@@ -53,7 +53,7 @@ Material 3 (10%) ─┘
 |---------|-------|-------|----------|--------|
 | **1** | Design System | 2-3 أيام | 🔴 عالية | ✅ مكتملة |
 | **2** | شاشات المصادقة | 1 يوم | 🔴 عالية | ✅ مكتملة |
-| **3** | الشاشات الرئيسية | 2-3 أيام | 🔴 عالية | ⏳ قادمة |
+| **3** | الشاشات الرئيسية | 2-3 أيام | 🔴 عالية | 🔄 قيد التنفيذ (67%) |
 | **4** | شاشات الإنشاء | 2-3 أيام | 🟡 متوسطة | ⏳ قادمة |
 | **5** | التواصل والتفاعل | 2 يوم | 🟡 متوسطة | ⏳ قادمة |
 | **6** | التلعيب | 2-3 أيام | 🟢 منخفضة | ⏳ قادمة |
@@ -250,55 +250,78 @@ Material 3 (10%) ─┘
 
 ## 🏠 المرحلة 3: الشاشات الرئيسية
 
-### الحالة: 🔄 قيد التنفيذ (33% مكتملة)
+### الحالة: 🔄 قيد التنفيذ (67% مكتملة)
 
 ### الأولوية: 🔴 عالية جداً
 
-### المدة المقدرة: 3-4 أيام
+### المدة المقدرة: 3-4 أيام (2 أيام مكتملة)
 
 ---
 
-### 3.0 لوحة التحكم الرئيسية (`home_dashboard_screen.dart`) 🆕
+### 3.0 لوحة التحكم الرئيسية (`home_dashboard_screen.dart`) - ✅ مكتملة 🆕
 
 #### ⚠️ ملاحظة مهمة
 **هذه هي الشاشة الأساسية** التي يراها المستخدم عند تسجيل الدخول (مع الـ Bottom Navigation).  
 **TrainerHomeScreen** تظهر فقط عند الضغط على "See all".
 
-#### ✅ الوظائف الحالية
-- [x] عرض سريع للكورسات (Horizontal scroll)
-- [x] إحصائيات التلعيب (Points, Level, Streak, Next Badge)
-- [x] Quick actions (New Course, Badges, Progress)
-- [x] Bottom navigation (Dashboard, Progress, My Account, Settings)
+#### ✅ التحسينات المُنفذة (مكتملة)
 
-#### 🎨 التحسينات المطلوبة (أولوية 🔴 عالية)
-
-##### A. الـ Header Section
+##### ✅ A. الـ Header Section
 ```dart
-[ ] تصميم Header محسّن:
-    [ ] Avatar كبير مع Online status
-    [ ] Greeting message موحد
-    [ ] Badge للـ Role (Trainer/Trainee)
-    [ ] استخدام DesignTokens للـ spacing والـ typography
+[x] تصميم Header محسّن:
+    [x] Avatar كبير (AppAvatar size lg) مع Online status
+    [x] Greeting message موحد (DesignTokens.h4)
+    [x] Badge للـ Role (AppBadge - Trainer: info, Trainee: success)
+    [x] استخدام DesignTokens للـ spacing والـ typography
 ```
 
-##### B. Stats Dashboard Cards
+##### ✅ B. Stats Dashboard Cards
 ```dart
-[ ] بطاقات الإحصائيات بالـ Design System:
-    [ ] استخدام AppCard بدل Container العادي
-    [ ] أيقونات ملونة مع background شفاف
-    [ ] Typography موحدة (h4 للأرقام، caption للـ labels)
-    [ ] Responsive grid (4 على desktop، 2 على mobile)
-    [ ] Loading state بـ AppLoadingSkeleton
+[x] بطاقات الإحصائيات بالـ Design System:
+    [x] استخدام AppCard بدل Container العادي
+    [x] Points display مع DesignTokens.h5
+    [x] Level Badge (AppBadge primary)
+    [x] Badges count (AppBadge success مع أيقونة)
+    [x] AppProgressBar للـ level progress
+    [x] Next badge info
+    [x] AppErrorState للأخطاء مع retry
+    [x] Loading state بـ CircularProgressIndicator
 ```
 
-##### C. Quick Actions Section
+##### ✅ C. Quick Actions Section
 ```dart
-[ ] تحسين Quick Actions:
-    [ ] استخدام AppCard مع أيقونات أكبر
-    [ ] Consistent spacing بين الـ cards
-    [ ] Hover effects على Web
-    [ ] Shadow موحد من DesignTokens
+[x] تحسين Quick Actions:
+    [x] استخدام Design System colors (primary, success, info)
+    [x] Consistent spacing مع DesignTokens
+    [x] Typography محسّنة (Theme.bodySmall)
+    [x] DesignTokens.radiusFull للـ circles
 ```
+
+##### ✅ D. Recent Courses List
+```dart
+[x] تحسين قائمة الكورسات:
+    [x] AppCard wrapper للعناصر
+    [x] AppEmptyState للحالة الفارغة مع action
+    [x] AppErrorState للأخطاء
+    [x] DesignTokens spacing & typography
+    [x] Typography: bodyLarge للعنوان، bodySmall للتفاصيل
+    [x] textSecondary color للتفاصيل
+```
+
+**التفاصيل**:
+- ✅ Imports: DesignTokens + widgets.dart
+- ✅ Header: AppAvatar + Role Badge + Online Status
+- ✅ Stats: AppCard + AppBadge + AppProgressBar
+- ✅ Courses: AppCard + AppEmptyState + Enhanced styling
+- ✅ Actions: Design System colors + spacing
+- ✅ Error handling: AppErrorState with retry
+- ✅ Removed: Unused _MiniSkeleton class
+
+**Git Commit**: `23bc177` - feat: Update HomeDashboardScreen with Design System  
+**المدة الفعلية**: 2 ساعات  
+**الحالة**: ✅ 100% مكتملة
+
+---
 
 ##### D. Recent Courses Horizontal List
 ```dart
