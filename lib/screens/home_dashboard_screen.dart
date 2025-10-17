@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_app/core/l10n_ext.dart';
+import 'package:training_app/core/design/tokens.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/providers/gamification_providers.dart';
 import 'package:training_app/providers/course_providers.dart';
@@ -10,7 +11,7 @@ import 'package:training_app/screens/trainee_home_screen.dart';
 import 'package:training_app/screens/course_details_screen.dart';
 import 'package:training_app/screens/badges_overview_screen.dart';
 import 'package:training_app/screens/progress_screen.dart';
-import 'package:training_app/widgets/skeleton.dart';
+import 'package:training_app/widgets/widgets.dart';
 
 /// Unified role‑aware home dashboard.
 /// Shows greeting, quick stats (points / level / streak / next badge), recent courses, quick actions.
@@ -102,8 +103,22 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
         : (displayName != null
               ? l.greetingTrainee(displayName)
               : l.greetingTraineeFallback);
+    
+    // Role-based badge
+    final roleBadge = widget.role == 'trainer' 
+        ? AppBadge(
+            text: l.roleTrainer,
+            type: AppBadgeType.info,
+            size: AppBadgeSize.sm,
+          )
+        : AppBadge(
+            text: l.roleTrainee,
+            type: AppBadgeType.success,
+            size: AppBadgeSize.sm,
+          );
+    
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: EdgeInsets.all(DesignTokens.spacingLg),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -113,16 +128,28 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
             ),
             child: Hero(
               tag: 'userAvatarHero',
-              child: CircleAvatar(radius: 28, child: const Icon(Icons.person)),
+              child: AppAvatar(
+                name: displayName ?? l.userMissing,
+                size: AppAvatarSize.lg,
+                showOnlineStatus: true,
+                isOnline: true,
+              ),
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: DesignTokens.spacingMd),
           Expanded(
-            child: Text(
-              greeting,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  greeting,
+                  style: DesignTokens.h4(context),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: DesignTokens.spacingXs),
+                roleBadge,
+              ],
             ),
           ),
         ],
@@ -138,155 +165,119 @@ class _UnifiedProgressCard extends ConsumerWidget {
     required this.upAsync,
     required this.nextBadgeAsync,
   });
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cs = Theme.of(context).colorScheme;
     final l = context.l;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () => Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (_) => const ProgressScreen())),
-        child: Container(
-          decoration: BoxDecoration(
-            // Replaced deprecated surfaceVariant with surfaceContainer* tones
-            color: isDark
-                ? cs.surfaceContainerHighest.withValues(alpha: .25)
-                : cs.surfaceContainerHigh.withValues(alpha: .45),
-            borderRadius: BorderRadius.circular(20),
+      padding: EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingLg,
+        vertical: DesignTokens.spacingSm,
+      ),
+      child: AppCard(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const ProgressScreen()),
+        ),
+        child: upAsync.when(
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
           ),
-          padding: const EdgeInsets.all(18),
-          child: upAsync.when(
-            loading: () => const _MiniSkeleton(),
-            error: (e, _) => Text(l.loadErrorGeneric(e.toString())),
-            data: (up) {
-              final points = up?.points ?? 0;
-              final badges = up?.badges.length ?? 0;
-              final lvl = computeLevel(points);
-              final lp = computeLevelProgress(points);
-              final percent = lp.percent;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 350),
-                          switchInCurve: Curves.easeOut,
-                          switchOutCurve: Curves.easeIn,
-                          child: Text(
-                            '${l.pointsLabel}: $points',
-                            key: ValueKey('pts_$points'),
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+          error: (e, _) => AppErrorState(
+            message: l.loadErrorGeneric(e.toString()),
+            onRetry: () => ref.invalidate(userPointsStreamProvider),
+          ),
+          data: (up) {
+            final points = up?.points ?? 0;
+            final badges = up?.badges.length ?? 0;
+            final lvl = computeLevel(points);
+            final lp = computeLevelProgress(points);
+            final percent = lp.percent;
+            
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Points and Level Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 350),
+                        switchInCurve: Curves.easeOut,
+                        switchOutCurve: Curves.easeIn,
+                        child: Text(
+                          '${l.pointsLabel}: $points',
+                          key: ValueKey('pts_$points'),
+                          style: DesignTokens.h5(context).copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: cs.primaryContainer,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 350),
-                          child: Text(
-                            'L$lvl',
-                            key: ValueKey('lvl_$lvl'),
-                            style: TextStyle(
-                              color: cs.onPrimaryContainer,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    ),
+                    AppBadge(
+                      text: 'L$lvl',
+                      type: AppBadgeType.primary,
+                      size: AppBadgeSize.md,
+                    ),
+                    SizedBox(width: DesignTokens.spacingSm),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const BadgesOverviewScreen(),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const BadgesOverviewScreen(),
-                          ),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: cs.secondaryContainer,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.military_tech, size: 16),
-                              const SizedBox(width: 4),
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 350),
-                                child: Text(
-                                  '$badges',
-                                  key: ValueKey('bdg_$badges'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      child: AppBadge(
+                        text: '$badges',
+                        type: AppBadgeType.success,
+                        size: AppBadgeSize.md,
+                        icon: Icons.military_tech,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: DesignTokens.spacingMd),
+                
+                // Level Progress Bar
+                TweenAnimationBuilder<double>(
+                  key: ValueKey('lvlbar_$lvl'),
+                  tween: Tween(begin: 0, end: percent),
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeOutCubic,
+                  builder: (ctx, v, _) => AppProgressBar(
+                    progress: v,
+                    height: 8,
                   ),
-                  const SizedBox(height: 10),
-                  TweenAnimationBuilder<double>(
-                    key: ValueKey('lvlbar_$lvl'),
-                    tween: Tween(begin: 0, end: percent),
-                    duration: const Duration(milliseconds: 600),
-                    curve: Curves.easeOutCubic,
-                    builder: (ctx, v, _) => ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: LinearProgressIndicator(
-                        value: v,
-                        minHeight: 8,
-                        backgroundColor: cs.outlineVariant.withValues(
-                          alpha: .25,
-                        ),
-                        valueColor: AlwaysStoppedAnimation(cs.primary),
-                      ),
-                    ),
+                ),
+                SizedBox(height: DesignTokens.spacingSm),
+                
+                // Next Badge Info
+                nextBadgeAsync.when(
+                  loading: () => const SizedBox(
+                    height: 16,
+                    child: LinearProgressIndicator(),
                   ),
-                  const SizedBox(height: 8),
-                  nextBadgeAsync.when(
-                    loading: () => const SizedBox(
-                      height: 16,
-                      child: LinearProgressIndicator(),
-                    ),
-                    error: (_, __) => Text(
-                      l.nextBadgeShort,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    data: (data) {
-                      if (data == null || data.nextThreshold == null) {
-                        return Text(
-                          l.nextBadgeShort,
-                          style: const TextStyle(fontSize: 12),
-                        );
-                      }
-                      final pct = (data.currentPoints / data.nextThreshold!)
-                          .clamp(0, 1.0);
+                  error: (_, __) => Text(
+                    l.nextBadgeShort,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  data: (data) {
+                    if (data == null || data.nextThreshold == null) {
                       return Text(
-                        '${l.nextBadgeShort}: ${data.currentPoints}/${data.nextThreshold} (${(pct * 100).toStringAsFixed(0)}%)',
+                        l.nextBadgeShort,
                         style: Theme.of(context).textTheme.bodySmall,
                       );
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
+                    }
+                    final pct = (data.currentPoints / data.nextThreshold!)
+                        .clamp(0, 1.0);
+                    return Text(
+                      '${l.nextBadgeShort}: ${data.currentPoints}/${data.nextThreshold} (${(pct * 100).toStringAsFixed(0)}%)',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    );
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -301,12 +292,18 @@ class _HorizontalCourses extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l;
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 4),
+      padding: EdgeInsets.only(
+        top: DesignTokens.spacingSm,
+        bottom: DesignTokens.spacingXs,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingLg,
+              vertical: DesignTokens.spacingXs,
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -314,7 +311,7 @@ class _HorizontalCourses extends ConsumerWidget {
                     role == 'trainer'
                         ? l.trainerCoursesSubtitle
                         : l.traineeCoursesSubtitle,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: DesignTokens.h5(context).copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -336,36 +333,49 @@ class _HorizontalCourses extends ConsumerWidget {
             height: 140,
             child: coursesAsync.when(
               loading: () => ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, i) => const SizedBox(
-                  width: 110,
-                  child: ListTileSkeleton(withAvatar: false),
+                padding: EdgeInsets.symmetric(
+                  horizontal: DesignTokens.spacingLg,
                 ),
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, i) => SizedBox(
+                  width: 160,
+                  child: AppCard(
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+                separatorBuilder: (_, __) => SizedBox(
+                  width: DesignTokens.spacingMd,
+                ),
                 itemCount: 3,
               ),
-              error: (e, _) =>
-                  Center(child: Text(l.loadErrorGeneric(e.toString()))),
+              error: (e, _) => AppErrorState(
+                message: l.loadErrorGeneric(e.toString()),
+                onRetry: () {},
+              ),
               data: (courses) {
                 if (courses.isEmpty) {
-                  return Center(
-                    child: Text(
-                      role == 'trainer'
-                          ? l.noTrainerCoursesTitleAlt
-                          : l.noTraineeCoursesTitleAlt,
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    ),
+                  return AppEmptyState(
+                    icon: Icons.school_outlined,
+                    title: role == 'trainer'
+                        ? l.noTrainerCoursesTitleAlt
+                        : l.noTraineeCoursesTitleAlt,
+                    actionLabel: role == 'trainer' ? l.actionNewCourse : l.actionJoin,
+                    onAction: () => role == 'trainer'
+                        ? TrainerHomeScreen.createCourse(context)
+                        : TraineeHomeScreen.joinCourse(context),
                   );
                 }
                 final preview = courses.take(10).toList();
                 return ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: DesignTokens.spacingLg,
+                  ),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, i) {
                     final c = preview[i];
-                    return GestureDetector(
+                    return AppCard(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => CourseDetailsScreen(
@@ -375,16 +385,8 @@ class _HorizontalCourses extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      child: Container(
+                      child: SizedBox(
                         width: 160,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                              .withValues(alpha: .25),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: const EdgeInsets.all(12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -392,7 +394,7 @@ class _HorizontalCourses extends ConsumerWidget {
                               c.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -401,9 +403,8 @@ class _HorizontalCourses extends ConsumerWidget {
                               role == 'trainer'
                                   ? l.courseCodePrefix(c.courseCode)
                                   : l.trainerPrefix(c.trainerId),
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: DesignTokens.textSecondary(context),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -413,7 +414,9 @@ class _HorizontalCourses extends ConsumerWidget {
                       ),
                     );
                   },
-                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  separatorBuilder: (_, __) => SizedBox(
+                    width: DesignTokens.spacingMd,
+                  ),
                   itemCount: preview.length,
                 );
               },
@@ -432,8 +435,14 @@ class _IconActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l;
     final cs = Theme.of(context).colorScheme;
+    
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      padding: EdgeInsets.fromLTRB(
+        DesignTokens.spacingLg,
+        DesignTokens.spacingSm,
+        DesignTokens.spacingLg,
+        DesignTokens.spacingXs,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -448,7 +457,7 @@ class _IconActions extends StatelessWidget {
           _ActionButton(
             icon: Icons.military_tech_outlined,
             label: l.badgesLabel,
-            color: cs.secondary,
+            color: DesignTokens.success,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const BadgesOverviewScreen()),
             ),
@@ -456,7 +465,7 @@ class _IconActions extends StatelessWidget {
           _ActionButton(
             icon: Icons.auto_graph_outlined,
             label: l.progressTitle,
-            color: cs.tertiary,
+            color: DesignTokens.info,
             onTap: () => Navigator.of(
               context,
             ).push(MaterialPageRoute(builder: (_) => const ProgressScreen())),
@@ -478,12 +487,13 @@ class _ActionButton extends StatelessWidget {
     required this.color,
     required this.onTap,
   });
+  
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
           onTap: onTap,
           child: Container(
             width: 58,
@@ -495,55 +505,19 @@ class _ActionButton extends StatelessWidget {
             child: Icon(icon, color: color, size: 28),
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: DesignTokens.spacingXs),
         SizedBox(
           width: 80,
           child: Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _MiniSkeleton extends StatelessWidget {
-  const _MiniSkeleton();
-  @override
-  Widget build(BuildContext context) {
-    final base = Container(
-      height: 10,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: .3),
-        borderRadius: BorderRadius.circular(4),
-      ),
-    );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 70,
-          height: 14,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: .3),
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-        const SizedBox(height: 6),
-        Container(
-          width: 110,
-          height: 18,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: .35),
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-        const SizedBox(height: 8),
-        base,
       ],
     );
   }

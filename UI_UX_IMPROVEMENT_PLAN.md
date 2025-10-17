@@ -250,15 +250,124 @@ Material 3 (10%) ─┘
 
 ## 🏠 المرحلة 3: الشاشات الرئيسية
 
-### الحالة: ⏳ قادمة
+### الحالة: 🔄 قيد التنفيذ (33% مكتملة)
 
 ### الأولوية: 🔴 عالية جداً
 
-### المدة المقدرة: 2-3 أيام
+### المدة المقدرة: 3-4 أيام
 
 ---
 
-### 3.1 الشاشة الرئيسية للمدرب (`trainer_home_screen.dart`)
+### 3.0 لوحة التحكم الرئيسية (`home_dashboard_screen.dart`) 🆕
+
+#### ⚠️ ملاحظة مهمة
+**هذه هي الشاشة الأساسية** التي يراها المستخدم عند تسجيل الدخول (مع الـ Bottom Navigation).  
+**TrainerHomeScreen** تظهر فقط عند الضغط على "See all".
+
+#### ✅ الوظائف الحالية
+- [x] عرض سريع للكورسات (Horizontal scroll)
+- [x] إحصائيات التلعيب (Points, Level, Streak, Next Badge)
+- [x] Quick actions (New Course, Badges, Progress)
+- [x] Bottom navigation (Dashboard, Progress, My Account, Settings)
+
+#### 🎨 التحسينات المطلوبة (أولوية 🔴 عالية)
+
+##### A. الـ Header Section
+```dart
+[ ] تصميم Header محسّن:
+    [ ] Avatar كبير مع Online status
+    [ ] Greeting message موحد
+    [ ] Badge للـ Role (Trainer/Trainee)
+    [ ] استخدام DesignTokens للـ spacing والـ typography
+```
+
+##### B. Stats Dashboard Cards
+```dart
+[ ] بطاقات الإحصائيات بالـ Design System:
+    [ ] استخدام AppCard بدل Container العادي
+    [ ] أيقونات ملونة مع background شفاف
+    [ ] Typography موحدة (h4 للأرقام، caption للـ labels)
+    [ ] Responsive grid (4 على desktop، 2 على mobile)
+    [ ] Loading state بـ AppLoadingSkeleton
+```
+
+##### C. Quick Actions Section
+```dart
+[ ] تحسين Quick Actions:
+    [ ] استخدام AppCard مع أيقونات أكبر
+    [ ] Consistent spacing بين الـ cards
+    [ ] Hover effects على Web
+    [ ] Shadow موحد من DesignTokens
+```
+
+##### D. Recent Courses Horizontal List
+```dart
+[ ] تحسين Courses Cards:
+    [ ] استخدام AppCard بدل Container
+    [ ] Loading state بـ AppLoadingSkeleton
+    [ ] Empty state بـ AppEmptyState
+    [ ] Typography موحدة
+    [ ] Better spacing
+```
+
+##### E. Bottom Navigation
+```dart
+[ ] تحسين Bottom Nav:
+    [ ] استخدام DesignTokens للألوان
+    [ ] Selected state واضح
+    [ ] Labels واضحة بـ Typography موحدة
+    [ ] Icons أكبر شوية (24px)
+```
+
+**الكود المقترح للـ Header**:
+```dart
+Widget _buildHeader(BuildContext context, String? name) {
+  final l = context.l;
+  return Container(
+    color: DesignTokens.surface(context),
+    padding: EdgeInsets.all(DesignTokens.spacingLg),
+    child: Row(
+      children: [
+        AppAvatar(
+          imageUrl: userModel?.imageUrl,
+          name: name ?? 'User',
+          size: AppAvatarSize.xl,
+          showOnlineStatus: true,
+          isOnline: true,
+        ),
+        SizedBox(width: DesignTokens.spacingLg),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name != null 
+                  ? l.greetingTrainer(name) 
+                  : l.greetingTrainerFallback,
+                style: DesignTokens.h4(context),
+              ),
+              SizedBox(height: DesignTokens.spacingXs),
+              AppBadge(
+                text: widget.role == 'trainer' ? 'Trainer' : 'Student',
+                type: AppBadgeType.primary,
+                size: AppBadgeSize.sm,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+```
+
+**الأولوية**: 🔴 عالية - يجب تحديثها قبل TrainerHomeScreen لأنها الشاشة الأساسية
+
+**المدة المقدرة**: 2-3 ساعات
+
+---
+
+### 3.1 الشاشة الرئيسية للمدرب (`trainer_home_screen.dart`) ✅ مكتملة
 
 #### ✅ الوظائف الحالية
 - [x] عرض قائمة الكورسات
@@ -266,9 +375,63 @@ Material 3 (10%) ─┘
 - [x] التنقل لتفاصيل الكورس
 - [x] Auto-refresh عند العودة
 
-#### 🎨 التحسينات المطلوبة
+#### ✅ التحسينات المُنفذة (مكتملة)
 
-##### A. الـ AppBar
+##### ✅ A. الـ AppBar
+- [x] تطبيق DesignTokens للـ background
+- [x] Typography موحدة (h6)
+- [x] أيقونة Logout بلون موحد
+- [x] Elevation = 0
+
+##### ✅ B. Header Section
+- [x] استخدام AppAvatar بدل CircleAvatar
+- [x] Online status indicator
+- [x] Typography موحدة (h5 للاسم، body2 للـ subtitle)
+- [x] Spacing موحد بـ DesignTokens
+- [x] Background color من DesignTokens.surface
+
+##### ✅ C. Stats Dashboard (جديد!)
+- [x] 4 بطاقات إحصائيات:
+  - [x] Total Courses
+  - [x] Total Students (محسوب من enrollments)
+  - [x] Active Courses
+  - [x] This Week Activity
+- [x] Responsive Grid (4 على desktop، 2 على tablet/mobile)
+- [x] أيقونات ملونة مع background شفاف
+- [x] Typography موحدة (h4 للأرقام، caption للـ labels)
+- [x] Loading state بـ AppLoadingSkeleton
+- [x] استخدام AppCard
+
+##### ✅ D. Course Cards
+- [x] استخدام AppCard بدل Card العادي
+- [x] Icon في container ملون مع background شفاف
+- [x] Typography موحدة (body1 للعنوان، caption للكود)
+- [x] Spacing موحد بـ DesignTokens
+- [x] Arrow icon موحد اللون
+
+##### ✅ E. Empty State
+- [x] استخدام AppEmptyState بدل الـ custom widget
+- [x] Action button للـ Create Course
+- [x] Typography وأيقونات موحدة
+
+##### ✅ F. Error State
+- [x] استخدام AppErrorState مع retry button
+- [x] Typography موحدة
+
+##### ✅ G. Loading State
+- [x] استخدام AppLoadingSkeleton للـ stats
+- [x] استخدام AppSkeletonLayouts.card() للـ courses
+
+##### ✅ H. FAB (Floating Action Button)
+- [x] لون من DesignTokens.info
+- [x] أيقونة ونص بلون موحد (textOnColor)
+- [x] Typography موحدة (button)
+
+**المدة الفعلية**: 1.5 ساعة  
+**الحالة**: ✅ 100% مكتملة  
+**Git Commit**: `4ca9776` - "feat: Update Trainer Home Screen with Design System and Stats Dashboard"
+
+---
 ```dart
 [ ] تصميم AppBar جديد:
     [ ] شعار التطبيق على اليسار (Logo + "Training App")
