@@ -5,6 +5,7 @@ import 'package:training_app/providers/course_providers.dart';
 import 'package:training_app/core/bootstrap.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/models/course.dart';
+import 'package:training_app/screens/dashboard_helpers.dart';
 import 'create_course_screen.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/animations/slide_fade_in.dart';
@@ -208,12 +209,12 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
 }
 
 // Stats Dashboard Section
-class _StatsSection extends StatelessWidget {
+class _StatsSection extends ConsumerWidget {
   final AsyncValue<List<Course>> coursesAsync;
   const _StatsSection({required this.coursesAsync});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingLg),
       child: LayoutBuilder(
@@ -242,7 +243,13 @@ class _StatsSection extends StatelessWidget {
                 height: double.infinity,
               ),
             ),
-            error: (_, __) => const SizedBox.shrink(),
+            error: (e, _) => AppErrorState(
+              message: DashboardErrorHandler.getUserFriendlyMessage(
+                e,
+                'Failed to load stats',
+              ),
+              onRetry: () => ref.invalidate(trainerCoursesProvider),
+            ),
             data: (courses) {
               final totalCourses = courses.length;
               final totalStudents = courses.fold<int>(
@@ -368,7 +375,10 @@ class _CoursesTrainerList extends ConsumerWidget {
           ),
         ),
         error: (err, _) => AppErrorState(
-          message: l.loadCoursesError(err.toString()),
+          message: DashboardErrorHandler.getUserFriendlyMessage(
+            err,
+            'Failed to load courses',
+          ),
           onRetry: () => ref.invalidate(trainerCoursesProvider),
         ),
         data: (courses) {
