@@ -98,9 +98,22 @@ Material 3 (10%) ─┘
   - [x] `durationFast`, `durationMedium`, `durationSlow`
 
 #### 1.2 المكونات القابلة لإعادة الاستخدام
-- [ ] `AppCard` - كارت موحد
-- [ ] `AppTextField` - حقل إدخال موحد
-- [ ] `AppButton` - زر موحد
+- [x] `AppCard` - كارت موحد ✨ (lib/widgets/app_card.dart)
+  - [x] Adaptive colors
+  - [x] Optional tap handling
+  - [x] Consistent shadows and borders
+  - [x] Customizable padding/margin
+- [x] `AppButton` - زر موحد ✨ (lib/widgets/app_button.dart)
+  - [x] Multiple types (primary, secondary, success, error, warning, info, text)
+  - [x] Loading state support
+  - [x] Icon support
+  - [x] Full width option
+- [x] `AppTextField` - حقل إدخال موحد ✨ (lib/widgets/app_text_field.dart)
+  - [x] Adaptive colors
+  - [x] Password field support with visibility toggle
+  - [x] Validation support
+  - [x] Prefix/suffix icon support
+  - [x] Consistent styling
 - [ ] `AppAvatar` - صورة مستخدم موحدة
 - [ ] `AppBadge` - شارة موحدة
 - [ ] `AppChip` - رقاقة موحدة
