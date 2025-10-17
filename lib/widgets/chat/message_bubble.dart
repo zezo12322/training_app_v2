@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/chat_message.dart';
+import '../../core/l10n_ext.dart';
 
 /// Message bubble widget for displaying chat messages
 class MessageBubble extends StatelessWidget {
@@ -18,6 +19,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l;
 
     return Align(
       alignment: isCurrentUser
@@ -97,7 +99,7 @@ class MessageBubble extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    _formatTime(message.createdAt),
+                    _formatTimestamp(context, message.createdAt),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: isCurrentUser
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
@@ -108,7 +110,7 @@ class MessageBubble extends StatelessWidget {
                   if (message.isEdited) ...[
                     const SizedBox(width: 4),
                     Text(
-                      '(معدلة)',
+                      l.messageBubbleEdited,
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: isCurrentUser
                             ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
@@ -128,7 +130,8 @@ class MessageBubble extends StatelessWidget {
     );
   }
 
-  String _formatTime(DateTime dateTime) {
+  String _formatTimestamp(BuildContext context, DateTime dateTime) {
+    final l = context.l;
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
@@ -139,7 +142,7 @@ class MessageBubble extends StatelessWidget {
     } else if (messageDate ==
         today.subtract(const Duration(days: 1))) {
       // Yesterday
-      return 'أمس ${DateFormat.jm().format(dateTime)}';
+      return l.messageBubbleYesterday.replaceAll('{time}', DateFormat.jm().format(dateTime));
     } else if (now.difference(dateTime).inDays < 7) {
       // This week: show day name
       return DateFormat('EEEE HH:mm', 'ar').format(dateTime);

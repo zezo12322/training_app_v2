@@ -4273,6 +4273,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose your reaction'**
   String get commentReactionPickerTitle;
+
+  /// No description provided for @progressCardNextLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Level'**
+  String get progressCardNextLevel;
+
+  /// No description provided for @progressCardMaxLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! You\'ve reached the maximum level 🎉'**
+  String get progressCardMaxLevel;
+
+  /// No description provided for @progressCardEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your learning journey!'**
+  String get progressCardEmptyTitle;
+
+  /// No description provided for @progressCardEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete lessons and quizzes to earn points'**
+  String get progressCardEmptyHint;
+
+  /// No description provided for @progressCardError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred loading progress'**
+  String get progressCardError;
+
+  /// No description provided for @messageListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get messageListEmpty;
+
+  /// No description provided for @messageListEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the conversation by sending a message'**
+  String get messageListEmptyHint;
+
+  /// No description provided for @messageBubbleYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday {time}'**
+  String messageBubbleYesterday(Object time);
+
+  /// No description provided for @chatInputPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get chatInputPlaceholder;
+
+  /// No description provided for @messageBubbleEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'(edited)'**
+  String get messageBubbleEdited;
 }
 
 class _AppLocalizationsDelegate

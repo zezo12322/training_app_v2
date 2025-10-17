@@ -827,4 +827,20 @@
   
   ,"commentReactionLoginRequired": "يجب تسجيل الدخول للتفاعل"
   ,"commentReactionPickerTitle": "اختر تفاعلك"
+  
+  ,"progressCardNextLevel": "المستوى التالي"
+  ,"progressCardMaxLevel": "تهانينا! وصلت للمستوى الأقصى 🎉"
+  ,"progressCardEmptyTitle": "ابدأ رحلتك التعليمية!"
+  ,"progressCardEmptyHint": "أكمل الدروس والاختبارات لكسب النقاط"
+  ,"progressCardError": "حدث خطأ في تحميل التقدم"
+  
+  ,"messageListEmpty": "لا توجد رسائل بعد"
+  ,"messageListEmptyHint": "ابدأ المحادثة بإرسال رسالة"
+  
+  ,"messageBubbleYesterday": "أمس {time}"
+  ,"@messageBubbleYesterday": {"placeholders": {"time": {}}}
+  
+  ,"chatInputPlaceholder": "اكتب رسالة..."
+  
+  ,"messageBubbleEdited": "(معدلة)"
 }

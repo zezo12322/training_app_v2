@@ -2342,4 +2342,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commentReactionPickerTitle => 'Choose your reaction';
+
+  @override
+  String get progressCardNextLevel => 'Next Level';
+
+  @override
+  String get progressCardMaxLevel =>
+      'Congratulations! You\'ve reached the maximum level 🎉';
+
+  @override
+  String get progressCardEmptyTitle => 'Start your learning journey!';
+
+  @override
+  String get progressCardEmptyHint =>
+      'Complete lessons and quizzes to earn points';
+
+  @override
+  String get progressCardError => 'An error occurred loading progress';
+
+  @override
+  String get messageListEmpty => 'No messages yet';
+
+  @override
+  String get messageListEmptyHint =>
+      'Start the conversation by sending a message';
+
+  @override
+  String messageBubbleYesterday(Object time) {
+    return 'Yesterday $time';
+  }
+
+  @override
+  String get chatInputPlaceholder => 'Type a message...';
+
+  @override
+  String get messageBubbleEdited => '(edited)';
 }

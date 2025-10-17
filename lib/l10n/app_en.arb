@@ -827,4 +827,20 @@
   
   ,"commentReactionLoginRequired": "You must log in to react"
   ,"commentReactionPickerTitle": "Choose your reaction"
+  
+  ,"progressCardNextLevel": "Next Level"
+  ,"progressCardMaxLevel": "Congratulations! You've reached the maximum level 🎉"
+  ,"progressCardEmptyTitle": "Start your learning journey!"
+  ,"progressCardEmptyHint": "Complete lessons and quizzes to earn points"
+  ,"progressCardError": "An error occurred loading progress"
+  
+  ,"messageListEmpty": "No messages yet"
+  ,"messageListEmptyHint": "Start the conversation by sending a message"
+  
+  ,"messageBubbleYesterday": "Yesterday {time}"
+  ,"@messageBubbleYesterday": {"placeholders": {"time": {}}}
+  
+  ,"chatInputPlaceholder": "Type a message..."
+  
+  ,"messageBubbleEdited": "(edited)"
 }

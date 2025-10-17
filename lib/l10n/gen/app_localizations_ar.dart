@@ -2324,4 +2324,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get commentReactionPickerTitle => 'اختر تفاعلك';
+
+  @override
+  String get progressCardNextLevel => 'المستوى التالي';
+
+  @override
+  String get progressCardMaxLevel => 'تهانينا! وصلت للمستوى الأقصى 🎉';
+
+  @override
+  String get progressCardEmptyTitle => 'ابدأ رحلتك التعليمية!';
+
+  @override
+  String get progressCardEmptyHint => 'أكمل الدروس والاختبارات لكسب النقاط';
+
+  @override
+  String get progressCardError => 'حدث خطأ في تحميل التقدم';
+
+  @override
+  String get messageListEmpty => 'لا توجد رسائل بعد';
+
+  @override
+  String get messageListEmptyHint => 'ابدأ المحادثة بإرسال رسالة';
+
+  @override
+  String messageBubbleYesterday(Object time) {
+    return 'أمس $time';
+  }
+
+  @override
+  String get chatInputPlaceholder => 'اكتب رسالة...';
+
+  @override
+  String get messageBubbleEdited => '(معدلة)';
 }

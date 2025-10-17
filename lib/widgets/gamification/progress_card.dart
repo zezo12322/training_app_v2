@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/gamification/gamification_providers.dart';
 import '../../services/gamification/level_system.dart';
 import 'package:intl/intl.dart' as intl;
+import '../../core/l10n_ext.dart';
 
 /// بطاقة عرض التقدم في الكورس
 /// 
@@ -63,6 +64,7 @@ class ProgressCard extends ConsumerWidget {
     settings,
   ) {
     final theme = Theme.of(context);
+    final l = context.l;
     final levelSystem = ref.read(levelSystemProvider);
     final levelInfo = levelSystem.getAllLevelsInfo(settings.levelThresholds)
         .firstWhere((info) => info.level == progress.currentLevel);
@@ -135,7 +137,7 @@ class ProgressCard extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'المستوى التالي',
+                          l.progressCardNextLevel,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -188,7 +190,7 @@ class ProgressCard extends ConsumerWidget {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'تهانينا! وصلت للمستوى الأقصى 🎉',
+                          l.progressCardMaxLevel,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.amber.shade800,
                             fontWeight: FontWeight.w600,
@@ -269,6 +271,7 @@ class ProgressCard extends ConsumerWidget {
 
   Widget _buildEmptyCard(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l;
     return Card(
       elevation: 2,
       margin: const EdgeInsets.all(16),
@@ -279,14 +282,14 @@ class ProgressCard extends ConsumerWidget {
             const Icon(Icons.rocket_launch, size: 48, color: Colors.grey),
             const SizedBox(height: 8),
             Text(
-              'ابدأ رحلتك التعليمية!',
+              l.progressCardEmptyTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              'أكمل الدروس والاختبارات لكسب النقاط',
+              l.progressCardEmptyHint,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -339,6 +342,7 @@ class ProgressCard extends ConsumerWidget {
   }
 
   Widget _buildErrorCard(BuildContext context, Object error) {
+    final l = context.l;
     return Card(
       elevation: 2,
       margin: const EdgeInsets.all(16),
@@ -349,7 +353,7 @@ class ProgressCard extends ConsumerWidget {
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 8),
             Text(
-              'حدث خطأ في تحميل التقدم',
+              l.progressCardError,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

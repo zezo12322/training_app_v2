@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/l10n_ext.dart';
 
 /// Chat input widget for typing and sending messages
 class ChatInput extends StatefulWidget {
@@ -48,6 +49,7 @@ class _ChatInputState extends State<ChatInput> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -82,7 +84,7 @@ class _ChatInputState extends State<ChatInput> {
                 maxLines: null,
                 textInputAction: TextInputAction.newline,
                 decoration: InputDecoration(
-                  hintText: 'اكتب رسالة...',
+                  hintText: l.chatInputPlaceholder,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,

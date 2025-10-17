@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/chat_message.dart';
 import 'message_bubble.dart';
+import '../../core/l10n_ext.dart';
 
 /// Scrollable list of chat messages with auto-scroll to bottom
 class MessageList extends StatefulWidget {
@@ -79,6 +80,7 @@ class _MessageListState extends State<MessageList> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l;
     if (widget.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -96,14 +98,14 @@ class _MessageListState extends State<MessageList> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'لا توجد رسائل بعد',
+                  l.messageListEmpty,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.outline,
                       ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'ابدأ المحادثة بإرسال رسالة',
+                  l.messageListEmptyHint,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.outline,
                       ),
