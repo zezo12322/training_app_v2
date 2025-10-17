@@ -11,6 +11,7 @@ import 'package:training_app/screens/trainee_home_screen.dart';
 import 'package:training_app/screens/course_details_screen.dart';
 import 'package:training_app/screens/badges_overview_screen.dart';
 import 'package:training_app/screens/progress_screen.dart';
+import 'package:training_app/screens/dashboard_helpers.dart';
 import 'package:training_app/widgets/widgets.dart';
 
 /// Unified role‑aware home dashboard.
@@ -180,11 +181,12 @@ class _UnifiedProgressCard extends ConsumerWidget {
           MaterialPageRoute(builder: (_) => const ProgressScreen()),
         ),
         child: upAsync.when(
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => DashboardSkeletons.statsCard(),
           error: (e, _) => AppErrorState(
-            message: l.loadErrorGeneric(e.toString()),
+            message: DashboardErrorHandler.getUserFriendlyMessage(
+              e,
+              'Failed to load stats',
+            ),
             onRetry: () => ref.invalidate(userPointsStreamProvider),
           ),
           data: (up) {
@@ -214,10 +216,23 @@ class _UnifiedProgressCard extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    AppBadge(
-                      text: 'L$lvl',
-                      type: AppBadgeType.primary,
-                      size: AppBadgeSize.md,
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      switchInCurve: Curves.easeOutBack,
+                      switchOutCurve: Curves.easeInBack,
+                      transitionBuilder: (child, animation) => ScaleTransition(
+                        scale: animation,
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ),
+                      ),
+                      child: AppBadge(
+                        key: ValueKey('lvl_$lvl'),
+                        text: 'L$lvl',
+                        type: AppBadgeType.primary,
+                        size: AppBadgeSize.md,
+                      ),
                     ),
                     SizedBox(width: DesignTokens.spacingSm),
                     GestureDetector(
@@ -226,11 +241,24 @@ class _UnifiedProgressCard extends ConsumerWidget {
                           builder: (_) => const BadgesOverviewScreen(),
                         ),
                       ),
-                      child: AppBadge(
-                        text: '$badges',
-                        type: AppBadgeType.success,
-                        size: AppBadgeSize.md,
-                        icon: Icons.military_tech,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        switchInCurve: Curves.easeOutBack,
+                        switchOutCurve: Curves.easeInBack,
+                        transitionBuilder: (child, animation) => ScaleTransition(
+                          scale: animation,
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        ),
+                        child: AppBadge(
+                          key: ValueKey('bdg_$badges'),
+                          text: '$badges',
+                          type: AppBadgeType.success,
+                          size: AppBadgeSize.md,
+                          icon: Icons.military_tech,
+                        ),
                       ),
                     ),
                   ],
@@ -337,22 +365,24 @@ class _HorizontalCourses extends ConsumerWidget {
                   horizontal: DesignTokens.spacingLg,
                 ),
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (_, i) => SizedBox(
-                  width: 160,
-                  child: AppCard(
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ),
+                itemBuilder: (_, i) => DashboardSkeletons.courseCard(),
                 separatorBuilder: (_, __) => SizedBox(
                   width: DesignTokens.spacingMd,
                 ),
                 itemCount: 3,
               ),
               error: (e, _) => AppErrorState(
-                message: l.loadErrorGeneric(e.toString()),
-                onRetry: () {},
+                message: DashboardErrorHandler.getUserFriendlyMessage(
+                  e,
+                  'Failed to load courses',
+                ),
+                onRetry: () {
+                  if (role == 'trainer') {
+                    ref.invalidate(trainerCoursesProvider);
+                  } else {
+                    ref.invalidate(traineeCoursesProvider);
+                  }
+                },
               ),
               data: (courses) {
                 if (courses.isEmpty) {
