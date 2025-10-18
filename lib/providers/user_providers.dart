@@ -31,10 +31,24 @@ final currentUserProvider = StreamProvider<AppUser?>((ref) {
 final usersInCompanyProvider =
     FutureProvider.family<List<AppUser>, String>((ref, companyId) async {
   final fs = ref.read(_fs);
+  
+  // Get current user to determine appropriate limit based on role
+  final currentUser = await ref.read(currentUserProvider.future);
+  
+  // Firestore rules: super_admin/org_admin: 200, company_admin: 500, others: 30
+  int limit = 30; // Default for trainers/trainees
+  if (currentUser != null) {
+    if (currentUser.role == 'super_admin' || currentUser.role == 'org_admin') {
+      limit = 200;
+    } else if (currentUser.role == 'company_admin') {
+      limit = 500;
+    }
+  }
+  
   final q = await fs
       .collection('users')
       .where('companyId', isEqualTo: companyId)
-      .limit(500)
+      .limit(limit)
       .get();
   return q.docs
       .map((d) => AppUser.fromDoc(d))
@@ -45,10 +59,24 @@ final usersInCompanyProvider =
 final usersInSameInstitutionProvider =
     FutureProvider.family<List<AppUser>, String>((ref, institutionId) async {
   final fs = ref.read(_fs);
+  
+  // Get current user to determine appropriate limit based on role
+  final currentUser = await ref.read(currentUserProvider.future);
+  
+  // Firestore rules: super_admin/org_admin: 200, company_admin: 500, others: 30
+  int limit = 30; // Default for trainers/trainees
+  if (currentUser != null) {
+    if (currentUser.role == 'super_admin' || currentUser.role == 'org_admin') {
+      limit = 200;
+    } else if (currentUser.role == 'company_admin') {
+      limit = 500;
+    }
+  }
+  
   final q = await fs
       .collection('users')
       .where('institutionId', isEqualTo: institutionId)
-      .limit(500)
+      .limit(limit)
       .get();
   return q.docs
       .map((d) => AppUser.fromDoc(d))
