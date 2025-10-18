@@ -133,6 +133,9 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
           SnackBar(content: Text(l.messageThreadUserNotFound)),
         );
       }
+      return;
+    }
+
     final service = ref.read(messageThreadingServiceProvider);
     
     final reply = await service.replyToMessage(
@@ -143,9 +146,6 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
       companyId: widget.companyId,
       authorId: widget.currentUserId,
       authorName: currentUser.name,
-      authorRole: currentUser.role,
-      content: content,
-    );authorName: currentUser.name,
       authorRole: currentUser.role,
       content: content,
     );
@@ -370,8 +370,6 @@ class _ReplyBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l = context.l;
-    
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -430,6 +428,8 @@ class ThreadIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l;
+    
     if (!message.hasReplies) return const SizedBox.shrink();
 
     final recentRepliesStream = ref.watch(messageThreadingServiceProvider)
