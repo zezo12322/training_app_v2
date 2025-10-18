@@ -28,6 +28,7 @@ import 'gamification/modules_screen.dart';
 import 'gamification/leaderboard_screen.dart';
 import 'gamification/achievements_screen.dart';
 import 'gamification/analytics_dashboard_screen.dart';
+import 'course_chat_screen.dart';
 
 class CourseDetailsScreen extends ConsumerStatefulWidget {
   final String courseId;
@@ -163,6 +164,17 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen>
             tooltip: l.courseDetailsMoreOptions,
             onSelected: (value) {
               switch (value) {
+                case 'chat':
+                  // 💬 Navigate to course chat
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CourseChatScreen(
+                        courseId: widget.courseId,
+                        courseName: widget.courseName,
+                      ),
+                    ),
+                  );
+                  break;
                 case 'badges':
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const BadgesOverviewScreen()),
@@ -236,6 +248,15 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen>
               }
             },
             itemBuilder: (context) => [
+              // 💬 Course Chat - للجميع
+              PopupMenuItem(
+                value: 'chat',
+                child: ListTile(
+                  leading: const Icon(Icons.chat_bubble_outline),
+                  title: const Text('Course Chat'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
               PopupMenuItem(
                 value: 'badges',
                 child: ListTile(

@@ -9,6 +9,7 @@ import 'home_dashboard_screen.dart';
 import 'personal_profile_screen.dart';
 import 'progress_screen.dart';
 import 'settings_screen.dart';
+import 'direct_messages_screen.dart';
 import '../services/guided_tour_service.dart';
 
 /// Shared bottom navigation shell (adapts to role trainer/trainee for first tab).
@@ -39,6 +40,7 @@ class _BottomNavShellState extends ConsumerState<BottomNavShell>
       // Unified dashboard (still can deep-link to legacy trainer/trainee lists)
       HomeDashboardScreen(role: widget.role),
       const ProgressScreen(),
+      const DirectMessagesScreen(), // 💬 Direct Messages
       const PersonalProfileScreen(),
       const SettingsScreen(),
     ];
@@ -159,6 +161,11 @@ class _BottomNavShellState extends ConsumerState<BottomNavShell>
             label: context.l.progressTitle,
           ),
           NavigationDestination(
+            icon: const Icon(Icons.chat_bubble_outline),
+            selectedIcon: const Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
+          NavigationDestination(
             key: _kProfile,
             icon: const Icon(Icons.person_outline),
             selectedIcon: const Icon(Icons.person),
@@ -177,7 +184,23 @@ class _BottomNavShellState extends ConsumerState<BottomNavShell>
   }
 
   Widget? _fabForIndexAndRole() {
-    if (_index != 0) return null; // FAB فقط في التبويب الأول
+    if (_index != 0 && _index != 2) return null; // FAB في التبويب الأول والـMessages
+    
+    // FAB for Messages tab (index 2) - New Chat
+    if (_index == 2) {
+      return FloatingActionButton.extended(
+        key: _kFab,
+        heroTag: 'fab_new_chat',
+        onPressed: () {
+          // Navigate to DirectMessagesScreen and trigger new chat
+          // The DirectMessagesScreen already has a FAB for new chat
+        },
+        icon: const Icon(Icons.chat),
+        label: const Text('New Chat'),
+      );
+    }
+    
+    // FAB for Dashboard (index 0)
     if (widget.role == 'trainer') {
       final l = context.l;
       return FloatingActionButton.extended(
