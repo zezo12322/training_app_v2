@@ -884,8 +884,8 @@ service cloud.firestore {
       
       // Helper: check tenant match (supports freelance trainers AND their trainees)
       function matchesTenant() {
-        let userInstitution = userDoc().data.institutionId;
-        let userCompany = userDoc().data.companyId;
+        let userInstitution = userDoc().data.get('institutionId', null);
+        let userCompany = userDoc().data.get('companyId', null);
         let roomInstitution = resource.data.institutionId;
         let roomCompany = resource.data.companyId;
         
@@ -901,8 +901,8 @@ service cloud.firestore {
       
       // Helper: check if creating room with valid tenant info
       function validTenantCreate() {
-        let userInstitution = userDoc().data.institutionId;
-        let userCompany = userDoc().data.companyId;
+        let userInstitution = userDoc().data.get('institutionId', null);
+        let userCompany = userDoc().data.get('companyId', null);
         let roomInstitution = request.resource.data.institutionId;
         let roomCompany = request.resource.data.companyId;
         
@@ -941,8 +941,8 @@ service cloud.firestore {
       match /messages/{messageId} {
         // Helper: validate message tenant (supports freelance trainers/trainees)
         function validMessageTenant() {
-          let userInstitution = userDoc().data.institutionId;
-          let userCompany = userDoc().data.companyId;
+          let userInstitution = userDoc().data.get('institutionId', null);
+          let userCompany = userDoc().data.get('companyId', null);
           let msgInstitution = request.resource.data.institutionId;
           let msgCompany = request.resource.data.companyId;
           
