@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'add_question_screen.dart';
 import '../core/l10n_ext.dart';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
 
 class CreateQuizScreen extends StatefulWidget {
   final String courseId;
@@ -95,36 +97,76 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(context.l.createQuizTitle)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(DesignTokens.spacingLg),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: context.l.createQuizTitleLabel,
-                  hintText: context.l.createQuizTitleHint,
-                  border: const OutlineInputBorder(),
+              AppCard(
+                padding: EdgeInsets.all(DesignTokens.spacingLg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(DesignTokens.spacingSm),
+                          decoration: BoxDecoration(
+                            color: DesignTokens.info.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                          ),
+                          child: Icon(
+                            Icons.quiz_outlined,
+                            color: DesignTokens.info,
+                            size: 24,
+                          ),
+                        ),
+                        SizedBox(width: DesignTokens.spacingSm),
+                        Text(
+                          'Quiz Details',
+                          style: DesignTokens.h5(context),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: DesignTokens.spacingLg),
+                    AppTextField(
+                      controller: _titleController,
+                      label: context.l.createQuizTitleLabel,
+                      hint: context.l.createQuizTitleHint,
+                      prefixIcon: Icons.title_outlined,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return context.l.createQuizTitleRequired;
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return context.l.createQuizTitleRequired;
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: DesignTokens.spacingXl),
               _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton.icon(
-                      icon: const Icon(Icons.arrow_forward),
-                      label: Text(context.l.createQuizNextButton),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                  ? Center(
+                      child: Column(
+                        children: [
+                          const CircularProgressIndicator(),
+                          SizedBox(height: DesignTokens.spacingMd),
+                          Text(
+                            'Creating quiz...',
+                            style: DesignTokens.body2(context).copyWith(
+                              color: DesignTokens.textSecondary(context),
+                            ),
+                          ),
+                        ],
                       ),
+                    )
+                  : AppButton(
+                      text: context.l.createQuizNextButton,
+                      icon: Icons.arrow_forward,
                       onPressed: _createQuizAndProceed,
+                      type: AppButtonType.primary,
+                      fullWidth: true,
                     ),
             ],
           ),
