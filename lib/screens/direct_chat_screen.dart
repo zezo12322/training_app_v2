@@ -11,6 +11,9 @@ import '../services/hybrid_storage_service.dart';
 import '../widgets/report_dialog.dart';
 import '../core/l10n_ext.dart';
 import 'dart:async';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
+import 'dashboard_helpers.dart';
 
 /// شاشة المحادثة المباشرة
 class DirectChatScreen extends ConsumerStatefulWidget {
@@ -299,15 +302,20 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
             child: messagesAsync.when(
               data: (messages) {
                 if (messages.isEmpty) {
-                  return Center(
-                    child: Text(context.l.directChatEmptyMessage),
+                  return AppEmptyState(
+                    icon: Icons.chat_outlined,
+                    title: context.l.directChatEmptyMessage,
+                    actionLabel: 'Send a message',
+                    onAction: () {
+                      // Focus would be nice here
+                    },
                   );
                 }
 
                 return ListView.builder(
                   controller: _scrollController,
                   reverse: true,
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(DesignTokens.spacingMd),
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
@@ -321,9 +329,48 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(
-                child: Text(context.l.directChatError(error.toString())),
+              loading: () => ListView.builder(
+                padding: EdgeInsets.all(DesignTokens.spacingMd),
+                itemCount: 8,
+                itemBuilder: (_, i) {
+                  final isMe = i % 2 == 0;
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: DesignTokens.spacingMd),
+                    child: Row(
+                      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                      children: [
+                        if (!isMe) ...[
+                          AppLoadingSkeleton(
+                            type: AppSkeletonType.circle,
+                            width: 32,
+                            height: 32,
+                          ),
+                          SizedBox(width: DesignTokens.spacingSm),
+                        ],
+                        AppLoadingSkeleton(
+                          width: 150 + (i % 3) * 50.0,
+                          height: 40 + (i % 2) * 20.0,
+                          type: AppSkeletonType.roundedRectangle,
+                        ),
+                        if (isMe) ...[
+                          SizedBox(width: DesignTokens.spacingSm),
+                          AppLoadingSkeleton(
+                            type: AppSkeletonType.circle,
+                            width: 32,
+                            height: 32,
+                          ),
+                        ],
+                      ],
+                    ),
+                  );
+                },
+              ),
+              error: (error, stack) => AppErrorState(
+                message: DashboardErrorHandler.getUserFriendlyMessage(
+                  error,
+                  context.l.directChatError(error.toString()),
+                ),
+                onRetry: () => ref.invalidate(roomMessagesProvider((roomId: widget.roomId, limit: 100))),
               ),
             ),
           ),

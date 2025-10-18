@@ -6,9 +6,11 @@ import '../providers/auth_provider.dart';
 import '../providers/chat_providers.dart';
 import '../widgets/chat/chat_input.dart';
 import '../widgets/chat/message_list.dart';
-import '../widgets/network_status.dart';
 import '../core/logging.dart';
 import '../core/l10n_ext.dart';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
+import 'dashboard_helpers.dart';
 
 /// Course chat screen for real-time messaging
 class CourseChatScreen extends ConsumerStatefulWidget {
@@ -27,6 +29,93 @@ class CourseChatScreen extends ConsumerStatefulWidget {
 
 class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
   ChatRoom? _chatRoom;
+
+  Widget _buildChatSkeleton() {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.all(DesignTokens.spacingMd),
+            itemCount: 8,
+            itemBuilder: (_, i) {
+              final isMe = i % 2 == 0;
+              return Padding(
+                padding: EdgeInsets.only(bottom: DesignTokens.spacingMd),
+                child: Row(
+                  mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!isMe) ...[
+                      AppLoadingSkeleton(
+                        type: AppSkeletonType.circle,
+                        width: 32,
+                        height: 32,
+                      ),
+                      SizedBox(width: DesignTokens.spacingSm),
+                    ],
+                    Column(
+                      crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                      children: [
+                        if (!isMe)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: DesignTokens.spacingXs),
+                            child: AppLoadingSkeleton(width: 80, height: 12),
+                          ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 250),
+                          child: AppLoadingSkeleton(
+                            width: 150 + (i % 3) * 50.0,
+                            height: 40 + (i % 2) * 20.0,
+                            type: AppSkeletonType.roundedRectangle,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (isMe) ...[
+                      SizedBox(width: DesignTokens.spacingSm),
+                      AppLoadingSkeleton(
+                        type: AppSkeletonType.circle,
+                        width: 32,
+                        height: 32,
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(DesignTokens.spacingMd),
+          decoration: BoxDecoration(
+            color: DesignTokens.surface(context),
+            border: Border(
+              top: BorderSide(
+                color: DesignTokens.borderColor(context),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: AppLoadingSkeleton(
+                  height: 48,
+                  type: AppSkeletonType.roundedRectangle,
+                ),
+              ),
+              SizedBox(width: DesignTokens.spacingSm),
+              AppLoadingSkeleton(
+                width: 48,
+                height: 48,
+                type: AppSkeletonType.circle,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,19 +197,27 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
               _chatRoom = room;
               return _buildChatContent(room, user.id);
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => _buildChatSkeleton(),
             error: (error, stack) {
               logger.e('Error loading chat room', error: error, stackTrace: stack);
-              return FirebaseErrorHandler.buildErrorWidget(
-                context,
-                error,
+              return AppErrorState(
+                message: DashboardErrorHandler.getUserFriendlyMessage(
+                  error,
+                  l.courseChatLoadError(error.toString()),
+                ),
                 onRetry: () => ref.invalidate(courseChatRoomProvider),
               );
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-  error: (error, stack) => Center(child: Text(l.courseChatLoadError(error.toString()))),
+        loading: () => _buildChatSkeleton(),
+        error: (error, stack) => AppErrorState(
+          message: DashboardErrorHandler.getUserFriendlyMessage(
+            error,
+            l.courseChatLoadError(error.toString()),
+          ),
+          onRetry: () => ref.invalidate(currentUserModelProvider),
+        ),
       ),
     );
   }
@@ -133,17 +230,58 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
         // Messages list
         Expanded(
           child: messagesAsync.when(
-            data: (messages) => MessageList(
-              messages: messages,
-              currentUserId: userId,
-              onMessageLongPress: (message) => _showMessageOptions(message, userId),
+            data: (messages) {
+              if (messages.isEmpty) {
+                return AppEmptyState(
+                  icon: Icons.chat_bubble_outline,
+                  title: 'No messages yet',
+                  actionLabel: 'Start the conversation',
+                  onAction: () {
+                    // Focus on input - implement if ChatInput supports focus
+                  },
+                );
+              }
+              return MessageList(
+                messages: messages,
+                currentUserId: userId,
+                onMessageLongPress: (message) => _showMessageOptions(message, userId),
+              );
+            },
+            loading: () => ListView.builder(
+              padding: EdgeInsets.all(DesignTokens.spacingMd),
+              itemCount: 6,
+              itemBuilder: (_, i) {
+                final isMe = i % 2 == 0;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: DesignTokens.spacingMd),
+                  child: Row(
+                    mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                    children: [
+                      if (!isMe) ...[
+                        AppLoadingSkeleton(
+                          type: AppSkeletonType.circle,
+                          width: 32,
+                          height: 32,
+                        ),
+                        SizedBox(width: DesignTokens.spacingSm),
+                      ],
+                      AppLoadingSkeleton(
+                        width: 150 + (i % 3) * 50.0,
+                        height: 40,
+                        type: AppSkeletonType.roundedRectangle,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-            loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) {
               logger.e('Error loading messages', error: error, stackTrace: stack);
-              return FirebaseErrorHandler.buildErrorWidget(
-                context,
-                error,
+              return AppErrorState(
+                message: DashboardErrorHandler.getUserFriendlyMessage(
+                  error,
+                  'Failed to load messages',
+                ),
                 onRetry: () => ref.invalidate(chatMessagesProvider(room.id)),
               );
             },
