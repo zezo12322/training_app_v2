@@ -223,6 +223,13 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
   }
 
   Widget _buildChatContent(ChatRoom room, String userId) {
+    // ✅ Null check: Ensure room has valid ID before loading messages
+    if (room.id.isEmpty) {
+      return Center(
+        child: Text('Error: Invalid chat room'),
+      );
+    }
+
     final messagesAsync = ref.watch(chatMessagesProvider(room.id));
 
     return Column(

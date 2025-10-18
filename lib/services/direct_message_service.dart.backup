@@ -3,8 +3,7 @@ import '../models/chat_message.dart';
 import '../models/chat_room.dart';
 import '../core/logging.dart';
 
-/// خدمة المحادثات المباشرة (Direct Messages) - FIXED VERSION
-/// ✅ All messages now stored in subcollections: /chat_rooms/{roomId}/messages/
+/// خدمة المحادثات المباشرة (Direct Messages)
 class DirectMessageService {
   final FirebaseFirestore _firestore;
 
@@ -83,7 +82,7 @@ class DirectMessageService {
         readBy: [senderId], // المرسل قرأها تلقائياً
       );
 
-      // ✅ حفظ الرسالة في subcollection
+      // حفظ الرسالة في subcollection
       await _firestore
           .collection('chat_rooms')
           .doc(roomId)
@@ -110,18 +109,11 @@ class DirectMessageService {
 
   /// تحديث حالة القراءة
   Future<void> markAsRead({
-    required String roomId,
     required String messageId,
     required String userId,
   }) async {
     try {
-      // ✅ Update in subcollection
-      await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
-          .doc(messageId)
-          .update({
+      await _firestore.collection('chat_messages').doc(messageId).update({
         'readBy': FieldValue.arrayUnion([userId]),
       });
 
@@ -137,11 +129,10 @@ class DirectMessageService {
     required String userId,
   }) async {
     try {
-      // ✅ جلب الرسائل غير المقروءة من subcollection
+      // جلب الرسائل غير المقروءة
       final unreadMessages = await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
+          .collection('chat_messages')
+          .where('chatRoomId', isEqualTo: roomId)
           .where('authorId', isNotEqualTo: userId)
           .get();
 
@@ -169,17 +160,13 @@ class DirectMessageService {
 
   /// تعديل رسالة (خلال 15 دقيقة)
   Future<bool> editMessage({
-    required String roomId,
     required String messageId,
     required String userId,
     required String newContent,
   }) async {
     try {
-      // ✅ Read from subcollection
       final messageDoc = await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
+          .collection('chat_messages')
           .doc(messageId)
           .get();
 
@@ -207,13 +194,8 @@ class DirectMessageService {
         return false;
       }
 
-      // ✅ تحديث الرسالة في subcollection
-      await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
-          .doc(messageId)
-          .update({
+      // تحديث الرسالة
+      await _firestore.collection('chat_messages').doc(messageId).update({
         'content': newContent,
         'isEdited': true,
         'updatedAt': FieldValue.serverTimestamp(),
@@ -229,16 +211,12 @@ class DirectMessageService {
 
   /// حذف رسالة (خلال 15 دقيقة)
   Future<bool> deleteMessage({
-    required String roomId,
     required String messageId,
     required String userId,
   }) async {
     try {
-      // ✅ Read from subcollection
       final messageDoc = await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
+          .collection('chat_messages')
           .doc(messageId)
           .get();
 
@@ -260,13 +238,8 @@ class DirectMessageService {
         return false;
       }
 
-      // ✅ وضع علامة الحذف (لا نحذف فعلياً)
-      await _firestore
-          .collection('chat_rooms')
-          .doc(roomId)
-          .collection('messages')
-          .doc(messageId)
-          .update({
+      // وضع علامة الحذف (لا نحذف فعلياً)
+      await _firestore.collection('chat_messages').doc(messageId).update({
         'isDeleted': true,
         'deletedAt': FieldValue.serverTimestamp(),
         'content': '', // مسح المحتوى
@@ -524,7 +497,6 @@ class DirectMessageService {
   }
 
   String _generateId() {
-    // ✅ Generate ID from chat_rooms collection (doesn't matter which collection for ID generation)
-    return _firestore.collection('chat_rooms').doc().id;
+    return _firestore.collection('chat_messages').doc().id;
   }
 }

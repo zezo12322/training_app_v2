@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/chat_message.dart';
 import '../core/logging.dart';
 
-/// خدمة ربط الردود (Message Threading) - FIXED VERSION
-/// ✅ Now uses collectionGroup('messages') for threading across all rooms
+/// خدمة ربط الردود (Message Threading)
 class MessageThreadingService {
   final FirebaseFirestore _firestore;
 
@@ -24,16 +23,14 @@ class MessageThreadingService {
     String? imageUrl,
   }) async {
     try {
-      // ✅ التحقق من وجود الرسالة الأصلية في subcollection
+      // التحقق من وجود الرسالة الأصلية
       final parentDoc = await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
+          .collection('chat_messages')
           .doc(parentMessageId)
           .get();
 
       if (!parentDoc.exists) {
-        logger.w('Parent message not found: $parentMessageId in room $chatRoomId');
+        logger.w('Parent message not found: $parentMessageId');
         return null;
       }
 
@@ -57,18 +54,16 @@ class MessageThreadingService {
         readBy: [authorId],
       );
 
-      // ✅ حفظ الرد في subcollection
+      // حفظ الرد
       await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
+          .collection('chat_messages')
           .doc(messageId)
           .set(replyMessage.toJson());
 
       // تحديث عداد الردود في الرسالة الأصلية
-      await _updateThreadCount(chatRoomId, parentMessageId);
+      await _updateThreadCount(parentMessageId);
 
-      logger.i('Reply created: $messageId -> $parentMessageId in room $chatRoomId');
+      logger.i('Reply created: $messageId -> $parentMessageId');
       return replyMessage;
     } catch (e, stackTrace) {
       logger.e('Error creating reply', error: e, stackTrace: stackTrace);
@@ -77,16 +72,11 @@ class MessageThreadingService {
   }
 
   /// تحديث عداد الردود
-  Future<void> _updateThreadCount(String chatRoomId, String parentMessageId) async {
+  Future<void> _updateThreadCount(String parentMessageId) async {
     try {
-      final repliesCount = await getThreadCount(chatRoomId, parentMessageId);
+      final repliesCount = await getThreadCount(parentMessageId);
       
-      await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
-          .doc(parentMessageId)
-          .update({
+      await _firestore.collection('chat_messages').doc(parentMessageId).update({
         'threadCount': repliesCount,
         'hasThread': repliesCount > 0,
       });
@@ -96,14 +86,10 @@ class MessageThreadingService {
   }
 
   /// الحصول على عدد الردود
-  Future<int> getThreadCount(String chatRoomId, String parentMessageId) async {
+  Future<int> getThreadCount(String parentMessageId) async {
     try {
-      // ✅ Use collectionGroup for cross-room threading (if needed)
-      // But for performance, query within same room's subcollection
       final snapshot = await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
+          .collection('chat_messages')
           .where('parentMessageId', isEqualTo: parentMessageId)
           .where('isDeleted', isEqualTo: false)
           .count()
@@ -117,12 +103,10 @@ class MessageThreadingService {
   }
 
   /// جلب جميع الردود على رسالة
-  Future<List<ChatMessage>> getThreadMessages(String chatRoomId, String parentMessageId) async {
+  Future<List<ChatMessage>> getThreadMessages(String parentMessageId) async {
     try {
       final snapshot = await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
+          .collection('chat_messages')
           .where('parentMessageId', isEqualTo: parentMessageId)
           .where('isDeleted', isEqualTo: false)
           .orderBy('createdAt', descending: false)
@@ -138,11 +122,9 @@ class MessageThreadingService {
   }
 
   /// Stream للردود (real-time)
-  Stream<List<ChatMessage>> streamThreadMessages(String chatRoomId, String parentMessageId) {
+  Stream<List<ChatMessage>> streamThreadMessages(String parentMessageId) {
     return _firestore
-        .collection('chat_rooms')
-        .doc(chatRoomId)
-        .collection('messages')
+        .collection('chat_messages')
         .where('parentMessageId', isEqualTo: parentMessageId)
         .where('isDeleted', isEqualTo: false)
         .orderBy('createdAt', descending: false)
@@ -155,12 +137,10 @@ class MessageThreadingService {
   }
 
   /// جلب الرسالة الأصلية (parent)
-  Future<ChatMessage?> getParentMessage(String chatRoomId, String parentMessageId) async {
+  Future<ChatMessage?> getParentMessage(String parentMessageId) async {
     try {
       final doc = await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
+          .collection('chat_messages')
           .doc(parentMessageId)
           .get();
 
@@ -174,14 +154,9 @@ class MessageThreadingService {
   }
 
   /// حذف رد (يقلل العداد)
-  Future<bool> deleteReply(String chatRoomId, String messageId) async {
+  Future<bool> deleteReply(String messageId) async {
     try {
-      final doc = await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
-          .doc(messageId)
-          .get();
+      final doc = await _firestore.collection('chat_messages').doc(messageId).get();
       
       if (!doc.exists) return false;
 
@@ -193,18 +168,13 @@ class MessageThreadingService {
       }
 
       // حذف الرد
-      await _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
-          .doc(messageId)
-          .update({
+      await _firestore.collection('chat_messages').doc(messageId).update({
         'isDeleted': true,
         'deletedAt': FieldValue.serverTimestamp(),
       });
 
       // تحديث العداد في الرسالة الأصلية
-      await _updateThreadCount(chatRoomId, message.parentMessageId!);
+      await _updateThreadCount(message.parentMessageId!);
 
       logger.i('Reply deleted: $messageId');
       return true;
@@ -215,15 +185,9 @@ class MessageThreadingService {
   }
 
   /// Stream لأحدث 3 ردود (للعرض في القائمة)
-  Stream<List<ChatMessage>> streamRecentReplies(
-    String chatRoomId,
-    String parentMessageId, {
-    int limit = 3,
-  }) {
+  Stream<List<ChatMessage>> streamRecentReplies(String parentMessageId, {int limit = 3}) {
     return _firestore
-        .collection('chat_rooms')
-        .doc(chatRoomId)
-        .collection('messages')
+        .collection('chat_messages')
         .where('parentMessageId', isEqualTo: parentMessageId)
         .where('isDeleted', isEqualTo: false)
         .orderBy('createdAt', descending: true)
@@ -239,6 +203,6 @@ class MessageThreadingService {
   }
 
   String _generateId() {
-    return _firestore.collection('chat_rooms').doc().id;
+    return _firestore.collection('chat_messages').doc().id;
   }
 }

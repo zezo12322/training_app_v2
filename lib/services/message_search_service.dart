@@ -17,12 +17,18 @@ class MessageSearchService {
         return [];
       }
 
-      // بناء الاستعلام
-      Query<Map<String, dynamic>> firestoreQuery = _firestore.collection('chat_messages');
-
-      // تصفية حسب الغرفة
+      // ✅ بناء الاستعلام باستخدام collectionGroup للبحث عبر كل الغرف
+      Query<Map<String, dynamic>> firestoreQuery;
+      
       if (query.roomId != null) {
-        firestoreQuery = firestoreQuery.where('chatRoomId', isEqualTo: query.roomId);
+        // إذا كان البحث في غرفة محددة، استخدم subcollection مباشرة
+        firestoreQuery = _firestore
+            .collection('chat_rooms')
+            .doc(query.roomId)
+            .collection('messages');
+      } else {
+        // إذا كان البحث عام، استخدم collectionGroup
+        firestoreQuery = _firestore.collectionGroup('messages');
       }
 
       // تصفية حسب المؤلف
