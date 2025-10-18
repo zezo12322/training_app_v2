@@ -98,7 +98,13 @@ service cloud.firestore {
         );
       }
       allow create: if isTrainer() && request.resource.data.trainerId == request.auth.uid && _courseTenantOkCreate();
+      // Allow trainer to update their own courses
       allow update: if isTrainer() && resource.data.trainerId == request.auth.uid && _courseTenantOkUpdate();
+      // Allow trainee to join course (add themselves to trainees array)
+      allow update: if isTrainee() && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['trainees']) &&
+        request.resource.data.trainees.hasAll(resource.data.trainees) &&
+        request.resource.data.trainees.hasAny([request.auth.uid]);
       allow delete: if isTrainer() && resource.data.trainerId == request.auth.uid && _courseTenantOkUpdate();
     }
 
