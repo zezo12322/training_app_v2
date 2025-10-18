@@ -40,6 +40,29 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
+  
+  <!-- Initialize Firebase (web compatibility) -->
+  <script>
+    // Firebase configuration for web
+    const firebaseConfig = {
+      apiKey: 'AIzaSyBqKFUGDU6QI42OXuzuuKZ1WcOObT7c3o8',
+      authDomain: 'trainingapp-mvp.firebaseapp.com',
+      projectId: 'trainingapp-mvp',
+      storageBucket: 'trainingapp-mvp.firebasestorage.app',
+      messagingSenderId: '564201926492',
+      appId: '1:564201926492:web:ce9462fd63a43853175b99'
+    };
+
+    // Initialize Firebase (compat mode for web)
+    try {
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('✅ Firebase initialized for web');
+      }
+    } catch (error) {
+      console.warn('⚠️ Firebase already initialized:', error.message);
+    }
+  </script>
 
   <!-- Loading Screen Styles -->
   <style>
