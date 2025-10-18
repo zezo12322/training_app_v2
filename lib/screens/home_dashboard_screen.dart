@@ -357,36 +357,17 @@ class _HorizontalCourses extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 140,
-            child: coursesAsync.when(
-              loading: () => ListView.separated(
-                padding: EdgeInsets.symmetric(
-                  horizontal: DesignTokens.spacingLg,
-                ),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, i) => DashboardSkeletons.courseCard(),
-                separatorBuilder: (_, __) => SizedBox(
-                  width: DesignTokens.spacingMd,
-                ),
-                itemCount: 3,
-              ),
-              error: (e, _) => AppErrorState(
-                message: DashboardErrorHandler.getUserFriendlyMessage(
-                  e,
-                  'Failed to load courses',
-                ),
-                onRetry: () {
-                  if (role == 'trainer') {
-                    ref.invalidate(trainerCoursesProvider);
-                  } else {
-                    ref.invalidate(traineeCoursesProvider);
-                  }
-                },
-              ),
-              data: (courses) {
-                if (courses.isEmpty) {
-                  return AppEmptyState(
+          // Courses section with dynamic height
+          coursesAsync.maybeWhen(
+            data: (courses) {
+              // If empty, show empty state without height constraint
+              if (courses.isEmpty) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: DesignTokens.spacingLg,
+                    vertical: DesignTokens.spacingXxl,
+                  ),
+                  child: AppEmptyState(
                     icon: Icons.school_outlined,
                     title: role == 'trainer'
                         ? l.noTrainerCoursesTitleAlt
@@ -395,10 +376,14 @@ class _HorizontalCourses extends ConsumerWidget {
                     onAction: () => role == 'trainer'
                         ? TrainerHomeScreen.createCourse(context)
                         : TraineeHomeScreen.joinCourse(context),
-                  );
-                }
-                final preview = courses.take(10).toList();
-                return ListView.separated(
+                  ),
+                );
+              }
+              // If has courses, show horizontal list with fixed height
+              final preview = courses.take(10).toList();
+              return SizedBox(
+                height: 140,
+                child: ListView.separated(
                   padding: EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacingLg,
                   ),
@@ -448,8 +433,38 @@ class _HorizontalCourses extends ConsumerWidget {
                     width: DesignTokens.spacingMd,
                   ),
                   itemCount: preview.length,
-                );
-              },
+                ),
+              );
+            },
+            orElse: () => SizedBox(
+              height: 140,
+              child: coursesAsync.when(
+                loading: () => ListView.separated(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: DesignTokens.spacingLg,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, i) => DashboardSkeletons.courseCard(),
+                  separatorBuilder: (_, __) => SizedBox(
+                    width: DesignTokens.spacingMd,
+                  ),
+                  itemCount: 3,
+                ),
+                error: (e, _) => AppErrorState(
+                  message: DashboardErrorHandler.getUserFriendlyMessage(
+                    e,
+                    'Failed to load courses',
+                  ),
+                  onRetry: () {
+                    if (role == 'trainer') {
+                      ref.invalidate(trainerCoursesProvider);
+                    } else {
+                      ref.invalidate(traineeCoursesProvider);
+                    }
+                  },
+                ),
+                data: (_) => const SizedBox.shrink(), // Already handled in maybeWhen above
+              ),
             ),
           ),
         ],
@@ -471,7 +486,7 @@ class _IconActions extends StatelessWidget {
         DesignTokens.spacingLg,
         DesignTokens.spacingSm,
         DesignTokens.spacingLg,
-        DesignTokens.spacingXs,
+        DesignTokens.spacing3xl, // 48px bottom padding لعدم تغطية Bottom Nav
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
