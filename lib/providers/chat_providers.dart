@@ -17,20 +17,16 @@ final courseChatRoomProvider = FutureProvider.autoDispose
     throw Exception('User not authenticated');
   }
 
-  // ✅ Validate user has required tenant information
-  if (user.institutionId == null || user.institutionId!.isEmpty) {
-    throw Exception('User does not have institution ID. Please contact administrator.');
-  }
-
-  if (user.companyId == null || user.companyId!.isEmpty) {
-    throw Exception('User does not have company ID. Please contact administrator.');
-  }
+  // ✅ For freelance trainers, use default values
+  // If user has no institution/company, they are independent/freelance
+  final institutionId = user.institutionId ?? 'freelance';
+  final companyId = user.companyId ?? 'independent';
 
   return repository.getOrCreateCourseChatRoom(
     courseId: params.courseId,
     courseName: params.courseName,
-    institutionId: user.institutionId!,
-    companyId: user.companyId!,
+    institutionId: institutionId,
+    companyId: companyId,
     participantIds: [user.id],
   );
 });
@@ -75,10 +71,14 @@ final userChatRoomsProvider =
     return Stream.value([]);
   }
 
+  // ✅ For freelance trainers, use default values
+  final institutionId = user.institutionId ?? 'freelance';
+  final companyId = user.companyId ?? 'independent';
+
   return repository.streamUserChatRooms(
     userId: user.id,
-    institutionId: user.institutionId!,
-    companyId: user.companyId!,
+    institutionId: institutionId,
+    companyId: companyId,
   );
 });
 
