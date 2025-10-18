@@ -311,11 +311,15 @@ class _CourseChatScreenState extends ConsumerState<CourseChatScreen> {
     final user = userAsync.value;
     if (user == null) return;
 
+    // Support freelance trainers/trainees with default values
+    final institutionId = user.institutionId ?? 'freelance';
+    final companyId = user.companyId ?? 'independent';
+
     final dto = CreateChatMessageDto(
       chatRoomId: _chatRoom!.id,
       courseId: widget.courseId,
-      institutionId: user.institutionId!,
-      companyId: user.companyId!,
+      institutionId: institutionId,
+      companyId: companyId,
       authorId: user.id,
       authorName: user.name,
       authorRole: user.role,
