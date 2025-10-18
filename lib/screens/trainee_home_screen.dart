@@ -6,12 +6,14 @@ import 'package:training_app/core/bootstrap.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:training_app/models/course.dart';
-import 'join_course_screen.dart'; // kept single import (deduplicated)
+import 'package:training_app/screens/dashboard_helpers.dart';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
+import 'join_course_screen.dart';
 import '../providers/settings_providers.dart';
 import '../widgets/animations/slide_fade_in.dart';
 import 'course_details_screen.dart';
 import 'personal_profile_screen.dart';
-import '../widgets/skeleton.dart';
 import 'auth_wrapper.dart';
 
 class TraineeHomeScreen extends ConsumerStatefulWidget {
@@ -189,10 +191,21 @@ class _CoursesTraineeList extends ConsumerWidget {
         loading: () => ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: 6,
-          itemBuilder: (_, i) => const ListTileSkeleton(withAvatar: false),
+          itemBuilder: (_, i) => Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingMd,
+              vertical: DesignTokens.spacingSm,
+            ),
+            child: DashboardSkeletons.courseCard(),
+          ),
         ),
-        error: (err, _) =>
-            Center(child: Text(context.l.loadErrorGeneric(err.toString()))),
+        error: (err, _) => AppErrorState(
+          message: DashboardErrorHandler.getUserFriendlyMessage(
+            err,
+            'Failed to load courses',
+          ),
+          onRetry: () => ref.invalidate(traineeCoursesProvider),
+        ),
         data: (courses) {
           final limit = currentTraineeLimit(ref);
           final showLoadMore = courses.isNotEmpty && courses.length >= limit;
@@ -204,26 +217,13 @@ class _CoursesTraineeList extends ConsumerWidget {
             child: courses.isEmpty
                 ? ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 80),
+                    padding: EdgeInsets.only(top: DesignTokens.spacingXxl),
                     children: [
-                      Icon(
-                        Icons.class_outlined,
-                        size: 80,
-                        color: Colors.grey[400],
-                      ),
-                      const SizedBox(height: 16),
-                      Center(
-                        child: Text(
-                          context.l.noTraineeCoursesTitleAlt,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Center(
-                        child: Text(
-                          context.l.noTraineeCoursesHintAlt,
-                          style: const TextStyle(color: Colors.grey),
-                        ),
+                      AppEmptyState(
+                        icon: Icons.school_outlined,
+                        title: context.l.noTraineeCoursesTitleAlt,
+                        actionLabel: context.l.actionJoin,
+                        onAction: () => TraineeHomeScreen.joinCourse(context),
                       ),
                     ],
                   )
