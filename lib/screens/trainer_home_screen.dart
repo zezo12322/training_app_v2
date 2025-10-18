@@ -154,7 +154,7 @@ class _TrainerHomeScreenState extends ConsumerState<TrainerHomeScreen> with Widg
           Padding(
             padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingLg),
             child: Text(
-              'My Courses', // TODO: Add to l10n
+              context.l.navDashboardTrainer,
               style: DesignTokens.h6(context),
             ),
           ),

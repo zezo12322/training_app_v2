@@ -184,21 +184,7 @@ class _BottomNavShellState extends ConsumerState<BottomNavShell>
   }
 
   Widget? _fabForIndexAndRole() {
-    if (_index != 0 && _index != 2) return null; // FAB في التبويب الأول والـMessages
-    
-    // FAB for Messages tab (index 2) - New Chat
-    if (_index == 2) {
-      return FloatingActionButton.extended(
-        key: _kFab,
-        heroTag: 'fab_new_chat',
-        onPressed: () {
-          // Navigate to DirectMessagesScreen and trigger new chat
-          // The DirectMessagesScreen already has a FAB for new chat
-        },
-        icon: const Icon(Icons.chat),
-        label: const Text('New Chat'),
-      );
-    }
+    if (_index != 0) return null; // FAB فقط في التبويب الأول (Dashboard)
     
     // FAB for Dashboard (index 0)
     if (widget.role == 'trainer') {
