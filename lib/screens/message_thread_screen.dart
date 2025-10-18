@@ -11,22 +11,66 @@ final messageThreadingServiceProvider = Provider<MessageThreadingService>((ref) 
   return MessageThreadingService();
 });
 
+/// Parameters for thread messages
+class ThreadMessagesParams {
+  final String chatRoomId;
+  final String parentMessageId;
+
+  ThreadMessagesParams({
+    required this.chatRoomId,
+    required this.parentMessageId,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ThreadMessagesParams &&
+          runtimeType == other.runtimeType &&
+          chatRoomId == other.chatRoomId &&
+          parentMessageId == other.parentMessageId;
+
+  @override
+  int get hashCode => chatRoomId.hashCode ^ parentMessageId.hashCode;
+}
+
 /// Stream للردود
 final threadMessagesProvider = StreamProvider.family.autoDispose<
     List<ChatMessage>,
-    String
->((ref, parentMessageId) {
+    ThreadMessagesParams
+>((ref, params) {
   final service = ref.watch(messageThreadingServiceProvider);
-  return service.streamThreadMessages(parentMessageId);
+  return service.streamThreadMessages(params.chatRoomId, params.parentMessageId);
 });
+
+/// Parameters for parent message
+class ParentMessageParams {
+  final String chatRoomId;
+  final String messageId;
+
+  ParentMessageParams({
+    required this.chatRoomId,
+    required this.messageId,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ParentMessageParams &&
+          runtimeType == other.runtimeType &&
+          chatRoomId == other.chatRoomId &&
+          messageId == other.messageId;
+
+  @override
+  int get hashCode => chatRoomId.hashCode ^ messageId.hashCode;
+}
 
 /// جلب الرسالة الأصلية
 final parentMessageProvider = FutureProvider.family.autoDispose<
     ChatMessage?,
-    String
->((ref, messageId) async {
+    ParentMessageParams
+>((ref, params) async {
   final service = ref.watch(messageThreadingServiceProvider);
-  return await service.getParentMessage(messageId);
+  return await service.getParentMessage(params.chatRoomId, params.messageId);
 });
 
 /// شاشة عرض Thread (جميع الردود)
@@ -68,7 +112,10 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
     final content = _replyController.text.trim();
     if (content.isEmpty) return;
 
-    final parentAsync = ref.read(parentMessageProvider(widget.parentMessageId));
+    final parentAsync = ref.read(parentMessageProvider(ParentMessageParams(
+      chatRoomId: widget.chatRoomId,
+      messageId: widget.parentMessageId,
+    )));
     final parent = parentAsync.value;
     
     if (parent == null) {
@@ -86,19 +133,19 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
           SnackBar(content: Text(l.messageThreadUserNotFound)),
         );
       }
-      return;
-    }
-
     final service = ref.read(messageThreadingServiceProvider);
     
     final reply = await service.replyToMessage(
-      parentMessageId: widget.parentMessageId,
       chatRoomId: widget.chatRoomId,
+      parentMessageId: widget.parentMessageId,
       courseId: widget.courseId,
       institutionId: widget.institutionId,
       companyId: widget.companyId,
       authorId: widget.currentUserId,
       authorName: currentUser.name,
+      authorRole: currentUser.role,
+      content: content,
+    );authorName: currentUser.name,
       authorRole: currentUser.role,
       content: content,
     );
@@ -128,8 +175,14 @@ class _MessageThreadScreenState extends ConsumerState<MessageThreadScreen> {
   @override
   Widget build(BuildContext context) {
     final l = context.l;
-    final parentAsync = ref.watch(parentMessageProvider(widget.parentMessageId));
-    final repliesAsync = ref.watch(threadMessagesProvider(widget.parentMessageId));
+    final parentAsync = ref.watch(parentMessageProvider(ParentMessageParams(
+      chatRoomId: widget.chatRoomId,
+      messageId: widget.parentMessageId,
+    )));
+    final repliesAsync = ref.watch(threadMessagesProvider(ThreadMessagesParams(
+      chatRoomId: widget.chatRoomId,
+      parentMessageId: widget.parentMessageId,
+    )));
 
     return Scaffold(
       appBar: AppBar(
@@ -377,12 +430,10 @@ class ThreadIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l = context.l;
-    
     if (!message.hasReplies) return const SizedBox.shrink();
 
     final recentRepliesStream = ref.watch(messageThreadingServiceProvider)
-        .streamRecentReplies(message.id);
+        .streamRecentReplies(message.chatRoomId, message.id);
 
     return StreamBuilder<List<ChatMessage>>(
       stream: recentRepliesStream,
