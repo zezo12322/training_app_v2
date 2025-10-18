@@ -4,6 +4,8 @@ import 'package:training_app/providers/course_providers.dart';
 import 'package:training_app/providers/auth_provider.dart';
 import 'package:training_app/core/l10n_ext.dart';
 import 'package:training_app/core/ui/snackbar_helper.dart';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
 
 class CreateCourseScreen extends ConsumerStatefulWidget {
   const CreateCourseScreen({super.key});
@@ -66,63 +68,113 @@ class _CreateCourseScreenState extends ConsumerState<CreateCourseScreen> {
       appBar: AppBar(title: Text(l.createCourseTitle)),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(DesignTokens.spacingXl),
           child: _generatedCode == null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextField(
+                    AppTextField(
                       controller: _courseNameController,
-                      decoration: InputDecoration(
-                        labelText: l.courseNameLabel,
-                        border: const OutlineInputBorder(),
-                      ),
+                      label: l.courseNameLabel,
+                      prefixIcon: Icons.school_outlined,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return l.courseNameLabel;
+                        }
+                        return null;
+                      },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: DesignTokens.spacingXl),
                     _isLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : ElevatedButton.icon(
-                            icon: const Icon(Icons.add),
-                            label: Text(l.createCourseAction),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                        ? Center(
+                            child: Column(
+                              children: [
+                                const CircularProgressIndicator(),
+                                SizedBox(height: DesignTokens.spacingMd),
+                                Text(
+                                  'Creating course...',
+                                  style: DesignTokens.body2(context).copyWith(
+                                    color: DesignTokens.textSecondary(context),
+                                  ),
+                                ),
+                              ],
                             ),
+                          )
+                        : AppButton(
+                            text: l.createCourseAction,
+                            icon: Icons.add,
                             onPressed: _createCourse,
+                            type: AppButtonType.primary,
+                            fullWidth: true,
                           ),
                   ],
                 )
               : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 80,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      l.courseCreatedSuccess,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    AppCard(
+                      padding: EdgeInsets.all(DesignTokens.spacingXl),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(DesignTokens.spacingMd),
+                            decoration: BoxDecoration(
+                              color: DesignTokens.success.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: DesignTokens.success,
+                              size: 64,
+                            ),
+                          ),
+                          SizedBox(height: DesignTokens.spacingLg),
+                          Text(
+                            l.courseCreatedSuccess,
+                            style: DesignTokens.h4(context),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: DesignTokens.spacingXl),
+                          Text(
+                            l.shareCodeHint,
+                            style: DesignTokens.body2(context).copyWith(
+                              color: DesignTokens.textSecondary(context),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: DesignTokens.spacingMd),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: DesignTokens.spacingLg,
+                              vertical: DesignTokens.spacingMd,
+                            ),
+                            decoration: BoxDecoration(
+                              color: DesignTokens.info.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                              border: Border.all(
+                                color: DesignTokens.info.withOpacity(0.3),
+                                width: 2,
+                              ),
+                            ),
+                            child: SelectableText(
+                              _generatedCode!,
+                              style: DesignTokens.h3(context).copyWith(
+                                color: DesignTokens.info,
+                                letterSpacing: 4,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Text(l.shareCodeHint),
-                    const SizedBox(height: 10),
-                    SelectableText(
-                      _generatedCode!,
-                      style: const TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 4,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
+                    SizedBox(height: DesignTokens.spacingXl),
+                    AppButton(
+                      text: l.backToHome,
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text(l.backToHome),
+                      type: AppButtonType.secondary,
+                      fullWidth: true,
                     ),
                   ],
                 ),
