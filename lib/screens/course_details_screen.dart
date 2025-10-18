@@ -9,6 +9,10 @@ import 'package:training_app/providers/gamification/gamification_providers.dart'
 import 'package:training_app/core/logging.dart';
 import 'package:training_app/services/notification_service.dart';
 import 'package:training_app/core/l10n_ext.dart';
+import 'package:training_app/widgets/widgets.dart';
+import 'package:training_app/core/design/tokens.dart';
+import 'package:training_app/models/wall_filter.dart';
+import 'dashboard_helpers.dart';
 import '../widgets/wall_post_card.dart';
 import '../widgets/add_post_dialog.dart';
 import '../widgets/create_poll_dialog.dart';
@@ -373,8 +377,54 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen>
         : null;
 
     return postsAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text(l.courseDetailsError(e.toString()))),
+      loading: () => ListView.builder(
+        padding: EdgeInsets.all(DesignTokens.spacingMd),
+        itemCount: 3,
+        itemBuilder: (_, i) => Padding(
+          padding: EdgeInsets.only(bottom: DesignTokens.spacingMd),
+          child: AppCard(
+            padding: EdgeInsets.all(DesignTokens.spacingMd),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    AppLoadingSkeleton(
+                      type: AppSkeletonType.circle,
+                      width: 40,
+                      height: 40,
+                    ),
+                    SizedBox(width: DesignTokens.spacingSm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppLoadingSkeleton(width: 120, height: 14),
+                          SizedBox(height: DesignTokens.spacingXs),
+                          AppLoadingSkeleton(width: 80, height: 12),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: DesignTokens.spacingMd),
+                AppLoadingSkeleton(width: double.infinity, height: 16),
+                SizedBox(height: DesignTokens.spacingXs),
+                AppLoadingSkeleton(width: double.infinity, height: 16),
+                SizedBox(height: DesignTokens.spacingXs),
+                AppLoadingSkeleton(width: 200, height: 16),
+              ],
+            ),
+          ),
+        ),
+      ),
+      error: (e, _) => AppErrorState(
+        message: DashboardErrorHandler.getUserFriendlyMessage(
+          e,
+          l.courseDetailsError(e.toString()),
+        ),
+        onRetry: () => ref.invalidate(wallPostsStreamProvider(widget.courseId)),
+      ),
       data: (allPosts) {
         // Apply filters
         final filteredPosts = ref.watch(
@@ -389,33 +439,14 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen>
             await Future<void>.delayed(const Duration(milliseconds: 200));
           },
           child: filteredPosts.isEmpty
-              ? ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    const SizedBox(height: 120),
-                    Icon(Icons.forum_outlined,
-                        size: 80, color: Colors.grey.shade400),
-                    const SizedBox(height: 16),
-                    Center(
-                      child: Text(
-                        l.courseDetailsNoPosts,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Center(
-                      child: Text(
-                        l.courseDetailsChangeFilters,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade500,
-                        ),
-                      ),
-                    ),
-                  ],
+              ? AppEmptyState(
+                  icon: Icons.forum_outlined,
+                  title: l.courseDetailsNoPosts,
+                  actionLabel: l.courseDetailsChangeFilters,
+                  onAction: () {
+                    // Reset filters
+                    ref.read(wallFilterProvider(widget.courseId).notifier).state = const WallFilter();
+                  },
                 )
               : FutureBuilder<bool>(
                   future: userDoc
@@ -445,51 +476,47 @@ class _CourseDetailsScreenState extends ConsumerState<CourseDetailsScreen>
   Widget _buildPostComposer() {
     final l = context.l;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        elevation: 2,
-        borderRadius: BorderRadius.circular(12),
+      padding: EdgeInsets.all(DesignTokens.spacingSm),
+      child: AppCard(
+        padding: EdgeInsets.symmetric(
+          horizontal: DesignTokens.spacingMd,
+          vertical: DesignTokens.spacingSm,
+        ),
         child: InkWell(
           onTap: () => _showAddPostDialog(),
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+          child: Row(
+            children: [
+              AppAvatar(
+                name: ref.watch(authStateProvider).value?.displayName ?? 'T',
+                size: AppAvatarSize.md,
+              ),
+              SizedBox(width: DesignTokens.spacingSm),
+              Expanded(
+                child: Text(
+                  l.courseDetailsPlaceholder,
+                  style: DesignTokens.body1(context).copyWith(
+                    color: DesignTokens.textSecondary(context),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    l.courseDetailsPlaceholder,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 15,
-                    ),
-                  ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.photo_library,
+                  color: DesignTokens.info,
                 ),
-                IconButton(
-                  icon: Icon(Icons.photo_library, color: Theme.of(context).colorScheme.primary),
-                  onPressed: () => _showAddPostDialog(),
-                  tooltip: l.courseDetailsAddImages,
+                onPressed: () => _showAddPostDialog(),
+                tooltip: l.courseDetailsAddImages,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.poll,
+                  color: DesignTokens.warning,
                 ),
-                IconButton(
-                  icon: Icon(Icons.poll, color: Theme.of(context).colorScheme.secondary),
-                  onPressed: () => _showCreatePollDialog(),
-                  tooltip: l.courseDetailsCreatePoll,
-                ),
-              ],
-            ),
+                onPressed: () => _showCreatePollDialog(),
+                tooltip: l.courseDetailsCreatePoll,
+              ),
+            ],
           ),
         ),
       ),
