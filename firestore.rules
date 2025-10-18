@@ -882,16 +882,39 @@ service cloud.firestore {
         return request.auth.uid in resource.data.participantIds;
       }
       
-      // Helper: check tenant match
+      // Helper: check tenant match (supports freelance trainers)
       function matchesTenant() {
-        return resource.data.institutionId == userDoc().data.institutionId &&
-               resource.data.companyId == userDoc().data.companyId;
+        let userInstitution = userDoc().data.institutionId;
+        let userCompany = userDoc().data.companyId;
+        let roomInstitution = resource.data.institutionId;
+        let roomCompany = resource.data.companyId;
+        
+        // For freelance trainers (no institutionId/companyId)
+        // Accept 'freelance'/'independent' as valid values
+        return (roomInstitution == userInstitution || 
+                (userInstitution == null && roomInstitution == 'freelance')) &&
+               (roomCompany == userCompany || 
+                (userCompany == null && roomCompany == 'independent'));
+      }
+      
+      // Helper: check if creating room with valid tenant info
+      function validTenantCreate() {
+        let userInstitution = userDoc().data.institutionId;
+        let userCompany = userDoc().data.companyId;
+        let roomInstitution = request.resource.data.institutionId;
+        let roomCompany = request.resource.data.companyId;
+        
+        // For freelance trainers: allow 'freelance'/'independent'
+        // For institution users: must match exactly
+        return (roomInstitution == userInstitution || 
+                (userInstitution == null && roomInstitution == 'freelance')) &&
+               (roomCompany == userCompany || 
+                (userCompany == null && roomCompany == 'independent'));
       }
 
       // Anyone in the tenant can create chat rooms
       allow create: if isSignedIn() &&
-        request.resource.data.institutionId == userDoc().data.institutionId &&
-        request.resource.data.companyId == userDoc().data.companyId &&
+        validTenantCreate() &&
         request.resource.data.participantIds is list &&
         request.auth.uid in request.resource.data.participantIds;
       
@@ -911,12 +934,24 @@ service cloud.firestore {
 
       /* ===================== Chat Messages (subcollection) ===================== */
       match /messages/{messageId} {
+        // Helper: validate message tenant (supports freelance)
+        function validMessageTenant() {
+          let userInstitution = userDoc().data.institutionId;
+          let userCompany = userDoc().data.companyId;
+          let msgInstitution = request.resource.data.institutionId;
+          let msgCompany = request.resource.data.companyId;
+          
+          return (msgInstitution == userInstitution || 
+                  (userInstitution == null && msgInstitution == 'freelance')) &&
+                 (msgCompany == userCompany || 
+                  (userCompany == null && msgCompany == 'independent'));
+        }
+        
         // Anyone in the room can send messages
         allow create: if isSignedIn() &&
           get(/databases/$(database)/documents/chat_rooms/$(roomId)).data.participantIds.hasAny([request.auth.uid]) &&
           request.resource.data.authorId == request.auth.uid &&
-          request.resource.data.institutionId == userDoc().data.institutionId &&
-          request.resource.data.companyId == userDoc().data.companyId &&
+          validMessageTenant() &&
           !get(/databases/$(database)/documents/chat_rooms/$(roomId)).data.blockedUsers.hasAny([request.auth.uid]);
         
         // Participants can read messages
