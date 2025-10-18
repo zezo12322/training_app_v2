@@ -163,7 +163,7 @@ class _BottomNavShellState extends ConsumerState<BottomNavShell>
           NavigationDestination(
             icon: const Icon(Icons.chat_bubble_outline),
             selectedIcon: const Icon(Icons.chat_bubble),
-            label: 'Messages',
+            label: context.l.directMessagesTitle,
           ),
           NavigationDestination(
             key: _kProfile,
