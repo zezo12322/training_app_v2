@@ -53,7 +53,13 @@ void main() async {
   initAppMonitoring();
   setupTimeago(); // خفيفة - ممكن تفضل
   
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize Firebase (check if already initialized for web hot reload)
+  try {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  } catch (e) {
+    // Firebase already initialized (hot reload case)
+    logger.i('[Firebase] Already initialized: $e');
+  }
   
   // ⚡ Firestore settings - Critical for performance
   try {
