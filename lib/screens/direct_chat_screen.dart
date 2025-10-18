@@ -325,6 +325,7 @@ class _DirectChatScreenState extends ConsumerState<DirectChatScreen> {
                       message: message,
                       isMe: isMe,
                       currentUserId: widget.currentUserId,
+                      roomId: widget.roomId, // ✅ Pass roomId
                     );
                   },
                 );
@@ -524,11 +525,13 @@ class _MessageBubble extends ConsumerWidget {
   final ChatMessage message;
   final bool isMe;
   final String currentUserId;
+  final String roomId; // ✅ Add roomId for edit/delete operations
 
   const _MessageBubble({
     required this.message,
     required this.isMe,
     required this.currentUserId,
+    required this.roomId,
   });
 
   @override
@@ -705,6 +708,7 @@ class _MessageBubble extends ConsumerWidget {
               if (newContent.isNotEmpty && newContent != message.content) {
                 final editMessage = ref.read(editMessageProvider);
                 final success = await editMessage(
+                  roomId: roomId, // ✅ Use roomId from class property
                   messageId: message.id,
                   userId: currentUserId,
                   newContent: newContent,
@@ -746,6 +750,7 @@ class _MessageBubble extends ConsumerWidget {
             onPressed: () async {
               final deleteMessage = ref.read(deleteMessageProvider);
               final success = await deleteMessage(
+                roomId: roomId, // ✅ Add roomId
                 messageId: message.id,
                 userId: currentUserId,
               );

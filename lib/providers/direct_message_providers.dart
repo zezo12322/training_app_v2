@@ -96,18 +96,24 @@ final sendDirectMessageProvider = Provider<
   };
 });
 
-/// Provider لتحديث حالة القراءة
+/// Provider لتحديد رسالة كمقروءة
 final markAsReadProvider = Provider<
     Future<void> Function({
+      required String roomId,
       required String messageId,
       required String userId,
     })>((ref) {
   final service = ref.read(directMessageServiceProvider);
   return ({
+    required String roomId,
     required String messageId,
     required String userId,
   }) async {
-    await service.markAsRead(messageId: messageId, userId: userId);
+    await service.markAsRead(
+      roomId: roomId,
+      messageId: messageId,
+      userId: userId,
+    );
   };
 });
 
@@ -135,17 +141,20 @@ final updateTypingStatusProvider = Provider<
 /// Provider لتعديل رسالة
 final editMessageProvider = Provider<
     Future<bool> Function({
+      required String roomId,
       required String messageId,
       required String userId,
       required String newContent,
     })>((ref) {
   final service = ref.read(directMessageServiceProvider);
   return ({
+    required String roomId,
     required String messageId,
     required String userId,
     required String newContent,
   }) async {
     return service.editMessage(
+      roomId: roomId,
       messageId: messageId,
       userId: userId,
       newContent: newContent,
@@ -156,15 +165,18 @@ final editMessageProvider = Provider<
 /// Provider لحذف رسالة
 final deleteMessageProvider = Provider<
     Future<bool> Function({
+      required String roomId,
       required String messageId,
       required String userId,
     })>((ref) {
   final service = ref.read(directMessageServiceProvider);
   return ({
+    required String roomId,
     required String messageId,
     required String userId,
   }) async {
     return service.deleteMessage(
+      roomId: roomId,
       messageId: messageId,
       userId: userId,
     );
