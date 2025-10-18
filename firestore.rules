@@ -882,19 +882,21 @@ service cloud.firestore {
         return request.auth.uid in resource.data.participantIds;
       }
       
-      // Helper: check tenant match (supports freelance trainers)
+      // Helper: check tenant match (supports freelance trainers AND their trainees)
       function matchesTenant() {
         let userInstitution = userDoc().data.institutionId;
         let userCompany = userDoc().data.companyId;
         let roomInstitution = resource.data.institutionId;
         let roomCompany = resource.data.companyId;
         
-        // For freelance trainers (no institutionId/companyId)
-        // Accept 'freelance'/'independent' as valid values
-        return (roomInstitution == userInstitution || 
-                (userInstitution == null && roomInstitution == 'freelance')) &&
-               (roomCompany == userCompany || 
-                (userCompany == null && roomCompany == 'independent'));
+        // Support freelance trainers/trainees (no institutionId/companyId)
+        // They use 'freelance'/'independent' as placeholders
+        let institutionMatches = (roomInstitution == userInstitution) || 
+                                 (userInstitution == null && roomInstitution == 'freelance');
+        let companyMatches = (roomCompany == userCompany) || 
+                            (userCompany == null && roomCompany == 'independent');
+        
+        return institutionMatches && companyMatches;
       }
       
       // Helper: check if creating room with valid tenant info
@@ -904,12 +906,13 @@ service cloud.firestore {
         let roomInstitution = request.resource.data.institutionId;
         let roomCompany = request.resource.data.companyId;
         
-        // For freelance trainers: allow 'freelance'/'independent'
-        // For institution users: must match exactly
-        return (roomInstitution == userInstitution || 
-                (userInstitution == null && roomInstitution == 'freelance')) &&
-               (roomCompany == userCompany || 
-                (userCompany == null && roomCompany == 'independent'));
+        // Support freelance trainers/trainees creating rooms
+        let institutionMatches = (roomInstitution == userInstitution) || 
+                                 (userInstitution == null && roomInstitution == 'freelance');
+        let companyMatches = (roomCompany == userCompany) || 
+                            (userCompany == null && roomCompany == 'independent');
+        
+        return institutionMatches && companyMatches;
       }
 
       // Anyone in the tenant can create chat rooms
@@ -934,17 +937,20 @@ service cloud.firestore {
 
       /* ===================== Chat Messages (subcollection) ===================== */
       match /messages/{messageId} {
-        // Helper: validate message tenant (supports freelance)
+        // Helper: validate message tenant (supports freelance trainers/trainees)
         function validMessageTenant() {
           let userInstitution = userDoc().data.institutionId;
           let userCompany = userDoc().data.companyId;
           let msgInstitution = request.resource.data.institutionId;
           let msgCompany = request.resource.data.companyId;
           
-          return (msgInstitution == userInstitution || 
-                  (userInstitution == null && msgInstitution == 'freelance')) &&
-                 (msgCompany == userCompany || 
-                  (userCompany == null && msgCompany == 'independent'));
+          // Support freelance trainers/trainees sending messages
+          let institutionMatches = (msgInstitution == userInstitution) || 
+                                   (userInstitution == null && msgInstitution == 'freelance');
+          let companyMatches = (msgCompany == userCompany) || 
+                              (userCompany == null && msgCompany == 'independent');
+          
+          return institutionMatches && companyMatches;
         }
         
         // Anyone in the room can send messages
