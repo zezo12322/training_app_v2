@@ -334,6 +334,7 @@ class DirectMessageService {
         .where('participantIds', arrayContains: userId)
         .where('isArchived', isEqualTo: false)
         .orderBy('lastMessageAt', descending: true)
+        .limit(100) // ✅ Add limit as required by Firestore rules
         .snapshots()
         .map((snapshot) {
       return snapshot.docs
@@ -389,6 +390,7 @@ class DirectMessageService {
           .collection('chat_rooms')
           .where('type', isEqualTo: ChatRoomType.direct.toString())
           .where('participantIds', arrayContains: user1Id)
+          .limit(100) // ✅ Add limit for Firestore rules
           .get();
 
       for (final doc in snapshot.docs) {
