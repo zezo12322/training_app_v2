@@ -245,5 +245,73 @@ Container(
      - Set next task
 5. **End of Day**: Review progress → plan tomorrow's work
 
+## 🎯 CRITICAL: Checklist Management (MANDATORY)
+
+### File Reference: `UI_UX_NEXT_PHASE_CHECKLIST.md`
+This is the **master checklist** for all UI/UX development work. This file MUST be updated after completing ANY task.
+
+### When to Update the Checklist:
+1. ✅ **After completing ANY feature/component** (even small ones)
+2. ✅ **After finishing a screen or major section**
+3. ✅ **After successful Git commit**
+4. ✅ **Before moving to the next task**
+5. ✅ **At the end of each work session**
+
+### How to Update the Checklist:
+1. **Mark completed items**: Change `- [ ]` to `- [x]`
+2. **Update progress percentages**: Recalculate based on completed/total tasks
+3. **Update statistics table**: Add new commits, files, lines of code
+4. **Update "Next Step" section**: Specify what's coming next
+5. **Update timestamps**: Change "Last Updated" date
+
+### Example Update Pattern:
+```markdown
+# Before
+- [ ] Create AppCard widget
+**Progress**: 0% (0/10)
+
+# After
+- [x] Create AppCard widget
+**Progress**: 10% (1/10)
+**Git Commit**: ✅ `abc1234` - "feat: Add AppCard widget"
+```
+
+### Update Locations in Checklist:
+1. ✅ Individual task items (check boxes)
+2. ✅ Section progress percentages
+3. ✅ Phase progress bars
+4. ✅ Overall completion percentage (top)
+5. ✅ Statistics table (bottom)
+6. ✅ "Next Step" section (bottom)
+7. ✅ Last updated timestamp
+
+### AI Agent Responsibilities:
+- **NEVER skip checklist updates** - This is critical for tracking progress
+- **Update IMMEDIATELY after task completion** - Don't wait or batch updates
+- **Be specific in Git commit references** - Include commit hash or message
+- **Recalculate percentages accurately** - Use exact math
+- **Update all related sections** - Don't just update one checkbox
+
+### Why This Matters:
+- 📊 Provides clear progress tracking
+- 🎯 Shows what's done and what's next
+- 📝 Creates a historical record of work
+- 🚀 Motivates continued progress
+- 🔍 Helps identify bottlenecks
+- 📈 Enables accurate time estimates
+
+### Integration with Other Files:
+- `UI_UX_NEXT_PHASE_CHECKLIST.md` - **Master checklist** (UPDATE ALWAYS)
+- `PROGRESS_TRACKING.md` - Detailed daily logs (update daily)
+- `UI_UX_IMPROVEMENT_PLAN.md` - Reference guide (rarely updated)
+- `DESIGN_SYSTEM_QUICK_REF.md` - Quick reference (rarely updated)
+
+### Workflow Integration:
+```
+Complete Task → Test → Git Commit → ✅ UPDATE CHECKLIST → Update Progress Tracking → Move to Next Task
+                                        ^^^^^^^^^^^^^^^^
+                                        MANDATORY STEP!
+```
+
 ---
-**Last Updated**: October 17, 2025
+**Last Updated**: October 19, 2025
