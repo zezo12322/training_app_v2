@@ -6,11 +6,13 @@
 
 
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.9.2+-02569B?logo=flutter)](https://flutter.dev)---
+[![Flutter](https://img.shields.io/badge/Flutter-3.9.2+-02569B?logo=flutter)](https://flutter.dev)
 
 [![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?logo=firebase)](https://firebase.google.com)
 
-[![License](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)## 📚 UI/UX Improvement Documentation
+[![License](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
+
+## 📚 UI/UX Improvement Documentation
 
 
 
