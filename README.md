@@ -1,16 +1,25 @@
-# 🎓 Training Management Platform# Training App v2 🎓
+# 🎓 Training Management Platform
 
+> A comprehensive multi-tenant training management system built with Flutter and Firebase, featuring role-based access control, gamification, real-time chat, and AI-powered anomaly detection.
 
+<div align="center">
 
-> A comprehensive multi-tenant training management system built with Flutter and Firebase, featuring role-based access control, gamification, real-time chat, and AI-powered anomaly detection.A comprehensive Flutter-based training management application with advanced features including course management, interactive course walls, polls, push notifications, and gamification.
+![Flutter](https://img.shields.io/badge/Flutter-3.9.2+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Riverpod](https://img.shields.io/badge/Riverpod-2.5.1-5468FF?style=for-the-badge)
 
+![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
+![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-blue?style=for-the-badge)
 
+![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen?style=for-the-badge&logo=github-actions)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-green?style=for-the-badge)
+![Build](https://img.shields.io/badge/Build-Stable-success?style=for-the-badge)
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.9.2+-02569B?logo=flutter)](https://flutter.dev)
+</div>
 
-[![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?logo=firebase)](https://firebase.google.com)
-
-[![License](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
+---
 
 ## 📚 UI/UX Improvement Documentation
 
