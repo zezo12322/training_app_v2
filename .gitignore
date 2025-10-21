@@ -1,119 +1,237 @@
-# Miscellaneous
-*.class
-*.lock
-*.log
-*.pyc
+# ==========================================# Miscellaneous
+
+# CRITICAL: PROTECT SOURCE CODE*.class
+
+# This .gitignore excludes ALL source code*.lock
+
+# Only README.md and screenshots/ are public*.log
+
+# ==========================================*.pyc
+
 *.swp
-.buildlog/
-.history
+
+# ==========================================.buildlog/
+
+# SOURCE CODE PROTECTION.history
+
+# ==========================================
 
 
 
-# Flutter repo-specific
-/bin/cache/
-/bin/internal/bootstrap.bat
+# Flutter/Dart source code
+
+lib/# Flutter repo-specific
+
+test//bin/cache/
+
+integration_test//bin/internal/bootstrap.bat
+
 /bin/internal/bootstrap.sh
-/bin/mingit/
-/dev/benchmarks/mega_gallery/
-/dev/bots/.recipe_deps
-/dev/bots/android_tools/
-/dev/devicelab/ABresults*.json
-/dev/docs/doc/
-/dev/docs/flutter.docs.zip
+
+# Platform code/bin/mingit/
+
+android//dev/benchmarks/mega_gallery/
+
+ios//dev/bots/.recipe_deps
+
+web//dev/bots/android_tools/
+
+windows//dev/devicelab/ABresults*.json
+
+linux//dev/docs/doc/
+
+macos//dev/docs/flutter.docs.zip
+
 /dev/docs/lib/
-/dev/docs/pubspec.yaml
-/dev/integration_tests/**/xcuserdata
-/dev/integration_tests/**/Pods
-/packages/flutter/coverage/
-version
-analysis_benchmark.json
 
-# packages file containing multi-root paths
-.packages.generated
+# Firebase config (SENSITIVE!)/dev/docs/pubspec.yaml
 
-# Flutter/Dart/Pub related
+firebase.json/dev/integration_tests/**/xcuserdata
+
+firestore.rules/dev/integration_tests/**/Pods
+
+firestore.indexes.json/packages/flutter/coverage/
+
+firestore_*.jsonversion
+
+storage.rulesanalysis_benchmark.json
+
+functions/
+
+.firebaserc# packages file containing multi-root paths
+
+firebase_options.dart.packages.generated
+
+google-services.json
+
+GoogleService-Info.plist# Flutter/Dart/Pub related
+
 **/doc/api/
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-**/generated_plugin_registrant.dart
-.packages
-.pub-preload-cache/
-.pub/
-build/
+
+# Build output.dart_tool/
+
+build/.flutter-plugins
+
+.dart_tool/.flutter-plugins-dependencies
+
+.flutter-plugins**/generated_plugin_registrant.dart
+
+.flutter-plugins-dependencies.packages
+
+.packages.pub-preload-cache/
+
+.pub-cache/.pub/
+
+.pub/build/
+
 flutter_*.png
-linked_*.ds
-unlinked.ds
-unlinked_spec.ds
 
-# Android related
-**/android/**/gradle-wrapper.jar
-.gradle/
+# Project configlinked_*.ds
+
+pubspec.yamlunlinked.ds
+
+pubspec.lockunlinked_spec.ds
+
+analysis_options.yaml
+
+.metadata# Android related
+
+build.yaml**/android/**/gradle-wrapper.jar
+
+l10n.yaml.gradle/
+
 **/android/captures/
-**/android/gradlew
-**/android/gradlew.bat
-**/android/local.properties
-**/android/**/GeneratedPluginRegistrant.java
-**/android/key.properties
-*.jks
 
-# iOS/XCode related
-**/ios/**/*.mode1v3
-**/ios/**/*.mode2v3
-**/ios/**/*.moved-aside
-**/ios/**/*.pbxuser
-**/ios/**/*.perspectivev3
-**/ios/**/*sync/
+# Documentation (implementation details)**/android/gradlew
+
+docs/**/android/gradlew.bat
+
+CHANGELOG.md**/android/local.properties
+
+TESTING_GUIDE.md**/android/**/GeneratedPluginRegistrant.java
+
+CHAT_TESTING_GUIDE.md**/android/key.properties
+
+DEVELOPMENT_SUMMARY.md*.jks
+
+PROJECT_PLAN.md
+
+POLL_FIX_COMPLETE_SUMMARY.md# iOS/XCode related
+
+DEPLOY_FIRESTORE_RULES.md**/ios/**/*.mode1v3
+
+UI_UX_*.md**/ios/**/*.mode2v3
+
+PROGRESS_TRACKING.md**/ios/**/*.moved-aside
+
+DESIGN_SYSTEM_QUICK_REF.md**/ios/**/*.pbxuser
+
+SETUP_COMPLETE.md**/ios/**/*.perspectivev3
+
+*.iml**/ios/**/*sync/
+
 **/ios/**/.sconsign.dblite
-**/ios/**/.tags*
-**/ios/**/.vagrant/
-**/ios/**/DerivedData/
-**/ios/**/Icon?
-**/ios/**/Pods/
-**/ios/**/.symlinks/
-**/ios/**/profile
-**/ios/**/xcuserdata
-**/ios/.generated/
-**/ios/Flutter/.last_build_id
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/Flutter.podspec
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/ephemeral
-**/ios/Flutter/app.flx
-**/ios/Flutter/app.zip
-**/ios/Flutter/flutter_assets/
-**/ios/Flutter/flutter_export_environment.sh
-**/ios/ServiceDefinitions.json
-**/ios/Runner/GeneratedPluginRegistrant.*
 
-# macOS
-**/Flutter/ephemeral/
-**/Pods/
-**/macos/Flutter/GeneratedPluginRegistrant.swift
-**/macos/Flutter/ephemeral
+# Assets**/ios/**/.tags*
+
+assets/**/ios/**/.vagrant/
+
+**/ios/**/DerivedData/
+
+# Scripts**/ios/**/Icon?
+
+*.sh**/ios/**/Pods/
+
+*.ps1**/ios/**/.symlinks/
+
+**/ios/**/profile
+
+# Sensitive files**/ios/**/xcuserdata
+
+.env**/ios/.generated/
+
+.env.***/ios/Flutter/.last_build_id
+
+*.key**/ios/Flutter/App.framework
+
+*.p12**/ios/Flutter/Flutter.framework
+
+*.jks**/ios/Flutter/Flutter.podspec
+
+*.keystore**/ios/Flutter/Generated.xcconfig
+
+key.properties**/ios/Flutter/ephemeral
+
+*.pem**/ios/Flutter/app.flx
+
+*.crt**/ios/Flutter/app.zip
+
+**/ios/Flutter/flutter_assets/
+
+# ==========================================**/ios/Flutter/flutter_export_environment.sh
+
+# KEEP ONLY (Whitelist)**/ios/ServiceDefinitions.json
+
+# ==========================================**/ios/Runner/GeneratedPluginRegistrant.*
+
+
+
+# Portfolio files# macOS
+
+!README.md**/Flutter/ephemeral/
+
+!LICENSE**/Pods/
+
+!screenshots/**/macos/Flutter/GeneratedPluginRegistrant.swift
+
+!screenshots/****/macos/Flutter/ephemeral
+
 **/xcuserdata/
 
-# Windows
-**/windows/flutter/generated_plugin_registrant.cc
+# ==========================================
+
+# Standard gitignore# Windows
+
+# ==========================================**/windows/flutter/generated_plugin_registrant.cc
+
 **/windows/flutter/generated_plugin_registrant.h
-**/windows/flutter/generated_plugins.cmake
 
-# Linux
-**/linux/flutter/generated_plugin_registrant.cc
-**/linux/flutter/generated_plugin_registrant.h
-**/linux/flutter/generated_plugins.cmake
+*.class**/windows/flutter/generated_plugins.cmake
 
-# Coverage
-coverage/
+*.log
 
-# Symbols
-app.*.symbols
+*.pyc# Linux
 
-# Exceptions to above rules.
-!**/ios/**/default.mode1v3
-!**/ios/**/default.mode2v3
-!**/ios/**/default.pbxuser
+*.swp**/linux/flutter/generated_plugin_registrant.cc
+
+.DS_Store**/linux/flutter/generated_plugin_registrant.h
+
+.atom/**/linux/flutter/generated_plugins.cmake
+
+.buildlog/
+
+.history# Coverage
+
+.svn/coverage/
+
+
+
+# IDE# Symbols
+
+*.imlapp.*.symbols
+
+*.ipr
+
+*.iws# Exceptions to above rules.
+
+.idea/!**/ios/**/default.mode1v3
+
+.vscode/!**/ios/**/default.mode2v3
+
+*.code-workspace!**/ios/**/default.pbxuser
+
 !**/ios/**/default.perspectivev3
-!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-!/dev/ci/**/Gemfile.lock
+
+# Coverage!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+coverage/!/dev/ci/**/Gemfile.lock
