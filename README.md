@@ -50,13 +50,13 @@
 - ✅ Phase 1: Design System (100% complete)
 - ✅ Phase 2: Authentication Screens (100% complete)
 - ✅ Phase 3: Main Screens (100% complete)
-- 🔄 Phase 4: Content Creation Screens (55% - 3.4/6 complete)
+- 🔄 Phase 4: Content Creation Screens (56% - 3.5/6 complete)
   - ✅ Create Module Screen (360 lines)
   - ✅ Create Course Screen Enhanced (826 lines)
   - ✅ Create Lesson Screen (100% - **ALL 3 STAGES COMPLETE!**, 1,045 lines)
-  - ⏳ Create Quiz Screen (44% - **Stage 2.1 Complete!**, 370 lines)
+  - ⏳ Create Quiz Screen (56% - **Stage 2.2 Complete!**, 449 lines)
 
-**Progress**: 54% overall (92/249 tasks complete)
+**Progress**: 55% overall (94/249 tasks complete)
 
 ---
 
@@ -543,7 +543,7 @@ Development Time: 6 months (ongoing)
   - Tips card for best practices
   - Professional UI with DesignTokens
   - **Production Ready** ✅
-- ⏳ **Create Quiz Screen (Stage 2.1 - 44%)**: 370 lines with:
+- ⏳ **Create Quiz Screen (Stage 2.2 - 56%)**: 449 lines with:
   - **Stage 1 (Basic Form - 178 lines)**:
     - Quiz creation form with validation
     - AppCard wrapper with quiz icon header
@@ -553,7 +553,7 @@ Development Time: 6 months (ongoing)
     - Navigation to AddQuestionScreen
     - Error handling with SnackBar
     - Full localization support
-  - **Stage 2.1 (Quiz Settings - +192 lines) NEW**:
+  - **Stage 2.1 (Quiz Settings Sliders - +192 lines)**:
     - Quiz Settings card with icon header
     - Passing Score slider (0-100%, default 60%)
     - Time Limit slider (0-120 min, default 30, 0=no limit)
@@ -562,7 +562,15 @@ Development Time: 6 months (ongoing)
     - Helper text for each setting
     - Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
     - Professional slider UI with divisions
-  - **Next (Stage 2.2)**: Add toggle switches (shuffle questions, show answers), preview mode, auto-save
+  - **Stage 2.2 (Toggle Switches - +79 lines) NEW**:
+    - Shuffle Questions toggle (default: false)
+    - Show Answers After Submit toggle (default: true)
+    - Divider between sliders and toggles
+    - Professional toggle UI with descriptions
+    - Helper text for each toggle
+    - Settings saved to Firestore (shuffleQuestions, showAnswersAfterSubmit)
+    - Zero compilation errors
+  - **Next (Stage 2.3)**: Add preview mode, auto-save, unsaved changes warning
 
 ---
 
