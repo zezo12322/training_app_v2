@@ -50,13 +50,13 @@
 - ✅ Phase 1: Design System (100% complete)
 - ✅ Phase 2: Authentication Screens (100% complete)
 - ✅ Phase 3: Main Screens (100% complete)
-- 🔄 Phase 4: Content Creation Screens (54% - 3.3/6 complete)
+- 🔄 Phase 4: Content Creation Screens (55% - 3.4/6 complete)
   - ✅ Create Module Screen (360 lines)
   - ✅ Create Course Screen Enhanced (826 lines)
   - ✅ Create Lesson Screen (100% - **ALL 3 STAGES COMPLETE!**, 1,045 lines)
-  - ⏳ Create Quiz Screen (33% - **Stage 1 Started!**, 178 lines)
+  - ⏳ Create Quiz Screen (44% - **Stage 2.1 Complete!**, 370 lines)
 
-**Progress**: 53% overall (90/249 tasks complete)
+**Progress**: 54% overall (92/249 tasks complete)
 
 ---
 
@@ -543,18 +543,26 @@ Development Time: 6 months (ongoing)
   - Tips card for best practices
   - Professional UI with DesignTokens
   - **Production Ready** ✅
-- ⏳ **Create Quiz Screen (Stage 1 - 33%)**: 178 lines with:
-  - Basic quiz creation form with validation
-  - AppCard wrapper with quiz icon header
-  - AppTextField for quiz title
-  - Loading state with spinner and message
-  - AppButton for submission (primary type)
-  - Firestore integration (create quiz)
-  - Navigation to AddQuestionScreen
-  - Error handling with SnackBar
-  - Full localization support
-  - DesignTokens for consistent styling
-  - **Next**: Add quiz settings (time limit, passing score, attempts, preview mode)
+- ⏳ **Create Quiz Screen (Stage 2.1 - 44%)**: 370 lines with:
+  - **Stage 1 (Basic Form - 178 lines)**:
+    - Quiz creation form with validation
+    - AppCard wrapper with quiz icon header
+    - AppTextField for quiz title
+    - Loading state with spinner and message
+    - Firestore integration (create quiz)
+    - Navigation to AddQuestionScreen
+    - Error handling with SnackBar
+    - Full localization support
+  - **Stage 2.1 (Quiz Settings - +192 lines) NEW**:
+    - Quiz Settings card with icon header
+    - Passing Score slider (0-100%, default 60%)
+    - Time Limit slider (0-120 min, default 30, 0=no limit)
+    - Max Attempts slider (0-10, default 2, 0=unlimited)
+    - Color-coded badges (dynamic based on values)
+    - Helper text for each setting
+    - Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
+    - Professional slider UI with divisions
+  - **Next (Stage 2.2)**: Add toggle switches (shuffle questions, show answers), preview mode, auto-save
 
 ---
 
