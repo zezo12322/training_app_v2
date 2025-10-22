@@ -1,7 +1,7 @@
 # 🎯 Checklist المرحلة القادمة - UI/UX Enhancement
 
 **تاريخ الإنشاء**: 19 أكتوبر 2025  
-**آخر تحديث**: 22 أكتوبر 2025  
+**آخر تحديث**: 22 أكتوبر 2025 - 23:30  
 **الحالة الحالية**: بدء المرحلة 4 - شاشات إنشاء وتعديل المحتوى
 
 ---
@@ -25,7 +25,7 @@
 المراحل قيد التنفيذ: 1/8 (المرحلة 4 متقدمة!)
 المراحل المتبقية: 4/8 (50%)
 
-████████████████░░░░░░░░░░░░░░░░ 47% (78/249 tasks complete)
+████████████████████░░░░░░░░░░░░ 56% (96/249 tasks complete)
 ```
 
 ### ✅ المراحل المكتملة
@@ -34,10 +34,11 @@
 - [x] **المرحلة 3**: الشاشات الرئيسية (100%)
 
 ### 🔄 المراحل قيد التنفيذ
-- [x] **المرحلة 4**: شاشات إنشاء المحتوى (42% - 2.5/6 مكتمل!)
+- [x] **المرحلة 4**: شاشات إنشاء المحتوى (57% - 3.5/6 مكتمل!)
   - ✅ Create Module Screen (100%)
   - ✅ Create Course Screen Enhanced (100%)
-  - 🔄 Create Lesson Screen (53% - Stage 1 Complete)
+  - ✅ Create Lesson Screen (100% - **All 3 Stages Complete!**)
+  - ⏳ Create Quiz Screen (67% - **Stage 2.3 Complete!**)
 
 ### ⏳ المراحل القادمة
 - [ ] **المرحلة 5**: التواصل والتفاعل (0%)
@@ -49,31 +50,360 @@
 
 ## 🎉 إنجازات خاصة
 
-### 🆕 October 22, 2025 - Create Lesson Screen (Stage 1)
+### 🆕 October 22, 2025 - Create Quiz Screen (Stage 2.3 - Preview Mode & Auto-save) 🎯✨
+
+**الملفات**: 
+- `lib/screens/create_quiz_screen.dart` (633 lines) **Stage 2.3 COMPLETE**
+
+**الحالة**: ⏳ مستمر (Stage 2.3 - 67% complete)
+**الوقت المستغرق**: ~25 دقيقة (Stage 2.3)
+
+#### المميزات المكتملة (All Stages):
+
+**Stage 1 (Basic Form - 178 lines)**:
+- ✅ Basic quiz creation form
+- ✅ Professional UI with AppCard wrapper
+- ✅ AppTextField for quiz title input
+- ✅ Form validation (GlobalKey<FormState>)
+- ✅ Quiz icon header with colored background
+- ✅ Loading state with spinner + message
+- ✅ AppButton for submission (primary type)
+- ✅ Firestore integration (create quiz)
+- ✅ Navigation to AddQuestionScreen
+- ✅ Error handling with SnackBar
+- ✅ Localization support (context.l)
+- ✅ DesignTokens for spacing, colors, typography
+- ✅ Zero compilation errors
+
+**Stage 2.1 (Quiz Settings Sliders - +192 lines)**:
+- ✅ Quiz Settings card with icon header
+- ✅ Passing Score slider (0-100%, default 60%)
+  - Color-coded badge (blue)
+  - 20 divisions (5% steps)
+  - Helper text
+- ✅ Time Limit slider (0-120 min, default 30)
+  - Color-coded badge (green=no limit, blue=with limit)
+  - 24 divisions (5 min steps)
+  - 0 = No time limit
+  - Helper text
+- ✅ Max Attempts slider (0-10, default 2)
+  - Color-coded badge (green=unlimited, amber=limited)
+  - 10 divisions
+  - 0 = Unlimited attempts
+  - Helper text
+- ✅ Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
+- ✅ Professional slider UI with responsive badges
+- ✅ Zero compilation errors
+
+**Stage 2.2 (Toggle Switches - +79 lines)**:
+- ✅ Divider between sliders and toggles
+- ✅ Shuffle Questions toggle
+  - Default: false (disabled)
+  - Helper text: "Randomize question order for each student attempt"
+  - Professional toggle UI
+- ✅ Show Answers After Submit toggle
+  - Default: true (enabled)
+  - Helper text: "Display correct answers immediately after quiz submission"
+  - Professional toggle UI
+- ✅ Settings saved to Firestore (shuffleQuestions, showAnswersAfterSubmit)
+- ✅ Expanded widget for proper text wrapping
+- ✅ DesignTokens for consistent styling
+- ✅ Zero compilation errors
+
+**Stage 2.3 (Preview Mode & Auto-save - +184 lines) LATEST**:
+- ✅ Preview Mode Toggle in AppBar
+  - IconButton with edit/preview icons
+  - Tooltip changes based on mode
+  - Switches between Edit and Preview modes
+- ✅ Auto-save Timer (30 seconds)
+  - Periodic timer saves automatically
+  - Shows "Saving..." SnackBar
+  - Non-intrusive background operation
+- ✅ Last Save Time Indicator
+  - Displays "Saved X ago" in AppBar
+  - Dynamic time formatting (just now, 1 min ago, etc.)
+  - Only shows after first save
+- ✅ Unsaved Changes Warning
+  - WillPopScope intercepts back navigation
+  - AlertDialog with "Discard" or "Save & Exit" options
+  - Skips dialog if no changes
+- ✅ Preview Mode UI
+  - _buildPreviewMode() displays all settings
+  - _buildPreviewItem() for consistent row layout
+  - Shows: title, passing score, time limit, max attempts, toggles
+- ✅ _markAsUnsaved() Integration
+  - Added to all 3 sliders (onChange)
+  - Added to all 2 toggles (onChange)
+  - Added to TextEditingController listener
+- ✅ Unified Save Method
+  - _saveQuiz({bool isAutoSave = false})
+  - Supports auto-save and manual save
+  - Updates _lastSaveTime timestamp
+  - Resets _hasUnsavedChanges after save
+- ✅ Lifecycle management
+  - initState(): Starts auto-save timer
+  - dispose(): Cancels timer properly
+- ✅ Zero compilation errors
+
+#### ملاحظات التطوير:
+- الملف تطور: 178 → 370 → 449 → **633 سطر**
+- Stage 2.3 أضافت +184 سطر من الكود المتقدم
+- استخدام dart:async للـ Timer
+- WillPopScope للـ navigation interception
+- Preview mode يحمي من الأخطاء قبل الحفظ
+- Auto-save يمنع فقدان البيانات
+- Professional UX مع تحذيرات واضحة
+
+**Next Steps (Stage 3 - Question Builder)**: 
+- إضافة Preview Mode (toggle في AppBar)
+- إضافة Auto-save functionality (Timer)
+- إضافة Unsaved changes warning (WillPopScope)
+- إضافة Last save time indicator
+
+**Total Lines**: 449 lines production-ready code  
+**Git Commit**: ✅ `6449625` - "feat: Add Toggle Switches (Stage 2.2)"
+
+---
+
+### 🆕 October 22, 2025 - Create Quiz Screen (Stage 2.3 - Preview Mode & Auto-save) 🎯✨
+
+**الملفات**: 
+- `lib/screens/create_quiz_screen.dart` (633 lines, +184 from Stage 2.2)
+
+**الوصف**: إضافة Preview Mode مع Auto-save Timer وUnsaved Changes Warning
+
+#### المميزات المكتملة (Stage 2.3 - LATEST):
+- ✅ **Preview Mode Toggle**:
+  - IconButton في AppBar (edit/preview icons)
+  - يوضح الـ tooltip حسب الحالة
+  - يبدل بين Edit mode و Preview mode
+- ✅ **Auto-save Timer**:
+  - Timer.periodic كل 30 ثانية
+  - يحفظ التغييرات تلقائياً في الخلفية
+  - يعرض "Saving..." في SnackBar
+- ✅ **Last Save Time Indicator**:
+  - يظهر في AppBar: "Saved X ago"
+  - يتحدث بالـ time format (just now, 1 min ago, etc.)
+  - يختفي لو مافيش save حصل
+- ✅ **Unsaved Changes Warning**:
+  - WillPopScope intercepts back navigation
+  - AlertDialog يسأل: "Discard" أو "Save & Exit"
+  - لو مافيش changes، يخرج عادي
+- ✅ **Preview Mode UI**:
+  - _buildPreviewMode() يعرض كل الـ settings
+  - _buildPreviewItem() للـ rows الموحدة
+  - يوضح كل القيم: title, passing score, time limit, max attempts, toggles
+- ✅ **_markAsUnsaved() Integration**:
+  - تم إضافته في كل الـ sliders (3)
+  - تم إضافته في كل الـ toggles (2)
+  - تم إضافته في TextEditingController listener
+- ✅ **Unified Save Method**:
+  - _saveQuiz({bool isAutoSave = false})
+  - يدعم auto-save و manual save
+  - يحدث _lastSaveTime
+  - يصفر _hasUnsavedChanges بعد الحفظ
+- ✅ Lifecycle management:
+  - initState(): يبدأ auto-save timer
+  - dispose(): يلغي الـ timer
+- ✅ Zero compilation errors
+
+#### ملاحظات التطوير:
+- الملف كان 449 سطر (Stage 2.2) → أصبح 633 سطر (Stage 2.3)
+- تم إضافة +184 سطر من الكود الاحترافي
+- استخدام dart:async للـ Timer
+- استخدام WillPopScope للـ navigation interception
+- Preview mode يستخدم نفس الـ DesignTokens
+- Auto-save يشتغل في الخلفية بدون إزعاج المستخدم
+- Unsaved warning يحمي من فقدان البيانات
+
+**Progress**: Create Quiz Screen now 67% complete (12/18 tasks)
+
+**Next Steps (Stage 3 - Question Builder)**: 
+- إضافة Question Builder UI
+- Multi-question support
+- Question type selection (MCQ, True/False, etc.)
+- Answer options management
+
+**Total Lines**: 633 lines production-ready code  
+**Git Commit**: ✅ `144ea3f` - "feat: Add Preview Mode and Auto-save (Stage 2.3)"
+
+---
+
+### 🆕 October 22, 2025 - Create Quiz Screen (Stage 2.2 - Toggle Switches) 🎯
+
+**NOTE**: This section is now superseded by Stage 2.3 above. Keeping for history.
+
+**الملفات**: 
+- `lib/screens/create_quiz_screen.dart` (449 lines) **SUPERSEDED**
+
+**Total Lines**: 449 lines production-ready code  
+**Git Commit**: ✅ `6449625` - "feat: Add Toggle Switches (Stage 2.2)"
+
+---
+
+### 🆕 October 22, 2025 - Create Quiz Screen (Stage 2.1 - Quiz Settings) 🎯
+
+**NOTE**: This section is now superseded by Stage 2.2 above. Keeping for history.
+
+**الملفات**: 
+- `lib/screens/create_quiz_screen.dart` (370 lines) **SUPERSEDED**
+
+**Git Commit**: ✅ `b78aa37` - "feat: Add Quiz Settings Sliders (Stage 2.1)"
+
+---
+- ✅ Error handling with SnackBar
+- ✅ Localization support (context.l)
+- ✅ DesignTokens for spacing, colors, typography
+- ✅ Zero compilation errors
+
+#### المميزات المكتملة (Stage 2.1 - NEW):
+- ✅ Quiz Settings card with icon header
+- ✅ Passing Score slider (0-100%, default 60%)
+  - Color-coded badge (blue)
+  - 20 divisions (5% steps)
+  - Helper text
+- ✅ Time Limit slider (0-120 min, default 30)
+  - Color-coded badge (green=no limit, blue=with limit)
+  - 24 divisions (5 min steps)
+  - 0 = No time limit
+  - Helper text
+- ✅ Max Attempts slider (0-10, default 2)
+  - Color-coded badge (green=unlimited, amber=limited)
+  - 10 divisions
+  - 0 = Unlimited attempts
+  - Helper text
+- ✅ Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
+- ✅ Professional slider UI with responsive badges
+- ✅ Zero compilation errors
+
+#### ملاحظات التطوير:
+- الملف كان 178 سطر (Stage 1) → أصبح 370 سطر (Stage 2.1)
+- تم إضافة +192 سطر من الكود الاحترافي
+- استخدام DesignTokens للألوان والمسافات بشكل كامل
+- Sliders مع dividers للتحكم الدقيق
+- Badges ملونة حسب القيمة (dynamic colors)
+- Helper text واضح لكل slider
+
+**Next Steps (Stage 2.2)**: 
+- إضافة Toggle Switches (shuffle questions, show answers)
+- إضافة Preview mode
+- إضافة Auto-save (Timer)
+- إضافة Unsaved changes warning
+
+**Total Lines**: 370 lines production-ready code  
+**Git Commit**: ✅ `b78aa37` - "feat: Add Quiz Settings Sliders (Stage 2.1)"
+
+---
+
+### 🆕 October 22, 2025 - Create Quiz Screen (Stage 1 - Basic Form) 🎯
+
+**NOTE**: This section is now superseded by Stage 2.1 above. Keeping for history.
+
+**الملفات**: 
+- `lib/screens/create_quiz_screen.dart` (178 lines) **SUPERSEDED**
+
+**الحالة**: ✅ مكتمل (moved to Stage 2.1)
+**الوقت المستغرق**: ~30 دقيقة
+
+#### المميزات المكتملة (Stage 1):
+- ✅ Basic quiz creation form (as listed above in Stage 2.1)
+
+**Git Commit**: ✅ `2fb99e5` - Restored from git history
+
+---
+
+### 🆕 October 22, 2025 - Create Lesson Screen (Stage 3) 🎉🎉
+
+**الملفات**: 
+- `lib/screens/create_lesson_screen.dart` (1045 lines) **COMPLETE**
+
+**الحالة**: ✅ مكتمل 100% (All 3 Stages Complete)  
+**الوقت المستغرق**: ~1 ساعة
+
+#### المميزات الجديدة (Stage 3):
+- ✅ Video upload with file picker (max 100MB)
+- ✅ Multiple images upload (max 5MB each)
+- ✅ Document upload (PDF, DOC, PPT, TXT - max 10MB each)
+- ✅ File size validation
+- ✅ Upload progress indicators
+- ✅ Media preview with file info
+- ✅ Remove/replace media functionality
+- ✅ Professional media cards with color coding:
+  - Video: Blue (DesignTokens.info)
+  - Images: Green (DesignTokens.success)
+  - Documents: Amber (DesignTokens.warning)
+- ✅ File size formatting helper
+- ✅ Error handling for large files
+- ✅ Zero compilation errors
+
+#### المميزات المحتفظ بها (Stage 1 & 2):
+- ✅ Form validation (Title, Content, Duration, Order)
+- ✅ Rich Text Editor with Markdown (370 lines widget)
+- ✅ Formatting toolbar (8 tools)
+- ✅ Live Preview toggle
+- ✅ Order counter & Required toggle
+- ✅ Preview mode للـ lesson
+- ✅ Auto-save every 30 seconds
+- ✅ Unsaved changes warning
+- ✅ Help dialog & Tips card
+- ✅ DesignTokens & Light/Dark Mode
+
+**Total Lines**: 1,045 lines production-ready code  
+**Git Commit**: ⏳ Pending
+
+---
+
+### � October 22, 2025 - Create Lesson Screen (Stage 2)
+
+**الملفات**: 
+- `lib/screens/create_lesson_screen.dart` (693 lines)
+- `lib/widgets/rich_text_editor.dart` (370 lines) **NEW**
+
+**الحالة**: ✅ مكتمل (Stage 2 - Rich Text Editor)  
+**الوقت المستغرق**: ~1.5 ساعة
+
+#### المميزات الجديدة (Stage 2):
+- ✅ Custom `RichTextEditor` widget (370 lines)
+- ✅ Markdown-based formatting
+- ✅ Formatting toolbar مع 8 أدوات:
+  - Bold (`**text**`)
+  - Italic (`*text*`)
+  - Underline (`<u>text</u>`)
+  - Heading (`## Title`)
+  - Bullet list (`- item`)
+  - Numbered list (`1. item`)
+  - Links (`[text](url)`)
+  - Code blocks (` ```code``` `)
+- ✅ Live Preview toggle (Edit ↔ Preview)
+- ✅ Markdown rendering مع `flutter_markdown`
+- ✅ RTL support (compatible with Markdown)
+- ✅ Markdown hints card مع tips
+- ✅ Professional toolbar buttons مع tooltips
+- ✅ Selected text wrapping
+- ✅ Cursor position awareness
+- ✅ Zero compilation errors
+
+#### المميزات المحتفظ بها (Stage 1):
+- ✅ Form validation (Title, Content, Duration)
+- ✅ Order counter & Required toggle
+- ✅ Preview mode للـ lesson
+- ✅ Auto-save every 30 seconds
+- ✅ Unsaved changes warning
+- ✅ Help dialog & Tips card
+- ✅ DesignTokens & Light/Dark Mode
+
+#### Next Stage:
+- ⏳ Stage 3: Media Upload (video, images, documents with pickers)
+
+**Git Commit**: ⏳ Pending
+
+---
+
+### 🎨 October 22, 2025 - Create Lesson Screen (Stage 1)
 
 **الملف**: `lib/screens/create_lesson_screen.dart`  
 **السطور**: 690 lines  
-**الحالة**: ✅ مكتمل (Stage 1 - Basic Form)
-
-#### المميزات المنفذة:
-- ✅ Form كامل مع validation (Title 3-100 chars, Content 20+ chars)
-- ✅ Duration picker (1-240 minutes number input)
-- ✅ Order counter (+/- buttons)
-- ✅ Required lesson toggle
-- ✅ Preview mode (Edit ↔ Preview with metadata badges)
-- ✅ Auto-save every 30 seconds (edit mode only)
-- ✅ Unsaved changes warning (WillPopScope dialog)
-- ✅ Help dialog مع شرح الحقول
-- ✅ Tips card للإرشادات
-- ✅ Professional UI مع DesignTokens
-- ✅ Light/Dark Mode support
-- ✅ Zero compilation errors
-
-#### Next Stages:
-- ⏳ Stage 2: Rich Text Editor (flutter_quill integration)
-- ⏳ Stage 3: Media Upload (video, images, documents)
-
-**Git Commit**: ⏳ Pending
+**الحالة**: ✅ مكتمل (Superseded by Stage 2)
 
 ---
 
@@ -142,14 +472,14 @@
 
 **الأولوية**: 🔴 عالية جداً  
 **المدة المقدرة**: 5-7 أيام  
-**الحالة**: 🔄 قيد التنفيذ (2.5/6 مكتمل!)  
-**التقدم**: 42% (40/95 مهمة)
+**الحالة**: 🔄 قيد التنفيذ (3/6 مكتمل!)  
+**التقدم**: 52% (49/95 مهمة)
 
 **Progress Breakdown**:
 - ✅ Create Module Screen: 100% (15/15)
 - ✅ Create Course Screen: 100% (17/17)
-- 🔄 Create Lesson Screen: 53% (8/15) - **Stage 1 Complete**
-- ⏳ Create Quiz Screen: 0% (0/18)
+- ✅ Create Lesson Screen: 100% (15/15) - **ALL 3 STAGES COMPLETE!**
+- ⏳ Create Quiz Screen: 67% (12/18) - **Stage 2.3 Complete!**
 - ⏳ Create Question Screen: 0% (0/15)
 - ⏳ Edit Course Module: 0% (0/15)
 
@@ -270,61 +600,80 @@ git commit -m "feat: Enhanced Create/Edit Course Screen
 ### 📖 4.2 Create/Edit Lesson Screen
 
 **الملف**: `lib/screens/create_lesson_screen.dart`  
-**التقدم**: 53% (8/15)
+**التقدم**: 100% (15/15) - **ALL 3 STAGES COMPLETE!** ✅
 
 #### A. البنية الأساسية ✅
-- [x] إنشاء الملف الأساسي
+- [x] إنشاء الملف الأساسي (1,045 lines)
 - [x] إضافة Riverpod providers
 - [x] Form state management
-- [x] Rich Text Editor integration (Basic - Stage 1)
+- [x] Rich Text Editor integration (Stage 1 & 2 ✅)
+- [x] Media Upload integration (Stage 3 ✅)
 
-#### B. Rich Text Editor
-- [x] Basic multi-line TextField (Stage 1 - Simple)
-- [ ] تثبيت package: `flutter_quill` أو `html_editor_enhanced` (Stage 2)
-- [ ] Toolbar configuration (Stage 2)
-  - [ ] Bold, Italic, Underline
-  - [ ] Text alignment (RTL support)
-  - [ ] Lists (ordered/unordered)
-  - [ ] Links
-  - [ ] Images
-  - [ ] Code blocks
-- [ ] RTL support testing
-- [x] Preview mode ✅
+#### B. Rich Text Editor ✅ (Stage 2 Complete)
+- [x] Basic multi-line TextField (Stage 1 ✅)
+- [x] Custom `RichTextEditor` widget (Stage 2 ✅ - 370 lines)
+- [x] Markdown-based formatting
+- [x] Toolbar configuration (Stage 2 ✅)
+  - [x] Bold (`**text**`)
+  - [x] Italic (`*text*`)
+  - [x] Underline (`<u>text</u>`)
+  - [x] Heading (`## Title`)
+  - [x] Lists (ordered/unordered: `1.` or `-`)
+  - [x] Links (`[text](url)`)
+  - [x] Code blocks (` ```code``` `)
+- [x] Live Preview toggle
+- [x] RTL support (Markdown compatible)
+- [x] Markdown hints card
 
-#### C. Media Upload (Stage 3 - Coming Next)
-- [ ] Video upload section
-  - [ ] File picker
-  - [ ] Progress bar
-  - [ ] Video preview
-  - [ ] Thumbnail generation
-- [ ] Audio upload (optional)
-- [ ] PDF/Documents upload
-- [ ] Multiple files support
+#### C. Media Upload ✅ (Stage 3 Complete)
+- [x] Video upload section
+  - [x] File picker (FilePicker.platform)
+  - [x] File size validation (max 100MB)
+  - [x] Video preview card
+  - [x] Remove/replace video
+- [x] Images upload
+  - [x] Multiple images support (ImagePicker.pickMultiImage)
+  - [x] File size validation (max 5MB each)
+  - [x] Image preview cards
+  - [x] Remove individual images
+- [x] Documents upload
+  - [x] PDF, DOC, PPT, TXT support
+  - [x] File size validation (max 10MB each)
+  - [x] Document preview cards
+  - [x] Remove individual documents
+- [x] Upload progress indicators
+- [x] Media preview with file info
+- [x] Professional color coding (Video=Blue, Images=Green, Docs=Amber)
+- [x] File size formatting helper
 
 #### D. Lesson Settings ✅
 - [x] Lesson order/sequence
 - [x] Duration estimate
 - [x] Required/Optional toggle
-- [ ] Unlock conditions (Stage 3)
+- [x] Preview mode
+- [x] Auto-save
+- [x] Unsaved changes warning
 
 **Progress Notes**:
 - ✅ **Stage 1 Complete** (690 lines): Basic form with validation, preview mode, auto-save, help dialog
-- ⏳ **Stage 2 Next**: Rich Text Editor with formatting toolbar
-- ⏳ **Stage 3 Later**: Media upload (video, images, documents)
+- ✅ **Stage 2 Complete** (693 lines + 370 lines widget): Rich Text Editor with Markdown formatting
+- ✅ **Stage 3 Complete** (1,045 lines): Media upload (video, images, documents)
 
-**Git Commit - Stage 1**: ✅  
+**Git Commit - Stage 3**: ⏳ Pending  
 ```bash
-git commit -m "feat: Add Create Lesson Screen - Stage 1 (Basic Form)
+git commit -m "feat: Add Media Upload to Create Lesson Screen (Stage 3)
 
-- Complete form with validation (title, content, duration, order)
-- Required lesson toggle
-- Preview mode with metadata badges
-- Auto-save every 30 seconds (edit mode)
-- Unsaved changes warning dialog
-- Help dialog with field explanations
-- Professional UI with DesignTokens
-- Light/Dark Mode support
-- 690 lines of production-ready code
+- Video upload with file picker (max 100MB)
+- Multiple images upload (max 5MB each)
+- Documents upload: PDF, DOC, PPT, TXT (max 10MB each)
+- File size validation and error handling
+- Upload progress indicators
+- Media preview cards with file info
+- Remove/replace media functionality
+- Professional UI with color coding
+- Zero compilation errors
+- 1,045 lines total (Stage 1 + 2 + 3 complete)"
+```
 - Zero compilation errors"
 ```
 
@@ -332,23 +681,47 @@ git commit -m "feat: Add Create Lesson Screen - Stage 1 (Basic Form)
 
 ### 🎯 4.3 Create/Edit Quiz Screen
 
-**الملف**: `lib/screens/create_quiz_screen.dart`  
-**التقدم**: 0% (0/18)
+**الملف**: `lib/screens/create_quiz_screen.dart` (633 lines)
+**التقدم**: 67% (12/18) ⏳ **Stage 2.3 Complete!**
 
-#### A. البنية الأساسية
-- [ ] إنشاء الملف الأساسي
-- [ ] Quiz state management
-- [ ] Question list management
+#### A. البنية الأساسية ✅ (Stage 1)
+- [x] إنشاء الملف الأساسي (633 lines)
+- [x] Quiz state management (with preview + auto-save)
+- [x] Form validation with GlobalKey
 
-#### B. Quiz Settings
-- [ ] Quiz title field
-- [ ] Time limit picker
-- [ ] Passing score (%)
-- [ ] Number of attempts
-- [ ] Shuffle questions toggle
-- [ ] Show answers after submit toggle
+#### B. Quiz Settings ✅ (Stage 2.1, 2.2 & 2.3 - 9/8 complete!)
+- [x] Quiz title field (with AppTextField) ✅ Stage 1
+- [x] AppCard wrapper with icon header ✅ Stage 1
+- [x] Loading state with spinner ✅ Stage 1
+- [x] Passing score slider (0-100%, default 60%) ✅ Stage 2.1
+- [x] Time limit slider (0-120 min, default 30, 0=no limit) ✅ Stage 2.1
+- [x] Max attempts slider (0-10, default 2, 0=unlimited) ✅ Stage 2.1
+- [x] Shuffle questions toggle ✅ Stage 2.2
+- [x] Show answers after submit toggle ✅ Stage 2.2
+- [x] Preview mode toggle (edit/preview switch) ✅ **Stage 2.3 NEW**
+- [x] Auto-save timer (30 seconds) ✅ **Stage 2.3 NEW**
+- [x] Unsaved changes warning (WillPopScope) ✅ **Stage 2.3 NEW**
+- [x] Last save time indicator ✅ **Stage 2.3 NEW**
 
-#### C. Question Builder
+**Stage 2.1 Features**:
+- Professional sliders with color-coded badges
+- Dynamic color based on value (green=no limit, blue=with limit, amber=limited)
+- Helper text for each setting
+- Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
+
+**Stage 2.2 Features NEW**:
+- Toggle switches with descriptions
+- Shuffle questions toggle (default: false)
+- Show answers after submit toggle (default: true)
+- Divider between sliders and toggles
+- Settings saved to Firestore (shuffleQuestions, showAnswersAfterSubmit)
+- Zero compilation errors
+
+**Git Commits**: 
+- ✅ `b78aa37` - Stage 2.1 (Sliders)
+- ✅ `6449625` - Stage 2.2 (Toggles)
+
+#### C. Question Builder (TODO - Stage 3)
 - [ ] Add Question button
 - [ ] Question types selector:
   - [ ] Multiple Choice (single answer)

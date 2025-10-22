@@ -50,13 +50,13 @@
 - ✅ Phase 1: Design System (100% complete)
 - ✅ Phase 2: Authentication Screens (100% complete)
 - ✅ Phase 3: Main Screens (100% complete)
-- 🔄 Phase 4: Content Creation Screens (56% - 3.5/6 complete)
+- 🔄 Phase 4: Content Creation Screens (57% - 3.5/6 complete)
   - ✅ Create Module Screen (360 lines)
   - ✅ Create Course Screen Enhanced (826 lines)
-  - ✅ Create Lesson Screen (100% - **ALL 3 STAGES COMPLETE!**, 1,045 lines)
-  - ⏳ Create Quiz Screen (56% - **Stage 2.2 Complete!**, 449 lines)
+  - ✅ Create Lesson Screen (1,045 lines - All 3 Stages Complete!)
+  - 🔄 Create Quiz Screen (633 lines - Stage 2.3 Complete, 67% done)
 
-**Progress**: 55% overall (94/249 tasks complete)
+**Progress**: 56% overall (96/249 tasks complete)
 
 ---
 
@@ -294,8 +294,8 @@ Designed for **actual business needs**:
 
 <table>
   <tr>
-    <td><img src="screenshots/course-list.png" width="250" alt="Course List"/><br/><b>Course Catalog</b></td>
-    <td><img src="screenshots/course-details.png" width="250" alt="Course Details"/><br/><b>Course Details</b></td>
+    <td><img src="screenshots/course-wall.png" width="250" alt="Course List"/><br/><b>Course Catalog</b></td>
+    <td><img src="/screenshots/course_details.png" width="250" alt="Course Details"/><br/><b>Course Details</b></td>
     <td><img src="screenshots/lesson-viewer.png" width="250" alt="Lesson Viewer"/><br/><b>Lesson Viewer</b></td>
   </tr>
 </table>
@@ -501,8 +501,8 @@ institutions/
 
 ```
 Total Screens: 50+
-Reusable Widgets: 11+ shared components (including RichTextEditor)
-Total Lines of Code: ~33,000+ (including new screens)
+Reusable Widgets: 10+ shared components
+Total Lines of Code: ~32,000+ (including new screens)
 Firestore Collections: 15+
 Cloud Functions: 5+
 Security Rules Lines: 1,038
@@ -523,54 +523,16 @@ Development Time: 6 months (ongoing)
   - Unsaved changes warning
   - Help dialog
   - Professional UI with DesignTokens
-- ✅ **Create Lesson Screen (ALL 3 STAGES)**: 1,045 lines COMPLETE with:
-  - **Stage 1**: Form validation (title, content, duration, order counter, required toggle)
-  - **Stage 2**: Rich Text Editor widget (370 lines) with Markdown support
-    * Formatting toolbar (Bold, Italic, Underline, Heading, Lists, Links, Code)
-    * Live Preview toggle
-    * RTL support
-  - **Stage 3**: Media Upload (NEW!) with:
-    * Video upload (max 100MB, file picker, preview card)
-    * Multiple images upload (max 5MB each, remove individual)
-    * Documents upload (PDF, DOC, PPT, TXT - max 10MB each)
-    * File size validation & error handling
-    * Upload progress indicators
-    * Professional color-coded preview cards (Video=Blue, Images=Green, Docs=Amber)
-  - Preview mode with metadata display
-  - Auto-save every 30 seconds
-  - Unsaved changes warning dialog
-  - Help dialog with field explanations
-  - Tips card for best practices
-  - Professional UI with DesignTokens
-  - **Production Ready** ✅
-- ⏳ **Create Quiz Screen (Stage 2.2 - 56%)**: 449 lines with:
-  - **Stage 1 (Basic Form - 178 lines)**:
-    - Quiz creation form with validation
-    - AppCard wrapper with quiz icon header
-    - AppTextField for quiz title
-    - Loading state with spinner and message
-    - Firestore integration (create quiz)
-    - Navigation to AddQuestionScreen
-    - Error handling with SnackBar
-    - Full localization support
-  - **Stage 2.1 (Quiz Settings Sliders - +192 lines)**:
-    - Quiz Settings card with icon header
-    - Passing Score slider (0-100%, default 60%)
-    - Time Limit slider (0-120 min, default 30, 0=no limit)
-    - Max Attempts slider (0-10, default 2, 0=unlimited)
-    - Color-coded badges (dynamic based on values)
-    - Helper text for each setting
-    - Settings saved to Firestore (passScore, timeLimit, maxAttempts, allowRetake)
-    - Professional slider UI with divisions
-  - **Stage 2.2 (Toggle Switches - +79 lines) NEW**:
-    - Shuffle Questions toggle (default: false)
-    - Show Answers After Submit toggle (default: true)
-    - Divider between sliders and toggles
-    - Professional toggle UI with descriptions
-    - Helper text for each toggle
-    - Settings saved to Firestore (shuffleQuestions, showAnswersAfterSubmit)
-    - Zero compilation errors
-  - **Next (Stage 2.3)**: Add preview mode, auto-save, unsaved changes warning
+- ✅ **Create Lesson Screen (All 3 Stages Complete!)**: 1,045 lines with:
+  - **Stage 1** (690 lines): Form validation, preview mode, auto-save, unsaved changes warning, help dialog
+  - **Stage 2** (693 lines + 370 lines widget): Rich Text Editor with Markdown formatting (8 tools: bold, italic, underline, heading, lists, links, code blocks)
+  - **Stage 3** (1,045 lines): Media upload (video, images, documents) with file size validation, upload progress, professional color-coded cards
+- ✅ **Create Quiz Screen (Stage 2.3 Complete - 67%)**: 633 lines with:
+  - **Stage 1** (178 lines): Basic form with title field, validation, loading state, AppCard wrapper
+  - **Stage 2.1** (+192 lines): Quiz settings sliders (passing score 0-100%, time limit 0-120 min, max attempts 0-10) with color-coded badges
+  - **Stage 2.2** (+79 lines): Toggle switches (shuffle questions, show answers after submit) with professional UI
+  - **Stage 2.3** (+184 lines): Preview mode toggle, auto-save timer (30s), unsaved changes warning (WillPopScope), last save time indicator in AppBar
+  - **Next Steps**: Question Builder UI (Stage 3), multi-question support, question types (MCQ, True/False)
 
 ---
 
